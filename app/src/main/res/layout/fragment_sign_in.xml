@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_floating_material_dark">
+
+    <ImageView
+        android:id="@+id/ivImage_FSI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        style="@style/SLivImageStyle"
+        android:layout_above="@+id/etEmail_FSI"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/etEmail_FSI"
+        style="@style/SLetEmailStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etPassword_FSI"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/etPassword_FSI"
+        style="@style/SLetPasswordStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnSignIn_FSI"
+        style="@style/SLbtnSignInStyle"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/etPassword_FSI"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnGoRegistation_FSI"
+        style="@style/SLbtnGoRegistrationStyle"
+        android:layout_width="match_parent"
+        android:textAllCaps="false"
+        android:layout_below="@+id/btnSignIn_FSI"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
