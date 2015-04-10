@@ -37,8 +37,8 @@ public interface RetrofitInterface {
 //                     @Field(Constants.TEXT_MESSAGE) String text, @Field(Constants.TYPE_MESSAGE) String type,
 //                     Callback<DefaultResponseModel> callback);
 //
-//    @GET(APIConstants.ACTION_IS_AUTHENTICATED)
-//    void isAuthenticated(Callback<DefaultResponseModel> callback);
+    @GET(APIConstants.ACTION_IS_AUTHENTICATED)
+    void isAuthenticated(Callback<DefaultResponseModel> callback);
 //
 //    @GET(APIConstants.URL_MESSAGE + APIConstants.API_LAST_CONVERSATION)
 //    void lastConversations(Callback<ConversationResponse> callback);
