@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DIMENS -->
+    <dimen name="ss_ll_padding">12dp</dimen>
+    <dimen name="ss_tv_text_size">16dp</dimen>
+    <dimen name="ss_tv_margin">10dp</dimen>
+    <dimen name="ss_tv_line_height">2dp</dimen>
+    <dimen name="ss_tv_changes_text_size">14dp</dimen>
+    <dimen name="ss_btn_height">38dp</dimen>
+    <dimen name="ss_btn_margin_right">2dp</dimen>
+    <dimen name="ss_btn_margin_left">2dp</dimen>
+    <dimen name="ss_btn_text_size">11dp</dimen>
+    <!-- Dimen dialog-->
+    <dimen name="sds_padding">10dp</dimen>
+    <dimen name="sds_margin_top_bottom">12dp</dimen>
+    <dimen name="sds_margin_left_righ">20dp</dimen>
+    <dimen name="sds_btn_text_size">14dp</dimen>
+    <!-- end region -->
+
+    <!-- INTEGER-->
+    <integer name="ss_btn_weight">1</integer>
+    <!-- end region -->
+
+    <!-- COLORS -->
+    <color name="ss_text_black">#000000</color>
+    <color name="ss_tv_line_color">#9E9E9E</color>
+    <color name="ss_tv_changes_color">#43A047</color>
+    <color name="ss_btn_bloc_number_default">#DD2C00</color>
+    <color name="ss_btn_bloc_number_click">#E64A19</color>
+    <color name="ss_btn_change_password_default">#00C853</color>
+    <color name="ss_btn_change_password_click">#00E676</color>
+    <color name="sds_btn_selector_click">#BDBDBD</color>
+    <color name="sds_dialog_bg">#E0E0E0</color>
+    <!-- end region -->
+
+    <!-- STYLES -->
+    <style name="SSllStyle">
+        <item name="android:padding">@dimen/ss_ll_padding</item>
+    </style>
+
+    <style name="SStvPinStyle">
+        <item name="android:text">@string/ss_tv_pin_text</item>
+        <item name="android:textSize">@dimen/ss_tv_text_size</item>
+        <item name="android:textColor">@color/ss_text_black</item>
+        <item name="android:layout_margin">@dimen/ss_tv_margin</item>
+    </style>
+
+    <style name="SStvNotificatuonStyle">
+        <item name="android:text">@string/ss_tv_notification_text</item>
+        <item name="android:textSize">@dimen/ss_tv_text_size</item>
+        <item name="android:textColor">@color/ss_text_black</item>
+        <item name="android:layout_margin">@dimen/ss_tv_margin</item>
+    </style>
+
+    <style name="SStvChangesStyle">
+        <item name="android:text">@string/ss_tv_changes_text</item>
+        <item name="android:textSize">@dimen/ss_tv_changes_text_size</item>
+        <item name="android:textColor">@color/ss_tv_changes_color</item>
+        <item name="android:layout_margin">@dimen/ss_tv_margin</item>
+    </style>
+
+    <style name="SSbtnBlockNumberStyle">
+        <item name="android:layout_weight">@integer/ss_btn_weight</item>
+        <item name="android:layout_height">@dimen/ss_btn_height</item>
+        <item name="android:textSize">@dimen/ss_btn_text_size</item>
+        <item name="android:text">@string/ss_btn_block_text</item>
+        <item name="android:layout_marginRight">@dimen/ss_btn_margin_right</item>
+        <item name="android:background">@drawable/selector_btn_block_number</item>
+    </style>
+
+    <style name="SSbtnChangePassword">
+        <item name="android:layout_weight">@integer/ss_btn_weight</item>
+        <item name="android:layout_height">@dimen/ss_btn_height</item>
+        <item name="android:text">@string/ss_btn_password_text</item>
+        <item name="android:textSize">@dimen/ss_btn_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/ss_btn_margin_left</item>
+        <item name="android:background">@drawable/selector_btn_change_password</item>
+    </style>
+
+    <style name="SStvLaneStyle">
+        <item name="android:background">@color/ss_tv_line_color</item>
+        <item name="android:layout_height">@dimen/ss_tv_line_height</item>
+    </style>
+
+    <!-- Style dialog-->
+    <style name="SDSetNewPassStyle">
+        <item name="android:padding">@dimen/sds_padding</item>
+        <item name="android:hint">@string/ss_et_dialog_new_pass_hint</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:layout_marginBottom">@dimen/sds_margin_top_bottom</item>
+        <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/sds_margin_left_righ</item>
+        <item name="android:layout_marginRight">@dimen/sds_margin_left_righ</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="SDSetConfirmStyle">
+        <item name="android:padding">@dimen/sds_padding</item>
+        <item name="android:hint">@string/ss_et_dialog_confirm_hint</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:layout_marginBottom">@dimen/sds_margin_top_bottom</item>
+        <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/sds_margin_left_righ</item>
+        <item name="android:layout_marginRight">@dimen/sds_margin_left_righ</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="SDSbtnCancelStyle">
+        <item name="android:text">@string/ss_btn_dialog_cancel</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/sds_btn_text_size</item>
+        <item name="android:background">@drawable/selector_btn_dialog_cancel</item>
+    </style>
+
+    <style name="SDSbtnSubmitStyle">
+        <item name="android:textSize">@dimen/sds_btn_text_size</item>
+        <item name="android:text">@string/ss_btn_dialog_submit</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_marginRight">25dp</item>
+        <item name="android:textColor">@color/ss_tv_changes_color</item>
+        <item name="android:background">@drawable/selector_btn_dialog_submit</item>
+    </style>
+    <!-- end region -->
+</resources>

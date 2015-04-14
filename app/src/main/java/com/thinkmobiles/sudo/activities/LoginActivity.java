@@ -6,7 +6,9 @@ import android.view.KeyEvent;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
+import com.thinkmobiles.sudo.fragments.NumbersFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
+import com.thinkmobiles.sudo.fragments.SettingsFragment;
 
 /**
  * Created by njakawaii on 09.04.2015.
