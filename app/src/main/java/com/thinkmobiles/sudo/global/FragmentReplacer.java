@@ -20,7 +20,7 @@ public abstract class FragmentReplacer {
                                                           final Fragment _fragment) {
         _activity.getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         _activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, _fragment)
+//                .replace(R.id.container, _fragment)
                 .commit();
     }
 
@@ -28,7 +28,7 @@ public abstract class FragmentReplacer {
                                                              final Fragment _fragment) {
 
             _activity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, _fragment)
+//                    .replace(R.id.container, _fragment)
                     .commit();
 
 
@@ -37,7 +37,7 @@ public abstract class FragmentReplacer {
     public static final void replaceCurrentFragment(final FragmentActivity _activity,
                                                     final Fragment _fragment) {
         _activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, _fragment)
+//                .replace(R.id.container, _fragment)
                 .addToBackStack(null)
                 .commit();
 
