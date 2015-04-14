@@ -7,6 +7,12 @@ public abstract class Constants {
 
 
 
+
+    public static final String TITLE_CHATS                  = "Chats";
+    public static final String TITLE_CONTACTS               = "Contacts";
+
+
+
     public static final String PHONE_NUMBER                 = "number";
     public static final String EMAIL                        = "email";
     public static final String PATH_PARAM_ID                = "id";
