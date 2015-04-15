@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DIMENS -->
+    <dimen name="sc_dialog_margin">8dp</dimen>
+    <!-- end region -->
+
+    <!-- COLORS -->
+
+    <!-- end region -->
+
+    <!-- STYLES -->
+    <!-- Style dialog add friend-->
+    <style name="SCDialodETName">
+        <item name="android:hint">@string/cf_dialod_hint_name</item>
+        <item name="android:layout_margin">@dimen/sc_dialog_margin</item>
+    </style>
+
+    <style name="SCDialogETNumber">
+        <item name="android:hint">@string/cf_dialog_hint_number</item>
+        <item name="android:layout_margin">@dimen/sc_dialog_margin</item>
+        <item name="android:inputType">phone</item>
+</style>
+    <!-- end region -->
+</resources>

@@ -30,4 +30,9 @@
     <!-- Fragment Number-->
     <string name="fn_tv_header">YOU HAVE 20 CREDITS AVAILABLE NOW</string>
 
+    <!-- Dialog Add Friend -->
+    <string name="cf_dialog_title">Add friend</string>
+    <string name="cf_dialod_hint_name">Name</string>
+    <string name="cf_dialog_hint_number">Phone number</string>
+
 </resources>
