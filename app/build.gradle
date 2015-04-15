@@ -27,6 +27,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'jp.wasabeef:picasso-transformations:1.0.2@aar'
     // OKHttp
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'

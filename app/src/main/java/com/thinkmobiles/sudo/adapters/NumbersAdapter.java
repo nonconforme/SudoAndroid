@@ -15,7 +15,6 @@ import com.thinkmobiles.sudo.models.Numbers;
 import java.util.List;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import jp.wasabeef.picasso.transformations.CropSquareTransformation;
 
 /**
  * Created by Pavilion on 14.04.2015.
@@ -32,6 +31,7 @@ public class NumbersAdapter extends BaseAdapter{
         inflater = (LayoutInflater) _context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         return mListNumbers.size();
@@ -56,9 +56,9 @@ public class NumbersAdapter extends BaseAdapter{
             view = inflater.inflate(R.layout.list_item_number, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.ivCountry = (ImageView) view.findViewById(R.id.ivCountry_FN);
-            viewHolder.tvCountry = (TextView) view.findViewById(R.id.tvCountry_FN);
-            viewHolder.tvCredit = (TextView) view.findViewById(R.id.tvCredit_FN);
+            viewHolder.ivCountry    = (ImageView) view.findViewById(R.id.ivCountry_FN);
+            viewHolder.tvCountry    = (TextView) view.findViewById(R.id.tvCountry_FN);
+            viewHolder.tvCredit     = (TextView) view.findViewById(R.id.tvCredit_FN);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
