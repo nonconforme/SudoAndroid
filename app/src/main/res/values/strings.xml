@@ -13,4 +13,21 @@
     <string name="sr_btn_sign_up_text">SIGN UP</string>
     <string name="sl_btn_sign_up_text">Don’t have an account? Sign Up</string>
 
+    <!-- Fragment Settings-->
+    <string name="ss_tv_pin_text">Pin protection</string>
+    <string name="ss_tv_notification_text">Notifications</string>
+    <string name="ss_tv_changes_text">Changes</string>
+    <string name="ss_btn_block_text">BLOCK NUMBER</string>
+    <string name="ss_btn_password_text">CHANGE PASSWORD</string>
+
+    <!-- Dialog Settings-->
+    <string name="ss_dialog_title">Change password</string>
+    <string name="ss_et_dialog_new_pass_hint">New account password</string>
+    <string name="ss_et_dialog_confirm_hint">Confirm new password</string>
+    <string name="ss_btn_dialog_cancel">CANSEL</string>
+    <string name="ss_btn_dialog_submit">SUBMIT</string>
+
+    <!-- Fragment Number-->
+    <string name="fn_tv_header">YOU HAVE 20 CREDITS AVAILABLE NOW</string>
+
 </resources>
