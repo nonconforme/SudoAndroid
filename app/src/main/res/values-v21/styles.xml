@@ -1,7 +1,8 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat">
+
+    <style name="AppTheme"  parent="Theme.AppCompat">
+        <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -13,6 +14,7 @@
              which is used to tint widgets -->
         <item name="colorAccent">@color/tabsScrollColor</item>
     </style>
+
     <style name="NoTitleTheme" parent="AppTheme">
         <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
         <item name="android:windowFullscreen">false</item> <!-- Hides the status bar -->
@@ -20,7 +22,7 @@
     </style>
 
     <style name="TextAppearance.Sudo.FloatLabel" parent="android:TextAppearance.Small">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

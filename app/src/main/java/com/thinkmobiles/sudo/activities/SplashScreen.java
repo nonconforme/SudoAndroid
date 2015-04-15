@@ -38,7 +38,7 @@ public class SplashScreen extends Activity {
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 Log.d("authenticated", defaultResponseModel.getSuccess());
                 setNextActivity(MainActivity.class);
-                openActivity();
+                showNewActivity();
             }
 
             @Override
@@ -46,7 +46,7 @@ public class SplashScreen extends Activity {
                 Log.d("authenticated", error.getMessage());
                 if (error.getResponse().getStatus() == 401){
                     setNextActivity(LoginActivity.class);
-                    openActivity();
+                    showNewActivity();
                 }
 
             }

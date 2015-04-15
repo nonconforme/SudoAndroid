@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sudo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_floating_material_dark">
@@ -10,31 +11,58 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher"
         style="@style/SLivImageStyle"
-        android:layout_above="@+id/etEmail_FSI"
+        android:layout_above="@+id/flEmail"
         android:layout_centerHorizontal="true" />
+
+    <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/flEmail"
+        android:layout_above="@+id/flPass"
+        sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
+        android:layout_alignRight="@+id/flPass"
+        android:layout_alignEnd="@+id/flPass"
+        android:layout_alignLeft="@+id/flPass"
+        android:layout_alignStart="@+id/flPass">
+
 
     <EditText
         android:id="@+id/etEmail_FSI"
-        style="@style/SLetEmailStyle"
+        android:hint="@string/sl_et_email_hint"
+        android:layout_width="match_parent"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:layout_height="wrap_content" />
+    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
+
+    <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/etPassword_FSI"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/flPass"
+        android:layout_centerVertical="true"
+        sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
+        android:layout_alignLeft="@+id/btnSignIn_FSI"
+        android:layout_alignStart="@+id/btnSignIn_FSI"
+        android:layout_alignRight="@+id/btnSignIn_FSI"
+        android:layout_alignEnd="@+id/btnSignIn_FSI">
 
     <EditText
         android:id="@+id/etPassword_FSI"
-        style="@style/SLetPasswordStyle"
+        android:hint="@string/sl_et_password_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLines="1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
+</com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
     <Button
         android:id="@+id/btnSignIn_FSI"
         style="@style/SLbtnSignInStyle"
         android:layout_width="match_parent"
-        android:layout_below="@+id/etPassword_FSI"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/flPass"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login_title" />
 
     <Button
         android:id="@+id/btnGoRegistation_FSI"
