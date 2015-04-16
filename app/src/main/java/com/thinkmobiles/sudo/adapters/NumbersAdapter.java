@@ -70,8 +70,8 @@ public class NumbersAdapter extends BaseAdapter{
                 .transform(new CropCircleTransformation())
                 .into(viewHolder.ivCountry);
 
-        viewHolder.tvCountry.setText(mListNumbers.get(position).getmCountry());
-        viewHolder.tvCredit.setText(mListNumbers.get(position).getmCredits());
+        viewHolder.tvCountry.setText(mListNumbers.get(position).getCountry());
+        viewHolder.tvCredit.setText(mListNumbers.get(position).getCredits());
 
         return view;
     }

@@ -11,41 +11,46 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.adapters.NumbersAdapter;
-import com.thinkmobiles.sudo.models.Numbers;
+import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
+import com.thinkmobiles.sudo.models.Credits;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pavilion on 14.04.2015.
+ * Created by Pavilion on 16.04.2015.
  */
-public class NumbersFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class RechargeCreditsFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private View mView;
     private Activity mActivity;
-    private NumbersAdapter mAdapter;
-    private List<Numbers> mList;
     private ListView mListView;
+    private RechargeCreditsAdapter mAdapter;
+    private List<Credits> mListCredit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_number, container, false);
+        mView = inflater.inflate(R.layout.fragment_recharge_credits, container, false);
         initComponent();
+        setListener();
         return mView;
     }
 
     private void initComponent(){
-        mListView = (ListView) mView.findViewById(R.id.lvNumbers_FN);
+        mListView = (ListView) mView.findViewById(R.id.lvCredits_FRC);
 
-        mList = new ArrayList<Numbers>();
-        mList.add(new Numbers("Thailand", "12CRED"));
-        mList.add(new Numbers("Turkey", "12CRED"));
-        mList.add(new Numbers("Ukraine", "12CRED"));
+        mListCredit = new ArrayList<Credits>();
+        mListCredit.add(new Credits("10credits = 10$", "BUY"));
+        mListCredit.add(new Credits("20credits = 20$", "BUY"));
+        mListCredit.add(new Credits("30credits = 30$", "BUY"));
+        mListCredit.add(new Credits("40credits = 40$", "BUY"));
 
-        mAdapter = new NumbersAdapter(mActivity, mList);
+        mAdapter = new RechargeCreditsAdapter(mActivity, mListCredit);
         mListView.setAdapter(mAdapter);
+    }
+
+    private void setListener(){
         mListView.setOnItemClickListener(this);
     }
 
@@ -58,6 +63,6 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(mActivity, "Click: pos: " + position + " "
-                + mAdapter.getItem(position).getCountry(), Toast.LENGTH_SHORT).show();
+                + mAdapter.getItem(position).getCredits(), Toast.LENGTH_SHORT).show();
     }
 }

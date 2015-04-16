@@ -13,10 +13,10 @@ public class Numbers {
         mCredits = _credits;
     }
 
-    public String getmCredits() {
+    public String getCredits() {
         return mCredits;
     }
-    public String getmCountry() {
+    public String getCountry() {
         return mCountry;
     }
 }
