@@ -70,6 +70,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         mView = inflater.inflate(R.layout.dialog_add_friend, null);
         mDialog = new Dialog(mActivity);
         mDialog.setContentView(mView);
+        mDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTest;
         initDialogComponent();
         setDialogListener();
         mDialog.setTitle(getResources().getString(R.string.cf_dialog_title));

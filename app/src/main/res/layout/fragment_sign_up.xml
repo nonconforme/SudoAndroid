@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sudo="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_floating_material_dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,38 +11,83 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher"
         style="@style/SLivImageStyle"
-        android:layout_above="@+id/etEmail_FSU"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/frEmail"
+        android:layout_alignLeft="@+id/frEmail"
+        android:layout_alignStart="@+id/frEmail"
+        android:layout_marginLeft="94dp"
+        android:layout_marginStart="94dp" />
+
+    <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frEmail"
+        sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
+        android:layout_above="@+id/frPass"
+        android:layout_alignRight="@+id/frPass"
+        android:layout_alignLeft="@+id/frPass"
+        android:layout_alignStart="@+id/frPass">
 
     <EditText
         android:id="@+id/etEmail_FSU"
-        style="@style/SLetEmailStyle"
+        android:maxLines="1"
+        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/etPassword_FSU"
-        android:layout_centerHorizontal="true" />
+        android:hint="@string/sl_et_email_hint" />
+
+    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
+
+    <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frPass"
+        sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
+        android:layout_above="@+id/frConfirmPass"
+        android:layout_alignRight="@+id/frConfirmPass"
+        android:layout_alignLeft="@+id/frConfirmPass"
+        android:layout_alignStart="@+id/frConfirmPass"
+        android:layout_alignEnd="@+id/frConfirmPass">
 
     <EditText
         android:id="@+id/etPassword_FSU"
-        style="@style/SLetPasswordStyle"
+        android:hint="@string/sl_et_password_hint"
+        android:maxLines="1"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
+
+    <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frConfirmPass"
+        android:layout_centerVertical="true"
+        sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
+        android:layout_alignLeft="@+id/btnSignUp_FSU"
+        android:layout_alignStart="@+id/btnSignUp_FSU"
+        android:layout_alignRight="@+id/btnSignUp_FSU"
+        android:layout_alignEnd="@+id/btnSignUp_FSU">
+
     <EditText
         android:id="@+id/etConfirmPassword_FSU"
-        style="@style/SRetConfirmPasswordStyle"
+        android:hint="@string/sr_et_confirm_password_hint"
+        android:maxLines="1"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword_FSU"
         android:layout_centerHorizontal="true" />
 
+    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
+
     <Button
         android:id="@+id/btnSignUp_FSU"
         style="@style/SLbtnSignUpStyle"
         android:layout_width="match_parent"
-        android:layout_below="@+id/etConfirmPassword_FSU"
+        android:layout_below="@+id/frConfirmPass"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
