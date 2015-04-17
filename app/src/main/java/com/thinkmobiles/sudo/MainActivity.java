@@ -1,29 +1,42 @@
 package com.thinkmobiles.sudo;
 
 import android.app.Activity;
-import android.support.v4.view.ViewPager;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
-import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
+import com.thinkmobiles.sudo.activities.LoginActivity;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
-import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.fragments.NumbersFragment;
+import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
+import com.thinkmobiles.sudo.fragments.SettingsFragment;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+import static com.thinkmobiles.sudo.global.DrawerConstants.*;
 
 
 public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
@@ -31,78 +44,46 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     // Declaring Your View and Variables
 
     private Toolbar toolbar;
+    private String mTitle;
+    private Drawer.Result mDrawer = null;
+    private Callback<DefaultResponseModel> mSignOutCB;
 
-    private Drawer.Result drawerResult = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setBaseTitle();
         initToolbar();
-//        initAdapter();
-//        initTabs();
         openHomeFragment();
         initDrawer();
-
-
-        }
-
-    private void openHomeFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
+        initSignOutCB();
     }
 
-    private void initDrawer() {
-        drawerResult =  new Drawer()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withActionBarDrawerToggle(true)
-                .withHeader(R.layout.drawer_header)
-                .withOnDrawerListener(this)
-                .withOnDrawerItemClickListener(this)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(FontAwesome.Icon.faw_home).withBadge("99").withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(FontAwesome.Icon.faw_mobile_phone),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(FontAwesome.Icon.faw_money).withBadge("6").withIdentifier(2),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(FontAwesome.Icon.faw_sign_out),
-//                        new SectionDrawerItem().withName(R.string.drawer_item_settings),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_calculator)
-//                        new DividerDrawerItem(),
-//                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_github).withBadge("12+").withIdentifier(1)
-                )
-                .build();
 
+    private void openLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
-
 
     private void initToolbar(){
-        // Creating The Toolbar and setting it as the Toolbar for the activity
-
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle(mTitle);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setIcon(getDrawable(R.drawable.ic_launcher));
+        getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        initSearchBar(menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -110,9 +91,8 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     @Override
     public void onBackPressed() {
-        // Закрываем Navigation Drawer по нажатию системной кнопки "Назад" если он открыт
-        if (drawerResult.isDrawerOpen()) {
-            drawerResult.closeDrawer();
+        if (mDrawer.isDrawerOpen()) {
+            mDrawer.closeDrawer();
         } else {
             super.onBackPressed();
         }
@@ -139,8 +119,105 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
-        Toast.makeText(this,"pos " + i, Toast.LENGTH_SHORT).show();
+    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l, IDrawerItem iDrawerItem) {
+        Toast.makeText(this,"pos " + pos, Toast.LENGTH_SHORT).show();
+        implementClick(pos);
 
+    }
+
+    private void implementClick(int pos) {
+        switch (pos){
+            case SIGN_OUT_ACTION:
+                makeSignOutRequest();
+                break;
+            case HOME_FRAGMENT:
+                openHomeFragment();
+                break;
+            case CREDITS_FRAGMENT:
+                openCreditsFragment();
+                break;
+            case GET_NUMBER_FRAGMENT:
+                openNubersFragment();
+                break;
+            case SETTINGS_FRAGMENT:
+                openSettingsFragment();
+                break;
+        }
+    }
+
+    private void openCreditsFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new RechargeCreditsFragment());
+    }
+    private void openSettingsFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
+    }
+    private void openNubersFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
+    }
+    private void openHomeFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
+    }
+
+    private void makeSignOutRequest() {
+        RetrofitAdapter.getInterface().sigOut(mSignOutCB);
+    }
+
+    private void setBaseTitle() {
+        if (App.getCurrentMobile() == null){
+            mTitle = App.getGetUserName();
+        } else {
+            mTitle = App.getCurrentMobile();
+        }
+    }
+
+    private void initDrawer() {
+        mDrawer =  new Drawer()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
+                .withHeader(R.layout.drawer_header)
+                .withOnDrawerListener(this)
+                .withOnDrawerItemClickListener(this)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out)))
+                .build();
+    }
+
+    private void initSearchBar(final Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+    }
+
+    private void initSignOutCB() {
+        mSignOutCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                Log.d("sigOut", defaultResponseModel.getSuccess());
+                openLoginActivity();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("sigOut", error.getMessage());
+
+            }
+        };
     }
 }

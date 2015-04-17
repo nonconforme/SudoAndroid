@@ -1,20 +1,32 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 
+import com.thinkmobiles.sudo.MainActivity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
 import com.thinkmobiles.sudo.fragments.NumbersFragment;
-import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
+import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.ProfileResponse;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by njakawaii on 09.04.2015.
  */
 public class LoginActivity extends Activity {
+
+
+    private Callback<ProfileResponse> mUserCB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +34,10 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         openLoginFragment();
 
+        initGetUserCB();
     }
+
+
 
     private void openLoginFragment() {
         getFragmentManager().beginTransaction().add(R.id.flLoginContainer_AL, new LoginFragment()).commit();
@@ -43,11 +58,43 @@ public class LoginActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    private void goBack(){
+    public void goBack(){
         if(getFragmentManager().getBackStackEntryCount() == 0){
             finish();
         } else {
             getFragmentManager().popBackStack();
         }
+    }
+
+    private void initGetUserCB() {
+        mUserCB = new Callback<ProfileResponse>() {
+            @Override
+            public void success(ProfileResponse profileResponse, Response response) {
+                Log.d("user", profileResponse.getSuccess());
+                setProfile(profileResponse);
+                openMainActivity();
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("user", error.getMessage());
+
+            }
+        };
+    }
+
+    private void setProfile(final ProfileResponse _profile) {
+        App.setGetUserName(_profile.getUser().getEmail());
+        App.setCurrentMobile(_profile.getUser().getMobile());
+    }
+
+    public void getUserRequest(){
+        RetrofitAdapter.getInterface().getProfile(App.getuId(), mUserCB);
+    }
+    private void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
