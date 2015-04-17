@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar
-    android:layout_height="60dp"
+    android:layout_height="@dimen/toolbar_size"
     android:layout_width="match_parent"
     style="@style/myToolbarNavigationButtonStyle"
     android:background="@color/colorPrimary"
     android:layout_gravity="center_vertical"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:gravity="center_vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

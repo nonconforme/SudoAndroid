@@ -7,6 +7,8 @@
     <color name="colorBtnAddFriend">#FFAB00</color>
     <color name="colorAddFriendPressed">#FFD600</color>
     <color name="colorWhite">#fafafa</color>
+    <color name="color_hint">#d2c0cfc2</color>
+    <color name="tab_un_focus">#d2d8e7da</color>
 
     <color name="colorBGList">#E0E0E0</color>
     <color name="baseBG">#fff2f2f2</color>

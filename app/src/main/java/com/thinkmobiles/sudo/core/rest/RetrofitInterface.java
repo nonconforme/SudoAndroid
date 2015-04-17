@@ -9,8 +9,12 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.models.ProfileModel;
 import com.thinkmobiles.sudo.models.ProfileResponse;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -34,6 +38,14 @@ public interface RetrofitInterface {
     @POST(APIConstants.URL_SIGN_UP)
     void signUp(@Field(Constants.EMAIL) String email, @Field(Constants.PASSWORD) String password,
                 Callback<LoginResponse> callback);
+
+
+    @POST(APIConstants.URL_ADDRESSBOOK)
+    void addContact(@Body UserModel user,
+                Callback<DefaultResponseModel> callback);
+
+    @GET(APIConstants.URL_USER + APIConstants.URL_ADDRESSBOOK)
+    void getContacts( Callback<List<UserModel>> callback);
 
 //    @FormUrlEncoded
 //    @POST(APIConstants.URL_MESSAGE+APIConstants.URL_SEND)

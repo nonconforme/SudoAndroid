@@ -25,6 +25,13 @@
     <color name="sl_btn_click_transp_color">#424242</color>
     <!-- end region -->
 
+    <style name="ETLoginStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/color_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
     <!-- STYLES -->
     <style name="SLetEmailStyle">
         <item name="android:textColor">@color/sl_text_color</item>

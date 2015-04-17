@@ -20,15 +20,15 @@ package com.thinkmobiles.sudo.custom_views;
  */
 
 
-        import android.R;
-        import android.content.Context;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.Paint;
-        import android.util.AttributeSet;
-        import android.util.TypedValue;
-        import android.view.View;
-        import android.widget.LinearLayout;
+import android.R;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.LinearLayout;
 
 
 class SlidingTabStrip extends LinearLayout {

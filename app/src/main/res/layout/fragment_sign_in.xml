@@ -27,13 +27,13 @@
 
 
     <EditText
+        style="@style/ETLoginStyle"
         android:id="@+id/etEmail_FSI"
         android:hint="@string/sl_et_email_hint"
         android:layout_width="match_parent"
         android:inputType="textEmailAddress"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+       />
     </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
 
     <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
@@ -48,15 +48,15 @@
         android:layout_alignEnd="@+id/btnSignIn_FSI">
 
     <EditText
+        style="@style/ETLoginStyle"
         android:id="@+id/etPassword_FSI"
         android:hint="@string/sl_et_password_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:singleLine="true"
-        android:maxLines="1"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+         />
 </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
     <Button
         android:id="@+id/btnSignIn_FSI"

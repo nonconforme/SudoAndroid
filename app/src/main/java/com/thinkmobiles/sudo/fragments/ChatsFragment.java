@@ -18,7 +18,7 @@ import com.thinkmobiles.sudo.R;
 public class ChatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.chats,container,false);
+        View v = inflater.inflate(R.layout.fragment_contacts,container,false);
         return v;
     }
 }

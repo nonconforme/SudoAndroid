@@ -17,6 +17,14 @@ import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -29,13 +37,34 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     private Dialog mDialog;
     private EditText mETName, mETNumber;
     private Button mBTNCancel, mBTNSave;
+    private Callback<List<UserModel>> mContactsCB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.contacts, container, false);
         initComponent();
         setListener();
+        initGetContats();
+        makeGetUserReauest();
         return mView;
+    }
+
+    private void makeGetUserReauest() {
+        RetrofitAdapter.getInterface().getContacts(mContactsCB);
+    }
+
+    private void initGetContats() {
+        mContactsCB = new Callback<List<UserModel>>() {
+            @Override
+            public void success(List<UserModel> userModels, Response response) {
+            //TODO set data to list
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
     }
 
     @Override
