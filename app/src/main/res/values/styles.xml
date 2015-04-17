@@ -33,4 +33,15 @@
     </style>
 
 
+
+    <!-- Animation for dialog. Slide in left out right-->
+    <style name="DialogAnimationSlideLeftRight">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="DialogAnimationTest">
+        <item name="android:windowEnterAnimation">@anim/anim_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_dialog_out</item>
+    </style>
 </resources>

@@ -30,6 +30,7 @@
         android:id="@+id/etEmail_FSI"
         android:hint="@string/sl_et_email_hint"
         android:layout_width="match_parent"
+        android:inputType="textEmailAddress"
         android:singleLine="true"
         android:maxLines="1"
         android:layout_height="wrap_content" />
@@ -51,6 +52,7 @@
         android:hint="@string/sl_et_password_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:singleLine="true"
         android:maxLines="1"
         android:layout_centerVertical="true"

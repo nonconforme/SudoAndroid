@@ -43,4 +43,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_title">Login</string>
 
+    <!-- Dialog Add Friend -->
+    <string name="cf_dialog_title">Add friend</string>
+    <string name="cf_dialod_hint_name">Name</string>
+    <string name="cf_dialog_hint_number">Phone number</string>
+
 </resources>

@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#ff0a8145</color>
     <color name="tabsScrollColor">#ff0f7e46</color>
 
+    <color name="colorBtnAddFriend">#FFAB00</color>
+    <color name="colorAddFriendPressed">#FFD600</color>
+    <color name="colorWhite">#fafafa</color>
+
+    <color name="colorBGList">#E0E0E0</color>
+    <color name="colorLine">#9E9E9E</color>
+
 </resources>
