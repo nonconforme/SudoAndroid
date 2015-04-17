@@ -8,6 +8,8 @@ import android.util.Log;
 import com.thinkmobiles.sudo.MainActivity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.AuthenticatedModel;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 
 import java.util.concurrent.Executors;
@@ -20,7 +22,7 @@ import retrofit.client.Response;
 
 public class SplashScreen extends Activity {
 
-    private Callback<DefaultResponseModel> mAuthenticatedCB;
+    private Callback<AuthenticatedModel> mAuthenticatedCB;
     private Intent mIntent;
 
     @Override
@@ -33,10 +35,11 @@ public class SplashScreen extends Activity {
     }
 
     private void initAuthenticatedCB() {
-        mAuthenticatedCB = new Callback<DefaultResponseModel>() {
+        mAuthenticatedCB = new Callback<AuthenticatedModel>() {
             @Override
-            public void success(DefaultResponseModel defaultResponseModel, Response response) {
-                Log.d("authenticated", defaultResponseModel.getSuccess());
+            public void success(AuthenticatedModel authenticatedModel, Response response) {
+                Log.d("authenticated", authenticatedModel.getSuccess());
+                App.setuId(authenticatedModel.getuId());
                 setNextActivity(MainActivity.class);
                 showNewActivity();
             }
@@ -44,10 +47,8 @@ public class SplashScreen extends Activity {
             @Override
             public void failure(RetrofitError error) {
                 Log.d("authenticated", error.getMessage());
-                if (error.getResponse().getStatus() == 401){
                     setNextActivity(LoginActivity.class);
                     showNewActivity();
-                }
 
             }
         };

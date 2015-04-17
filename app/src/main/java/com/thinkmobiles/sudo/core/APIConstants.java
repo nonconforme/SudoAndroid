@@ -20,6 +20,7 @@ public abstract class APIConstants {
     public static final String URL_START_MOBILE                 = "/startMobile";
     public static final String URL_END_MOBILE                   = "/endMobile";
     public static final String URL_SIGN_UP                      = "/signUp";
+    public static final String URL_SIGN_OUT                     = "/signOut";
     public static final String URL_SIGN_IN                      = "/signIn";
     public static final String URL_GET_NUMBERS                  = "/number/search";
     public static final String API_BAY_NUMBER                   = "/number";

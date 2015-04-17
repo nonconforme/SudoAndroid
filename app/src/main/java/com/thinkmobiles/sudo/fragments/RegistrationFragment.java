@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.thinkmobiles.sudo.MainActivity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.LoginResponse;
 
 import retrofit.Callback;
@@ -82,18 +84,14 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
                 mETPassword.getText().toString(), mSignUpCB);
     }
 
-    private void openMainActivity(){
-        Intent intent = new Intent(mActivity, MainActivity.class);
-        mActivity.startActivity(intent);
-    }
-
     private void initSignUpCB() {
         mSignUpCB = new Callback<LoginResponse>() {
             @Override
             public void success(LoginResponse loginResponse, Response response) {
                 Log.d("signUp", loginResponse.getSuccess());
                 Toast.makeText(mActivity, loginResponse.getSuccess(), Toast.LENGTH_SHORT).show();
-                openMainActivity();
+//                App.setuId(loginResponse.getuId());
+                ((LoginActivity) mActivity).goBack();
             }
 
             @Override

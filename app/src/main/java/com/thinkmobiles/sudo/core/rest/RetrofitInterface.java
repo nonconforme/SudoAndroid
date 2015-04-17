@@ -4,14 +4,18 @@ package com.thinkmobiles.sudo.core.rest;
 
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.AuthenticatedModel;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.LoginResponse;
+import com.thinkmobiles.sudo.models.ProfileModel;
+import com.thinkmobiles.sudo.models.ProfileResponse;
 
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
  * Created by Sasha on 19.11.2014.
@@ -38,7 +42,7 @@ public interface RetrofitInterface {
 //                     Callback<DefaultResponseModel> callback);
 //
     @GET(APIConstants.ACTION_IS_AUTHENTICATED)
-    void isAuthenticated(Callback<DefaultResponseModel> callback);
+    void isAuthenticated(Callback<AuthenticatedModel> callback);
 //
 //    @GET(APIConstants.URL_MESSAGE + APIConstants.API_LAST_CONVERSATION)
 //    void lastConversations(Callback<ConversationResponse> callback);
@@ -46,9 +50,12 @@ public interface RetrofitInterface {
 //    @GET(APIConstants.URL_MESSAGE + APIConstants.API_CONVERSATION + "/{owner}"+"/{companion}"  )
 //    void lastHistory(@Path("owner") String owner, @Path("companion") String companion, Callback<ConversationResponse> callback);
 //
-//    @GET(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_ID + "}")
-//    void getProfile(@Path(Constants.PATH_PARAM_ID) String id, Callback<ProfileResponse> callback);
-//
+    @GET(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_ID + "}")
+    void getProfile(@Path(Constants.PATH_PARAM_ID) String id, Callback<ProfileResponse> callback);
+
+    @GET(APIConstants.URL_SIGN_OUT)
+    void sigOut(Callback<DefaultResponseModel> callback);
+
 //    @FormUrlEncoded
 //    @PUT(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_USER_ID + "}")
 //    void updateProfile(@Path(Constants.PATH_PARAM_USER_ID) String uId, @Field(Constants.USER) UserModel password,

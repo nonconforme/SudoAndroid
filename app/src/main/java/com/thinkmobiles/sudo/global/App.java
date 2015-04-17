@@ -6,7 +6,7 @@ import android.app.Application;
  * Created by Sasha on 12.02.2015.
  */
 public class App extends Application {
-    private static String userName;
+    private static String currentMobile;
     private static String uId;
 
     public static String getuId() {
@@ -17,21 +17,21 @@ public class App extends Application {
         App.uId = uId;
     }
 
-    public static String getNumber() {
-        return number;
+    public static String getGetUserName() {
+        return getUserName;
     }
 
-    public static void setNumber(String number) {
-        App.number = number;
+    public static void setGetUserName(String getUserName) {
+        App.getUserName = getUserName;
     }
 
-    public static String getUserName() {
-        return userName;
+    public static String getCurrentMobile() {
+        return currentMobile;
     }
 
-    public static void setUserName(String userName) {
-        App.userName = userName;
+    public static void setCurrentMobile(String currentMobile) {
+        App.currentMobile = currentMobile;
     }
 
-    private static String number;
+    private static String getUserName;
 }

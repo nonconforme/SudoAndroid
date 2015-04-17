@@ -14,7 +14,7 @@ import retrofit.client.OkClient;
 public abstract class RetrofitAdapter {
     private static String cookies;
     private  static  CustomCookieManager cookieManager;
-    private static final String SESSION_KEY = "SessionName";
+    private static final String SESSION_KEY = "testCall";
     public static String getCookies() {
         return cookies;
     }
