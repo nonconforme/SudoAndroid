@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-        android:drawable="@color/ss_btn_bloc_number_click" /><!-- pressed -->
-    <item android:drawable="@color/ss_btn_bloc_number_default" /> <!-- default -->
+
+    <item android:drawable="@drawable/btn_block_number_clicked" android:state_pressed="true" />
+    <!-- pressed -->
+    <item android:drawable="@drawable/btn_block_number_default" />
+    <!-- default-->
+
 </selector>

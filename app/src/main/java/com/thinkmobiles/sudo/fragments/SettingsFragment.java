@@ -9,20 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thinkmobiles.sudo.R;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener{
+public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{
 
     private Dialog mDialog;
     private View mView;
     private Activity mActivity;
     private TextView mPin, mNotification;
-    private CheckBox mCbPin, mCbNotification;
+    private Switch mSwPin, mSwNotification;
     private Button mBlockNumber, mChangePassword, mBTNCancel, mBTNSubmit;
     private EditText mETNewPass, mETConfirmPass;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,8 +45,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private void initComponent(){
         mPin                = (TextView) mView.findViewById(R.id.tvPin_FS);
         mNotification       = (TextView) mView.findViewById(R.id.tvNotification_FS);
-        mCbPin              = (CheckBox) mView.findViewById(R.id.cbPin_FS);
-        mCbNotification     = (CheckBox) mView.findViewById(R.id.cbNotification_FS);
+        mSwPin              = (Switch) mView.findViewById(R.id.swPin_FS);
+        mSwNotification     = (Switch) mView.findViewById(R.id.swNotification_FS);
         mBlockNumber        = (Button) mView.findViewById(R.id.btnBlockNumber_FS);
         mChangePassword     = (Button) mView.findViewById(R.id.btnChangePassword_FS);
     }
@@ -51,6 +54,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private void setListeners() {
         mBlockNumber.setOnClickListener(this);
         mChangePassword.setOnClickListener(this);
+        mSwNotification.setOnCheckedChangeListener(this);
+        mSwPin.setOnCheckedChangeListener(this);
+
     }
 
     private void initDialogComponent(){
@@ -96,5 +102,41 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 changePasswordDialog();
                 break;
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        switch (compoundButton.getId()){
+            case R.id.swPin_FS:
+
+                if(b){
+
+                }
+                else{
+
+                }
+
+                break;
+
+            case R.id.swNotification_FS:
+                if(b){
+
+                }
+                else{
+
+                }
+
+                break;
+
+
+
+
+
+
+        }
+
+
+
+
     }
 }
