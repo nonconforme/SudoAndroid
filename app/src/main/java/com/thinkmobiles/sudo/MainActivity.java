@@ -25,6 +25,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
+import com.thinkmobiles.sudo.fragments.NumbersFragment;
+import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
+import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
@@ -62,10 +65,6 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void openHomeFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
     }
 
     private void initToolbar(){
@@ -126,15 +125,37 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     }
 
-    private void implementClick(int i) {
-        switch (i){
+    private void implementClick(int pos) {
+        switch (pos){
             case SIGN_OUT_ACTION:
                 makeSignOutRequest();
                 break;
             case HOME_FRAGMENT:
                 openHomeFragment();
                 break;
+            case CREDITS_FRAGMENT:
+                openCreditsFragment();
+                break;
+            case GET_NUMBER_FRAGMENT:
+                openNubersFragment();
+                break;
+            case SETTINGS_FRAGMENT:
+                openSettingsFragment();
+                break;
         }
+    }
+
+    private void openCreditsFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new RechargeCreditsFragment());
+    }
+    private void openSettingsFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
+    }
+    private void openNubersFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
+    }
+    private void openHomeFragment() {
+        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
     }
 
     private void makeSignOutRequest() {
