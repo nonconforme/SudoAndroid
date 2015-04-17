@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/SSllStyle"
-    android:background="@color/baseBG"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#e5e5e5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/setPinLayout"
+        style="@style/SContainerStyle">
 
         <TextView
             android:id="@+id/tvPin_FS"
@@ -22,22 +24,23 @@
             android:layout_height="wrap_content"
             android:gravity="right">
 
-            <CheckBox
-                android:id="@+id/cbPin_FS"
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/swPin_FS"
+                android:enabled="true"
+                android:focusable="false" />
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        style="@style/SStvLaneStyle"
-        android:layout_width="match_parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/setNotifLayout"
+        style="@style/SContainerStyle">
 
         <TextView
             android:id="@+id/tvNotification_FS"
@@ -50,16 +53,16 @@
             android:layout_height="wrap_content"
             android:gravity="right">
 
-            <CheckBox
-                android:id="@+id/cbNotification_FS"
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+
+
+                android:id="@+id/swNotification_FS"
+                android:focusable="false" />
+
         </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        style="@style/SStvLaneStyle"
-        android:layout_width="match_parent" />
 
     <TextView
         style="@style/SStvChangesStyle"
@@ -67,19 +70,20 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnBlockNumber_FS"
-            style="@style/SSbtnBlockNumberStyle"
-            android:layout_width="wrap_content" />
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:id="@+id/btnChangePassword_FS"
             style="@style/SSbtnChangePassword"
             android:layout_width="wrap_content" />
+
+        <Button
+            android:id="@+id/btnBlockNumber_FS"
+            style="@style/SSbtnBlockNumberStyle"
+            android:layout_width="match_parent" />
 
     </LinearLayout>
 </LinearLayout>
