@@ -2,6 +2,11 @@
 <resources>
     <!-- DIMENS -->
     <dimen name="sc_dialog_margin">8dp</dimen>
+    <dimen name="sc_avatar_size">48dp</dimen>
+    <dimen name="sc_margin_top_bottom">12dp</dimen>
+    <dimen name="sc_margin_left_right">12dp</dimen>
+    <dimen name="sc_padding">12dp</dimen>
+    <dimen name="sc_text_size">20dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
@@ -12,13 +17,44 @@
     <!-- Style dialog add friend-->
     <style name="SCDialodETName">
         <item name="android:hint">@string/cf_dialod_hint_name</item>
-        <item name="android:layout_margin">@dimen/sc_dialog_margin</item>
+
+
     </style>
 
     <style name="SCDialogETNumber">
         <item name="android:hint">@string/cf_dialog_hint_number</item>
         <item name="android:layout_margin">@dimen/sc_dialog_margin</item>
         <item name="android:inputType">phone</item>
-</style>
+    </style>
+
+
+    <style name="SCContactsItemLLMainLayout">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingTop">@dimen/sc_padding</item>
+        <item name="android:paddingBottom">@dimen/sc_padding</item>
+    </style>
+
+    <style name="SCContactsItemEVAvatar">
+        <item name="android:background">@drawable/ic_avatar</item>
+        <item name="android:layout_width">@dimen/sc_avatar_size</item>
+        <item name="android:layout_height">@dimen/sc_avatar_size</item>
+        <item name="android:layout_marginLeft">@dimen/sc_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sc_margin_left_right</item>
+
+    </style>
+
+
+
+    <style name="SCContactsItemTVName">
+        <item name="android:layout_marginTop">@dimen/sc_margin_top_bottom</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/sc_padding</item>
+
+        <item name="android:textSize">@dimen/sc_text_size</item>
+    </style>
+
     <!-- end region -->
 </resources>
