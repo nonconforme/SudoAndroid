@@ -51,28 +51,30 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter stickyListAdapter;
-    ArrayList<Contacts> contactsArrayList;
+    private List<UserModel> contactsArrayList;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.contacts, container, false);
         initComponent();
         setListener();
-        reloadList(contactsArrayList);
-        initGetContats();
-        makeGetUserReauest();
+//        reloadList(contactsArrayList);
+        initGetContacts();
+        makeGetUserRequest();
         return mView;
     }
 
-    private void makeGetUserReauest() {
+    private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
     }
 
-    private void initGetContats() {
+    private void initGetContacts() {
         mContactsCB = new Callback<List<UserModel>>() {
             @Override
             public void success(List<UserModel> userModels, Response response) {
-            //TODO set data to list
+               reloadList(userModels);
             }
 
             @Override
@@ -94,11 +96,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
         context = getActivity().getApplicationContext();
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
-        stickyListAdapter = new ContactsListAdapter(context);
+        stickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(stickyListAdapter);
     }
 
-    private void reloadList(ArrayList<Contacts> contacts) {
+    private void reloadList(List<UserModel> contacts) {
 
         stickyListAdapter.reloadList(contacts);
     }
@@ -135,20 +137,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private boolean isValidateParam(EditText _et) {
         String check = _et.getText().toString();
         return !check.isEmpty();
-    }
-
-
-    private void loadContactList() {
-        Contacts contact = new Contacts("Test");
-        contact.setFirstName(null);
-        contact.setLastName(null);
-        contact.setAvatarUrl(null);
-        contact.setPhoneNumber1(null);
-        contact.setPhoneNumber2(null);
-        contact.setPhoneNumber3(null);
-
-        contactsArrayList.add(contact);
-
     }
 
 

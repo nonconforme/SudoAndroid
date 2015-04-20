@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.Contacts;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -23,19 +25,20 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  */
 public class ContactsListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private ArrayList<Contacts> contacts;
+    private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Context context;
 
 
     public ContactsListAdapter(Context context) {
         this.context = context;
+        this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
     }
 
 
-    public void reloadList(ArrayList<Contacts> contacts) {
+    public void reloadList(List<UserModel> contacts) {
         this.contacts = contacts;
         notifyDataSetChanged();
     }
@@ -58,7 +61,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     @Override
     public long getHeaderId(int i) {
-        return contacts.get(i).getFirstName().subSequence(0, 1).charAt(0);
+        return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
     }
 
 
@@ -76,10 +79,9 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.tvFirstName.setText(contacts.get(i).getFirstName());
-        holder.tvLastName.setText(contacts.get(i).getFirstName());
+        holder.tvFirstName.setText(contacts.get(i).getCompanion());
 
-        setAvatar(holder.ivAvatar, contacts.get(i).getAvatarUrl());
+        setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
 
 
         return view;
@@ -97,7 +99,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = (HeaderViewHolder) convertView.getTag();
         }
         //set header text
-        String headerText = "" + contacts.get(i).getFirstName().subSequence(0, 1).charAt(0);
+        String headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
         holder.text.setText(headerText);
         return convertView;
     }
@@ -115,7 +117,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     private void setAvatar(ImageView imageView, String imageUrl) {
-        if (!imageUrl.equalsIgnoreCase("")) {
+        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
             Picasso.with(context)
                     .load(imageUrl)
@@ -124,7 +126,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_avatar);
+            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
             imageView.setImageBitmap(bm);
         }
 
