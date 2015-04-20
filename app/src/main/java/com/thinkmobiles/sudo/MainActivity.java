@@ -243,9 +243,14 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
                     homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
                 else
                     homeFragment.getAdapter().getChatFragment().reloadCurrentChat();
+
+
                 return false;
             }
         });
+
+
+
 
 
     }

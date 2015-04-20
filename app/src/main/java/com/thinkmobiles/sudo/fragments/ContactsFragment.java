@@ -206,7 +206,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         List<UserModel> tempContactsArrayList = new ArrayList<UserModel>();
         if(contactsList != null){
         for(UserModel userModel : contactsList){
-            if (userModel.getCompanion().equalsIgnoreCase(querry))
+            if (userModel.getCompanion().contains(querry))
                 tempContactsArrayList.add(userModel);
         }
         reloadList(tempContactsArrayList);}
