@@ -110,7 +110,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void loadContactList() {
-        Contacts contact = new Contacts();
+        Contacts contact = new Contacts("Test");
         contact.setFirstName(null);
         contact.setLastName(null);
         contact.setAvatarUrl(null);

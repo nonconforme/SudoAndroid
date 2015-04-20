@@ -1,6 +1,8 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +78,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
         holder.tvFirstName.setText(contacts.get(i).getFirstName());
         holder.tvLastName.setText(contacts.get(i).getFirstName());
+
         setAvatar(holder.ivAvatar, contacts.get(i).getAvatarUrl());
 
 
@@ -112,12 +115,18 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     private void setAvatar(ImageView imageView, String imageUrl) {
-        int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-        Picasso.with(context)
-                .load(imageUrl)
-                .resize(dimen, dimen)
-                .into(imageView);
+        if (!imageUrl.equalsIgnoreCase("")) {
+            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .resize(dimen, dimen)
+                    .into(imageView);
 
+
+        } else {
+            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_avatar);
+            imageView.setImageBitmap(bm);
+        }
 
     }
 
