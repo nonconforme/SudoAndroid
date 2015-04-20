@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo;
 
 import android.app.Activity;
 import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +45,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
+public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
 
     // Declaring Your View and Variables
 
@@ -62,7 +61,6 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
 
     private UserModel selectedContact;
-
 
 
     @Override
@@ -84,7 +82,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         finish();
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(mTitle);
         toolbar.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +90,10 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
             public void onClick(View view) {
 
 
-                if(selectedContact !=null)
-                    Toast.makeText(getApplicationContext(),selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
+                if (selectedContact != null)
+                    Toast.makeText(getApplicationContext(), selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
                 else
-                    Toast.makeText(getApplicationContext(),"toolbar clicked", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "toolbar clicked", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -103,20 +101,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-       ;
 
-
-    }
-
-
-
-    private void setupSearchView(Menu menu) {
-        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        SearchableInfo searchableInfo = searchManager
-                .getSearchableInfo(getComponentName());
-        searchView.setSearchableInfo(searchableInfo);
-        searchView.setActivated(true);
 
     }
 
@@ -124,7 +109,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         initSearchBar(menu);
-        setupSearchView(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -166,13 +151,13 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l, IDrawerItem iDrawerItem) {
-        Toast.makeText(this,"pos " + pos, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "pos " + pos, Toast.LENGTH_SHORT).show();
         implementClick(pos);
 
     }
 
     private void implementClick(int pos) {
-        switch (pos){
+        switch (pos) {
             case SIGN_OUT_ACTION:
                 makeSignOutRequest();
                 break;
@@ -194,12 +179,15 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private void openCreditsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new RechargeCreditsFragment());
     }
+
     private void openSettingsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
     }
+
     private void openNubersFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
+
     private void openHomeFragment() {
         homeFragment = new HomeFragment();
         FragmentReplacer.replaceTopNavigationFragment(this, homeFragment);
@@ -210,7 +198,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     private void setBaseTitle() {
-        if (App.getCurrentMobile() == null){
+        if (App.getCurrentMobile() == null) {
             mTitle = App.getGetUserName();
         } else {
             mTitle = App.getCurrentMobile();
@@ -218,7 +206,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     private void initDrawer() {
-        mDrawer =  new Drawer()
+        mDrawer = new Drawer()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
@@ -235,7 +223,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
                 .build();
     }
 
-    private void initSearchBar(final Menu menu){
+    private void initSearchBar(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
 
@@ -243,13 +231,23 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
         SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-        }
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        searchView.setActivated(true);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d("searchView", "closed");
+                if(getCurrentTab() == 0)
+                    homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
+                else
+                    homeFragment.getAdapter().getChatFragment().reloadCurrentChat();
+                return false;
+            }
+        });
+
+
     }
 
     private void initSignOutCB() {
@@ -277,21 +275,20 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     protected void onNewIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
-            String contact = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this,"querry"+ contact,Toast.LENGTH_LONG).show();
+            String querry = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, "querry" + querry, Toast.LENGTH_LONG).show();
 
-            if(getCurrentTab() == 0){
-
-            }
-            else{
-
+            if (getCurrentTab() == 0) {
+                homeFragment.getAdapter().getContactsFragment().searchContactsList(querry);
+            } else {
+                homeFragment.getAdapter().getChatFragment().searchChatList(querry);
             }
 
 
         }
     }
 
-    private int getCurrentTab(){
+    private int getCurrentTab() {
         return homeFragment.getCurrentTab();
     }
 

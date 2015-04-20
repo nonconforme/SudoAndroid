@@ -113,4 +113,8 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
         return currentTab;
     }
+
+    public ViewPagerAdapter getAdapter(){
+        return adapter;
+    }
 }

@@ -31,6 +31,7 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -54,7 +55,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter stickyListAdapter;
-    private List<UserModel> contactsArrayList;
+    private List<UserModel> contactsList;
 
     private ContactsFragmentCallback contactsFragmentCallback;
 
@@ -77,7 +78,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mContactsCB = new Callback<List<UserModel>>() {
             @Override
             public void success(List<UserModel> userModels, Response response) {
-                contactsArrayList = userModels;
+                contactsList = userModels;
                 reloadList(userModels);
             }
 
@@ -107,7 +108,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void reloadList(List<UserModel> contacts) {
+    public void reloadList(List<UserModel> contacts) {
 
         stickyListAdapter.reloadList(contacts);
     }
@@ -165,12 +166,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        contactsFragmentCallback.setCurrentContact(contactsArrayList.get(i));
+        contactsFragmentCallback.setCurrentContact(contactsList.get(i));
 
 
-        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsArrayList.get(i).getCompanion());
+        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
 
-        String imageUrl = contactsArrayList.get(i).getAvatar();
+        String imageUrl = contactsList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             Drawable drawable = getDrawableFromUrl(imageUrl);
@@ -198,5 +199,23 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
         return  drawable;
+    }
+
+    public void searchContactsList(String querry){
+
+        List<UserModel> tempContactsArrayList = new ArrayList<UserModel>();
+        if(contactsList != null){
+        for(UserModel userModel : contactsList){
+            if (userModel.getCompanion().equalsIgnoreCase(querry))
+                tempContactsArrayList.add(userModel);
+        }
+        reloadList(tempContactsArrayList);}
+       
+
+    }
+
+    public void reloadCurrentList() {
+        if(contactsList != null)
+        reloadList(contactsList);
     }
 }

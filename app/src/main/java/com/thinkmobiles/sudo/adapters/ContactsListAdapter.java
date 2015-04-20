@@ -41,7 +41,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     public void reloadList(List<UserModel> contacts) {
         this.contacts = contacts;
-        notifyDataSetChanged();
+       /* notifyDataSetChanged();*/
     }
 
 

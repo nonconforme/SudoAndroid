@@ -14,8 +14,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-
-
+   private ContactsFragment tab1 ;
+    private ChatsFragment tab2  ;
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
@@ -31,12 +31,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            ContactsFragment tab1 = new ContactsFragment();
+              tab1 = new ContactsFragment();
             return tab1;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            ChatsFragment tab2 = new ChatsFragment();
+              tab2 = new ChatsFragment();
             return tab2;
         }
 
@@ -57,4 +57,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return NumbOfTabs;
     }
 
+
+    public ContactsFragment getContactsFragment(){
+       return tab1;
+    }
+    public ChatsFragment getChatFragment(){
+        return tab2;
+    }
 }
