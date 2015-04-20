@@ -12,22 +12,28 @@ public class Contacts implements Parcelable {
     private String firstName;
     private String lastName;
     private String avatarUrl;
-
     private String phoneNumber1;
     private String phoneNumber2;
     private String phoneNumber3;
 
 
-    public Contacts() {
+    //Consctructors
+
+    public Contacts(String firstName){
+        if(firstName == null){
+            throw  new IllegalArgumentException(
+                    "First Name cannot be null");
+        }
+
+        this. firstName = firstName;
     }
 
-    public Contacts(
-            String firstName,
-            String lastName,
-            String avatarUrl,
-            String phoneNumber1,
-            String phoneNumber2,
-            String phoneNumber3) {
+    public Contacts( String firstName,String lastName,String avatarUrl,String phoneNumber1,String phoneNumber2,String phoneNumber3) {
+        if(firstName == null){
+            throw  new IllegalArgumentException(
+                    "First Name cannot be null");
+        }
+
         this. firstName = firstName;
         this. lastName = lastName;
         this. avatarUrl = avatarUrl;
@@ -35,7 +41,6 @@ public class Contacts implements Parcelable {
         this. phoneNumber2 = phoneNumber2;
         this. phoneNumber3 = phoneNumber3;
     }
-
     public Contacts(Parcel in) {
 
         String[] data = new String[3];
@@ -51,30 +56,7 @@ public class Contacts implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeStringArray(new String[]{firstName, lastName, avatarUrl, phoneNumber1, phoneNumber2, phoneNumber3});
-
-    }
-
-
-    public static final Parcelable.Creator<Contacts> CREATOR = new Parcelable.Creator<Contacts>() {
-        public Contacts createFromParcel(Parcel in) {
-            return new Contacts(in);
-        }
-
-        public Contacts[] newArray(int size) {
-            return new Contacts[size];
-        }
-    };
-
+    //Methods
 
     public String getFirstName() {
         return firstName;
@@ -125,4 +107,53 @@ public class Contacts implements Parcelable {
     }
 
 
+
+    //Parcelable
+
+    @Override
+    public int describeContents() {
+
+        return 0;
+    }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeStringArray(new String[]{firstName, lastName, avatarUrl, phoneNumber1, phoneNumber2, phoneNumber3});
+
+    }
+
+    public static final Parcelable.Creator<Contacts> CREATOR = new Parcelable.Creator<Contacts>() {
+        public Contacts createFromParcel(Parcel in) {
+            return new Contacts(in);
+        }
+
+        public Contacts[] newArray(int size) {
+            return new Contacts[size];
+        }
+    };
+
+
+    //Object Methods
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contacts)) return false;
+
+        Contacts contacts = (Contacts) o;
+
+        if (!firstName.equals(contacts.firstName)) return false;
+        if (lastName != null ? !lastName.equals(contacts.lastName) : contacts.lastName != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        return result;
+    }
 }
