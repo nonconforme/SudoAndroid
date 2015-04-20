@@ -42,4 +42,5 @@ dependencies {
     compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
         transitive =  true
     }
+    compile 'se.emilsjolander:stickylistheaders:2.6.0'
 }

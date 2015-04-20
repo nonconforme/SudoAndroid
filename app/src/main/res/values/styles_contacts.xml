@@ -56,5 +56,8 @@
         <item name="android:textSize">@dimen/sc_text_size</item>
     </style>
 
+
+
+
     <!-- end region -->
 </resources>
