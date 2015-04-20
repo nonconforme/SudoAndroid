@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,6 +55,12 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
 
+    HomeFragment homeFragment;
+
+    private SearchManager searchManager;
+    private SearchView searchView;
+
+
     private UserModel selectedContact;
 
 
@@ -67,6 +74,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         openHomeFragment();
         initDrawer();
         initSignOutCB();
+
     }
 
 
@@ -100,9 +108,23 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     }
 
+
+
+    private void setupSearchView(Menu menu) {
+        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchableInfo searchableInfo = searchManager
+                .getSearchableInfo(getComponentName());
+        searchView.setSearchableInfo(searchableInfo);
+        searchView.setActivated(true);
+
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         initSearchBar(menu);
+        setupSearchView(menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -179,7 +201,8 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
     private void openHomeFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
+        homeFragment = new HomeFragment();
+        FragmentReplacer.replaceTopNavigationFragment(this, homeFragment);
     }
 
     private void makeSignOutRequest() {
@@ -249,4 +272,27 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     public void setCurrentContact(UserModel userModel) {
         selectedContact = userModel;
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            // handles a search query
+            String contact = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this,"querry"+ contact,Toast.LENGTH_LONG).show();
+
+            if(getCurrentTab() == 0){
+
+            }
+            else{
+
+            }
+
+
+        }
+    }
+
+    private int getCurrentTab(){
+        return homeFragment.getCurrentTab();
+    }
+
 }

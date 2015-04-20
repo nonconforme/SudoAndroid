@@ -168,13 +168,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         contactsFragmentCallback.setCurrentContact(contactsArrayList.get(i));
 
 
-        ((ActionBarActivity) this.getActivity()).getSupportActionBar().setTitle(contactsArrayList.get(i).getCompanion());
+        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsArrayList.get(i).getCompanion());
 
         String imageUrl = contactsArrayList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             Drawable drawable = getDrawableFromUrl(imageUrl);
-            ((ActionBarActivity) this.getActivity()).getSupportActionBar().setIcon(drawable);
+            ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(drawable);
         }
 
     }

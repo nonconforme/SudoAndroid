@@ -55,9 +55,7 @@
 
 
     <!--Contacts Tool Bar-->
-    <string name="cf_toolbar_item1">Item1</string>
-    <string name="cf_toolbar_item2">Item2</string>
-    <string name="cf_toolbar_item3">Item3</string>
-    <string name="cf_toolbar_item4">Item4</string>
+    <string name="tb_search_label">Search contacts</string>
+
 
 </resources>
