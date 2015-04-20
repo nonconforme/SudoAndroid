@@ -50,8 +50,14 @@
     <string name="cf_dialod_hint_name">Name</string>
     <string name="cf_dialog_hint_number">Phone number</string>
 
-
+    <!--Contacts Item-->
     <string name="cont_first_name">First_Name</string>
-    <string name="cont_last_name">Last_Name</string>
+
+
+    <!--Contacts Tool Bar-->
+    <string name="cf_toolbar_item1">Item1</string>
+    <string name="cf_toolbar_item2">Item2</string>
+    <string name="cf_toolbar_item3">Item3</string>
+    <string name="cf_toolbar_item4">Item4</string>
 
 </resources>

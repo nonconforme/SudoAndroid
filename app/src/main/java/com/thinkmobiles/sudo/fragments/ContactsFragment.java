@@ -7,23 +7,30 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
+import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit.Callback;
@@ -49,7 +56,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private ContactsListAdapter stickyListAdapter;
     private List<UserModel> contactsArrayList;
 
-
+    private ContactsFragmentCallback contactsFragmentCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         return mView;
     }
 
+
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
     }
@@ -69,14 +77,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mContactsCB = new Callback<List<UserModel>>() {
             @Override
             public void success(List<UserModel> userModels, Response response) {
-
-
-                /// last element has null for some reason - this is  a temp fix
-                    if(userModels.size()>0)
-                    userModels. remove(userModels.size() - 1);
-
-
-               reloadList(userModels);
+                contactsArrayList = userModels;
+                reloadList(userModels);
             }
 
             @Override
@@ -90,6 +92,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        contactsFragmentCallback = (ContactsFragmentCallback) activity;
     }
 
     private void initComponent() {
@@ -100,6 +103,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(stickyListAdapter);
+
+
     }
 
     private void reloadList(List<UserModel> contacts) {
@@ -160,6 +165,38 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(context, "Item " + i + " clicked!", Toast.LENGTH_SHORT).show();
+        contactsFragmentCallback.setCurrentContact(contactsArrayList.get(i));
+
+
+        ((ActionBarActivity) this.getActivity()).getSupportActionBar().setTitle(contactsArrayList.get(i).getCompanion());
+
+        String imageUrl = contactsArrayList.get(i).getAvatar();
+
+        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
+            Drawable drawable = getDrawableFromUrl(imageUrl);
+            ((ActionBarActivity) this.getActivity()).getSupportActionBar().setIcon(drawable);
+        }
+
+    }
+
+    private Drawable getDrawableFromUrl(String imageUrl){
+        Drawable drawable = null;
+
+
+            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
+            ImageView tempView = new ImageView(context);
+
+            try {
+                Bitmap bm = Picasso.with(context)
+                        .load(imageUrl)
+                        .resize(dimen, dimen).get();
+                drawable = new BitmapDrawable(bm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+        return  drawable;
     }
 }

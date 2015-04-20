@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.thinkmobiles.sudo.activities.LoginActivity;
+import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
 import com.thinkmobiles.sudo.fragments.NumbersFragment;
@@ -31,15 +32,20 @@ import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static com.thinkmobiles.sudo.global.DrawerConstants.*;
+import static com.thinkmobiles.sudo.global.DrawerConstants.CREDITS_FRAGMENT;
+import static com.thinkmobiles.sudo.global.DrawerConstants.GET_NUMBER_FRAGMENT;
+import static com.thinkmobiles.sudo.global.DrawerConstants.HOME_FRAGMENT;
+import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
+import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
+public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
 
     // Declaring Your View and Variables
 
@@ -47,6 +53,9 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private String mTitle;
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
+
+    private UserModel selectedContact;
+
 
 
     @Override
@@ -70,10 +79,25 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private void initToolbar(){
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(mTitle);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if(selectedContact !=null)
+                    Toast.makeText(getApplicationContext(),selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(),"toolbar clicked", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+       ;
+
+
     }
 
     @Override
@@ -219,5 +243,10 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
             }
         };
+    }
+
+    @Override
+    public void setCurrentContact(UserModel userModel) {
+        selectedContact = userModel;
     }
 }

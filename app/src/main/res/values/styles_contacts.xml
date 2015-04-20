@@ -42,9 +42,7 @@
         <item name="android:layout_height">@dimen/sc_avatar_size</item>
         <item name="android:layout_marginLeft">@dimen/sc_margin_left_right</item>
         <item name="android:layout_marginRight">@dimen/sc_margin_left_right</item>
-
     </style>
-
 
 
     <style name="SCContactsItemTVName">
@@ -64,6 +62,9 @@
         <item name="android:textSize">@dimen/sc_header_text_size</item>
         <item name="android:padding">@dimen/sc_header_padding</item>
     </style>
+
+
+
 
 
     <!-- end region -->
