@@ -72,6 +72,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
                 /// last element has null for some reason - this is  a temp fix
+                    if(userModels.size()>0)
                     userModels. remove(userModels.size() - 1);
 
 
