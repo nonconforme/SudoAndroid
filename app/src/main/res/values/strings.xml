@@ -2,6 +2,8 @@
     <string name="app_name">Sudo</string>
 
     <string name="hello_world">Hello world!</string>
+
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash_screen">Splash</string>
 
@@ -47,5 +49,9 @@
     <string name="cf_dialog_title">Add friend</string>
     <string name="cf_dialod_hint_name">Name</string>
     <string name="cf_dialog_hint_number">Phone number</string>
+
+
+    <string name="cont_first_name">First_Name</string>
+    <string name="cont_last_name">Last_Name</string>
 
 </resources>

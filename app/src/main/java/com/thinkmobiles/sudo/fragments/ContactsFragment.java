@@ -6,19 +6,28 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
+import com.thinkmobiles.sudo.models.Contacts;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.util.ArrayList;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.List;
 
@@ -29,7 +38,7 @@ import retrofit.client.Response;
 /**
  * Created by hp1 on 21-01-2015.
  */
-public class ContactsFragment extends Fragment implements View.OnClickListener {
+public class ContactsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private Activity mActivity;
     private FloatingActionButton mBTNAddFriend;
@@ -37,13 +46,19 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     private Dialog mDialog;
     private EditText mETName, mETNumber;
     private Button mBTNCancel, mBTNSave;
+    private Context context;
     private Callback<List<UserModel>> mContactsCB;
+
+    private StickyListHeadersListView stickyList;
+    private ContactsListAdapter stickyListAdapter;
+    ArrayList<Contacts> contactsArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.contacts, container, false);
         initComponent();
         setListener();
+        reloadList(contactsArrayList);
         initGetContats();
         makeGetUserReauest();
         return mView;
@@ -74,7 +89,18 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initComponent() {
+
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
+
+        context = getActivity().getApplicationContext();
+        stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
+        stickyListAdapter = new ContactsListAdapter(context);
+        stickyList.setAdapter(stickyListAdapter);
+    }
+
+    private void reloadList(ArrayList<Contacts> contacts) {
+
+        stickyListAdapter.reloadList(contacts);
     }
 
     private void setListener() {
@@ -106,10 +132,25 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         mDialog.show();
     }
 
-    private boolean isValidateParam(EditText _et){
+    private boolean isValidateParam(EditText _et) {
         String check = _et.getText().toString();
         return !check.isEmpty();
     }
+
+
+    private void loadContactList() {
+        Contacts contact = new Contacts("Test");
+        contact.setFirstName(null);
+        contact.setLastName(null);
+        contact.setAvatarUrl(null);
+        contact.setPhoneNumber1(null);
+        contact.setPhoneNumber2(null);
+        contact.setPhoneNumber3(null);
+
+        contactsArrayList.add(contact);
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -122,7 +163,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btnDialogSaveCF:
                 if (isValidateParam(mETName) && isValidateParam(mETNumber)) //TODO Save friends
-                break;
+                    break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(context, "Item " + i + " clicked!", Toast.LENGTH_SHORT).show();
     }
 }
