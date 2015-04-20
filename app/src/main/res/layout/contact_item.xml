@@ -24,12 +24,7 @@
             android:text="@string/cont_first_name"
             android:gravity="right" />
 
-        <TextView
-            android:id="@+id/twContacstLastName"
 
-            style="@style/SCContactsItemTVName"
-
-            android:text="@string/cont_last_name" />
 
     </LinearLayout>
 

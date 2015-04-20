@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.Contacts;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 
 /**
  * Created by omar on 19.04.15.
@@ -34,6 +34,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         this.context = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
+
 
     }
 
@@ -61,7 +62,17 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     @Override
     public long getHeaderId(int i) {
-        return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+
+
+
+
+            if (contacts.size() > 0) {
+                return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+            } else
+                return 0;
+
+
+
     }
 
 
@@ -73,13 +84,14 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             view = mInflater.inflate(R.layout.contact_item, viewGroup, false);
             holder.ivAvatar = (ImageView) view.findViewById(R.id.iwContactsAvatar);
             holder.tvFirstName = (TextView) view.findViewById(R.id.twContacstFirstName);
-            holder.tvLastName = (TextView) view.findViewById(R.id.twContacstLastName);
+
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.tvFirstName.setText(contacts.get(i).getCompanion());
+
+            holder.tvFirstName.setText(contacts.get(i).getCompanion());
 
         setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
 
@@ -99,7 +111,18 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = (HeaderViewHolder) convertView.getTag();
         }
         //set header text
-        String headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+
+
+
+        String headerText;
+
+
+        if(contacts.size()>0)
+            headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+        else
+            headerText = "";
+
+
         holder.text.setText(headerText);
         return convertView;
     }
@@ -107,7 +130,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     private class ViewHolder {
         ImageView ivAvatar;
-        TextView tvFirstName, tvLastName;
+        TextView tvFirstName;
+
     }
 
     private class HeaderViewHolder {

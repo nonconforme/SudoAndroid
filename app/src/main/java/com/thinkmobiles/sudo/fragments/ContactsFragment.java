@@ -21,19 +21,15 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
-import com.thinkmobiles.sudo.models.Contacts;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
-import java.util.ArrayList;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -60,7 +56,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mView = inflater.inflate(R.layout.contacts, container, false);
         initComponent();
         setListener();
-//        reloadList(contactsArrayList);
         initGetContacts();
         makeGetUserRequest();
         return mView;
@@ -74,6 +69,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mContactsCB = new Callback<List<UserModel>>() {
             @Override
             public void success(List<UserModel> userModels, Response response) {
+
+
+                /// last element has null for some reason - this is  a temp fix
+                    userModels. remove(userModels.size() - 1);
+
+
                reloadList(userModels);
             }
 
@@ -107,6 +108,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private void setListener() {
         mBTNAddFriend.setOnClickListener(this);
+        stickyList.setOnItemClickListener(this);
     }
 
     private void initDialogComponent() {
