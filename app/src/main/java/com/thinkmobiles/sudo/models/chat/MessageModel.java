@@ -5,9 +5,16 @@ package com.thinkmobiles.sudo.models.chat;
  */
 public class MessageModel {
     private String messageText;
-    private Boolean recieved;
     private Long timeStamp;
+    private boolean trueIfMessageWasRecieved;
 
+    public boolean isTrueIfMessageWasRecieved() {
+        return trueIfMessageWasRecieved;
+    }
+
+    public void setTrueIfMessageWasRecieved(boolean trueIfMessageWasRecieved) {
+        this.trueIfMessageWasRecieved = trueIfMessageWasRecieved;
+    }
 
     public String getMessageText() {
         return messageText;
@@ -17,13 +24,6 @@ public class MessageModel {
         this.messageText = messageText;
     }
 
-    public Boolean getSender() {
-        return recieved;
-    }
-
-    public void setSender(Boolean recieved) {
-        this.recieved = recieved;
-    }
 
     public Long getTimeStamp() {
         return timeStamp;

@@ -1,6 +1,6 @@
 package com.thinkmobiles.sudo.models.chat;
 
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,25 @@ import java.util.List;
  */
 public class ChatModel {
     private List<MessageModel> listMessages;
-    private String companion;
-    private NumberModel senderNumber;
-    private NumberModel receiverNumber;
+    private UserModel sender,receiver;
+    private String senderNumber, receiverNumber;
 
+
+    public UserModel getSender() {
+        return sender;
+    }
+
+    public void setSender(UserModel sender) {
+        this.sender = sender;
+    }
+
+    public UserModel getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserModel receiver) {
+        this.receiver = receiver;
+    }
 
     public void addMessage(MessageModel message) {
         if (listMessages == null)
@@ -30,19 +45,19 @@ public class ChatModel {
 
     }
 
-    public NumberModel getSenderNumber() {
+    public String getSenderNumber() {
         return senderNumber;
     }
 
-    public void setSenderNumber(NumberModel senderNumber) {
+    public void setSenderNumber(String senderNumber) {
         this.senderNumber = senderNumber;
     }
 
-    public NumberModel getReceiverNumber() {
+    public String getReceiverNumber() {
         return receiverNumber;
     }
 
-    public void setReceiverNumber(NumberModel receiverNumber) {
+    public void setReceiverNumber(String receiverNumber) {
         this.receiverNumber = receiverNumber;
     }
 
@@ -53,14 +68,5 @@ public class ChatModel {
     public void setListMessages(List<MessageModel> listMessages) {
         this.listMessages = listMessages;
     }
-
-    public String getCompanion() {
-        return companion;
-    }
-
-    public void setCompanion(String companion) {
-        this.companion = companion;
-    }
-
 
 }

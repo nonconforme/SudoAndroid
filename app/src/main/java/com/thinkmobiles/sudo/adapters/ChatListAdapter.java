@@ -12,67 +12,54 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.models.chat.ChatModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
 /**
  * Created by omar on 19.04.15.
  */
-public class ChatListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class ChatListAdapter extends BaseAdapter {
 
-    private List<UserModel> contacts;
+    private List<ChatModel> chats;
     private LayoutInflater mInflater;
     private Context context;
 
 
+
     public ChatListAdapter(Context context) {
         this.context = context;
-        this.contacts = new ArrayList<>();
+        this.chats = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
 
     }
 
 
-    public void reloadList(List<UserModel> contacts) {
-        this.contacts = contacts;
+    public void reloadList(List<ChatModel> chats) {
+        this.chats = chats;
        /* notifyDataSetChanged();*/
     }
 
 
     @Override
     public int getCount() {
-        return contacts.size();
+        return chats.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return contacts.get(i);
+        return chats.get(i);
     }
 
     @Override
     public long getItemId(int i) {
         return i;
-    }
-
-    @Override
-    public long getHeaderId(int i) {
-
-
-
-
-            if (contacts.size() > 0) {
-                return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-            } else
-                return 0;
-
-
-
     }
 
 
@@ -81,56 +68,77 @@ public class ChatListAdapter extends BaseAdapter implements StickyListHeadersAda
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(R.layout.contact_item, viewGroup, false);
-            holder.ivAvatar = (ImageView) view.findViewById(R.id.iwContactsAvatar);
-            holder.tvFirstName = (TextView) view.findViewById(R.id.twContacstFirstName);
+            view = mInflater.inflate(R.layout.chat_item, viewGroup, false);
+
+
+            holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
+            holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
+            holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
+            holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
+            holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
+            holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
+
+
+            holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
+            holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
+            holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
+
 
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        ChatModel thisChat = chats.get(i);
+        List<MessageModel> thisChatList = thisChat.getListMessages();
+        MessageModel lastMessage = null;
+        if (thisChatList != null && thisChatList.size() > 0){
+            lastMessage = thisChatList.get(thisChatList.size() - 1);
+            thisChatList = null;
+        }
 
 
-            holder.tvFirstName.setText(contacts.get(i).getCompanion());
+        holder.tvSenderName.setText(thisChat.getSender().getCompanion());
+        holder.tvSenderNumber.setText(thisChat.getSenderNumber());
+        holder.tvReceiverDetails.setText(thisChat.getReceiver().getCompanion() + " " + thisChat.getReceiverNumber());
 
-        setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
+        if (lastMessage != null) {
+            holder.tvMessagePreview.setText(lastMessage.getMessageText());
 
+            long timeStamp = lastMessage.getTimeStamp();
+            if (timeStamp != 0)
+                holder.tvItemTimedate.setText(getDate(timeStamp));
+        }
+        setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
+
+        if(!lastMessage.isTrueIfMessageWasRecieved())
+            holder.ivReply.setVisibility(View.INVISIBLE);
+
+        View.OnClickListener myOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                switch (view.getId()){
+                    case R.id.twContacstFirstName:
+                        break;
+                    case R.id.tvChatItemViewDetails:
+                        break;
+                }
+
+            }
+        };
+
+        holder.ivOptions.setOnClickListener(myOnClickListener);
+        holder.tvViewDetails.setOnClickListener(myOnClickListener);
 
         return view;
     }
 
-    @Override
-    public View getHeaderView(int i, View convertView, ViewGroup parent) {
-        HeaderViewHolder holder;
-        if (convertView == null) {
-            holder = new HeaderViewHolder();
-            convertView = mInflater.inflate(R.layout.contacts_header, parent, false);
-            holder.text = (TextView) convertView.findViewById(R.id.tvContactsHeader);
-            convertView.setTag(holder);
-        } else {
-            holder = (HeaderViewHolder) convertView.getTag();
-        }
-        //set header text
-
-
-
-        String headerText;
-
-
-        if(contacts.size()>0)
-            headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-        else
-            headerText = "";
-
-
-        holder.text.setText(headerText);
-        return convertView;
-    }
-
 
     private class ViewHolder {
-        ImageView ivAvatar;
-        TextView tvFirstName;
+        ImageView ivAvatar, ivReply, ivOptions;
+        TextView tvSenderName, tvSenderNumber, tvReceiverDetails,
+                tvMessagePreview, tvItemTimedate, tvViewDetails;
+
 
     }
 
@@ -154,6 +162,15 @@ public class ChatListAdapter extends BaseAdapter implements StickyListHeadersAda
             imageView.setImageBitmap(bm);
         }
 
+    }
+
+    private String getDate(long milliSeconds) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis((int) milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
 }
