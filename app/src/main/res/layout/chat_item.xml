@@ -14,66 +14,76 @@
             android:layout_gravity="center"
             android:contentDescription="@string/avatar" />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            style="@style/SChatItemLL">
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvChatItemSenderName"
                 android:text="@string/cont_first_name"
 
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/SChatItemTVName" />
+                style="@style/SChatItemTVName"
+                android:layout_weight="1" />
 
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/test_phone_number"
+                android:id="@+id/tvChatItemSenderNumber"
+                style="@style/SChatItemTVNumber"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_receiver_details"
                 android:id="@+id/tvChatItemReceiverDetailes"
                 style="@style/SChatItemTVNumber" />
 
-            <TextView
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_chat_message"
                 android:id="@+id/tvChatItemMessagePreview"
                 style="@style/SChatItemTVMessagePreview" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvChatItemTimedate"
-                android:text="@string/test_timedate"
-                style="@style/SChatItemTVTimedate" />
-        </LinearLayout>
-
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            style="@style/SChatItemLL"
-            android:layout_weight="5">
-
-            <TextView
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_phone_number"
-                android:id="@+id/tvChatItemSenderNumber"
-                style="@style/SChatItemTVNumber" />
+            style="@style/SChatItemLL">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/tvChatItemViewDetails"
-                android:text="@string/ci_view_details"
-                style="@style/SChatItemTVViewDetails"
-                android:clickable="true"
-                android:gravity="center_horizontal|bottom" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvChatItemTimedate"
+                    android:text="@string/test_timedate"
+                    style="@style/SChatItemTVTimedate"
+                android:layout_weight="1" />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvChatItemViewDetails"
+                    android:text="@string/ci_view_details"
+                    style="@style/SChatItemTVViewDetails"
+                    android:clickable="true"
+                    android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
         </LinearLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout

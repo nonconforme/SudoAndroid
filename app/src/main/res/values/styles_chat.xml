@@ -82,8 +82,7 @@
     </style>
 
     <style name="SChatItemLL">
-        <item name="android:paddingLeft">@dimen/schat_padding</item>
-        <item name="android:paddingRight">@dimen/schat_padding</item>
+
     </style>
 
     <style name="SChatItemIcons">
