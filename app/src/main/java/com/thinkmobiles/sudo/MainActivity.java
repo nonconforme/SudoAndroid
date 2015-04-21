@@ -186,7 +186,6 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     }
     private void openNumbersFragment() {
 
-    private void openNubersFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
 
