@@ -101,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+       ;
 
 
     }
@@ -157,7 +158,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     }
 
     private void implementClick(int pos) {
-        switch (pos) {
+        switch (pos){
             case SIGN_OUT_ACTION:
                 makeSignOutRequest();
                 break;
@@ -168,7 +169,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
                 openCreditsFragment();
                 break;
             case GET_NUMBER_FRAGMENT:
-                openNubersFragment();
+                openNumbersFragment();
                 break;
             case SETTINGS_FRAGMENT:
                 openSettingsFragment();
@@ -183,8 +184,8 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     private void openSettingsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
     }
+    private void openNumbersFragment() {
 
-    private void openNubersFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
 

@@ -44,7 +44,7 @@ public interface RetrofitInterface {
     void addContact(@Body UserModel user,
                 Callback<DefaultResponseModel> callback);
 
-    @GET(APIConstants.URL_USER + APIConstants.URL_ADDRESSBOOK)
+    @GET(APIConstants.URL_ADDRESSBOOK)
     void getContacts( Callback<List<UserModel>> callback);
 
 //    @FormUrlEncoded

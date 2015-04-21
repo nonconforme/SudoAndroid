@@ -28,6 +28,8 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.io.IOException;
@@ -55,6 +57,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter stickyListAdapter;
+    private List<UserModel> contactsArrayList;
+    private Callback<DefaultResponseModel> mAddContactCB;
     private List<UserModel> contactsList;
 
     private ContactsFragmentCallback contactsFragmentCallback;
@@ -64,9 +68,24 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mView = inflater.inflate(R.layout.contacts, container, false);
         initComponent();
         setListener();
-        initGetContacts();
+        initGetContactsCB();
+        initAddContactCB();
         makeGetUserRequest();
         return mView;
+    }
+
+    private void initAddContactCB() {
+        mAddContactCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                makeGetUserRequest();
+                mDialog.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        };
     }
 
 
@@ -74,7 +93,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
     }
 
-    private void initGetContacts() {
+    private void initGetContactsCB() {
         mContactsCB = new Callback<List<UserModel>>() {
             @Override
             public void success(List<UserModel> userModels, Response response) {
@@ -159,9 +178,22 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
                 mDialog.dismiss();
                 break;
             case R.id.btnDialogSaveCF:
-                if (isValidateParam(mETName) && isValidateParam(mETNumber)) //TODO Save friends
+                if (isValidateParam(mETName) && isValidateParam(mETNumber)){
+                    makeAddContact();
+                }
                     break;
         }
+    }
+
+    private void makeAddContact() {
+        UserModel model = new UserModel();
+        List<NumberModel> numbers = new ArrayList<>();
+        NumberModel numberModel = new NumberModel();
+        numberModel.setNumber(mETNumber.getText().toString());
+        numbers.add(numberModel);
+        model.setNumbers(numbers);
+        model.setCompanion(mETName.getText().toString());
+        RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
     }
 
     @Override
