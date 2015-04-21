@@ -5,14 +5,18 @@
     <dimen name="sc_avatar_size">48dp</dimen>
     <dimen name="sc_margin_top_bottom">12dp</dimen>
     <dimen name="sc_margin_left_right">12dp</dimen>
+    <dimen name="sc_margin_icon">8dp</dimen>
     <dimen name="sc_padding">12dp</dimen>
-    <dimen name="sc_text_size">20dp</dimen>
+    <dimen name="sc_tv_padding_top_bottom">2dp</dimen>
+    <dimen name="sc_text_size">18dp</dimen>
     <dimen name="sc_header_text_size">17dp</dimen>
     <dimen name="sc_header_padding">12dp</dimen>
+    <dimen name="sc_number_text_size">16dp</dimen>
+    <dimen name="sc_item_icon_size">18dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
-
+    <color name="sc_phone_number_color">@android:color/darker_gray</color>
     <!-- end region -->
 
     <!-- STYLES -->
@@ -34,6 +38,7 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:paddingTop">@dimen/sc_padding</item>
         <item name="android:paddingBottom">@dimen/sc_padding</item>
+
     </style>
 
     <style name="SCContactsItemEVAvatar">
@@ -45,13 +50,24 @@
     </style>
 
 
-    <style name="SCContactsItemTVName">
+    <style name="SCContactsNumber">
 
+        <item name="android:textSize">@dimen/sc_number_text_size</item>
+        <item name="android:textColor">@color/sc_phone_number_color</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingBottom">@dimen/sc_tv_padding_top_bottom</item>
+        <item name="android:paddingTop">@dimen/sc_tv_padding_top_bottom</item>
+    </style>
+
+    <style name="SCContactsItemTVName">
         <item name="android:background">@android:color/white</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
          <item name="android:textSize">@dimen/sc_text_size</item>
+        <item name="android:paddingBottom">@dimen/sc_tv_padding_top_bottom</item>
+        <item name="android:paddingTop">@dimen/sc_tv_padding_top_bottom</item>
     </style>
 
 
@@ -64,6 +80,14 @@
 
 
 
+    <style name="SCCItemIcons">
+        <item name="android:layout_gravity">center_horizontal|center_vertical</item>
+        <item name="android:layout_width">@dimen/sc_item_icon_size</item>
+        <item name="android:layout_height">@dimen/sc_item_icon_size</item>
+        <item name="android:layout_margin">@dimen/sc_margin_icon</item>
+
+
+    </style>
 
 
     <!-- end region -->

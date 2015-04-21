@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.ArrayList;
@@ -64,13 +66,10 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     public long getHeaderId(int i) {
 
 
-
-
-            if (contacts.size() > 0) {
-                return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-            } else
-                return 0;
-
+        if (contacts.size() > 0) {
+            return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+        } else
+            return 0;
 
 
     }
@@ -82,18 +81,33 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         if (view == null) {
             holder = new ViewHolder();
             view = mInflater.inflate(R.layout.contact_item, viewGroup, false);
-            holder.ivAvatar = (ImageView) view.findViewById(R.id.iwContactsAvatar);
-            holder.tvFirstName = (TextView) view.findViewById(R.id.twContacstFirstName);
+            holder.ivAvatar = (ImageView) view.findViewById(R.id.ivContactsAvatar);
+            holder.tvFirstName = (TextView) view.findViewById(R.id.tvContacstFirstName);
+            holder.tvNumber = (TextView) view.findViewById(R.id.tvContactNumber);
+            holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
 
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
+        UserModel thisUser =contacts.get(i);
+        List<NumberModel> thisNumberModel = thisUser.getNumbers();
 
-            holder.tvFirstName.setText(contacts.get(i).getCompanion());
 
-        setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
+        holder.tvFirstName.setText(thisUser.getCompanion());
+
+        if(thisNumberModel != null && thisNumberModel.size()>0)
+        holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
+
+        setAvatar(holder.ivAvatar, thisUser.getAvatar());
+
+        holder.ivOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Options was clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return view;
@@ -113,11 +127,10 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         //set header text
 
 
-
         String headerText;
 
 
-        if(contacts.size()>0)
+        if (contacts.size() > 0)
             headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
         else
             headerText = "";
@@ -129,8 +142,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     private class ViewHolder {
-        ImageView ivAvatar;
-        TextView tvFirstName;
+        ImageView ivAvatar, ivOptions;
+        TextView tvFirstName, tvNumber;
 
     }
 

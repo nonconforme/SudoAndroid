@@ -97,7 +97,7 @@
             android:id="@+id/ivChatItemOptions"
             style="@style/SChatItemIcons"
             android:layout_gravity="center_horizontal"
-            android:clickable="false"
+            android:clickable="true"
             android:contentDescription="@string/options_icon"
             android:cropToPadding="true"
             android:src="@drawable/ic_action_overflow" />
