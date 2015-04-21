@@ -161,7 +161,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
                 openCreditsFragment();
                 break;
             case GET_NUMBER_FRAGMENT:
-                openNubersFragment();
+                openNumbersFragment();
                 break;
             case SETTINGS_FRAGMENT:
                 openSettingsFragment();
@@ -175,7 +175,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private void openSettingsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
     }
-    private void openNubersFragment() {
+    private void openNumbersFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
     private void openHomeFragment() {
