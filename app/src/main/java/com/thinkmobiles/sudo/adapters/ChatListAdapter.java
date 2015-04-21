@@ -45,7 +45,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     public void reloadList(List<ChatModel> chats) {
         this.chats = chats;
-       /* notifyDataSetChanged();*/
+       notifyDataSetChanged();
     }
 
 
