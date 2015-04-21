@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-       ;
+
 
 
     }

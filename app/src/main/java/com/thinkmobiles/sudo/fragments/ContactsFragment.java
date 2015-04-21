@@ -121,6 +121,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
         context = getActivity().getApplicationContext();
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
+        stickyList.setDivider(null);
+        stickyList.setDividerHeight(0);
         stickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(stickyListAdapter);
 
