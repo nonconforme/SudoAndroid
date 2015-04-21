@@ -5,7 +5,7 @@
     <dimen name="sc_avatar_size">48dp</dimen>
     <dimen name="sc_margin_top_bottom">12dp</dimen>
     <dimen name="sc_margin_left_right">12dp</dimen>
-    <dimen name="sc_margin_icon">8dp</dimen>
+    <dimen name="sc_margin_icon">12dp</dimen>
     <dimen name="sc_padding">12dp</dimen>
     <dimen name="sc_tv_padding_top_bottom">2dp</dimen>
     <dimen name="sc_text_size">18dp</dimen>
@@ -68,6 +68,8 @@
          <item name="android:textSize">@dimen/sc_text_size</item>
         <item name="android:paddingBottom">@dimen/sc_tv_padding_top_bottom</item>
         <item name="android:paddingTop">@dimen/sc_tv_padding_top_bottom</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 
