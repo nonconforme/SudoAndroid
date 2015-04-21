@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:showDividers="none"
+    android:gravity="center_vertical">
+
+
+        <ImageView
+            android:id="@+id/ivChatAvatar"
+            style="@style/SChatItemEVAvatar"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/avatar" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            style="@style/SChatItemLL">
+
+            <TextView
+                android:id="@+id/tvChatItemSenderName"
+                android:text="@string/cont_first_name"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/SChatItemTVName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/test_receiver_details"
+                android:id="@+id/tvChatItemReceiverDetailes"
+                style="@style/SChatItemTVNumber" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/test_chat_message"
+                android:id="@+id/tvChatItemMessagePreview"
+                style="@style/SChatItemTVMessagePreview" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvChatItemTimedate"
+                android:text="@string/test_timedate"
+                style="@style/SChatItemTVTimedate" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            style="@style/SChatItemLL"
+            android:layout_weight="3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/test_phone_number"
+                android:id="@+id/tvChatItemSenderNumber"
+                style="@style/SChatItemTVNumber" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvChatItemViewDetails"
+                android:text="@string/ci_view_details"
+                style="@style/SChatItemTVViewDetails"
+                android:clickable="true"
+                android:gravity="bottom" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView"
+            android:layout_weight="1" />
+    </LinearLayout>
+
 
 </LinearLayout>

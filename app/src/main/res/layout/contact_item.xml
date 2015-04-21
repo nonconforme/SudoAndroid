@@ -4,13 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     style="@style/SCContactsItemLLMainLayout"
-    android:weightSum="1">
+>
 
 
     <ImageView
         android:id="@+id/iwContactsAvatar"
         style="@style/SCContactsItemEVAvatar"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:orientation="horizontal"
