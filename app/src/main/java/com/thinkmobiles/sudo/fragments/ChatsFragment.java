@@ -21,4 +21,8 @@ public class ChatsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contacts,container,false);
         return v;
     }
+    public void searchChatList(String querry) {
+    }
+    public void reloadCurrentChat() {
+    }
 }

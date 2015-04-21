@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     private SlidingTabLayout tabs;
     private CharSequence Titles[]={Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
     private int mTabsCount = 2;
+    private int currentTab = 0;
     private FragmentActivity mActivity;
     public HomeFragment() {
         // Required empty public constructor
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         findUI(view);
         initAdapter();
         initTabs();
+        initPagerListener();
         return view;
     }
 
@@ -76,8 +79,42 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     }
 
+    public void initPagerListener(){
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                currentTab = position;
+
+                Log.d("pagechange", String.valueOf(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
     @Override
     public int getIndicatorColor(int position) {
         return getResources().getColor(R.color.tabsScrollColor);
+    }
+
+
+    public int getCurrentTab(){
+
+
+        return currentTab;
+    }
+
+    public ViewPagerAdapter getAdapter(){
+        return adapter;
     }
 }

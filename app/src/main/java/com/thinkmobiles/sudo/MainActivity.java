@@ -45,7 +45,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
+public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
 
     // Declaring Your View and Variables
 
@@ -54,8 +54,13 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
 
-    private UserModel selectedContact;
+    HomeFragment homeFragment;
 
+    private SearchManager searchManager;
+    private SearchView searchView;
+
+
+    private UserModel selectedContact;
 
 
     @Override
@@ -67,6 +72,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         openHomeFragment();
         initDrawer();
         initSignOutCB();
+
     }
 
 
@@ -76,7 +82,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
         finish();
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(mTitle);
         toolbar.setOnClickListener(new View.OnClickListener() {
@@ -84,10 +90,10 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
             public void onClick(View view) {
 
 
-                if(selectedContact !=null)
-                    Toast.makeText(getApplicationContext(),selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
+                if (selectedContact != null)
+                    Toast.makeText(getApplicationContext(), selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
                 else
-                    Toast.makeText(getApplicationContext(),"toolbar clicked", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "toolbar clicked", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -100,9 +106,11 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         initSearchBar(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -144,7 +152,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l, IDrawerItem iDrawerItem) {
-        Toast.makeText(this,"pos " + pos, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "pos " + pos, Toast.LENGTH_SHORT).show();
         implementClick(pos);
 
     }
@@ -172,14 +180,19 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     private void openCreditsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new RechargeCreditsFragment());
     }
+
     private void openSettingsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
     }
     private void openNumbersFragment() {
+
+    private void openNubersFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
     }
+
     private void openHomeFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new HomeFragment());
+        homeFragment = new HomeFragment();
+        FragmentReplacer.replaceTopNavigationFragment(this, homeFragment);
     }
 
     private void makeSignOutRequest() {
@@ -187,7 +200,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     private void setBaseTitle() {
-        if (App.getCurrentMobile() == null){
+        if (App.getCurrentMobile() == null) {
             mTitle = App.getGetUserName();
         } else {
             mTitle = App.getCurrentMobile();
@@ -195,7 +208,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     private void initDrawer() {
-        mDrawer =  new Drawer()
+        mDrawer = new Drawer()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
@@ -212,7 +225,7 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
                 .build();
     }
 
-    private void initSearchBar(final Menu menu){
+    private void initSearchBar(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
 
@@ -220,13 +233,28 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
 
         SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-        }
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        searchView.setActivated(true);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d("searchView", "closed");
+                if(getCurrentTab() == 0)
+                    homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
+                else
+                    homeFragment.getAdapter().getChatFragment().reloadCurrentChat();
+
+
+                return false;
+            }
+        });
+
+
+
+
+
     }
 
     private void initSignOutCB() {
@@ -249,4 +277,26 @@ public class MainActivity  extends ActionBarActivity implements  Drawer.OnDrawer
     public void setCurrentContact(UserModel userModel) {
         selectedContact = userModel;
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            // handles a search query
+            String querry = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, "querry" + querry, Toast.LENGTH_LONG).show();
+
+            if (getCurrentTab() == 0) {
+                homeFragment.getAdapter().getContactsFragment().searchContactsList(querry);
+            } else {
+                homeFragment.getAdapter().getChatFragment().searchChatList(querry);
+            }
+
+
+        }
+    }
+
+    private int getCurrentTab() {
+        return homeFragment.getCurrentTab();
+    }
+
 }
