@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
@@ -29,6 +30,7 @@ public class ChatListAdapter extends BaseAdapter {
     private List<ChatModel> chats;
     private LayoutInflater mInflater;
     private Context context;
+
 
 
 
@@ -118,9 +120,12 @@ public class ChatListAdapter extends BaseAdapter {
             public void onClick(View view) {
 
                 switch (view.getId()){
-                    case R.id.twContacstFirstName:
+                    case R.id.ivChatItemOptions:
+                        Toast.makeText(context, "Options was clicked", Toast.LENGTH_SHORT).show();
+
                         break;
                     case R.id.tvChatItemViewDetails:
+                        Toast.makeText(context, "View Details was clicked", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

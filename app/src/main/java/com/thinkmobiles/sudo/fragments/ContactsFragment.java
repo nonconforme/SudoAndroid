@@ -57,7 +57,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter stickyListAdapter;
-    private List<UserModel> contactsArrayList;
+
     private Callback<DefaultResponseModel> mAddContactCB;
     private List<UserModel> contactsList;
 
