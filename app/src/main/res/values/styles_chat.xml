@@ -4,7 +4,7 @@
 
 
     <!-- DIMENS -->
-    <dimen name="schat_dialog_margin">8dp</dimen>
+    <dimen name="schat_icons_margin">2dp</dimen>
     <dimen name="schat_avatar_size">48dp</dimen>
     <dimen name="schat_margin_top_bottom">12dp</dimen>
     <dimen name="schat_margin_left_right">12dp</dimen>
@@ -15,9 +15,8 @@
     <dimen name="schat_text_size">16dp</dimen>
     <dimen name="schat_details_text_size">14dp</dimen>
     <dimen name="schat_small_text_size">12dp</dimen>
+    <dimen name="schat_item_icon_size">18dp</dimen>
 
-    <dimen name="schat_header_text_size">17dp</dimen>
-    <dimen name="schat_header_padding">12dp</dimen>
 
     <!-- end region -->
 
@@ -87,5 +86,13 @@
         <item name="android:paddingRight">@dimen/schat_padding</item>
     </style>
 
+    <style name="SChatItemIcons">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">@dimen/schat_item_icon_size</item>
+        <item name="android:layout_height">@dimen/schat_item_icon_size</item>
+        <item name="android:layout_marginTop">@dimen/schat_margin_top_bottom</item>
+
+
+    </style>
 
 </resources>

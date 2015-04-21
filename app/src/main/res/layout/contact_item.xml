@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SCContactsItemLLMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    style="@style/SCContactsItemLLMainLayout"
->
+    android:orientation="horizontal">
 
 
     <ImageView
@@ -14,17 +13,16 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/twContacstFirstName"
-
             style="@style/SCContactsItemTVName"
-            android:text="@string/cont_first_name"
-            android:gravity="right" />
-
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:text="@string/cont_first_name" />
 
 
     </LinearLayout>

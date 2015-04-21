@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             style="@style/SChatItemLL"
-            android:layout_weight="3">
+            android:layout_weight="5">
 
             <TextView
                 android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 android:text="@string/ci_view_details"
                 style="@style/SChatItemTVViewDetails"
                 android:clickable="true"
-                android:gravity="bottom" />
+                android:gravity="center_horizontal|bottom" />
         </LinearLayout>
 
 
@@ -82,11 +82,26 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
+
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView"
-            android:layout_weight="1" />
+
+            android:id="@+id/ivChatItemOptions"
+            android:src="@drawable/ic_action_overflow"
+            style="@style/SChatItemIcons"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/options_icon"
+            android:clickable="false"
+            android:cropToPadding="true" />
+
+
+        <ImageView
+
+            android:id="@+id/ivChatItemReply"
+            android:src="@drawable/ic_reply"
+            style="@style/SChatItemIcons"
+            android:layout_gravity="center_horizontal|bottom"
+            android:contentDescription="@string/reply_icon" />
     </LinearLayout>
 
 
