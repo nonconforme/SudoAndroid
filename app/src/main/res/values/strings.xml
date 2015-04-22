@@ -41,7 +41,7 @@
     <!-- Fragment Number-->
     <string name="fn_tv_header">YOU HAVE 20 CREDITS AVAILABLE NOW</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_title">Login</string>
 
@@ -51,7 +51,7 @@
     <string name="cf_dialog_hint_number">Phone number</string>
 
     <!--Contacts Item-->
-    <string name="cont_first_name">First_Name_Last Name_Long_Name</string>
+    <string name="cf_first_name">First_Name_Last Name_Long_Name</string>
 
 
     <!--Contacts Tool Bar-->
@@ -65,6 +65,13 @@
     <string name="ci_view_details">View details</string>
     <string name="test_receiver_details">to Sofia +12125556666</string>
     <string name="avatar">Avatar</string>
-   <string name="options_icon">Options</string>
+    <string name="options_icon">Options</string>
     <string name="reply_icon">Reply</string>
+
+
+    <!--View Contact Activity-->
+    <string name="avc_default_name">Default Name</string>
+    <string name="avc_button_change">CHANGE</string>
+
+
 </resources>

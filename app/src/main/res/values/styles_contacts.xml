@@ -13,10 +13,24 @@
     <dimen name="sc_header_padding">12dp</dimen>
     <dimen name="sc_number_text_size">16dp</dimen>
     <dimen name="sc_item_icon_size">32dp</dimen>
+
+
+    <dimen name="avc_card_height">198dp</dimen>
+    <dimen name="avc_toolbar_btn_margin">25dp</dimen>
+    <dimen name="avc_card_avatar_size">124dp</dimen>
+    <dimen name="avc_card_name_text_size">20dp</dimen>
+    <dimen name="avc_card_detailes_text_size">18dp</dimen>
+    <dimen name="avc_margin">12dp</dimen>
+    <dimen name="avc_margin_double">24dp</dimen>
+    <dimen name="avc_change_avatar_size">48dp</dimen>
+
+
+
     <!-- end region -->
 
     <!-- COLORS -->
     <color name="sc_phone_number_color">@android:color/darker_gray</color>
+
     <!-- end region -->
 
     <!-- STYLES -->
@@ -27,12 +41,14 @@
 
     </style>
 
+
     <style name="SCDialogETNumber">
         <item name="android:hint">@string/cf_dialog_hint_number</item>
         <item name="android:layout_margin">@dimen/sc_dialog_margin</item>
         <item name="android:inputType">phone</item>
     </style>
 
+    <!-- Style Contact Item-->
 
     <style name="SCContactsItemLLMainLayout">
         <item name="android:background">@android:color/white</item>
@@ -65,21 +81,12 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-         <item name="android:textSize">@dimen/sc_text_size</item>
+        <item name="android:textSize">@dimen/sc_text_size</item>
         <item name="android:paddingBottom">@dimen/sc_tv_padding_top_bottom</item>
         <item name="android:paddingTop">@dimen/sc_tv_padding_top_bottom</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
     </style>
-
-
-    <style name="SCContactsListHeader">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/sc_header_text_size</item>
-        <item name="android:padding">@dimen/sc_header_padding</item>
-    </style>
-
 
 
     <style name="SCCItemIcons">
@@ -88,10 +95,68 @@
         <item name="android:layout_height">@dimen/sc_item_icon_size</item>
 
         <item name="android:padding">6dp</item>
+    </style>
 
+    <!-- Style Contact List Header-->
+    <style name="SCContactsListHeader">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sc_header_text_size</item>
+        <item name="android:padding">@dimen/sc_header_padding</item>
+    </style>
+
+    <!--Style Activity Contact View-->
+
+    <style name="AVC_Card_RL">
+        <item name="android:layout_height">@dimen/avc_card_height</item>
+    </style>
+
+    <style name="AVC_Toolbar_btn">
+        <item name="android:layout_margin">@dimen/avc_toolbar_btn_margin</item>
+    </style>
+
+    <style name="AVC_Card_Avatar_iv">
+        <item name="android:layout_width">avc_card_avatar_size</item>
+        <item name="android:layout_height">avc_card_avatar_size</item>
+        <item name="android:layout_margin">@dimen/avc_margin</item>
 
     </style>
 
+    <style name="AVC_Card_Name_tv">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/avc_card_name_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 
+    <style name="AVC_Detailes_Layout_LL">
+        <item name="android:layout_margin">@dimen/avc_margin</item>
+    </style>
+
+    <style name="AVC_Detailes_SubItem_RL">
+        <item name="android:layout_marginTop">@dimen/avc_margin</item>
+        <item name="android:layout_marginBottom">@dimen/avc_margin_double</item>
+    </style>
+    <style name="AVC_Detailes_Subitem_Icon_IV">
+        <item name="android:layout_marginLeft">@dimen/avc_margin</item>
+        <item name="android:layout_marginRight">@dimen/avc_margin_double</item>
+
+    </style>
+
+    <style name="AVC_Detailes_ChangeAvatar_Icon_IV">
+        <item name="android:width">@dimen/avc_change_avatar_size</item>
+        <item name="android:height">@dimen/avc_change_avatar_size</item>
+        <item name="android:layout_marginLeft">@dimen/avc_margin</item>
+
+    </style>
+
+    <style name="AVC_Detailes_Button_Change">
+        <item name="android:layout_marginLeft">@dimen/avc_margin_double</item>
+
+    </style>
+    <style name="AVC_Detailes_EditText">
+        <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/avc_margin</item>
+
+    </style>
     <!-- end region -->
 </resources>
