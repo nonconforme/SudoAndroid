@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rlCard_AVC"
+            style="@style/AVC_Card_RL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/ibHome_AVC"
+                style="@style/AVC_Toolbar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+
+                android:background="@drawable/ic_action_back"
+                android:clickable="true" />
+
+            <ImageButton
+                android:id="@+id/ibAccept_AVC"
+                style="@style/AVC_Toolbar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_action_accept"
+                android:clickable="true" />
+
+            <ImageView
+                android:id="@+id/ivAvatar_AVC"
+                style="AVC_Card_Avatar_iv"
+                android:layout_width="@dimen/avc_card_avatar_size"
+                android:layout_height="@dimen/avc_card_avatar_size"
+
+                android:background="@drawable/person_card_extrabig"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/avc_margin" />
+
+            <TextView
+                android:id="@+id/ivName_AVC"
+                style="@style/AVC_Card_Name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/avc_default_name"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/ibHome_AVC"
+                android:layout_alignStart="@+id/ibHome_AVC" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            style="@style/AVC_Detailes_Layout_LL"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                style="@style/AVC_Detailes_SubItem_RL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvUserFirstName_AVC"
+                    style="@style/AVC_Detailes_EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/ivUserIcon_AVC"
+                    android:layout_toRightOf="@+id/ivUserIcon_AVC"
+                    android:text="@string/avc_default_name" />
+
+                <EditText
+                    android:id="@+id/tvUserSecondName_AVC"
+                    style="@style/AVC_Detailes_EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvUserFirstName_AVC"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignStart="@+id/tvUserFirstName_AVC"
+                    android:layout_below="@+id/tvUserFirstName_AVC"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/avc_default_name" />
+
+                <ImageView
+                    android:id="@+id/ivUserIcon_AVC"
+                    style="@style/AVC_Detailes_Subitem_Icon_IV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/ic_person" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/AVC_Detailes_SubItem_RL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivCameraIcon_AVC"
+                    style="@style/AVC_Detailes_Subitem_Icon_IV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/ic_camera_reload" />
+
+                <ImageView
+                    android:id="@+id/ivChangeAvatarIcon_AVC"
+                    style="@style/AVC_Detailes_ChangeAvatar_Icon_IV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivCameraIcon_AVC"
+                    android:layout_toRightOf="@+id/ivCameraIcon_AVC"
+                    android:background="@drawable/ic_person_big" />
+
+                <Button
+                    android:id="@+id/btnChangeAvatar_AVC"
+                    style="@style/AVC_Detailes_Button_Change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/ivChangeAvatarIcon_AVC"
+                    android:layout_toRightOf="@+id/ivChangeAvatarIcon_AVC"
+                    android:text="@string/avc_button_change" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/AVC_Detailes_SubItem_RL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivPhoneIcon_AVC"
+                    style="@style/AVC_Detailes_Subitem_Icon_IV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/ic_phone_number" />
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/ivPhoneIcon_AVC"
+                    android:layout_toRightOf="@+id/ivPhoneIcon_AVC" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
