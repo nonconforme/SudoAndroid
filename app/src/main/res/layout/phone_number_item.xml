@@ -3,4 +3,4 @@
     android:id="@+id/tvPhoneNumber_AVC"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="AVC_Detailes_TextView" />
+    style="@style/AVC_Detailes_TextView" />

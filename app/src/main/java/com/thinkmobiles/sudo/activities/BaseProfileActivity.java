@@ -4,6 +4,7 @@ package com.thinkmobiles.sudo.activities;
  * Created by njakawaii on 23.04.2015.
  */
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -16,15 +17,22 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
     private Toolbar toolbar;
 
 
+    public static final String USER_MODEL = "user_model";
+    public static final String TAG = "profile view activity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
+
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+
+
+
+
     }
 
 
@@ -34,7 +42,8 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
     protected void setActionBarIcon(int iconRes) {
         toolbar.setNavigationIcon(iconRes);
     }
-    protected Toolbar getToolbar(){
-        return toolbar;
+    protected ActionBar getToolbar(){
+        return getSupportActionBar();
     }
+
 }

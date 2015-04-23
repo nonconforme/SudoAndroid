@@ -75,4 +75,9 @@
 
 
     <string name="register">Register</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_accept">Accept</string>
+
 </resources>

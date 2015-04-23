@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +23,7 @@ import android.widget.ImageView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
@@ -32,7 +32,6 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private Callback<DefaultResponseModel> mAddContactCB;
     private List<UserModel> contactsList;
-
+    private Target mTarget;
     private ContactsFragmentCallback contactsFragmentCallback;
 
     @Override
@@ -70,6 +69,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         setListener();
         initGetContactsCB();
         initAddContactCB();
+        initTarget();
         makeGetUserRequest();
 
         return mView;
@@ -209,32 +209,42 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         String imageUrl = contactsList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Drawable drawable = getDrawableFromUrl(imageUrl);
-            ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(drawable);
+            Picasso.with(context).load(imageUrl).into(mTarget);
         }
 
     }
 
-    private Drawable getDrawableFromUrl(String imageUrl){
-        Drawable drawable = null;
+    private void initTarget(){
+
+    mTarget = new Target() {
+        ImageView imageView = new ImageView(context);
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            imageView.setImageBitmap(bitmap);
+            Drawable image = imageView.getDrawable();
+            ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
 
 
-            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-            ImageView tempView = new ImageView(context);
-
-            try {
-                Bitmap bm = Picasso.with(context)
-                        .load(imageUrl)
-                        .resize(dimen, dimen).get();
-                drawable = new BitmapDrawable(bm);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
 
-
-        return  drawable;
     }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        };
+
+
+    };
+  }
+
+
+
 
     public void searchContactsList(String querry){
 

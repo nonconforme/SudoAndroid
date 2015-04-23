@@ -4,10 +4,10 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.antonioleiva.materialeverywhere.DetailActivity">
+     >
 
     <include
-        android:id="@+id/profileViewToolBar"
+        android:id="@+id/toolbar"
         layout="@layout/toolbar_profile"
         />
 
@@ -84,8 +84,8 @@
                     android:layout_alignParentTop="true"
                     android:background="@drawable/ic_phone_number" />
 
-                <ListView
-                    android:id="@+id/listView"
+                <com.thinkmobiles.sudo.custom_views.NonScrollListView
+                    android:id="@+id/lvPhoneNumbersView_AVC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"

@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
@@ -38,6 +35,8 @@ public class ActivityProfile_test extends BaseProfileActivity {
     protected int getLayoutResource() {
         return R.layout.activity_view_profile_test;
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

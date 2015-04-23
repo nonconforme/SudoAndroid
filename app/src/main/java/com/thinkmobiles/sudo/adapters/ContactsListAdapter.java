@@ -1,10 +1,8 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ProfileActivity;
+import com.thinkmobiles.sudo.activities.ActivityProfileView;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -33,11 +30,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
-    private Activity context;
+    private Activity mActivity;
 
 
     public ContactsListAdapter(Activity context) {
-        this.context = context;
+        this.mActivity = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
@@ -94,7 +91,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
+        contacts.get(i).setAvatar("https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
         final UserModel thisUser = contacts.get(i);
         List<NumberModel> thisNumberModel = thisUser.getNumbers();
 
@@ -105,13 +102,14 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
 
         setAvatar(holder.ivAvatar, thisUser.getAvatar());
+       final ImageView transitionView = holder.ivAvatar;
 
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Options was clicked", Toast.LENGTH_SHORT).show();
 
-                startProfileViewActivity(thisUser);
+
+                startProfileViewActivity(thisUser, transitionView);
 
             }
         });
@@ -127,6 +125,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = new HeaderViewHolder();
             convertView = mInflater.inflate(R.layout.contacts_header, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.tvContactsHeader);
+
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
@@ -162,27 +161,25 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     private void setAvatar(ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(context)
+            int dimen = (int) mActivity.getResources().getDimension(R.dimen.sc_avatar_size);
+            Picasso.with(mActivity)
                     .load(imageUrl)
                     .resize(dimen, dimen)
                     .into(imageView);
 
 
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+            Bitmap bm = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
             imageView.setImageBitmap(bm);
         }
 
     }
 
-    private void startProfileViewActivity(UserModel userModel) {
-        Intent viewProfile = new Intent(context, ProfileActivity.class);
+    private void startProfileViewActivity(UserModel userModel, View view) {
+
         Log.d("start profile activity", "starting");
-        Bundle b = new Bundle();
-        b.putSerializable(ProfileActivity.USER_MODEL, userModel);
-        viewProfile.putExtra(ProfileActivity.USER_MODEL, b);
-        context.startActivity(viewProfile);
+
+        ActivityProfileView.launch(mActivity, view, userModel);
 
     }
 
