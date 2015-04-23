@@ -71,6 +71,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initGetContactsCB();
         initAddContactCB();
         makeGetUserRequest();
+
         return mView;
     }
 

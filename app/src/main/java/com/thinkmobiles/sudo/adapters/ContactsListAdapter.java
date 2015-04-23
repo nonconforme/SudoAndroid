@@ -1,8 +1,11 @@
 package com.thinkmobiles.sudo.adapters;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -29,10 +33,10 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
-    private Context context;
+    private Activity context;
+    private Intent viewProfile;
 
-
-    public ContactsListAdapter(Context context) {
+    public ContactsListAdapter(Activity context) {
         this.context = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
@@ -91,21 +95,24 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = (ViewHolder) view.getTag();
         }
 
-        UserModel thisUser =contacts.get(i);
+        final UserModel thisUser = contacts.get(i);
         List<NumberModel> thisNumberModel = thisUser.getNumbers();
 
 
         holder.tvFirstName.setText(thisUser.getCompanion());
 
-        if(thisNumberModel != null && thisNumberModel.size()>0)
-        holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
+        if (thisNumberModel != null && thisNumberModel.size() > 0)
+            holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
 
         setAvatar(holder.ivAvatar, thisUser.getAvatar());
 
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Options was clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Options was clicked", Toast.LENGTH_SHORT).show();
+
+                startProfileViewActivity(thisUser);
+
             }
         });
 
@@ -168,5 +175,16 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         }
 
     }
+
+    private void startProfileViewActivity(UserModel userModel) {
+       Intent viewProfile = new Intent(context, ProfileViewActivity.class);
+        Log.d("start profile activity", "starting");
+        Bundle b = new Bundle();
+      /*  b.putSerializable(USER_MODEL, userModel);*/
+
+       context.startActivity(viewProfile,b);
+       /* context.startActivityForResult(viewProfile,ProfileViewActivity.PROFILE_VIEW_ACTIVITY_ID);*/
+    }
+
 
 }

@@ -1,11 +1,12 @@
 package com.thinkmobiles.sudo.models.addressbook;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by njakawaii on 17.04.2015.
  */
-public class UserModel  {
+public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;

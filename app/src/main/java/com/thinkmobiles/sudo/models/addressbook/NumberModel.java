@@ -1,9 +1,11 @@
 package com.thinkmobiles.sudo.models.addressbook;
 
+import java.io.Serializable;
+
 /**
  * Created by njakawaii on 17.04.2015.
  */
-public class NumberModel {
+public class NumberModel implements Serializable{
     private String number;
     private boolean  isBlocked;
 
