@@ -59,7 +59,6 @@
     </style>
 
     <style name="SCContactsItemEVAvatar">
-        <item name="android:background">@drawable/ic_launcher</item>
         <item name="android:layout_width">@dimen/sc_avatar_size</item>
         <item name="android:layout_height">@dimen/sc_avatar_size</item>
         <item name="android:layout_marginLeft">@dimen/sc_margin_left_right</item>
