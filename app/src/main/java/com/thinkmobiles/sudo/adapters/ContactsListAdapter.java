@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ProfileViewActivity;
+import com.thinkmobiles.sudo.activities.ProfileActivity;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -34,7 +34,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity context;
-    private Intent viewProfile;
+
 
     public ContactsListAdapter(Activity context) {
         this.context = context;
@@ -177,13 +177,13 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
     private void startProfileViewActivity(UserModel userModel) {
-       Intent viewProfile = new Intent(context, ProfileViewActivity.class);
+        Intent viewProfile = new Intent(context, ProfileActivity.class);
         Log.d("start profile activity", "starting");
         Bundle b = new Bundle();
-      /*  b.putSerializable(USER_MODEL, userModel);*/
+        b.putSerializable(ProfileActivity.USER_MODEL, userModel);
+        viewProfile.putExtra(ProfileActivity.USER_MODEL, b);
+        context.startActivity(viewProfile);
 
-       context.startActivity(viewProfile,b);
-       /* context.startActivityForResult(viewProfile,ProfileViewActivity.PROFILE_VIEW_ACTIVITY_ID);*/
     }
 
 

@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ProfileViewActivity"
+            android:name=".activities.ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTheme"
