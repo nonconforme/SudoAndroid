@@ -116,8 +116,8 @@
     </style>
 
     <style name="AVC_Card_Avatar_iv">
-        <item name="android:layout_width">avc_card_avatar_size</item>
-        <item name="android:layout_height">avc_card_avatar_size</item>
+        <item name="android:layout_width">@dimen/avc_card_avatar_size</item>
+        <item name="android:layout_height">@dimen/avc_card_avatar_size</item>
         <item name="android:layout_margin">@dimen/avc_margin</item>
 
     </style>
