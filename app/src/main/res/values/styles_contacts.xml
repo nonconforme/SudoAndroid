@@ -26,7 +26,6 @@
     <dimen name="avc_change_avatar_size">48dp</dimen>
 
 
-
     <!-- end region -->
 
     <!-- COLORS -->
@@ -137,6 +136,7 @@
         <item name="android:layout_marginTop">@dimen/avc_margin</item>
         <item name="android:layout_marginBottom">@dimen/avc_margin_double</item>
     </style>
+
     <style name="AVC_Detailes_Subitem_Icon_IV">
         <item name="android:layout_marginLeft">@dimen/avc_margin</item>
         <item name="android:layout_marginRight">@dimen/avc_margin_double</item>
@@ -154,16 +154,21 @@
         <item name="android:layout_marginLeft">@dimen/avc_margin_double</item>
 
     </style>
+
     <style name="AVC_Detailes_EditText">
         <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
         <item name="android:layout_marginBottom">@dimen/avc_margin</item>
 
     </style>
+
     <style name="AVC_Detailes_TextView">
         <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
         <item name="android:layout_marginBottom">@dimen/avc_margin</item>
         <item name="android:textColor">@android:color/black</item>
-<item name="android:padding">@dimen/sc_padding</item>
+        <item name="android:padding">@dimen/sc_padding</item>
     </style>
+
+
+
     <!-- end region -->
 </resources>

@@ -44,7 +44,7 @@
 
         <ImageView
             android:id="@+id/ivAvatar_AVC"
-            style="AVC_Card_Avatar_iv"
+            style="@style/AVC_Card_Avatar_iv"
             android:layout_width="@dimen/avc_card_avatar_size"
             android:layout_height="@dimen/avc_card_avatar_size"
 
@@ -54,7 +54,7 @@
             android:background="@drawable/person_card_extrabig" />
 
         <TextView
-            android:id="@+id/ivName_AVC"
+            android:id="@+id/tvCardNameToolbar_AVC"
             style="@style/AVC_Card_Name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -4,12 +4,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.Utils;
+import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
+import com.thinkmobiles.sudo.custom_views.NonScrollListView;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.util.List;
 
 /**
  * Created by omar on 22.04.15.
@@ -18,8 +26,15 @@ public class ProfileViewActivity extends ActionBarActivity {
     private Toolbar toolbar;
     private ImageButton btnHome, btnAccept;
     private View.OnClickListener onToolbarClickListener;
+    private TextView tvCardName, tvUserFirstName, tvUserLastName;
+    private ImageView ivAvatar;
+    private NonScrollListView lvNumbers;
+    private ProfileViewNumbersAdapter profileViewNumbersAdapter;
 
-    public static final int PROFILE_VIEW_ACTIVITY_ID = 1;
+    private UserModel thisUserModel;
+    private String firstName, lastName, urlAvatar;
+    private List<NumberModel> myNumberList;
+
     public static final String USER_MODEL = "user_model";
     public static final String TAG = "profile view activity";
 
@@ -28,21 +43,43 @@ public class ProfileViewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_view_profile);
-
+        loadUserModel();
         initToolbar();
         initComponent();
         initListeners();
+        loadContent();
+        setContent();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+    private void setContent() {
+        if (Utils.checkString(firstName)) {
+            tvCardName.setText(firstName);
+            tvUserFirstName.setText(firstName);
+        }
+
+        if (Utils.checkString(lastName)) {
+            tvCardName.setText(tvCardName.getText() + " " + lastName);
+            tvUserLastName.setText(firstName);
+        }
+
+        if (Utils.checkString(urlAvatar)) {
+            int dimen = (int) getResources().getDimension(R.dimen.avc_card_avatar_size);
+            Utils.setImagePicasso(this, urlAvatar, dimen, ivAvatar);
+        }
+        if (Utils.checkList(myNumberList)) {
+            profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, myNumberList);
+            lvNumbers.setAdapter(profileViewNumbersAdapter);
+        }
+
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    private void loadContent() {
+        firstName = thisUserModel.getCompanion();
+        lastName = thisUserModel.getCompanion();
+        urlAvatar = thisUserModel.getAvatar();
+        myNumberList = thisUserModel.getNumbers();
     }
+
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.profileViewToolBar);
@@ -55,12 +92,15 @@ public class ProfileViewActivity extends ActionBarActivity {
     }
 
     private void initComponent() {
+        tvCardName = (TextView) findViewById(R.id.tvCardNameToolbar_AVC);
+        tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
+        tvUserLastName = (TextView) findViewById(R.id.tvUserLastName_AVC);
+        ivAvatar = (ImageView) findViewById(R.id.ivAvatar_AVC);
+        lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
     }
 
     private void initListeners() {
         initToolbarOnCLickListener();
-
-
     }
 
     private void initToolbarOnCLickListener() {
@@ -72,7 +112,7 @@ public class ProfileViewActivity extends ActionBarActivity {
                         Toast.makeText(ProfileViewActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         break;
-                    case    R.id.ibEdit_AVC:
+                    case R.id.ibEdit_AVC:
                         Toast.makeText(ProfileViewActivity.this, "Home EditClicked", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -81,4 +121,10 @@ public class ProfileViewActivity extends ActionBarActivity {
         btnHome.setOnClickListener(onToolbarClickListener);
         btnAccept.setOnClickListener(onToolbarClickListener);
     }
+
+    private void loadUserModel() {
+        thisUserModel = (UserModel) getIntent().getExtras().getBundle(ProfileViewActivity.USER_MODEL).getSerializable(ProfileViewActivity.USER_MODEL);
+    }
+
+
 }

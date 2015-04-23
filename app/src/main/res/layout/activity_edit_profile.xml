@@ -40,7 +40,7 @@
                     android:text="@string/avc_default_name" />
 
                 <EditText
-                    android:id="@+id/tvUserSecondName_AVC"
+                    android:id="@+id/tvUserLastName_AVC"
                     style="@style/AVC_Detailes_EditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
