@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.thinkmobiles.sudo.MainActivity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -32,7 +31,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private View        mView;
     private ImageView   mImage;
     private EditText    mETEmail, mETPassword;
-    private Button      mBTNSignIn, mBTNGoRegistration;
+    private Button      mBTNSignIn;
+    private RelativeLayout rlRegistration;
     private Callback<LoginResponse> mSignInCB;
 
     @Override
@@ -54,11 +54,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initComponent(){
-        mImage              = (ImageView) mView.findViewById(R.id.ivImage_FSI);
         mETEmail            = (EditText) mView.findViewById(R.id.etEmail_FSI);
         mETPassword         = (EditText) mView.findViewById(R.id.etPassword_FSI);
         mBTNSignIn          = (Button) mView.findViewById(R.id.btnSignIn_FSI);
-        mBTNGoRegistration  = (Button) mView.findViewById(R.id.btnGoRegistation_FSI);
+        rlRegistration      = (RelativeLayout) mView.findViewById(R.id.rlGoRegister_FSI);
 
     }
 
@@ -73,7 +72,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.btnSignIn_FSI:
                 if (isValidateParam(mETEmail) && isValidateParam(mETPassword))   loginRequest();
                 break;
-            case R.id.btnGoRegistation_FSI:
+            case R.id.rlGoRegister_FSI:
                 ((LoginActivity) mActivity).openRegisterFragment();
                 break;
         }
@@ -107,6 +106,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private void setListeners() {
         mBTNSignIn.setOnClickListener(this);
-        mBTNGoRegistration.setOnClickListener(this);
+        rlRegistration.setOnClickListener(this);
     }
 }

@@ -67,4 +67,5 @@
     <string name="avatar">Avatar</string>
    <string name="options_icon">Options</string>
     <string name="reply_icon">Reply</string>
+    <string name="register">Register</string>
 </resources>

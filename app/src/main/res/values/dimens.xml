@@ -4,5 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="base_margin">16dp</dimen>
     <dimen name="toolbar_size">58dp</dimen>
+    <dimen name="base_padding">10dp</dimen>
+    <dimen name="base_btn_height">48dp</dimen>
+    <dimen name="register_btn_height">58dp</dimen>
     <dimen name="base_item_size">88dp</dimen>
+    <dimen name="login_btn_corners">3dp</dimen>
 </resources>

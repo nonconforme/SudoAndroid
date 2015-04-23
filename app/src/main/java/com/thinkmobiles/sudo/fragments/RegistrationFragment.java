@@ -59,7 +59,6 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         mETEmail            = (EditText) mView.findViewById(R.id.etEmail_FSU);
         mETPassword         = (EditText) mView.findViewById(R.id.etPassword_FSU);
         mETConfirmPass      = (EditText) mView.findViewById(R.id.etConfirmPassword_FSU);
-        mImage              = (ImageView) mView.findViewById(R.id.ivImage_FSU);
         mBTNSignUp          = (Button) mView.findViewById(R.id.btnSignUp_FSU);
 
     }

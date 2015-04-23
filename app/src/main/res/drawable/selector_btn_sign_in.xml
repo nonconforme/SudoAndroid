@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-        android:drawable="@color/sl_btn_click_color" /><!-- pressed -->
-    <item android:drawable="@color/sl_btn_color" /> <!-- default -->
+        android:drawable="@drawable/bg_btn_login_pressed" /><!-- pressed -->
+    <item android:drawable="@drawable/bg_btn_login" /> <!-- default -->
 </selector>

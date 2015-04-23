@@ -40,10 +40,10 @@ public class LoginActivity extends Activity {
 
 
     private void openLoginFragment() {
-        getFragmentManager().beginTransaction().add(R.id.flLoginContainer_AL, new LoginFragment()).commit();
+        getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out).add(R.id.flLoginContainer_AL, new LoginFragment()).commit();
     }
     public void openRegisterFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.flLoginContainer_AL, new RegistrationFragment()).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.flLoginContainer_AL, new RegistrationFragment()).addToBackStack(null).commit();
     }
 
     @Override

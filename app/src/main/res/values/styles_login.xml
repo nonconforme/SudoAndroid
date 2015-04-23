@@ -76,7 +76,7 @@
         <item name="android:textColor">@color/sl_btn_text_color</item>
         <item name="android:textSize">@dimen/sl_text_size</item>
         <item name="android:text">@string/sl_btn_sign_in_text</item>
-        <item name="android:layout_height">@dimen/sl_btn_height</item>
+        <item name="android:layout_height">@dimen/base_btn_height</item>
         <item name="android:background">@drawable/selector_btn_sign_in</item>
     </style>
 
@@ -87,7 +87,7 @@
         <item name="android:textColor">@color/sl_btn_text_color</item>
         <item name="android:textSize">@dimen/sl_text_size</item>
         <item name="android:text">@string/sr_btn_sign_up_text</item>
-        <item name="android:layout_height">@dimen/sl_btn_height</item>
+        <item name="android:layout_height">@dimen/base_btn_height</item>
         <item name="android:background">@drawable/selector_btn_sign_in</item>
     </style>
 

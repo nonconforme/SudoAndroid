@@ -60,10 +60,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initDialogComponent(){
-        mETNewPass = (EditText) mView.findViewById(R.id.etDialogNewPassFS);
-        mETConfirmPass = (EditText) mView.findViewById(R.id.etDialogConfirmPassFS);
-        mBTNCancel = (Button) mView.findViewById(R.id.btnDialogCancelFS);
-        mBTNSubmit = (Button) mView.findViewById(R.id.btnDialogSubmitFS);
+        mETNewPass      = (EditText) mView.findViewById(R.id.etDialogNewPassFS);
+        mETConfirmPass  = (EditText) mView.findViewById(R.id.etDialogConfirmPassFS);
+        mBTNCancel      = (Button) mView.findViewById(R.id.btnDialogCancelFS);
+        mBTNSubmit      = (Button) mView.findViewById(R.id.btnDialogSubmitFS);
     }
 
     private void setDialogListeners() {

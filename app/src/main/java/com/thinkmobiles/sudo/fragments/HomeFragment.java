@@ -45,8 +45,8 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         findUI(view);
         initAdapter();
-        initTabs();
         initPagerListener();
+        initTabs();
         return view;
     }
 
@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
             public void onPageSelected(int position) {
 
                 currentTab = position;
-
                 Log.d("pagechange", String.valueOf(position));
             }
 
