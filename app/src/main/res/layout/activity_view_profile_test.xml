@@ -34,7 +34,7 @@
 
                 <TextView
                     android:id="@+id/tvUserFirstName_AVC"
-                    style="@style/AVC_Detailes_TextView"
+                    style="@style/AVC_Detailes_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/tvUserSecondName_AVC"
-                    style="@style/AVC_Detailes_TextView"
+                    style="@style/AVC_Detailes_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/tvUserFirstName_AVC"

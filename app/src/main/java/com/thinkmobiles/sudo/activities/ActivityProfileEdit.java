@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -27,9 +28,12 @@ import java.util.List;
 public class ActivityProfileEdit extends BaseProfileActivity {
 
     private EditText etUserFirstName, etUserLastName;
-    private ImageView ivAvatar;
+    private ImageView ivAvatar, ivChangeAvatar;
+    private Button btnChangeAvatar;
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter profileEditNumbersAdapter;
+
+    private View.OnClickListener mOnClickListener;
 
     private UserModel thisUserModel;
     private String firstName, lastName, urlAvatar;
@@ -46,65 +50,48 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ivAvatar = (ImageView) findViewById(R.id.image);
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
+
+        initAvatar();
         loadUserModel();
-
         initComponent();
-
         loadContent();
         setContent();
+        defineOnClickListener();
+        setOnClickListener();
 
     }
-
-
-
     private void setContent() {
         if (Utils.checkString(firstName)) {
-
             etUserFirstName.setText(firstName);
         }
 
         if (Utils.checkString(lastName)) {
             etUserLastName.setText(firstName);
         }
-
-
         if (Utils.checkList(myNumberList)) {
             profileEditNumbersAdapter = new ProfileEditNumbersAdapter(this, myNumberList);
             lvNumbers.setAdapter(profileEditNumbersAdapter);
         }
-
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivChangeAvatar);
     }
-
     private void loadContent() {
         firstName = thisUserModel.getCompanion();
         urlAvatar = thisUserModel.getAvatar();
         myNumberList = thisUserModel.getNumbers();
-
     }
-
-
     private void initComponent() {
-
         etUserFirstName = (EditText) findViewById(R.id.etUserFirstName_AVC);
         etUserLastName = (EditText) findViewById(R.id.etUserSecondName_AVC);
-
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
+        ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
+        btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
 
     }
-
-
     private void loadUserModel() {
         thisUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
         Log.d(TAG, thisUserModel.getCompanion());
     }
-
-
     public static void launch(Activity activity, View transitionView, UserModel userModel) {
-
-
         /*ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);*/
@@ -124,21 +111,18 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_view_profile, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
                 onBackPressed();
                 break;
         }
-
         if (id == R.id.action_accept) {
             return true;
 
@@ -147,7 +131,42 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     }
 
-    private void addBlancListItem(){
+    private void setOnClickListener(){
+        btnChangeAvatar.setOnClickListener(mOnClickListener);
+    };
+    private void defineOnClickListener(){
+        mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
+            }
+        };
+    }
+    private void initAvatar(){ ivAvatar = (ImageView) findViewById(R.id.image);
+        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);}
+    private void reLoadAvatar(){
+        sendUpdateAvatarToServer();
+    }
+    private void updateNumberList(){
+        myNumberList = profileEditNumbersAdapter.getNumbresList();
+    }
+    private void updateUserModel(){
+
+        updateNumberList();
+        thisUserModel.setNumbers(myNumberList);
+
+        firstName = etUserFirstName.getText().toString();
+        thisUserModel.setCompanion(firstName);
+
+
+        thisUserModel.setAvatar(urlAvatar);
+    }
+    private void sendUpdateAvatarToServer(){
+        urlAvatar = "new url from server";
+    }
+    private void sendUpdateUserModelToServer(){
+        updateUserModel();
 
     }
 }

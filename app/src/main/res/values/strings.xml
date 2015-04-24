@@ -80,4 +80,14 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_accept">Accept</string>
 
+    <string name="add_new_number_hint">Add new number</string>
+
+
+
+    <!--Alert Dialog delete phone number-->
+    <string name="alert_delete_pn_title">Delete phone number</string>
+    <string name="alert_delete_pn_message">Do you wish to delete this phone number?</string>
+    <string name="alert_delete_pn_ok">OK</string>
+    <string name="alert_delete_pn_cancel">Cancel</string>
+
 </resources>

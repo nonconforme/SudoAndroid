@@ -3,7 +3,8 @@
     android:layout_height="@dimen/toolbar_size"
     android:layout_width="match_parent"
     style="@style/myToolbarNavigationButtonStyle"
-    android:background="@android:color/transparent"
+    android:background="@color/colorPrimary"
+
     android:layout_gravity="center_vertical"
     android:paddingRight ="10dp"
     android:paddingLeft ="10dp"
@@ -17,3 +18,4 @@
 
 
 </android.support.v7.widget.Toolbar>
+    <!--   android:background="@android:color/transparent"-->

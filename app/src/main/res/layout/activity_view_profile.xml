@@ -1,106 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_profile"
-        />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentRight="true">
 
     <RelativeLayout
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/image"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_profile" />
 
+        <RelativeLayout
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/image"
             android:orientation="vertical">
 
-            <RelativeLayout
-                style="@style/AVC_Detailes_SubItem_RL"
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvUserFirstName_AVC"
-                    style="@style/AVC_Detailes_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/ivUser_AVP"
-                    android:layout_toRightOf="@+id/ivUser_AVP"
-                    android:text="@string/avc_default_name" />
+                <RelativeLayout
+                    style="@style/AVC_Detailes_SubItem_RL"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvUserSecondName_AVC"
-                    style="@style/AVC_Detailes_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tvUserFirstName_AVC"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/tvUserFirstName_AVC"
-                    android:layout_below="@+id/tvUserFirstName_AVC"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/avc_default_name" />
+                    <TextView
+                        android:id="@+id/tvUserFirstName_AVC"
+                        style="@style/AVC_Detailes_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/ivUser_AVP"
+                        android:layout_toRightOf="@+id/ivUser_AVP"
+                        android:text="@string/avc_default_name" />
 
-                <ImageView
-                    android:id="@+id/ivUser_AVP"
-                    style="@style/AVC_Detailes_Subitem_Icon_IV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/ic_person" />
+                    <TextView
+                        android:id="@+id/tvUserSecondName_AVC"
+                        style="@style/AVC_Detailes_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tvUserFirstName_AVC"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/tvUserFirstName_AVC"
+                        android:layout_below="@+id/tvUserFirstName_AVC"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/avc_default_name" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/ivUser_AVP"
+                        style="@style/AVC_Detailes_Subitem_Icon_IV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/ic_person" />
 
-            <RelativeLayout
-                style="@style/AVC_Detailes_SubItem_RL"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/ivPhoneIcon_AVC"
-                    style="@style/AVC_Detailes_Subitem_Icon_IV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/ic_phone_number" />
+                <RelativeLayout
+                    style="@style/AVC_Detailes_SubItem_RL"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
-                <com.thinkmobiles.sudo.custom_views.NonScrollListView
-                    android:id="@+id/lvPhoneNumbersView_AVC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/ivPhoneIcon_AVC"
-                    android:layout_toRightOf="@+id/ivPhoneIcon_AVC" />
+                    <ImageView
+                        android:id="@+id/ivPhoneIcon_AVC"
+                        style="@style/AVC_Detailes_Subitem_Icon_IV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/ic_phone_number" />
 
-            </RelativeLayout>
+                    <com.thinkmobiles.sudo.custom_views.NonScrollListView
+                        android:id="@+id/lvPhoneNumbersView_AVC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/ivPhoneIcon_AVC"
+                        android:layout_toRightOf="@+id/ivPhoneIcon_AVC" />
 
-        </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/image" />
-</RelativeLayout>
+</ScrollView>

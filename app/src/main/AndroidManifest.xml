@@ -53,14 +53,7 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity
-            android:name=".activities.ActivityProfile_test"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTheme"
-            android:windowSoftInputMode="stateHidden">
 
-        </activity>
         <activity
             android:name=".activities.ActivityProfileEdit"
             android:configChanges="orientation|keyboardHidden|screenSize"
