@@ -2,12 +2,8 @@ package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +28,7 @@ import java.util.List;
 public class ActivityProfileEdit extends BaseProfileActivity {
 
     private EditText etUserFirstName, etUserLastName;
-    private ImageView ivAvatar, ivChangeAvatar;
+    private ImageView ivChangeAvatar;
     private Button btnChangeAvatar;
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter profileEditNumbersAdapter;
@@ -46,7 +42,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
     private static final int GET_IMAGE_REQUEST_CODE = 1;
-    public static final int START_EDIT_PROFILE_ACTIVITY_CODE = 2342351;
+    public static final int START_EDIT_PROFILE_ACTIVITY_CODE = 231;
 
     @Override
     protected int getLayoutResource() {
@@ -57,7 +53,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initAvatar();
+
         loadUserModel();
         initComponent();
         loadContent();
@@ -162,11 +158,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         };
     }
 
-    private void initAvatar() {
-        ivAvatar = (ImageView) findViewById(R.id.image);
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
-    }
+
 
     private void reLoadAvatar() {
         loadAvatarFromGallery();
@@ -196,7 +188,6 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     }
 
 
-
     public void loadAvatarFromGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -204,61 +195,31 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         startActivityForResult(photoPickerIntent, GET_IMAGE_REQUEST_CODE);
     }
 
-    public void setAvatarFromGallery(Uri uri) {
-
-        LoadAvatarFromUri loadAvatarFromUri = new LoadAvatarFromUri(new ImageView[]{ivAvatar, ivChangeAvatar});
-        loadAvatarFromUri.execute(uri);
-
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == -1 || resultCode == 0) return;
+        Log.d("mediastore result ", String.valueOf(resultCode));
+        if (resultCode != -1) return;
 
         if (requestCode == GET_IMAGE_REQUEST_CODE) {
 
             Uri avatarUri = data.getData();
-            if (avatarUri != null) setAvatarFromGallery(avatarUri);
-        }
-    }
+            if (avatarUri != null) {
+                int dimen;
 
-    private class LoadAvatarFromUri extends AsyncTask<Uri, Void, String> {
-        private ImageView[] targetArray;
+                Log.d("mediastore uri ", avatarUri.toString());
 
-        public LoadAvatarFromUri(ImageView[] targetArray) {
-            this.targetArray = targetArray;
-        }
-
-        @Override
-        protected String doInBackground(Uri... params) {
-            String path = getFilePathFromUri(params[0]);
-            return path;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            filepathAvatar = result;
-            for (ImageView target : targetArray) {
-                Picasso.with(ActivityProfileEdit.this)
-                        .load(result)
-                        .resize(target.getWidth(), target.getHeight())
-                        .into(target);
+                dimen = (int) getResources().getDimension(R.dimen.avc_change_avatar_size);
+                Picasso.with(this)
+                        .load(avatarUri)
+                        .resize(dimen, dimen)
+                        .centerCrop()
+                        .into(ivChangeAvatar);
             }
-            sendUpdateAvatarToServer();
+
         }
 
-        private String getFilePathFromUri(Uri uri) {
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = ActivityProfileEdit.this.getContentResolver().query(uri,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String pathFromUri = cursor.getString(columnIndex);
-            cursor.close();
-            return pathFromUri;
-        }
     }
 
 
@@ -267,7 +228,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         Bundle b = new Bundle();
         b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
         intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-        startActivity(intent);
+
         setResult(RESULT_OK, intent);
         finish();
 

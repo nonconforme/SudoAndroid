@@ -17,13 +17,13 @@
 
     <dimen name="avc_toolbar_height">198dp</dimen>
     <dimen name="avc_toolbar_btn_margin">25dp</dimen>
-    <dimen name="avc_card_avatar_size">176dp</dimen>
-    <dimen name="avc_card_name_text_size">20dp</dimen>
+    <dimen name="avc_card_avatar_size">200dp</dimen>
+    <dimen name="avc_card_name_text_size">40dp</dimen>
     <dimen name="avc_card_detailes_text_size">18dp</dimen>
 
     <dimen name="avc_margin">12dp</dimen>
     <dimen name="avc_margin_double">24dp</dimen>
-    <dimen name="avc_change_avatar_size">48dp</dimen>
+    <dimen name="avc_change_avatar_size">75dp</dimen>
 
 
     <integer name="avc_phonenumber_maxlength">15</integer>

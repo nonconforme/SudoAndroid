@@ -181,10 +181,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
                 mDialog.dismiss();
                 break;
             case R.id.btnDialogSaveCF:
-                if (isValidateParam(mETName) && isValidateParam(mETNumber)){
+                if (isValidateParam(mETName) && isValidateParam(mETNumber)) {
                     makeAddContact();
                 }
-                    break;
+                break;
         }
     }
 
@@ -214,53 +214,60 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void initTarget(){
+    private void initTarget() {
 
-    mTarget = new Target() {
-        ImageView imageView = new ImageView(context);
+        mTarget = new Target() {
+            ImageView imageView = new ImageView(context);
 
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            imageView.setImageBitmap(bitmap);
-            Drawable image = imageView.getDrawable();
-            ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
-        }
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                imageView.setImageBitmap(bitmap);
+                Drawable image = imageView.getDrawable();
+                ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
+            }
 
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-
-
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
 
 
-    }
+            }
 
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+
+            ;
+
 
         };
+    }
 
 
-    };
-  }
-
-
-
-
-    public void searchContactsList(String querry){
+    public void searchContactsList(String querry) {
 
         List<UserModel> tempContactsArrayList = new ArrayList<UserModel>();
-        if(contactsList != null){
-        for(UserModel userModel : contactsList){
-            if (userModel.getCompanion().contains(querry))
-                tempContactsArrayList.add(userModel);
+        if (contactsList != null) {
+            for (UserModel userModel : contactsList) {
+                if (stringContains(userModel.getCompanion(),querry))
+                    tempContactsArrayList.add(userModel);
+
+            }
+            reloadList(tempContactsArrayList);
         }
-        reloadList(tempContactsArrayList);}
-       
+
 
     }
 
     public void reloadCurrentList() {
-        if(contactsList != null)
-        reloadList(contactsList);
+        if (contactsList != null)
+            reloadList(contactsList);
     }
+
+    public static boolean stringContains(String source, String toCheck) {
+
+      return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase()) ;
+    }
+
+
 }

@@ -151,7 +151,8 @@ public class ActivityProfileView extends BaseProfileActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode ==0 || resultCode == -1) return;
+        Log.d(" activity result",String.valueOf(resultCode));
+        if (resultCode != -1) return;
         if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE){
             reloadUserModel(data);
             loadContent();

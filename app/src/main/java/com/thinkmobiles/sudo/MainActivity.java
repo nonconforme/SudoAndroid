@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(mTitle);
-        toolbar.setOnClickListener(new View.OnClickListener() {
+/*        toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
                     Toast.makeText(getApplicationContext(), "toolbar clicked", Toast.LENGTH_LONG).show();
 
             }
-        });
+        });*/
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -282,7 +282,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
             String querry = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, "querry" + querry, Toast.LENGTH_LONG).show();
+
 
             if (getCurrentTab() == 0) {
                 homeFragment.getAdapter().getContactsFragment().searchContactsList(querry);

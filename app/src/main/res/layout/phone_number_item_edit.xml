@@ -25,5 +25,6 @@
         android:id="@+id/ivRemoveNumber_AVC"
         android:layout_alignBottom="@+id/etPhoneNumber_AVC"
         android:layout_toRightOf="@+id/etPhoneNumber_AVC"
-        android:layout_toEndOf="@+id/etPhoneNumber_AVC" />
+        android:layout_toEndOf="@+id/etPhoneNumber_AVC"
+        android:imeOptions="actionDone"/>
 </RelativeLayout>
