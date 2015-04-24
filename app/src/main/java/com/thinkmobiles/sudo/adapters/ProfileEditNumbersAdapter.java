@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
     private Context mContext;
     private List<NumberModel> mListNumbers;
     private LayoutInflater inflater;
+
 
     public ProfileEditNumbersAdapter(Context _context, List<NumberModel> _list) {
         mContext = _context;
@@ -86,17 +86,18 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         }
     }
 
+
     static class ViewHolder {
         public EditText etPhoneNumber;
         public ImageView ivDeleteNumber;
         public TextWatcher textWatcher;
     }
 
-    public List<NumberModel> getNumbresList() {
+    public List<NumberModel> getNumbersList() {
         return mListNumbers;
     }
 
-    public void showConfirmationDialog(AlertDialogCallback alertDialogCallback) {
+    private void showConfirmationDialog(AlertDialogCallback alertDialogCallback) {
         final AlertDialogCallback callback = alertDialogCallback;
 
         new AlertDialog.Builder(mContext)
@@ -117,6 +118,8 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
                         null).show();
     }
 
+
+
     private interface AlertDialogCallback {
         public void confirmDeletePhoneNumber();
     }
@@ -134,10 +137,9 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            Log.d(String.valueOf(pos), String.valueOf(mListNumbers.size()));
             mListNumbers.get(pos).setNumber(String.valueOf(charSequence));
 
-            addBlankNumberView();
+
         }
 
         @Override
@@ -170,4 +172,6 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
 
         }
     }
+
+
 }

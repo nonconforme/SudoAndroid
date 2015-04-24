@@ -95,7 +95,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/ivCameraIcon_AVC"
                         android:layout_toRightOf="@+id/ivCameraIcon_AVC"
-                        android:background="@drawable/ic_person_big" />
+                        android:src="@drawable/ic_person_big" />
 
                     <Button
                         android:id="@+id/btnChangeAvatar_AVC"
