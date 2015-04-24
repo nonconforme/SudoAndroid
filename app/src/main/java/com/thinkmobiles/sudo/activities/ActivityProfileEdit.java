@@ -45,7 +45,8 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
-    private static final int REQUEST_CODE = 1;
+    private static final int GET_IMAGE_REQUEST_CODE = 1;
+    public static final int START_EDIT_PROFILE_ACTIVITY_CODE = 2342351;
 
     @Override
     protected int getLayoutResource() {
@@ -115,13 +116,13 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
 
 /*        ActivityCompat.startActivity(activity, intent, options.toBundle());*/
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, START_EDIT_PROFILE_ACTIVITY_CODE);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_view_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_profile, menu);
         return true;
     }
 
@@ -132,11 +133,20 @@ public class ActivityProfileEdit extends BaseProfileActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        }
-        if (id == R.id.action_accept) {
-            return true;
+            case R.id.action_accept:
+                updateNumberList();
+                returnEditedProfile();
+
+                break;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED, null);
+        finish();
     }
 
     private void setOnClickListener() {
@@ -182,6 +192,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     private void sendUpdateUserModelToServer() {
         updateUserModel();
 
+
     }
 
 
@@ -190,7 +201,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, REQUEST_CODE);
+        startActivityForResult(photoPickerIntent, GET_IMAGE_REQUEST_CODE);
     }
 
     public void setAvatarFromGallery(Uri uri) {
@@ -204,9 +215,9 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == -1 ||resultCode == 0) return;
+        if (resultCode == -1 || resultCode == 0) return;
 
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == GET_IMAGE_REQUEST_CODE) {
 
             Uri avatarUri = data.getData();
             if (avatarUri != null) setAvatarFromGallery(avatarUri);
@@ -249,5 +260,19 @@ public class ActivityProfileEdit extends BaseProfileActivity {
             return pathFromUri;
         }
     }
+
+
+    private void returnEditedProfile() {
+        Intent intent = new Intent();
+        Bundle b = new Bundle();
+        b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
+        intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+        startActivity(intent);
+        setResult(RESULT_OK, intent);
+        finish();
+
+    }
+
+
 }
 

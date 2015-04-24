@@ -46,6 +46,7 @@
         </activity>
 
         <activity
+
             android:name=".activities.ActivityProfileView"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"

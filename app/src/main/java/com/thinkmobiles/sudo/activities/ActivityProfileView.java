@@ -47,18 +47,17 @@ public class ActivityProfileView extends BaseProfileActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ivAvatar = (ImageView) findViewById(R.id.image);
         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
         Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
+
         loadUserModel();
-
         initComponent();
-
         loadContent();
         setContent();
 
     }
-
 
 
     private void setContent() {
@@ -146,5 +145,31 @@ public class ActivityProfileView extends BaseProfileActivity {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode ==0 || resultCode == -1) return;
+        if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE){
+            reloadUserModel(data);
+            loadContent();
+            reloadAvatar();
+            setContent();
+
+        }
+
+    }
+    public void reloadUserModel(Intent intent){
+        thisUserModel =      (UserModel) intent
+                .getExtras()
+                .getBundle(BaseProfileActivity.USER_MODEL)
+                .getSerializable(BaseProfileActivity.USER_MODEL);
+
+    }
+
+    public void reloadAvatar(){
+        Picasso.with(this).load(urlAvatar).into(ivAvatar);
     }
 }
