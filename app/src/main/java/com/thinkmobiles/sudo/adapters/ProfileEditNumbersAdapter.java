@@ -69,7 +69,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
         addBlankNumberView();
         viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
-        viewHolder.textWatcher = new MyTextWatcher(position);
+
         viewHolder.etPhoneNumber.addTextChangedListener(viewHolder.textWatcher);
 
         return view;
@@ -124,29 +124,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         public void confirmDeletePhoneNumber();
     }
 
-    private class MyTextWatcher implements TextWatcher {
-        private int pos;
 
-        public MyTextWatcher(int pos) {
-            this.pos = pos;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            mListNumbers.get(pos).setNumber(String.valueOf(charSequence));
-
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    }
 
     private class MyOnClickListener implements View.OnClickListener {
         private int pos;
