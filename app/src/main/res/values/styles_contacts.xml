@@ -140,6 +140,8 @@
     </style>
 
     <style name="AVC_Detailes_Subitem_Icon_IV">
+        <item name="android:layout_width">@dimen/sc_item_icon_size</item>
+        <item name="android:layout_height">@dimen/sc_item_icon_size</item>
         <item name="android:layout_marginLeft">@dimen/avc_margin</item>
         <item name="android:layout_marginRight">@dimen/avc_margin_double</item>
 

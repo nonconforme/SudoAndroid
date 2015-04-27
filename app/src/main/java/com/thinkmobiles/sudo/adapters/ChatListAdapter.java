@@ -72,14 +72,12 @@ public class ChatListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = mInflater.inflate(R.layout.chat_item, viewGroup, false);
 
-
             holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
             holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
             holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
             holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
             holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
             holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
-
 
             holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
             holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
@@ -138,12 +136,10 @@ public class ChatListAdapter extends BaseAdapter {
         return view;
     }
 
-
     private class ViewHolder {
         ImageView ivAvatar, ivReply, ivOptions;
         TextView tvSenderName, tvSenderNumber, tvReceiverDetails,
                 tvMessagePreview, tvItemTimedate, tvViewDetails;
-
 
     }
 

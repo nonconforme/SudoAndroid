@@ -36,6 +36,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter profileEditNumbersAdapter;
 
+
     private View.OnClickListener mOnClickListener;
 
     private UserModel thisUserModel;
