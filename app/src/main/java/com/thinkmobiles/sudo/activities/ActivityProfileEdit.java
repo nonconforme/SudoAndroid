@@ -60,6 +60,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         setContent();
         defineOnClickListener();
         setOnClickListener();
+        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
 
     }
 
@@ -127,6 +128,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
+                setResult(RESULT_CANCELED, null);
                 onBackPressed();
                 break;
             case R.id.action_accept:
@@ -141,8 +143,8 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED, null);
-        finish();
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
     }
 
     private void setOnClickListener() {
@@ -157,7 +159,6 @@ public class ActivityProfileEdit extends BaseProfileActivity {
             }
         };
     }
-
 
 
     private void reLoadAvatar() {
@@ -230,7 +231,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         intent.putExtra(BaseProfileActivity.USER_MODEL, b);
 
         setResult(RESULT_OK, intent);
-        finish();
+        onBackPressed();
 
     }
 
