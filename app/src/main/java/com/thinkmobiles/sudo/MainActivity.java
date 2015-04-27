@@ -230,9 +230,9 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+         searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = (SearchView) searchItem.getActionView();
+         searchView = (SearchView) searchItem.getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
         searchView.setActivated(true);
@@ -244,7 +244,6 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
                     homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
                 else
                     homeFragment.getAdapter().getChatFragment().reloadCurrentChat();
-
 
                 return false;
             }

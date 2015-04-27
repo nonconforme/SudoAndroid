@@ -44,7 +44,4 @@ dependencies {
         transitive = true
     }
     compile 'se.emilsjolander:stickylistheaders:2.6.+'
-
-    //card view
-    compile 'com.android.support:cardview-v7:22.0.0'
 }
