@@ -1,10 +1,12 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.Utils;
@@ -74,7 +77,19 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         }
         if (Utils.checkList(myNumberList)) {
             profileEditNumbersAdapter = new ProfileEditNumbersAdapter(this, myNumberList);
+            lvNumbers.setDivider(null);
+            lvNumbers.setDividerHeight(0);
             lvNumbers.setAdapter(profileEditNumbersAdapter);
+
+            View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);
+            footerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    profileEditNumbersAdapter.addBlankNumberView();
+                }
+            });
+            lvNumbers.addFooterView(footerView);
+
         }
         Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivChangeAvatar);
     }

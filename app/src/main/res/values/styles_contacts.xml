@@ -176,7 +176,12 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:padding">@dimen/sc_padding</item>
     </style>
+    <style name="AVC_NewNumber_TV">
+        <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
+        <item name="android:paddingLeft">@dimen/sc_padding</item>
+        <item name="android:textColor">@android:color/black</item>
 
+    </style>
 
 
     <!-- end region -->

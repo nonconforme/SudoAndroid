@@ -89,5 +89,6 @@
     <string name="alert_delete_pn_message">Do you wish to delete this phone number?</string>
     <string name="alert_delete_pn_ok">OK</string>
     <string name="alert_delete_pn_cancel">Cancel</string>
+    <string name="add_number">add new number</string>
 
 </resources>

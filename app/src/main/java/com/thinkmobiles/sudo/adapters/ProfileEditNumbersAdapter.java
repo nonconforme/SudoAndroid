@@ -67,7 +67,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         }
 
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
-        addBlankNumberView();
+
         viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
 
         viewHolder.etPhoneNumber.addTextChangedListener(viewHolder.textWatcher);
@@ -76,7 +76,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
     }
 
 
-    private void addBlankNumberView() {
+    public void addBlankNumberView() {
         if (mListNumbers.get(mListNumbers.size() - 1).getNumber() != null && !mListNumbers.get(mListNumbers.size() - 1).getNumber().equalsIgnoreCase("")) {
             NumberModel numberModel = new NumberModel();
             numberModel.setNumber("");
@@ -121,7 +121,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
 
 
     private interface AlertDialogCallback {
-        public void confirmDeletePhoneNumber();
+        void confirmDeletePhoneNumber();
     }
 
 
