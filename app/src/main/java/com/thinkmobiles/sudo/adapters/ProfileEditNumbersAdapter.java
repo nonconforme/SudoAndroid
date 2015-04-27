@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -63,14 +67,14 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
-            viewHolder.etPhoneNumber.removeTextChangedListener(viewHolder.textWatcher);
+
+
         }
 
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
-
         viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
+        viewHolder.etPhoneNumber.setOnEditorActionListener(new DoneOnEditorActionListener(position));
 
-        viewHolder.etPhoneNumber.addTextChangedListener(viewHolder.textWatcher);
 
         return view;
     }
@@ -90,10 +94,11 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
     static class ViewHolder {
         public EditText etPhoneNumber;
         public ImageView ivDeleteNumber;
-        public TextWatcher textWatcher;
+
     }
 
     public List<NumberModel> getNumbersList() {
+        notifyDataSetChanged();
         return mListNumbers;
     }
 
@@ -119,11 +124,9 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
     }
 
 
-
     private interface AlertDialogCallback {
         void confirmDeletePhoneNumber();
     }
-
 
 
     private class MyOnClickListener implements View.OnClickListener {
@@ -151,5 +154,27 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         }
     }
 
+    private class DoneOnEditorActionListener implements TextView.OnEditorActionListener {
+        int position;
+        EditText editText;
+
+        public DoneOnEditorActionListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+            editText = (EditText) v;
+
+            String number = String.valueOf(editText.getText());
+            if (number != null && !number.equalsIgnoreCase(""))
+                mListNumbers.get(position).setNumber(number);
+            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            return true;
+
+        }
+    }
 
 }

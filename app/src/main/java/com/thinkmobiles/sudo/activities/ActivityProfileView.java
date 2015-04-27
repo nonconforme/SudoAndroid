@@ -28,13 +28,13 @@ import java.util.List;
  */
 public class ActivityProfileView extends BaseProfileActivity {
 
-    private TextView tvUserFirstName, tvUserLastName;
+    private TextView tvUserFirstName;
     private ImageView ivAvatar;
     private NonScrollListView lvNumbers;
     private ProfileViewNumbersAdapter profileViewNumbersAdapter;
 
     private UserModel thisUserModel;
-    private String firstName, lastName, urlAvatar;
+    private String firstName, urlAvatar;
     private List<NumberModel> myNumberList;
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
@@ -66,10 +66,10 @@ public class ActivityProfileView extends BaseProfileActivity {
             tvUserFirstName.setText(firstName);
         }
 
-        if (Utils.checkString(lastName)) {
+   /*     if (Utils.checkString(lastName)) {
             tvUserLastName.setText(firstName);
         }
-
+*/
 
         if (Utils.checkList(myNumberList)) {
             profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, myNumberList);
@@ -89,7 +89,9 @@ public class ActivityProfileView extends BaseProfileActivity {
     private void initComponent() {
 
         tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
+/*
         tvUserLastName = (TextView) findViewById(R.id.tvUserSecondName_AVC);
+*/
 
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
 

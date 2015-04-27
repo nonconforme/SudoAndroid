@@ -45,20 +45,22 @@
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/ivUser_AVP"
                             android:layout_toRightOf="@+id/ivUser_AVP"
-                            android:text="@string/avc_default_name"/>
+                            android:text="@string/avc_default_name"
+                            android:imeOptions="actionDone"/>
 
-                    <EditText
-                            android:id="@+id/etUserSecondName_AVC"
-                            style="@style/AVC_Detailes_ET"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/etUserFirstName_AVC"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignStart="@+id/etUserFirstName_AVC"
-                            android:layout_below="@+id/etUserFirstName_AVC"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/avc_default_name"/>
+                    <!--   <EditText
+                               android:id="@+id/etUserSecondName_AVC"
+                               style="@style/AVC_Detailes_ET"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignLeft="@+id/etUserFirstName_AVC"
+                               android:layout_alignParentEnd="true"
+                               android:layout_alignParentRight="true"
+                               android:layout_alignStart="@+id/etUserFirstName_AVC"
+                               android:layout_below="@+id/etUserFirstName_AVC"
+                               android:layout_gravity="center_horizontal"
+                               android:text="@string/avc_default_name"
+                               android:imeOptions="actionDone"/>-->
 
                     <ImageView
                             android:id="@+id/ivUser_AVP"

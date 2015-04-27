@@ -6,15 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 
-import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.Utils;
@@ -30,7 +25,7 @@ import java.util.List;
  */
 public class ActivityProfileEdit extends BaseProfileActivity {
 
-    private EditText etUserFirstName, etUserLastName;
+    private EditText etUserFirstName;
     private ImageView ivChangeAvatar;
     private Button btnChangeAvatar;
     private NonScrollListView lvNumbers;
@@ -42,6 +37,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
     private UserModel thisUserModel;
     private String firstName, lastName, urlAvatar, filepathAvatar;
     private List<NumberModel> myNumberList;
+    private DoneOnEditorActionListener doneOnEditorActionListener;
 
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
@@ -73,9 +69,9 @@ public class ActivityProfileEdit extends BaseProfileActivity {
             etUserFirstName.setText(firstName);
         }
 
-        if (Utils.checkString(lastName)) {
+      /*  if (Utils.checkString(lastName)) {
             etUserLastName.setText(firstName);
-        }
+        }*/
         if (Utils.checkList(myNumberList)) {
             profileEditNumbersAdapter = new ProfileEditNumbersAdapter(this, myNumberList);
             lvNumbers.setDivider(null);
@@ -103,10 +99,18 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     private void initComponent() {
         etUserFirstName = (EditText) findViewById(R.id.etUserFirstName_AVC);
+/*
         etUserLastName = (EditText) findViewById(R.id.etUserSecondName_AVC);
+*/
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
         ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
         btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
+
+        doneOnEditorActionListener = new DoneOnEditorActionListener();
+/*
+        etUserLastName.setOnEditorActionListener(doneOnEditorActionListener);
+*/
+        etUserFirstName.setOnEditorActionListener(doneOnEditorActionListener);
 
     }
 
@@ -148,7 +152,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
                 onBackPressed();
                 break;
             case R.id.action_accept:
-                updateNumberList();
+                updateUserModel();
                 returnEditedProfile();
 
                 break;
@@ -188,9 +192,6 @@ public class ActivityProfileEdit extends BaseProfileActivity {
 
     private void updateUserModel() {
         updateNumberList();
-        thisUserModel.setNumbers(myNumberList);
-        firstName = etUserFirstName.getText().toString();
-        thisUserModel.setCompanion(firstName);
         thisUserModel.setAvatar(urlAvatar);
     }
 
@@ -249,6 +250,35 @@ public class ActivityProfileEdit extends BaseProfileActivity {
         setResult(RESULT_OK, intent);
         onBackPressed();
 
+    }
+
+
+    private class DoneOnEditorActionListener implements EditText.OnEditorActionListener {
+        EditText editText;
+
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            editText = (EditText) v;
+            String name = String.valueOf(editText.getText());
+            if (name != null && !name.equalsIgnoreCase("")) {
+
+
+                switch (v.getId()) {
+
+                    case R.id.etUserFirstName_AVC:
+                        thisUserModel.setCompanion(name);
+                        break;
+
+
+                }
+
+                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+            return true;
+
+        }
     }
 
 

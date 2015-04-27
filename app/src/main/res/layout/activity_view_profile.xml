@@ -46,18 +46,18 @@
                         android:layout_toRightOf="@+id/ivUser_AVP"
                         android:text="@string/avc_default_name" />
 
-                    <TextView
-                        android:id="@+id/tvUserSecondName_AVC"
-                        style="@style/AVC_Detailes_TV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/tvUserFirstName_AVC"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignStart="@+id/tvUserFirstName_AVC"
-                        android:layout_below="@+id/tvUserFirstName_AVC"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/avc_default_name" />
+                    <!--   <TextView
+                           android:id="@+id/tvUserSecondName_AVC"
+                           style="@style/AVC_Detailes_TV"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignLeft="@+id/tvUserFirstName_AVC"
+                           android:layout_alignParentEnd="true"
+                           android:layout_alignParentRight="true"
+                           android:layout_alignStart="@+id/tvUserFirstName_AVC"
+                           android:layout_below="@+id/tvUserFirstName_AVC"
+                           android:layout_gravity="center_horizontal"
+                           android:text="@string/avc_default_name" />-->
 
                     <ImageView
                         android:id="@+id/ivUser_AVP"

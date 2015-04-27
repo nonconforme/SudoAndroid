@@ -37,8 +37,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         this.mActivity = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
-
-
     }
 
 
