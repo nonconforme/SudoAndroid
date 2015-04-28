@@ -1,18 +1,26 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.Utils;
@@ -34,6 +42,7 @@ public class ActivityProfileView extends BaseProfileActivity {
     private ProfileViewNumbersAdapter profileViewNumbersAdapter;
 
     private UserModel thisUserModel;
+    private RelativeLayout rlImage;
     private String firstName, urlAvatar;
     private List<NumberModel> myNumberList;
 
@@ -47,15 +56,28 @@ public class ActivityProfileView extends BaseProfileActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ivAvatar = (ImageView) findViewById(R.id.image);
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
-
         loadUserModel();
         initComponent();
         loadContent();
         setContent();
+        ivAvatar = (ImageView) findViewById(R.id.image);
+        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        getSupportActionBar().setTitle("");
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar, new Callback() {
+            @Override
+            public void onSuccess() {
+                Palette palette = Palette.generate(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap());
+//                rlImage.setBackgroundColor(palette.getLightMutedColor(0x00000000));
+                changeViewColor(rlImage);
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
 
     }
 
@@ -89,10 +111,7 @@ public class ActivityProfileView extends BaseProfileActivity {
     private void initComponent() {
 
         tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
-/*
-        tvUserLastName = (TextView) findViewById(R.id.tvUserSecondName_AVC);
-*/
-
+        rlImage = (RelativeLayout) findViewById(R.id.rlImageProfile);
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
 
     }
@@ -140,7 +159,7 @@ public class ActivityProfileView extends BaseProfileActivity {
         }
 
         if (id == R.id.action_edit) {
-            ActivityProfileEdit.launch(this,null,thisUserModel);
+            ActivityProfileEdit.launch(this, null, thisUserModel);
 
             return true;
 
@@ -153,9 +172,9 @@ public class ActivityProfileView extends BaseProfileActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(" activity result",String.valueOf(resultCode));
+        Log.d(" activity result", String.valueOf(resultCode));
         if (resultCode != -1) return;
-        if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE){
+        if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE) {
             reloadUserModel(data);
             loadContent();
             reloadAvatar();
@@ -164,15 +183,55 @@ public class ActivityProfileView extends BaseProfileActivity {
         }
 
     }
-    public void reloadUserModel(Intent intent){
-        thisUserModel =      (UserModel) intent
+
+    public void reloadUserModel(Intent intent) {
+        thisUserModel = (UserModel) intent
                 .getExtras()
                 .getBundle(BaseProfileActivity.USER_MODEL)
                 .getSerializable(BaseProfileActivity.USER_MODEL);
 
     }
 
-    public void reloadAvatar(){
+    public void reloadAvatar() {
         Picasso.with(this).load(urlAvatar).into(ivAvatar);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void changeViewColor(final View view ) {
+        Palette palette = Palette.generate(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap());
+
+        getWindow().setStatusBarColor(Color.RED);
+        // Load initial and final colors.
+        final int initialColor = getResources().getColor(R.color.colorWhite);
+        final int finalColor = palette.getVibrantColor(0x000000);
+        final int stausBarColor = palette.getDarkVibrantColor(0x000000);
+
+        getWindow().setStatusBarColor(stausBarColor);
+
+        ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // Use animation position to blend colors.
+                float position = animation.getAnimatedFraction();
+                int blended = blendColors(initialColor, finalColor, position);
+
+                // Apply blended color to the view.
+                view.setBackgroundColor(blended);
+            }
+        });
+
+        anim.setDuration(2000).start();
+    }
+
+
+    private int blendColors(int from, int to, float ratio) {
+        final float inverseRatio = 1f - ratio;
+
+        final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
+        final float g = Color.green(to) * ratio + Color.green(from) * inverseRatio;
+        final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
+
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 }

@@ -19,6 +19,7 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -43,6 +44,12 @@ public interface RetrofitInterface {
     @POST(APIConstants.URL_ADDRESSBOOK)
     void addContact(@Body UserModel user,
                 Callback<DefaultResponseModel> callback);
+
+
+    @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
+    void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
+                       Callback<DefaultResponseModel> callback);
+
 
     @GET(APIConstants.URL_ADDRESSBOOK)
     void getContacts( Callback<List<UserModel>> callback);
