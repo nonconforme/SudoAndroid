@@ -1,7 +1,5 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,7 +32,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ActivityProfileView extends BaseProfileActivity {
+public class ProfileViewActivity extends BaseProfileActivity {
 
     private TextView tvUserFirstName;
     private ImageView ivAvatar;
@@ -56,6 +54,11 @@ public class ActivityProfileView extends BaseProfileActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ivAvatar = (ImageView) findViewById(R.id.image);
+        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
+
         loadUserModel();
         initComponent();
         loadContent();
@@ -130,7 +133,7 @@ public class ActivityProfileView extends BaseProfileActivity {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
 
-        Intent intent = new Intent(activity, ActivityProfileView.class);
+        Intent intent = new Intent(activity, ProfileViewActivity.class);
         intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
 
         Bundle b = new Bundle();

@@ -10,10 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.chat.ChatModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.text.SimpleDateFormat;
@@ -27,36 +27,37 @@ import java.util.List;
  */
 public class ChatListAdapter extends BaseAdapter {
 
-    private List<ChatModel> chats;
+    private List<MessageModel> listMessages;
     private LayoutInflater mInflater;
     private Context context;
+    private UserModel thisUser;
 
 
+    public ChatListAdapter(Context context, UserModel thisUser) {
 
-
-    public ChatListAdapter(Context context) {
         this.context = context;
-        this.chats = new ArrayList<>();
+        this.thisUser = thisUser;
+        this.listMessages = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
 
     }
 
 
-    public void reloadList(List<ChatModel> chats) {
-        this.chats = chats;
-       notifyDataSetChanged();
+    public void reloadList(List<MessageModel> listMessages) {
+        this.listMessages = listMessages;
+        notifyDataSetChanged();
     }
 
 
     @Override
     public int getCount() {
-        return chats.size();
+        return listMessages.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return chats.get(i);
+        return listMessages.get(i);
     }
 
     @Override
@@ -70,76 +71,20 @@ public class ChatListAdapter extends BaseAdapter {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(R.layout.chat_item, viewGroup, false);
-
-            holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
-            holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
-            holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
-            holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
-            holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
-            holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
-
-            holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
-            holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
-            holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
+            view = mInflater.inflate(null, viewGroup, false);
 
 
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ChatModel thisChat = chats.get(i);
-        List<MessageModel> thisChatList = thisChat.getListMessages();
-        MessageModel lastMessage = null;
-        if (thisChatList != null && thisChatList.size() > 0){
-            lastMessage = thisChatList.get(thisChatList.size() - 1);
-            thisChatList = null;
-        }
-
-
-        holder.tvSenderName.setText(thisChat.getSender().getCompanion());
-        holder.tvSenderNumber.setText(thisChat.getSenderNumber());
-        holder.tvReceiverDetails.setText(thisChat.getReceiver().getCompanion() + " " + thisChat.getReceiverNumber());
-
-        if (lastMessage != null) {
-            holder.tvMessagePreview.setText(lastMessage.getMessageText());
-
-            long timeStamp = lastMessage.getTimeStamp();
-            if (timeStamp != 0)
-                holder.tvItemTimedate.setText(getDate(timeStamp));
-        }
-        setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
-
-        if(!lastMessage.isTrueIfMessageWasRecieved())
-            holder.ivReply.setVisibility(View.INVISIBLE);
-
-        View.OnClickListener myOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                switch (view.getId()){
-                    case R.id.ivChatItemOptions:
-                        Toast.makeText(context, "Options was clicked", Toast.LENGTH_SHORT).show();
-
-                        break;
-                    case R.id.tvChatItemViewDetails:
-                        Toast.makeText(context, "View Details was clicked", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-
-            }
-        };
-
-        holder.ivOptions.setOnClickListener(myOnClickListener);
-        holder.tvViewDetails.setOnClickListener(myOnClickListener);
 
         return view;
     }
 
     private class ViewHolder {
         ImageView ivAvatar, ivReply, ivOptions;
-        TextView tvSenderName, tvSenderNumber, tvReceiverDetails,
-                tvMessagePreview, tvItemTimedate, tvViewDetails;
+        TextView tvSenderName, tvSenderNumber, tvReceiverDetails, tvMessagePreview, tvItemTimedate, tvViewDetails;
 
     }
 
@@ -152,10 +97,7 @@ public class ChatListAdapter extends BaseAdapter {
     private void setAvatar(ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .resize(dimen, dimen)
-                    .into(imageView);
+            Picasso.with(context).load(imageUrl).resize(dimen, dimen).into(imageView);
 
 
         } else {

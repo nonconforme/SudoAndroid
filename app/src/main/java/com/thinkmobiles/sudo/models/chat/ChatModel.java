@@ -2,33 +2,16 @@ package com.thinkmobiles.sudo.models.chat;
 
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by omar on 21.04.15.
  */
-public class ChatModel {
+public class ChatModel implements Serializable {
     private List<MessageModel> listMessages;
-    private UserModel sender,receiver;
-    private String senderNumber, receiverNumber;
 
-
-    public UserModel getSender() {
-        return sender;
-    }
-
-    public void setSender(UserModel sender) {
-        this.sender = sender;
-    }
-
-    public UserModel getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(UserModel receiver) {
-        this.receiver = receiver;
-    }
 
     public void addMessage(MessageModel message) {
         if (listMessages == null)
@@ -45,21 +28,9 @@ public class ChatModel {
 
     }
 
-    public String getSenderNumber() {
-        return senderNumber;
-    }
 
-    public void setSenderNumber(String senderNumber) {
-        this.senderNumber = senderNumber;
-    }
 
-    public String getReceiverNumber() {
-        return receiverNumber;
-    }
 
-    public void setReceiverNumber(String receiverNumber) {
-        this.receiverNumber = receiverNumber;
-    }
 
     public List<MessageModel> getListMessages() {
         return listMessages;

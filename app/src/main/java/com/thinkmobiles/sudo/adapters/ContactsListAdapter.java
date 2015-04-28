@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ActivityProfileView;
+import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -177,7 +177,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
         Log.d("start profile activity", "starting");
 
-        ActivityProfileView.launch(mActivity, view, userModel);
+        ProfileViewActivity.launch(mActivity, view, userModel);
 
     }
 

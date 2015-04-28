@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/ivChatAvatar"
-        style="@style/SChatItemEVAvatar"
+        style="@style/SChatsItemEVAvatar"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:contentDescription="@string/avatar" />
@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tvChatItemSenderName"
-                style="@style/SChatItemTVName"
+                style="@style/SChatsItemTVName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/tvChatItemSenderNumber"
-                style="@style/SChatItemTVNumber"
+                style="@style/SChatsItemTVNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -45,27 +45,27 @@
 
         <TextView
             android:id="@+id/tvChatItemReceiverDetails"
-            style="@style/SChatItemTVNumber"
+            style="@style/SChatsItemTVNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/test_receiver_details" />
 
         <TextView
             android:id="@+id/tvChatItemMessagePreview"
-            style="@style/SChatItemTVMessagePreview"
+            style="@style/SChatsItemTVMessagePreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/test_chat_message" />
 
         <LinearLayout
-            style="@style/SChatItemLL"
+                style="@style/SChatsItemLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvChatItemTimedate"
-                style="@style/SChatItemTVTimedate"
+                style="@style/SChatsItemTVTimedate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,7 +73,7 @@
 
             <TextView
                 android:id="@+id/tvChatItemViewDetails"
-                style="@style/SChatItemTVViewDetails"
+                style="@style/SChatsItemTVViewDetails"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -95,7 +95,7 @@
         <ImageView
 
             android:id="@+id/ivChatItemOptions"
-            style="@style/SChatItemIcons"
+            style="@style/SChatsItemIcons"
             android:layout_gravity="center_horizontal"
             android:clickable="true"
             android:contentDescription="@string/options_icon"
@@ -106,7 +106,7 @@
         <ImageView
 
             android:id="@+id/ivChatItemReply"
-            style="@style/SChatItemIcons"
+            style="@style/SChatsItemIcons"
             android:layout_gravity="center_horizontal|bottom"
             android:contentDescription="@string/reply_icon"
             android:src="@drawable/ic_reply" />

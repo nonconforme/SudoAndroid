@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/SChatItemLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/ivAvatar"
+            android:layout_toStartOf="@+id/ivAvatar"
+            android:layout_marginLeft="@dimen/schat_padding">
+        <FrameLayout
+                style="@style/SChatTextFrame"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/chat_item_out_text_bg"
+                >
+            <TextView
+                    style="@style/SChatItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/some_random_chat_text"
+                    android:id="@+id/tvChatText" android:layout_gravity="center_horizontal"/>
+        </FrameLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/some_timedate"
+                android:id="@+id/tvTimeDate" style="@style/SChatItemTVTimedate"
+                android:layout_gravity="right"/>
+    </LinearLayout>
+    <ImageView
+            style="@style/SChatsItemEVAvatar"
+            android:id="@+id/ivAvatar"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+</RelativeLayout>
