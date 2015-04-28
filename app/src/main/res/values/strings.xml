@@ -97,5 +97,7 @@
         logical partitions are just a trick to allow more than 4 partitions on a msdos partition table.
     </string>
     <string name="some_timedate">Jul 19, 18:63</string>
+    <string name="compose_message_hint">Compose message</string>
+    <string name="message_send">Send</string>
 
 </resources>

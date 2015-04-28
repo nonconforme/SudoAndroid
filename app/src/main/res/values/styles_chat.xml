@@ -21,6 +21,8 @@
     <dimen name="schat_padding">8dp</dimen>
     <dimen name="schat_small_text_size">12dp</dimen>
     <dimen name="schat_margin_top_bottom">12dp</dimen>
+    <dimen name="schat_send_btn_height">32dp</dimen>
+    <dimen name="schat_margin_btn_send">4dp</dimen>
 
     <!-- end region -->
 
@@ -115,7 +117,11 @@
     </style>
     <style name="SChatTextFrame">
         <item name="android:layout_marginBottom">@dimen/schat_padding</item>
+    </style>
 
+    <style name="SChatBtnSend">
+        <item name="android:layout_height">@dimen/schat_send_btn_height</item>
+        <item name="android:layout_margin">@dimen/schat_margin_btn_send</item>
 
     </style>
 </resources>
