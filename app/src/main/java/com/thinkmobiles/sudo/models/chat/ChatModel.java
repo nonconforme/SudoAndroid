@@ -12,6 +12,45 @@ import java.util.List;
 public class ChatModel implements Serializable {
     private List<MessageModel> listMessages;
 
+    private UserModel sender, receiver;
+    private String senderNumber = "";
+    private String receiverNumber = "";
+
+
+    public String getSenderNumber() {
+        return senderNumber;
+    }
+
+    public void setSenderNumber(String senderNumber) {
+        this.senderNumber = senderNumber;
+    }
+
+    public String getReceiverNumber() {
+        return receiverNumber;
+    }
+
+    public void setReceiverNumber(String receiverNumber) {
+        this.receiverNumber = receiverNumber;
+    }
+
+
+    public UserModel getSender() {
+        return sender;
+    }
+
+    public void setSender(UserModel sender) {
+        this.sender = sender;
+    }
+
+    public UserModel getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserModel receiver) {
+        this.receiver = receiver;
+    }
+
+
 
     public void addMessage(MessageModel message) {
         if (listMessages == null)

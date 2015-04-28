@@ -108,8 +108,10 @@ public class ChatsListAdapter extends BaseAdapter {
         }
         setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
 
-        if(!lastMessage.isTrueIfMessageWasRecieved())
+
+        if (lastMessage.getSender() != thisChat.getSender())
             holder.ivReply.setVisibility(View.INVISIBLE);
+
 
         View.OnClickListener myOnClickListener = new View.OnClickListener() {
             @Override
@@ -166,9 +168,8 @@ public class ChatsListAdapter extends BaseAdapter {
     private String getDate(long milliSeconds) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
-
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis((int) milliSeconds);
+        calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
 

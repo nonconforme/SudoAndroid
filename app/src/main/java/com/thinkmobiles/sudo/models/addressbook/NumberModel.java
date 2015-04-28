@@ -26,4 +26,20 @@ public class NumberModel implements Serializable{
         this.number = number;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NumberModel)) return false;
+
+        NumberModel that = (NumberModel) o;
+
+        return getNumber().equals(that.getNumber());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getNumber().hashCode();
+    }
 }
