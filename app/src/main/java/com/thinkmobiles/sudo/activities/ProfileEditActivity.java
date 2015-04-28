@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ActivityProfileEdit extends BaseProfileActivity {
+public class ProfileEditActivity extends BaseProfileActivity {
 
     private EditText etUserFirstName;
     private ImageView ivChangeAvatar;
@@ -124,7 +124,7 @@ public class ActivityProfileEdit extends BaseProfileActivity {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);*/
 
-        Intent intent = new Intent(activity, ActivityProfileEdit.class);
+        Intent intent = new Intent(activity, ProfileEditActivity.class);
         intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
 
         Bundle b = new Bundle();

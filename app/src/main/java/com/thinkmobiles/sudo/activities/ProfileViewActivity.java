@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ActivityProfileView extends BaseProfileActivity {
+public class ProfileViewActivity extends BaseProfileActivity {
 
     private TextView tvUserFirstName;
     private ImageView ivAvatar;
@@ -111,7 +111,7 @@ public class ActivityProfileView extends BaseProfileActivity {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
 
-        Intent intent = new Intent(activity, ActivityProfileView.class);
+        Intent intent = new Intent(activity, ProfileViewActivity.class);
         intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
 
         Bundle b = new Bundle();
@@ -140,7 +140,7 @@ public class ActivityProfileView extends BaseProfileActivity {
         }
 
         if (id == R.id.action_edit) {
-            ActivityProfileEdit.launch(this,null,thisUserModel);
+            ProfileEditActivity.launch(this, null, thisUserModel);
 
             return true;
 
@@ -155,7 +155,7 @@ public class ActivityProfileView extends BaseProfileActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(" activity result",String.valueOf(resultCode));
         if (resultCode != -1) return;
-        if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE){
+        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
             reloadUserModel(data);
             loadContent();
             reloadAvatar();

@@ -1,19 +1,24 @@
 package com.thinkmobiles.sudo.models.chat;
 
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.io.Serializable;
+
 /**
  * Created by omar on 21.04.15.
  */
-public class MessageModel {
+public class MessageModel implements Serializable {
     private String messageText;
     private Long timeStamp;
-    private boolean trueIfMessageWasRecieved;
+    private UserModel sender;
 
-    public boolean isTrueIfMessageWasRecieved() {
-        return trueIfMessageWasRecieved;
+
+    public UserModel getSender() {
+        return sender;
     }
 
-    public void setTrueIfMessageWasRecieved(boolean trueIfMessageWasRecieved) {
-        this.trueIfMessageWasRecieved = trueIfMessageWasRecieved;
+    public void setSender(UserModel sender) {
+        this.sender = sender;
     }
 
     public String getMessageText() {

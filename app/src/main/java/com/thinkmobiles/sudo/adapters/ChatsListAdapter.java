@@ -25,16 +25,14 @@ import java.util.List;
 /**
  * Created by omar on 19.04.15.
  */
-public class ChatListAdapter extends BaseAdapter {
+public class ChatsListAdapter extends BaseAdapter {
 
     private List<ChatModel> chats;
     private LayoutInflater mInflater;
     private Context context;
 
 
-
-
-    public ChatListAdapter(Context context) {
+    public ChatsListAdapter(Context context) {
         this.context = context;
         this.chats = new ArrayList<>();
         mInflater = LayoutInflater.from(context);

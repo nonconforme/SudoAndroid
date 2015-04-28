@@ -85,18 +85,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(mTitle);
-/*        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-                if (selectedContact != null)
-                    Toast.makeText(getApplicationContext(), selectedContact.getCompanion(), Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getApplicationContext(), "toolbar clicked", Toast.LENGTH_LONG).show();
-
-            }
-        });*/
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
