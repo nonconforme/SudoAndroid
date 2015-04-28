@@ -70,7 +70,7 @@ public class ChatListAdapter extends BaseAdapter {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(R.layout.chat_item, viewGroup, false);
+            view = mInflater.inflate(R.layout.chats_item, viewGroup, false);
 
             holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
             holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);

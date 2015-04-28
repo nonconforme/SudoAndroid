@@ -41,7 +41,7 @@
     <!-- Fragment Number-->
     <string name="fn_tv_header">YOU HAVE 20 CREDITS AVAILABLE NOW</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_title">Login</string>
 
@@ -83,12 +83,19 @@
     <string name="add_new_number_hint">Add new number</string>
 
 
-
     <!--Alert Dialog delete phone number-->
     <string name="alert_delete_pn_title">Delete phone number</string>
     <string name="alert_delete_pn_message">Do you wish to delete this phone number?</string>
     <string name="alert_delete_pn_ok">OK</string>
     <string name="alert_delete_pn_cancel">Cancel</string>
     <string name="add_number">add new number</string>
+    <string name="some_random_chat_text">
+        In addition to the previous post if you DID require it
+        to be a primary you could shrink sda2 down and add in up to
+        2 more primary partitions in the space after sda2.
+        edit: It doesn\'t matter really if it\'s primary or logical,
+        logical partitions are just a trick to allow more than 4 partitions on a msdos partition table.
+    </string>
+    <string name="some_timedate">Jul 19, 18:63</string>
 
 </resources>
