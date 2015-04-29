@@ -4,13 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by omar on 23.04.15.
  */
 public class ProfileAddActivity extends BaseProfileEditActivity {
 
+
+    private Callback<DefaultResponseModel> mAddContactCB;
 
     @Override
     protected int getLayoutResource() {
@@ -22,7 +30,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
         super.onCreate(savedInstanceState);
 
         thisUserModel = new UserModel();
-
+        initAddContactCB();
 
     }
 
@@ -40,6 +48,22 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
         super.onBackPressed();
     }
 
+
+    private void addProfile(final UserModel _userModel){
+        RetrofitAdapter.getInterface().addContact(_userModel, mAddContactCB);
+    }
+
+    private void initAddContactCB() {
+        mAddContactCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        };
+    }
 
 }
 
