@@ -261,4 +261,10 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
 
+    @Override
+    public void onDestroy() {
+        Picasso.with(this).cancelRequest(mTarget);
+        super.onDestroy();
+    }
+
 }

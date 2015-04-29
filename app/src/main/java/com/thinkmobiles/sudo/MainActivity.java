@@ -26,6 +26,7 @@ import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
+import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.NumbersFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
@@ -175,7 +176,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     }
     private void openNumbersFragment() {
 
-        FragmentReplacer.replaceTopNavigationFragment(this, new NumbersFragment());
+        FragmentReplacer.replaceTopNavigationFragment(this, new NumberMainFragment());
     }
 
     private void openHomeFragment() {

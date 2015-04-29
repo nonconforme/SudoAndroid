@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -25,7 +27,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileEditNumbersAdapter extends BaseAdapter {
+public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFocusChangeListener {
 
     private Context mContext;
     private List<NumberModel> mListNumbers;
@@ -64,16 +66,15 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber_AVC);
             viewHolder.ivDeleteNumber = (ImageView) view.findViewById(R.id.ivRemoveNumber_AVC);
+            viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
+            viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
-
-
         }
 
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
-        viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
-        viewHolder.etPhoneNumber.setOnEditorActionListener(new DoneOnEditorActionListener(position));
+        viewHolder.etPhoneNumber.setTag(position);
 
 
         return view;
@@ -94,6 +95,13 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
         }
     }
 
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        if (b) {
+            int pos = (int) view.getTag();
+            mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+        }
+    }
 
     static class ViewHolder {
         public EditText etPhoneNumber;
@@ -102,7 +110,6 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
     }
 
     public List<NumberModel> getNumbersList() {
-        notifyDataSetChanged();
         if (mListNumbers != null && mListNumbers.size() > 0) return mListNumbers;
         else return mListNumbers = new ArrayList<>();
     }
@@ -152,27 +159,27 @@ public class ProfileEditNumbersAdapter extends BaseAdapter {
 
         }
     }
-
-    private class DoneOnEditorActionListener implements TextView.OnEditorActionListener {
-        int position;
-        EditText editText;
-
-        public DoneOnEditorActionListener(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-            editText = (EditText) v;
-
-            String number = String.valueOf(editText.getText());
-            if (number != null && !number.equalsIgnoreCase("")) mListNumbers.get(position).setNumber(number);
-            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            return true;
-
-        }
-    }
+//
+//    private class DoneOnEditorActionListener implements TextView.OnEditorActionListener {
+//        int position;
+//        EditText editText;
+//
+//        public DoneOnEditorActionListener(int position) {
+//            this.position = position;
+//        }
+//
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//            editText = (EditText) v;
+//
+//            String number = String.valueOf(editText.getText());
+//            if (number != null && !number.equalsIgnoreCase("")) mListNumbers.get(position).setNumber(number);
+//            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//            return true;
+//
+//        }
+//    }
 
 }

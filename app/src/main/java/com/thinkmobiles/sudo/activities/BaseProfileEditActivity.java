@@ -154,6 +154,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     protected void updateNumberList() {
         myNumberList = profileEditNumbersAdapter.getNumbersList();
+        thisUserModel.setNumbers(myNumberList);
     }
 
     protected void updateUserModel() {

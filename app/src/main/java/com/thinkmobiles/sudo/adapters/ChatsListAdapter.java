@@ -31,13 +31,14 @@ public class ChatsListAdapter extends BaseAdapter {
     private List<ChatModel> chats;
     private LayoutInflater mInflater;
     private Activity activity;
+    private CustomOnClickListener mItemOptionListeners;
 
 
     public ChatsListAdapter(Activity activity) {
         this.activity = activity;
         this.chats = new ArrayList<>();
         mInflater = LayoutInflater.from(activity);
-
+        mItemOptionListeners = new CustomOnClickListener();
 
     }
 
@@ -74,6 +75,8 @@ public class ChatsListAdapter extends BaseAdapter {
         if (view == null) {
             view = mInflater.inflate(R.layout.chats_item, viewGroup, false);
             holder = initViewHolder(view);
+            holder.ivOptions.setOnClickListener(mItemOptionListeners);
+            holder.tvViewDetails.setOnClickListener(mItemOptionListeners);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -104,9 +107,9 @@ public class ChatsListAdapter extends BaseAdapter {
             if (lastMessage.getSender() != thisChat.getSender()) holder.ivReply.setVisibility(View.INVISIBLE);
         }
 
-        CustomOnClickListener myCustomOnClickListener = new CustomOnClickListener(position);
-        holder.ivOptions.setOnClickListener(myCustomOnClickListener);
-        holder.tvViewDetails.setOnClickListener(myCustomOnClickListener);
+        holder.ivOptions.setTag(position);
+        holder.tvViewDetails.setTag(position);
+
 
         return view;
     }
@@ -153,14 +156,10 @@ public class ChatsListAdapter extends BaseAdapter {
     }
 
     private class CustomOnClickListener implements View.OnClickListener {
-        int position;
-
-        public CustomOnClickListener(int position) {
-            this.position = position;
-        }
 
         @Override
         public void onClick(View view) {
+            int position = (int) view.getTag();
 
             switch (view.getId()) {
                 case R.id.ivChatItemOptions:
