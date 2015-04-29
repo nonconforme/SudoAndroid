@@ -3,12 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_alignParentEnd="true"
+    android:id="@+id/svData_AVP"
+
     android:layout_alignParentRight="true">
 
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
 
 
@@ -18,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/rlImageProfile"
+            android:layout_below="@+id/rlImageProfile_AVP"
             android:orientation="vertical">
 
 
@@ -96,11 +99,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rlImageProfile">
+            android:gravity="center"
+            android:id="@+id/rlImageProfile_AVP">
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"
+                />
             </RelativeLayout>
 
         <include

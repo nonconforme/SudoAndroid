@@ -12,10 +12,16 @@ import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.Numbers;
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Pavilion on 14.04.2015.
@@ -27,13 +33,29 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     private NumbersAdapter mAdapter;
     private List<Numbers> mList;
     private ListView mListView;
-
+    private Callback<List<CountryModel>> mContries;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_number, container, false);
         initComponent();
+        initCountiesCB();
+        getCountries();
         return mView;
+    }
+
+    private void initCountiesCB() {
+        mContries = new Callback<List<CountryModel>>() {
+            @Override
+            public void success(List<CountryModel> countryModels, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
     }
 
     private void initComponent(){
@@ -59,5 +81,9 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(mActivity, "Click: pos: " + position + " "
                 + mAdapter.getItem(position).getCountry(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void getCountries(){
+        RetrofitAdapter.getInterface().getCountries(mContries);
     }
 }

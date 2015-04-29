@@ -1,9 +1,12 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -16,14 +19,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
+import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -41,10 +46,12 @@ public class ProfileViewActivity extends BaseProfileActivity {
 
     private UserModel thisUserModel;
     private RelativeLayout rlImage;
+    private ScrollView llMain;
     private String firstName, urlAvatar;
     private List<NumberModel> myNumberList;
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
+    private Target mTarget;
 
     @Override
     protected int getLayoutResource() {
@@ -55,35 +62,25 @@ public class ProfileViewActivity extends BaseProfileActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ivAvatar = (ImageView) findViewById(R.id.image);
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar);
-
         loadUserModel();
         initComponent();
         loadContent();
         setContent();
-        ivAvatar = (ImageView) findViewById(R.id.image);
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        getSupportActionBar().setTitle("");
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivAvatar, new Callback() {
-            @Override
-            public void onSuccess() {
-                Palette palette = Palette.generate(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap());
-//                rlImage.setBackgroundColor(palette.getLightMutedColor(0x00000000));
-                changeViewColor(rlImage);
-            }
+        initTarget();
+        setImages();
 
-
-            @Override
-            public void onError() {
-
-            }
-        });
 
 
     }
 
+    private void setImages() {
+        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        getSupportActionBar().setTitle("");
+
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).transform(new CircleTransform()).into(ivAvatar);
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(mTarget);
+
+    }
 
     private void setContent() {
         if (Utils.checkString(firstName)) {
@@ -107,15 +104,15 @@ public class ProfileViewActivity extends BaseProfileActivity {
         firstName = thisUserModel.getCompanion();
         urlAvatar = thisUserModel.getAvatar();
         myNumberList = thisUserModel.getNumbers();
-
     }
 
 
     private void initComponent() {
-
-        tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
-        rlImage = (RelativeLayout) findViewById(R.id.rlImageProfile);
-        lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
+        ivAvatar            = (ImageView) findViewById(R.id.image);
+        tvUserFirstName     = (TextView) findViewById(R.id.tvUserFirstName_AVC);
+        rlImage             = (RelativeLayout) findViewById(R.id.rlImageProfile_AVP);
+        llMain              = (ScrollView) findViewById(R.id.svData_AVP);
+        lvNumbers           = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
 
     }
 
@@ -127,14 +124,12 @@ public class ProfileViewActivity extends BaseProfileActivity {
 
 
     public static void launch(Activity activity, View transitionView, UserModel userModel) {
-
-
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
 
         Intent intent = new Intent(activity, ProfileViewActivity.class);
-        intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
+        intent.putExtra(EXTRA_IMAGE, userModel.getAvatar());
 
         Bundle b = new Bundle();
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
@@ -162,7 +157,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         }
 
         if (id == R.id.action_edit) {
-            ActivityProfileEdit.launch(this, null, thisUserModel);
+            ProfileEditActivity.launch(this, null, thisUserModel);
 
             return true;
 
@@ -177,7 +172,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(" activity result", String.valueOf(resultCode));
         if (resultCode != -1) return;
-        if (requestCode == ActivityProfileEdit.START_EDIT_PROFILE_ACTIVITY_CODE) {
+        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
             reloadUserModel(data);
             loadContent();
             reloadAvatar();
@@ -199,28 +194,28 @@ public class ProfileViewActivity extends BaseProfileActivity {
         Picasso.with(this).load(urlAvatar).into(ivAvatar);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void changeViewColor(final View view ) {
-        Palette palette = Palette.generate(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap());
+    private void changeViewColor(final Bitmap _bitmap ) {
+        Palette palette = Palette.generate(_bitmap);
+        final int initialColor      = getResources().getColor(R.color.colorWhite);
+        final int finalColor        = palette.getVibrantColor(0x009900);
+        final int stausBarColor     = palette.getDarkVibrantColor(0x009900);
 
-        getWindow().setStatusBarColor(Color.RED);
-        // Load initial and final colors.
-        final int initialColor = getResources().getColor(R.color.colorWhite);
-        final int finalColor = palette.getVibrantColor(0x000000);
-        final int stausBarColor = palette.getDarkVibrantColor(0x000000);
-
-        getWindow().setStatusBarColor(stausBarColor);
+        setStatusBarColor(stausBarColor);
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 // Use animation position to blend colors.
                 float position = animation.getAnimatedFraction();
-                int blended = blendColors(initialColor, finalColor, position);
+                int ImageBlended = blendColors(initialColor, finalColor, position);
+                int mainBlended = blendColors(initialColor, finalColor, position);
 
                 // Apply blended color to the view.
-                view.setBackgroundColor(blended);
+                rlImage.setBackgroundColor(ImageBlended);
+                llMain.setBackgroundColor(mainBlended);
+                llMain.getBackground().setAlpha(60);
             }
         });
 
@@ -237,4 +232,31 @@ public class ProfileViewActivity extends BaseProfileActivity {
 
         return Color.rgb((int) r, (int) g, (int) b);
     }
+
+
+    private void initTarget() {
+
+        mTarget = new Target() {
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                changeViewColor(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+
+            ;
+        };
+    }
+
+
 }

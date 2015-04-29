@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
+import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -89,7 +90,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        contacts.get(i).setAvatar("https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
+        contacts.get(i).setAvatar("http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg");
         final UserModel thisUser = contacts.get(i);
         List<NumberModel> thisNumberModel = thisUser.getNumbers();
 
@@ -162,7 +163,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             int dimen = (int) mActivity.getResources().getDimension(R.dimen.sc_avatar_size);
             Picasso.with(mActivity)
                     .load(imageUrl)
-                    .resize(dimen, dimen)
+                    .transform(new CircleTransform())
+//                    .resize(dimen, dimen)
                     .into(imageView);
 
 

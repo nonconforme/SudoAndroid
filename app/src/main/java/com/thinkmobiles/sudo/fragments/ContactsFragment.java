@@ -28,6 +28,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -209,7 +210,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         String imageUrl = contactsList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(context).load(imageUrl).into(mTarget);
+            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(mTarget);
         }
 
     }
