@@ -200,7 +200,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         final int finalColor        = palette.getVibrantColor(0x009900);
         final int stausBarColor     = palette.getDarkVibrantColor(0x009900);
 
-        setStatusBarColor(stausBarColor);
+          setStatusBarColor(stausBarColor);
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 

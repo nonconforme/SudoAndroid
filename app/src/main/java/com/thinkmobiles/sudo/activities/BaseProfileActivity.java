@@ -51,6 +51,7 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void setStatusBarColor(final int _stausBarColor){
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         getWindow().setStatusBarColor(_stausBarColor);
 
     }
