@@ -33,7 +33,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
 
     private Callback<DefaultResponseModel> mUpdateContactCB;
-
+    private String oldName;
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_edit_profile;
@@ -53,13 +53,19 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     }
 
     @Override
+    protected void loadUserModel() {
+        super.loadUserModel();
+        oldName = thisUserModel.getCompanion();
+    }
+
+    @Override
     protected void returnEditedProfile() {
         if (checkNewName() && checkNewPhone()) {
             Intent intent = new Intent();
             Bundle b = new Bundle();
             b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
             intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-            updateProfile(thisUserModel);
+            updateProfile(oldName, thisUserModel);
             setResult(RESULT_OK, intent);
             onBackPressed();
 
