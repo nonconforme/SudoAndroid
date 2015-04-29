@@ -98,8 +98,8 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         };
     }
 
-    private void updateProfile(final UserModel _userModel){
-        RetrofitAdapter.getInterface().updateContact(_userModel, _userModel.getCompanion(), mUpdateContactCB);
+    private void updateProfile(final String _oldName, final UserModel _userModel){
+        RetrofitAdapter.getInterface().updateContact(_userModel, _oldName, mUpdateContactCB);
     }
 }
 
