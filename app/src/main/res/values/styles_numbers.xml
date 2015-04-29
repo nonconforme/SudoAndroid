@@ -2,8 +2,9 @@
 <resources>
     <!-- DIMENS -->
     <dimen name="sn_text_size_cred">18dp</dimen>
-    <dimen name="sn_text_size_country">16dp</dimen>
-    <dimen name="sn_margin">5dp</dimen>
+    <dimen name="sn_text_size_country">20dp</dimen>
+    <dimen name="sn_margin">0dp</dimen>
+    <dimen name="sn_padding">16dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
@@ -20,14 +21,19 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textSize">@dimen/sn_text_size_country</item>
-        <item name="android:layout_margin">@dimen/sn_margin</item>
+        <item name="android:padding">@dimen/sn_padding</item>
+
     </style>
 
     <style name="SNtvCreditStyle">
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/sn_text_size_cred</item>
-        <item name="android:layout_margin">@dimen/sn_margin</item>
+        <item name="android:padding">@dimen/sn_padding</item>
+
     </style>
     <!-- end region -->
+    <style name="SNllStyle">
+        <item name="android:padding">@dimen/sn_padding</item>
+    </style>
 </resources>

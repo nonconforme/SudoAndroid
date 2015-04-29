@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.Numbers;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
@@ -22,25 +24,26 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 public class NumbersAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<Numbers> mListNumbers;
+    private List<CountryModel> mListCountries;
     private LayoutInflater inflater;
 
-    public NumbersAdapter(Context _context, List<Numbers> _list){
+    public NumbersAdapter(Context _context) {
         mContext = _context;
-        mListNumbers = _list;
+        mListCountries = new ArrayList<CountryModel>();
         inflater = (LayoutInflater) _context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mListNumbers.size();
+        return mListCountries.size();
     }
 
     @Override
-    public Numbers getItem(int position) {
-        return mListNumbers.get(position);
+    public CountryModel getItem(int _position) {
+        return mListCountries.get(_position);
     }
+
 
     @Override
     public long getItemId(int position) {
@@ -58,7 +61,7 @@ public class NumbersAdapter extends BaseAdapter{
             viewHolder = new ViewHolder();
             viewHolder.ivCountry    = (ImageView) view.findViewById(R.id.ivCountry_FN);
             viewHolder.tvCountry    = (TextView) view.findViewById(R.id.tvCountry_FN);
-            viewHolder.tvCredit     = (TextView) view.findViewById(R.id.tvCredit_FN);
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -70,15 +73,20 @@ public class NumbersAdapter extends BaseAdapter{
                 .transform(new CropCircleTransformation())
                 .into(viewHolder.ivCountry);
 
-        viewHolder.tvCountry.setText(mListNumbers.get(position).getCountry());
-        viewHolder.tvCredit.setText(mListNumbers.get(position).getCredits());
+        viewHolder.tvCountry.setText(mListCountries.get(position).getName());
+
 
         return view;
+    }
+
+    public void reloadList(List<CountryModel> _listCountries) {
+        this.mListCountries = _listCountries;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {
         public ImageView ivCountry;
         public TextView tvCountry;
-        public TextView tvCredit;
+
     }
 }

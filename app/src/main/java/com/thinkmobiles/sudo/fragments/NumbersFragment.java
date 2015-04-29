@@ -31,7 +31,7 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     private View mView;
     private Activity mActivity;
     private NumbersAdapter mAdapter;
-    private List<Numbers> mList;
+
     private ListView mListView;
     private Callback<List<CountryModel>> mContries;
     @Override
@@ -47,12 +47,13 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     private void initCountiesCB() {
         mContries = new Callback<List<CountryModel>>() {
             @Override
-            public void success(List<CountryModel> countryModels, Response response) {
-
+            public void success(List<CountryModel> _countryModels, Response _response) {
+                mAdapter.reloadList(_countryModels);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(mActivity, "Error! Pleasy try again.",Toast.LENGTH_LONG).show();
 
             }
         };
@@ -61,12 +62,11 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     private void initComponent(){
         mListView = (ListView) mView.findViewById(R.id.lvNumbers_FN);
 
-        mList = new ArrayList<Numbers>();
-        mList.add(new Numbers("Thailand", "12CRED"));
-        mList.add(new Numbers("Turkey", "12CRED"));
-        mList.add(new Numbers("Ukraine", "12CRED"));
 
-        mAdapter = new NumbersAdapter(mActivity, mList);
+
+
+
+        mAdapter = new NumbersAdapter(mActivity);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
@@ -80,7 +80,7 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(mActivity, "Click: pos: " + position + " "
-                + mAdapter.getItem(position).getCountry(), Toast.LENGTH_SHORT).show();
+                + mAdapter.getItem(position).getName() , Toast.LENGTH_SHORT).show();
     }
 
     private void getCountries(){

@@ -122,6 +122,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 onBackPressed();
                 break;
             case R.id.action_accept:
+                updateNumberList();
                 etUserFirstName.onEditorAction(1);
                 updateUserModel();
                 returnEditedProfile();
