@@ -14,10 +14,12 @@ import android.widget.ListView;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +41,7 @@ public class ChatsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
         initComponent(v);
         initTestingData();
+        reloadList();
         return v;
     }
 
@@ -52,24 +55,31 @@ public class ChatsFragment extends Fragment {
     public void searchChatList(String querry) {
     }
 
-    public void reloadCurrentChat() {
+    public void reloadList() {
+        chatListAdapter.reloadList(chatsModelList);
     }
 
+    public void reloadCurrentList() {
+        if (chatsModelList != null) reloadList();
+    }
 
     private void initComponent(View view) {
         chatsList = (ListView) view.findViewById(R.id.lvChats_CF);
+        chatsList.setDivider(null);
+        chatsList.setDividerHeight(0);
         chatListAdapter = new ChatsListAdapter(mActivity);
         chatsList.setAdapter(chatListAdapter);
     }
 
     private void initTestingData() {
-        ChatModel testChatModel = new ChatModel();
+
         thisUser = new UserModel();
         UserModel sender = new UserModel();
-
         thisUser.setCompanion("this user");
         sender.setCompanion("sender");
 
+
+        ChatModel testChatModel = new ChatModel(sender, thisUser, new NumberModel(), new NumberModel());
 
         MessageModel message1 = new MessageModel();
         message1.setSender(thisUser);
@@ -96,6 +106,10 @@ public class ChatsFragment extends Fragment {
         testChatModel.addMessage(message2);
         testChatModel.addMessage(message3);
         testChatModel.addMessage(message4);
+
+
+        chatsModelList = new ArrayList<>();
+        chatsModelList.add(testChatModel);
     }
 
 }

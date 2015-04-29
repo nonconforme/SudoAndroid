@@ -9,15 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
-import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,16 +27,22 @@ public class ChatListAdapter extends BaseAdapter {
     private List<MessageModel> listMessages;
     private LayoutInflater mInflater;
     private Context context;
-    private UserModel thisUser;
+    private UserModel receiver;
 
 
-    public ChatListAdapter(Context context, UserModel thisUser, List<MessageModel> listMessages) {
+    public ChatListAdapter(Context context) {
 
         this.context = context;
-        this.thisUser = thisUser;
-        this.listMessages = listMessages;
+
+
         mInflater = LayoutInflater.from(context);
 
+    }
+
+    public void reloadContent(List<MessageModel> listMessages, UserModel receiver) {
+        this.listMessages = listMessages;
+        this.receiver = receiver;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -90,7 +93,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     private boolean isIncoming(int position) {
 
-        if (listMessages.get(position).getSender().equals(thisUser)) return false;
+        if (listMessages.get(position).getSender().equals(receiver)) return false;
         return true;
 
     }
@@ -116,7 +119,6 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setTimeDate(TextView tv, int position) {
         long timestamp = listMessages.get(position).getTimeStamp();
-
 
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
         Calendar calendar = Calendar.getInstance();

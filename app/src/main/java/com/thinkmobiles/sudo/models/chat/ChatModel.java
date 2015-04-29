@@ -1,5 +1,6 @@
 package com.thinkmobiles.sudo.models.chat;
 
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.io.Serializable;
@@ -13,23 +14,30 @@ public class ChatModel implements Serializable {
     private List<MessageModel> listMessages;
 
     private UserModel sender, receiver;
-    private String senderNumber = "";
-    private String receiverNumber = "";
+    private NumberModel senderNumber;
+    private NumberModel receiverNumber;
+
+    public ChatModel(UserModel sender, UserModel receiver, NumberModel senderNumber, NumberModel receiverNumber) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.senderNumber = senderNumber;
+        this.receiverNumber = receiverNumber;
+    }
 
 
-    public String getSenderNumber() {
+    public NumberModel getSenderNumber() {
         return senderNumber;
     }
 
-    public void setSenderNumber(String senderNumber) {
+    public void setSenderNumber(NumberModel senderNumber) {
         this.senderNumber = senderNumber;
     }
 
-    public String getReceiverNumber() {
+    public NumberModel getReceiverNumber() {
         return receiverNumber;
     }
 
-    public void setReceiverNumber(String receiverNumber) {
+    public void setReceiverNumber(NumberModel receiverNumber) {
         this.receiverNumber = receiverNumber;
     }
 
@@ -51,24 +59,18 @@ public class ChatModel implements Serializable {
     }
 
 
-
     public void addMessage(MessageModel message) {
-        if (listMessages == null)
-            listMessages = new ArrayList<>();
+        if (listMessages == null) listMessages = new ArrayList<>();
         listMessages.add(message);
     }
 
     public long getLastMessageTimestamp() {
 
-        if (listMessages == null || listMessages.size() == 0)
-            return 0;
+        if (listMessages == null || listMessages.size() == 0) return 0;
 
         return listMessages.get(listMessages.size() - 1).getTimeStamp();
 
     }
-
-
-
 
 
     public List<MessageModel> getListMessages() {

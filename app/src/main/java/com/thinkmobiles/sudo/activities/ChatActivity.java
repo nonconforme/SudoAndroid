@@ -1,5 +1,7 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.Utils;
+import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
@@ -21,25 +24,27 @@ public class ChatActivity extends ActionBarActivity {
     private EditText etMessage;
     private Button btnSend;
     private String message;
-
+    private ChatListAdapter chatListAdapter;
     private ChatModel thisChat;
-    private UserModel thisUser;
+
 
     public static final String CHAT_MODEL = "chat";
-    public static final String USER_MODEL = "user_model";
     public static final String BUNDLE = "bundle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initComponents();
-        setContent();
+        loadContent();
         initListeners();
+        reloadContent();
+        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
     }
 
 
@@ -48,13 +53,16 @@ public class ChatActivity extends ActionBarActivity {
         lvChatList = (ListView) findViewById(R.id.lvChatList);
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
-
+        chatListAdapter = new ChatListAdapter(this);
+        lvChatList.setAdapter(chatListAdapter);
     }
 
-    private void setContent() {
-        loadChat();
-        loadUser();
+    private void reloadContent() {
+        chatListAdapter.reloadContent(thisChat.getListMessages(), thisChat.getReceiver());
+    }
 
+    private void loadContent() {
+        loadChat();
     }
 
     private void loadChat() {
@@ -62,10 +70,6 @@ public class ChatActivity extends ActionBarActivity {
 
     }
 
-    private void loadUser() {
-        thisChat = (ChatModel) getIntent().getExtras().getBundle(BUNDLE).getSerializable(USER_MODEL);
-
-    }
 
     private void initListeners() {
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -81,5 +85,13 @@ public class ChatActivity extends ActionBarActivity {
     private void sendMessage() {
     }
 
+    public static void launch(Activity activity, ChatModel chatModel) {
 
+        Intent intent = new Intent(activity, ChatActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable(CHAT_MODEL, chatModel);
+        intent.putExtra(BUNDLE, b);
+        activity.startActivity(intent);
+
+    }
 }

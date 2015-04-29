@@ -13,7 +13,7 @@
     <dimen name="schats_view_detailes_padding">10dp</dimen>
     <dimen name="schats_text_size">16dp</dimen>
     <dimen name="schats_details_text_size">14dp</dimen>
-    <dimen name="schats_small_text_size">12dp</dimen>
+    <dimen name="schats_small_text_size">14dp</dimen>
     <dimen name="schats_item_icon_size">18dp</dimen>
 
 
@@ -95,7 +95,6 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_width">@dimen/schats_item_icon_size</item>
         <item name="android:layout_height">@dimen/schats_item_icon_size</item>
-        <item name="android:layout_marginTop">@dimen/schats_margin_top_bottom</item>
 
 
     </style>

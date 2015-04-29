@@ -1,6 +1,6 @@
 package com.thinkmobiles.sudo.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.ChatActivity;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
@@ -29,21 +30,25 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private List<ChatModel> chats;
     private LayoutInflater mInflater;
-    private Context context;
+    private Activity activity;
 
 
-    public ChatsListAdapter(Context context) {
-        this.context = context;
+    public ChatsListAdapter(Activity activity) {
+        this.activity = activity;
         this.chats = new ArrayList<>();
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(activity);
 
 
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 
     public void reloadList(List<ChatModel> chats) {
         this.chats = chats;
-       notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
 
@@ -64,102 +69,72 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
-            holder = new ViewHolder();
             view = mInflater.inflate(R.layout.chats_item, viewGroup, false);
-
-            holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
-            holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
-            holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
-            holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
-            holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
-            holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
-
-            holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
-            holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
-            holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
-
-
+            holder = initViewHolder(view);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ChatModel thisChat = chats.get(i);
-        List<MessageModel> thisChatList = thisChat.getListMessages();
+
+        List<MessageModel> thisChatList;
+        ChatModel thisChat = null;
         MessageModel lastMessage = null;
-        if (thisChatList != null && thisChatList.size() > 0){
-            lastMessage = thisChatList.get(thisChatList.size() - 1);
-            thisChatList = null;
-        }
+        if (chats != null && chats.size() > 0) thisChat = chats.get(position);
+        if (thisChat != null) {
+            thisChatList = thisChat.getListMessages();
+            if (thisChatList != null && thisChatList.size() > 0)
+                lastMessage = thisChatList.get(thisChatList.size() - 1);
 
+            holder.tvSenderName.setText(thisChat.getSender().getCompanion());
+/*
+            holder.tvSenderNumber.setText(thisChat.getSenderNumber().getNumber());
 
-        holder.tvSenderName.setText(thisChat.getSender().getCompanion());
-        holder.tvSenderNumber.setText(thisChat.getSenderNumber());
-        holder.tvReceiverDetails.setText(thisChat.getReceiver().getCompanion() + " " + thisChat.getReceiverNumber());
+            holder.tvReceiverDetails.setText(thisChat.getReceiver().getCompanion() + " " + thisChat.getReceiverNumber().getNumber());*/
 
-        if (lastMessage != null) {
-            holder.tvMessagePreview.setText(lastMessage.getMessageText());
-
-            long timeStamp = lastMessage.getTimeStamp();
-            if (timeStamp != 0)
-                holder.tvItemTimedate.setText(getDate(timeStamp));
-        }
-        setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
-
-
-        if (lastMessage.getSender() != thisChat.getSender())
-            holder.ivReply.setVisibility(View.INVISIBLE);
-
-
-        View.OnClickListener myOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                switch (view.getId()){
-                    case R.id.ivChatItemOptions:
-                        Toast.makeText(context, "Options was clicked", Toast.LENGTH_SHORT).show();
-
-                        break;
-                    case R.id.tvChatItemViewDetails:
-                        Toast.makeText(context, "View Details was clicked", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-
+            if (lastMessage != null) {
+                holder.tvMessagePreview.setText(lastMessage.getMessageText());
+                long timeStamp = lastMessage.getTimeStamp();
+                if (timeStamp != 0) holder.tvItemTimedate.setText(getDate(timeStamp));
             }
-        };
 
-        holder.ivOptions.setOnClickListener(myOnClickListener);
-        holder.tvViewDetails.setOnClickListener(myOnClickListener);
+            setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
+            if (lastMessage.getSender() != thisChat.getSender()) holder.ivReply.setVisibility(View.INVISIBLE);
+        }
+
+        CustomOnClickListener myCustomOnClickListener = new CustomOnClickListener(position);
+        holder.ivOptions.setOnClickListener(myCustomOnClickListener);
+        holder.tvViewDetails.setOnClickListener(myCustomOnClickListener);
 
         return view;
     }
 
-    private class ViewHolder {
-        ImageView ivAvatar, ivReply, ivOptions;
-        TextView tvSenderName, tvSenderNumber, tvReceiverDetails,
-                tvMessagePreview, tvItemTimedate, tvViewDetails;
+
+    private ViewHolder initViewHolder(View view) {
+        ViewHolder holder = new ViewHolder();
+        holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
+        holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
+        holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
+        holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
+        holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
+        holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
+        holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
+        holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
+        holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
+        return holder;
 
     }
-
-    private class HeaderViewHolder {
-
-        TextView text;
-    }
-
 
     private void setAvatar(ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .resize(dimen, dimen)
-                    .into(imageView);
+            int dimen = (int) activity.getResources().getDimension(R.dimen.sc_avatar_size);
+            Picasso.with(activity).load(imageUrl).resize(dimen, dimen).into(imageView);
 
 
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+            Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher);
             imageView.setImageBitmap(bm);
         }
 
@@ -172,5 +147,41 @@ public class ChatsListAdapter extends BaseAdapter {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
+
+    private void startChatActivity(ChatModel chatModel) {
+        ChatActivity.launch(activity, chatModel);
+    }
+
+    private class CustomOnClickListener implements View.OnClickListener {
+        int position;
+
+        public CustomOnClickListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            switch (view.getId()) {
+                case R.id.ivChatItemOptions:
+
+                    break;
+                case R.id.tvChatItemViewDetails:
+
+                    startChatActivity(chats.get(position));
+
+
+                    break;
+            }
+
+        }
+    }
+
+    private class ViewHolder {
+        ImageView ivAvatar, ivReply, ivOptions;
+        TextView tvSenderName, tvSenderNumber, tvReceiverDetails, tvMessagePreview, tvItemTimedate, tvViewDetails;
+
+    }
+
 
 }
