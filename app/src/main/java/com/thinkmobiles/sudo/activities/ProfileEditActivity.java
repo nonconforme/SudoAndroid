@@ -119,20 +119,14 @@ public class ProfileEditActivity extends BaseProfileActivity {
         Log.d(TAG, thisUserModel.getCompanion());
     }
 
-    public static void launch(Activity activity, View transitionView, UserModel userModel) {
-        /*ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, transitionView, EXTRA_IMAGE);*/
+    public static void launch(Activity activity, UserModel userModel) {
+
 
         Intent intent = new Intent(activity, ProfileEditActivity.class);
         intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
-
         Bundle b = new Bundle();
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
         intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-
-
-/*        ActivityCompat.startActivity(activity, intent, options.toBundle());*/
         activity.startActivityForResult(intent, START_EDIT_PROFILE_ACTIVITY_CODE);
 
     }

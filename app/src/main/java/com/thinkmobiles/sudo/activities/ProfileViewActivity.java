@@ -157,7 +157,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         }
 
         if (id == R.id.action_edit) {
-            ProfileEditActivity.launch(this, null, thisUserModel);
+            ProfileEditActivity.launch(this, thisUserModel);
 
             return true;
 

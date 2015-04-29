@@ -13,7 +13,7 @@
     <dimen name="schats_view_detailes_padding">10dp</dimen>
     <dimen name="schats_text_size">16dp</dimen>
     <dimen name="schats_details_text_size">14dp</dimen>
-    <dimen name="schats_small_text_size">12dp</dimen>
+    <dimen name="schats_small_text_size">14dp</dimen>
     <dimen name="schats_item_icon_size">18dp</dimen>
 
 
@@ -23,6 +23,8 @@
     <dimen name="schat_margin_top_bottom">12dp</dimen>
     <dimen name="schat_send_btn_height">32dp</dimen>
     <dimen name="schat_margin_btn_send">4dp</dimen>
+    <dimen name="schat_item_shadow_offset">2dp</dimen>
+
 
     <!-- end region -->
 
@@ -95,7 +97,6 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_width">@dimen/schats_item_icon_size</item>
         <item name="android:layout_height">@dimen/schats_item_icon_size</item>
-        <item name="android:layout_marginTop">@dimen/schats_margin_top_bottom</item>
 
 
     </style>
@@ -112,11 +113,11 @@
     </style>
 
     <style name="SChatItemLayout">
-        <item name="android:layout_marginTop">@dimen/schat_margin_top_bottom</item>
-        <item name="android:layout_marginBottom">@dimen/schat_margin_top_bottom</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
     <style name="SChatTextFrame">
-        <item name="android:layout_marginBottom">@dimen/schat_padding</item>
+        <item name="android:layout_marginBottom">@dimen/schat_margin_top_bottom</item>
     </style>
 
     <style name="SChatBtnSend">

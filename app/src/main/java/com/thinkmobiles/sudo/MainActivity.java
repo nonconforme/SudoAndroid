@@ -231,8 +231,7 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
                 Log.d("searchView", "closed");
                 if(getCurrentTab() == 0)
                     homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
-                else
-                    homeFragment.getAdapter().getChatFragment().reloadCurrentChat();
+                else homeFragment.getAdapter().getChatFragment().reloadCurrentList();
 
                 return false;
             }

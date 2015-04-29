@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.text.SimpleDateFormat;
@@ -30,25 +28,21 @@ public class ChatListAdapter extends BaseAdapter {
     private List<MessageModel> listMessages;
     private LayoutInflater mInflater;
     private Context context;
-    private UserModel thisUser;
+    private UserModel receiver;
 
 
-    public ChatListAdapter(Context context, UserModel thisUser) {
-
+    public ChatListAdapter(Context context) {
         this.context = context;
-        this.thisUser = thisUser;
-        this.listMessages = new ArrayList<>();
+        listMessages = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
-
     }
 
-
-    public void reloadList(List<MessageModel> listMessages) {
+    public void reloadContent(List<MessageModel> listMessages, UserModel receiver) {
         this.listMessages = listMessages;
+        this.receiver = receiver;
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getCount() {
@@ -65,55 +59,70 @@ public class ChatListAdapter extends BaseAdapter {
         return i;
     }
 
-
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int postion, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(null, viewGroup, false);
 
+            if (isIncoming(postion)) view = mInflater.inflate(R.layout.chat_item_in, viewGroup, false);
+            else view = mInflater.inflate(R.layout.chat_item_out, viewGroup, false);
+
+            holder.ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
+            holder.tvMessage = (TextView) view.findViewById(R.id.tvChatText);
+            holder.tvTimedate = (TextView) view.findViewById(R.id.tvTimeDate);
 
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        setAvatar(holder.ivAvatar, postion);
+        setMessage(holder.tvMessage, postion);
+        setTimeDate(holder.tvTimedate, postion);
+
 
         return view;
     }
 
     private class ViewHolder {
-        ImageView ivAvatar, ivReply, ivOptions;
-        TextView tvSenderName, tvSenderNumber, tvReceiverDetails, tvMessagePreview, tvItemTimedate, tvViewDetails;
+        ImageView ivAvatar;
+        TextView tvTimedate, tvMessage;
 
     }
 
-    private class HeaderViewHolder {
+    private boolean isIncoming(int position) {
 
-        TextView text;
+        if (listMessages.get(position).getSender().equals(receiver)) return false;
+        return true;
+
     }
 
-
-    private void setAvatar(ImageView imageView, String imageUrl) {
+    private void setAvatar(ImageView iv, int position) {
+        String imageUrl = listMessages.get(position).getSender().getAvatar();
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) context.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(context).load(imageUrl).resize(dimen, dimen).into(imageView);
+            int dimen = (int) context.getResources().getDimension(R.dimen.schats_avatar_size);
+            Picasso.with(context).load(imageUrl).resize(dimen, dimen).into(iv);
 
 
         } else {
             Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-            imageView.setImageBitmap(bm);
+            iv.setImageBitmap(bm);
         }
 
     }
 
-    private String getDate(long milliSeconds) {
+    private void setMessage(TextView tv, int position) {
+        tv.setText(listMessages.get(position).getMessageText());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
+    }
 
+    private void setTimeDate(TextView tv, int position) {
+        long timestamp = listMessages.get(position).getTimeStamp();
+
+        SimpleDateFormat formatter = new SimpleDateFormat(context.getString(R.string.date_format));
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis((int) milliSeconds);
-        return formatter.format(calendar.getTime());
+        calendar.setTimeInMillis(timestamp);
+        tv.setText(formatter.format(calendar.getTime()));
     }
 
 }

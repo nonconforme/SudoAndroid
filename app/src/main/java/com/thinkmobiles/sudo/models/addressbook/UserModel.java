@@ -34,4 +34,24 @@ public class UserModel  implements Serializable{
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserModel)) return false;
+
+        UserModel userModel = (UserModel) o;
+
+        if (!getCompanion().equals(userModel.getCompanion())) return false;
+        return !(getNumbers() != null ? !getNumbers().equals(userModel.getNumbers()) : userModel.getNumbers() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCompanion().hashCode();
+        result = 31 * result + (getNumbers() != null ? getNumbers().hashCode() : 0);
+        return result;
+    }
 }
