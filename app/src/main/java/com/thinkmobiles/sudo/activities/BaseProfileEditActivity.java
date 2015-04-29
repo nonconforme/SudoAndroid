@@ -192,17 +192,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     }
 
 
-    protected void returnEditedProfile() {
-        if (checkNewName() && checkNewPhone()) {
-            Intent intent = new Intent();
-            Bundle b = new Bundle();
-            b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
-            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-            setResult(RESULT_OK, intent);
-            onBackPressed();
-
-        }
-    }
+    abstract protected void returnEditedProfile();
 
     protected boolean checkNewName() {
 

@@ -52,6 +52,20 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     }
 
+    @Override
+    protected void returnEditedProfile() {
+        if (checkNewName() && checkNewPhone()) {
+            Intent intent = new Intent();
+            Bundle b = new Bundle();
+            b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
+            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+            updateProfile(thisUserModel);
+            setResult(RESULT_OK, intent);
+            onBackPressed();
+
+        }
+    }
+
     public static void launch(Activity activity, UserModel userModel) {
 
 

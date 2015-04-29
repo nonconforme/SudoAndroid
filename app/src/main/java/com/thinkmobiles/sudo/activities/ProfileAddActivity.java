@@ -34,6 +34,15 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
 
     }
 
+    @Override
+    protected void returnEditedProfile() {
+        if (checkNewName() && checkNewPhone()) {
+            addProfile(thisUserModel);
+            onBackPressed();
+
+        }
+    }
+
     public static void launch(Activity activity) {
 
 
@@ -49,7 +58,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
     }
 
 
-    private void addProfile(final UserModel _userModel){
+    private void addProfile(final UserModel _userModel) {
         RetrofitAdapter.getInterface().addContact(_userModel, mAddContactCB);
     }
 
