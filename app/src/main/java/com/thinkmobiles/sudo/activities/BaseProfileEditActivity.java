@@ -242,7 +242,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                         thisUserModel.setCompanion(firstName);
                         break;
 
-
                 }
 
                 InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
