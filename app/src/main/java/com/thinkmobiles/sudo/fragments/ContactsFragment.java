@@ -6,6 +6,7 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,15 +16,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.*;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.BaseProfileActivity;
+import com.thinkmobiles.sudo.activities.ProfileAddActivity;
+import com.thinkmobiles.sudo.activities.ProfileEditActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -174,7 +175,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAddFriend_CF:
-                addFriendDalog();
+                addFriendActivity();
                 break;
             case R.id.btnDialogCancelCF:
                 mDialog.dismiss();
@@ -185,6 +186,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
                 }
                 break;
         }
+    }
+
+    private void addFriendActivity() {
+        ProfileAddActivity.launch(context);
     }
 
     private void makeAddContact() {
@@ -198,6 +203,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
     }
 
+    private void makeAddContactFromActivity(UserModel model) {
+        RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         contactsFragmentCallback.setCurrentContact(contactsList.get(i));
@@ -266,5 +274,21 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(context, "result", Toast.LENGTH_LONG).show();
+        if (resultCode != -1) return;
+        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
 
+            makeAddContactFromActivity(loadUserModelFromProfileEditor(data));
+
+
+        }
+    }
+
+    public UserModel loadUserModelFromProfileEditor(Intent intent) {
+        UserModel newUserModel = (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
+        return newUserModel;
+    }
 }
