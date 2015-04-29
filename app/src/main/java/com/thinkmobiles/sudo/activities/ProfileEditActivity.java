@@ -47,7 +47,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         loadUserModel();
         loadContent();
         setContent();
-
+        initAddContactCB();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
 
     }
