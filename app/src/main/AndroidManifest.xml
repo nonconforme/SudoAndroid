@@ -64,7 +64,14 @@
 
         </activity>
 
+        <activity
+                android:name=".activities.ProfileAddActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:screenOrientation="portrait"
+                android:theme="@style/NoTitleTheme"
+                android:windowSoftInputMode="stateHidden">
 
+        </activity>
         <activity
 
                 android:name=".activities.ChatActivity"

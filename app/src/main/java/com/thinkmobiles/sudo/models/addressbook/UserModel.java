@@ -1,6 +1,7 @@
 package com.thinkmobiles.sudo.models.addressbook;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,12 @@ public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;
+
+    public UserModel() {
+        numbers = new ArrayList<>();
+        avatar = new String();
+        companion = new String();
+    }
 
     public List<NumberModel> getNumbers() {
         return numbers;

@@ -6,7 +6,6 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -46,13 +44,13 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  */
 public class ContactsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private Activity mActivity;
+    private Activity context;
     private FloatingActionButton mBTNAddFriend;
     private View mView;
     private Dialog mDialog;
     private EditText mETName, mETNumber;
     private Button mBTNCancel, mBTNSave;
-    private Context context;
+
     private Callback<List<UserModel>> mContactsCB;
 
     private StickyListHeadersListView stickyList;
@@ -113,7 +111,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+        context = activity;
         contactsFragmentCallback = (ContactsFragmentCallback) activity;
     }
 
@@ -121,11 +119,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
 
-        context = getActivity().getApplicationContext();
+
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
-        stickyListAdapter = new ContactsListAdapter(mActivity);
+        stickyListAdapter = new ContactsListAdapter(context);
         stickyList.setAdapter(stickyListAdapter);
 
 
@@ -155,9 +153,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     // Create dialog for add new friend
     private void addFriendDalog() {
-        LayoutInflater inflater = mActivity.getLayoutInflater();
+        LayoutInflater inflater = context.getLayoutInflater();
         mView = inflater.inflate(R.layout.dialog_add_friend, null);
-        mDialog = new Dialog(mActivity);
+        mDialog = new Dialog(context);
         mDialog.setContentView(mView);
         mDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTest;
         initDialogComponent();
@@ -205,12 +203,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         contactsFragmentCallback.setCurrentContact(contactsList.get(i));
 
 
-        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
+        ((ActionBarActivity) context).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
 
         String imageUrl = contactsList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(mTarget);
+            Picasso.with(context).load(imageUrl).into(mTarget);
         }
 
     }
@@ -224,7 +222,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 imageView.setImageBitmap(bitmap);
                 Drawable image = imageView.getDrawable();
-                ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
+                ((ActionBarActivity) context).getSupportActionBar().setIcon(image);
             }
 
             @Override
@@ -247,11 +245,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     public void searchContactsList(String querry) {
 
-        List<UserModel> tempContactsArrayList = new ArrayList<UserModel>();
+        List<UserModel> tempContactsArrayList = new ArrayList<>();
         if (contactsList != null) {
             for (UserModel userModel : contactsList) {
-                if (stringContains(userModel.getCompanion(),querry))
-                    tempContactsArrayList.add(userModel);
+                if (stringContains(userModel.getCompanion(), querry)) tempContactsArrayList.add(userModel);
 
             }
             reloadList(tempContactsArrayList);
@@ -261,13 +258,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void reloadCurrentList() {
-        if (contactsList != null)
-            reloadList(contactsList);
+        if (contactsList != null) reloadList(contactsList);
     }
 
     public static boolean stringContains(String source, String toCheck) {
 
-      return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase()) ;
+        return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
     }
 
 

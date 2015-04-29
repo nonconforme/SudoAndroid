@@ -268,13 +268,13 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
     protected void onNewIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
-            String querry = intent.getStringExtra(SearchManager.QUERY);
+            String query = intent.getStringExtra(SearchManager.QUERY);
 
 
             if (getCurrentTab() == 0) {
-                homeFragment.getAdapter().getContactsFragment().searchContactsList(querry);
+                homeFragment.getAdapter().getContactsFragment().searchContactsList(query);
             } else {
-                homeFragment.getAdapter().getChatFragment().searchChatList(querry);
+                homeFragment.getAdapter().getChatFragment().searchChatList(query);
             }
 
 
