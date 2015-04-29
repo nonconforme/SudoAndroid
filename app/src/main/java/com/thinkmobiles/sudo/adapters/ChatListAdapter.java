@@ -15,6 +15,7 @@ import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,10 +32,8 @@ public class ChatListAdapter extends BaseAdapter {
 
 
     public ChatListAdapter(Context context) {
-
         this.context = context;
-
-
+        listMessages = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
     }
