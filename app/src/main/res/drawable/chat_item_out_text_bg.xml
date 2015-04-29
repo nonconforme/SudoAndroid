@@ -2,7 +2,7 @@
     <!-- "background shadow" -->
 
 
-    <item android:top="@dimen/sds_btn_shadow_offset" android:left="@dimen/sds_btn_shadow_offset">
+    <item android:top="@dimen/schat_item_shadow_offset" android:left="@dimen/schat_item_shadow_offset">
         <shape android:shape="rectangle">
             <solid android:color="@color/schat_item_text_shadow"/>
 
@@ -10,7 +10,7 @@
         </shape>
     </item>
     <!-- background color -->
-    <item android:bottom="@dimen/sds_btn_shadow_offset" android:right="@dimen/sds_btn_shadow_offset">
+    <item android:bottom="@dimen/schat_item_shadow_offset" android:right="@dimen/schat_item_shadow_offset">
 
         <shape>
             <solid android:color="@color/schat_item_text_bg"/>

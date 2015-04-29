@@ -33,6 +33,7 @@ public class ChatActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initComponents();
         loadContent();
         initListeners();
@@ -51,6 +52,8 @@ public class ChatActivity extends ActionBarActivity {
     private void initComponents() {
         setContentView(R.layout.activity_chat);
         lvChatList = (ListView) findViewById(R.id.lvChatList);
+        lvChatList.setDivider(null);
+        lvChatList.setDividerHeight(0);
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
         chatListAdapter = new ChatListAdapter(this);

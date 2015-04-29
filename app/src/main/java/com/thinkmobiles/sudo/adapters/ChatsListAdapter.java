@@ -142,7 +142,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private String getDate(long milliSeconds) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat(activity.getString(R.string.date_format));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());

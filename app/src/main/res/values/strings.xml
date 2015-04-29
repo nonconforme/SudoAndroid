@@ -99,5 +99,5 @@
     <string name="some_timedate">Jul 19, 18:63</string>
     <string name="compose_message_hint">Compose message</string>
     <string name="message_send">Send</string>
-
+    <string name="date_format">MMM dd HH:mm</string>
 </resources>

@@ -119,7 +119,7 @@ public class ChatListAdapter extends BaseAdapter {
     private void setTimeDate(TextView tv, int position) {
         long timestamp = listMessages.get(position).getTimeStamp();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat(context.getString(R.string.date_format));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
         tv.setText(formatter.format(calendar.getTime()));

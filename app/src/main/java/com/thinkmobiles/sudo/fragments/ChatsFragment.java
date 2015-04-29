@@ -84,22 +84,22 @@ public class ChatsFragment extends Fragment {
         MessageModel message1 = new MessageModel();
         message1.setSender(thisUser);
         message1.setMessageText("privet lalala 1");
-        message1.setTimeStamp((long) System.currentTimeMillis() - 100);
+        message1.setTimeStamp(System.currentTimeMillis());
 
         MessageModel message2 = new MessageModel();
         message2.setSender(sender);
         message2.setMessageText("privet lalala 2");
-        message2.setTimeStamp((long) System.currentTimeMillis() - 200);
+        message2.setTimeStamp(System.currentTimeMillis());
 
         MessageModel message3 = new MessageModel();
         message3.setSender(thisUser);
         message3.setMessageText("privet lalala 3");
-        message3.setTimeStamp((long) System.currentTimeMillis() - 300);
+        message3.setTimeStamp(System.currentTimeMillis());
 
         MessageModel message4 = new MessageModel();
         message4.setSender(sender);
         message4.setMessageText("privet lalala 4");
-        message4.setTimeStamp((long) System.currentTimeMillis() - 400);
+        message4.setTimeStamp(System.currentTimeMillis());
 
 
         testChatModel.addMessage(message1);
