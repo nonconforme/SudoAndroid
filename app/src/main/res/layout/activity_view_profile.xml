@@ -45,7 +45,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/ivUser_AVP"
                         android:layout_toRightOf="@+id/ivUser_AVP"
-                        android:text="@string/avc_default_name" />
+                            />
 
                     <!--   <TextView
                            android:id="@+id/tvUserSecondName_AVC"

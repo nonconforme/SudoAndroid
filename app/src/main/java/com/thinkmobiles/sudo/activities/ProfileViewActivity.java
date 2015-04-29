@@ -157,7 +157,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         }
 
         if (id == R.id.action_edit) {
-            ProfileEditActivity.launch(this, thisUserModel);
+            launchEditProfileActivity();
 
             return true;
 
@@ -166,7 +166,9 @@ public class ProfileViewActivity extends BaseProfileActivity {
 
     }
 
-
+    private void launchEditProfileActivity() {
+        ProfileEditActivity.launch(this, thisUserModel);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
