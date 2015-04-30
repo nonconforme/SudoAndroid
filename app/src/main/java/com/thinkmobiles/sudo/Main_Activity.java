@@ -17,6 +17,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -60,12 +62,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchManager searchManager;
     private SearchView searchView;
 
+    private ImageView ivAvatarDrawer;
+    private TextView tvProfileNameDrawer;
 
 
     private UserModel selectedContact;
     private boolean showDrawer;
     private boolean showSearchView;
-
 
 
     @Override
@@ -125,7 +128,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -231,8 +233,16 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         }
     }
 
-    public void initDrawer() {
+    private void initDrawer() {
         mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).withHeader(R.layout.drawer_header).withOnDrawerListener(this).withOnDrawerItemClickListener(this).addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1), new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)), new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2), new DividerDrawerItem(), new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)), new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
+        ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
+        tvProfileNameDrawer = (TextView) findViewById(R.id.tvProfileName_Drawer);
+    }
+
+    private void setAvatarContent(UserModel userModel) {
+        tvProfileNameDrawer.setText(userModel.getCompanion());
+        
+
     }
 
     private void initSearchBar(final Menu menu) {
