@@ -12,11 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tvCredit_FN"
-        style="@style/SNtvCreditStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/buy_number" android:gravity="end"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:weightSum="1">
+        <TextView style="@style/SNtvCountryStyle" android:id="@+id/tvPrice_FN" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:text="@string/number_price"
+                  android:layout_weight="1" android:gravity="center"/>
+        <TextView
+                android:id="@+id/tvBuy_FN"
+                style="@style/SNtvCreditStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buy_number" android:gravity="end"/>
+    </LinearLayout>
 
 </LinearLayout>

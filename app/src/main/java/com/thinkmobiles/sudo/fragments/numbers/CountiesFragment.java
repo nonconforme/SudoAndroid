@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.adapters.NumbersAdapter;
+import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 
@@ -27,7 +27,7 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
 
     private View mView;
     private Activity mActivity;
-    private NumbersAdapter mAdapter;
+    private CountriesAdapter mAdapter;
 
     private ListView mListView;
     private Callback<List<CountryModel>> mContries;
@@ -63,7 +63,7 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
 
     private void initComponent(){
         mListView = (ListView) mView.findViewById(R.id.lvNumbers_FN);
-        mAdapter = new NumbersAdapter(mActivity);
+        mAdapter = new CountriesAdapter(mActivity);
         mListView.setAdapter(mAdapter);
     }
 

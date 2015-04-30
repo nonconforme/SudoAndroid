@@ -104,6 +104,12 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         return super.onOptionsItemSelected(item);
