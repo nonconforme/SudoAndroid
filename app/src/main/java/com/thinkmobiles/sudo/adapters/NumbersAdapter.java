@@ -56,7 +56,7 @@ public class NumbersAdapter extends BaseAdapter{
         ViewHolder viewHolder;
 
         if (view == null) {
-            view = inflater.inflate(R.layout.list_item_number, parent, false);
+            view = inflater.inflate(R.layout.list_item_country, parent, false);
 
             viewHolder = new ViewHolder();
             viewHolder.ivCountry    = (ImageView) view.findViewById(R.id.ivCountry_FN);

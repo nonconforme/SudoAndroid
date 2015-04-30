@@ -24,7 +24,7 @@ public class BayNumberFragment extends BaseNumbersFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_bay_nuber, container, false);
+        View view = inflater.inflate(R.layout.fragment_buy_nuber, container, false);
         return view;
     }
 
