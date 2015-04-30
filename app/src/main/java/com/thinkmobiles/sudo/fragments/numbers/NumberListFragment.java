@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -49,6 +50,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
         initGetNumbersCB();
         getNumbers();
         setListeners();
+
 
         return mView;
     }
@@ -94,6 +96,8 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     private void getNumbers() {
         /*RetrofitAdapter.getInterface().getCountries(mNumbers);*/
     }
+
+
 }
 
 

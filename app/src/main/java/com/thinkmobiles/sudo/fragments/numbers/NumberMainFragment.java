@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.fragments.numbers.BaseNumbersFragment;
 
 /**
@@ -22,8 +24,13 @@ public class NumberMainFragment  extends BaseNumbersFragment {
         View view = inflater.inflate(R.layout.fragment_main_numbers, container, false);
         setMainFragment(this);
         openCountryFragment();
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+    }
 }

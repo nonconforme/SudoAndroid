@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +26,7 @@ import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
+import com.thinkmobiles.sudo.fragments.numbers.BaseNumbersFragment;
 import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
@@ -49,18 +50,19 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     // Declaring Your View and Variables
 
-    private Toolbar toolbar;
+
     private String mTitle;
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
-
-    HomeFragment homeFragment;
+    private ToolbarManager sToolbarManager;
+    private HomeFragment homeFragment;
 
     private SearchManager searchManager;
     private SearchView searchView;
 
 
     private UserModel selectedContact;
+    private boolean showDrawer;
 
 
     @Override
@@ -83,47 +85,63 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        toolbar.setTitle(mTitle);
-
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-
-
-
+        showDrawer = true;
+        sToolbarManager = ToolbarManager.getInstance(this);
+        sToolbarManager.setTitlie(mTitle);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         initSearchBar(menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (!showDrawer) onBackPressed();
+        else {
+            if (mDrawer.isDrawerOpen()) {
+                mDrawer.closeDrawer();
+            } else {
+                mDrawer.openDrawer();
+
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen()) {
-            mDrawer.closeDrawer();
+        if (showDrawer) {
+            if (mDrawer.isDrawerOpen()) {
+                mDrawer.closeDrawer();
+            }
         } else {
-            super.onBackPressed();
+            BaseNumbersFragment.goBack();
         }
+
     }
+
+    public void enableDrawer(boolean show) {
+
+        this.showDrawer = show;
+
+        if (show) {
+            mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+            mDrawer.closeDrawer();
+
+        } else {
+
+            mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+
+        }
+
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
@@ -153,7 +171,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     private void implementClick(int pos) {
-        switch (pos){
+        switch (pos) {
             case SIGN_OUT_ACTION:
                 makeSignOutRequest();
                 break;
@@ -179,6 +197,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private void openSettingsFragment() {
         FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
     }
+
     private void openNumbersFragment() {
 
         FragmentReplacer.replaceTopNavigationFragment(this, new NumberMainFragment());
@@ -201,22 +220,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         }
     }
 
-    private void initDrawer() {
-        mDrawer = new Drawer()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withActionBarDrawerToggle(true)
-                .withHeader(R.layout.drawer_header)
-                .withOnDrawerListener(this)
-                .withOnDrawerItemClickListener(this)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out)))
-                .build();
+    public void initDrawer() {
+        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).withHeader(R.layout.drawer_header).withOnDrawerListener(this).withOnDrawerItemClickListener(this).addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1), new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)), new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2), new DividerDrawerItem(), new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)), new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
     }
 
     private void initSearchBar(final Menu menu) {
@@ -225,9 +230,9 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-         searchManager = (SearchManager) Main_Activity.this.getSystemService(Context.SEARCH_SERVICE);
+        searchManager = (SearchManager) Main_Activity.this.getSystemService(Context.SEARCH_SERVICE);
 
-         searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(Main_Activity.this.getComponentName()));
         searchView.setActivated(true);
@@ -235,16 +240,12 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
             @Override
             public boolean onClose() {
                 Log.d("searchView", "closed");
-                if(getCurrentTab() == 0)
-                    homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
+                if (getCurrentTab() == 0) homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
                 else homeFragment.getAdapter().getChatFragment().reloadCurrentList();
 
                 return false;
             }
         });
-
-
-
 
 
     }
@@ -290,5 +291,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private int getCurrentTab() {
         return homeFragment.getCurrentTab();
     }
+
 
 }

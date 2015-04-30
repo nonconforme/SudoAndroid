@@ -9,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
@@ -26,7 +28,7 @@ import retrofit.client.Response;
 public class CountiesFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener{
 
     private View mView;
-    private Activity mActivity;
+    private Main_Activity mActivity;
     private CountriesAdapter mAdapter;
 
     private ListView mListView;
@@ -68,9 +70,15 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ToolbarManager.getInstance(mActivity).enableDrawer();
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+        mActivity = (Main_Activity) activity;
     }
 
     @Override
