@@ -100,4 +100,5 @@
     <string name="compose_message_hint">Compose message</string>
     <string name="message_send">Send</string>
     <string name="date_format">MMM dd HH:mm</string>
+    <string name="get_number">GET</string>
 </resources>

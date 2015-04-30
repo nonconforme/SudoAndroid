@@ -5,7 +5,6 @@ package com.thinkmobiles.sudo.fragments;
  */
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -13,11 +12,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -30,16 +31,14 @@ import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -49,9 +48,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Activity context;
     private FloatingActionButton mBTNAddFriend;
     private View mView;
-    private Dialog mDialog;
-    private EditText mETName, mETNumber;
-    private Button mBTNCancel, mBTNSave;
+
 
     private Callback<List<UserModel>> mContactsCB;
 
@@ -80,12 +77,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mAddContactCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
+
                 makeGetUserRequest();
-                mDialog.dismiss();
+                Log.d("retrofit", "contact request");
+
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Log.d("retrofit", "contact request failure");
             }
         };
     }
@@ -141,36 +141,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         stickyList.setOnItemClickListener(this);
     }
 
-    private void initDialogComponent() {
-        mETName = (EditText) mView.findViewById(R.id.etDialogNameCF);
-        mETNumber = (EditText) mView.findViewById(R.id.etDialogNumberCF);
-        mBTNCancel = (Button) mView.findViewById(R.id.btnDialogCancelCF);
-        mBTNSave = (Button) mView.findViewById(R.id.btnDialogSaveCF);
-    }
-
-    private void setDialogListener() {
-        mBTNCancel.setOnClickListener(this);
-        mBTNSave.setOnClickListener(this);
-    }
-
-    // Create dialog for add new friend
-    private void addFriendDalog() {
-        LayoutInflater inflater = context.getLayoutInflater();
-        mView = inflater.inflate(R.layout.dialog_add_friend, null);
-        mDialog = new Dialog(context);
-        mDialog.setContentView(mView);
-        mDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTest;
-        initDialogComponent();
-        setDialogListener();
-        mDialog.setTitle(getResources().getString(R.string.cf_dialog_title));
-        mDialog.show();
-    }
-
-    private boolean isValidateParam(EditText _et) {
-        String check = _et.getText().toString();
-        return !check.isEmpty();
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -178,14 +148,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             case R.id.btnAddFriend_CF:
                 addFriendActivity();
                 break;
-            case R.id.btnDialogCancelCF:
-                mDialog.dismiss();
-                break;
-            case R.id.btnDialogSaveCF:
-                if (isValidateParam(mETName) && isValidateParam(mETNumber)) {
-                    makeAddContact();
-                }
-                break;
+
         }
     }
 
@@ -193,16 +156,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         ProfileAddActivity.launch(context);
     }
 
-    private void makeAddContact() {
-        UserModel model = new UserModel();
-        List<NumberModel> numbers = new ArrayList<>();
-        NumberModel numberModel = new NumberModel();
-        numberModel.setNumber(mETNumber.getText().toString());
-        numbers.add(numberModel);
-        model.setNumbers(numbers);
-        model.setCompanion(mETName.getText().toString());
-        RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
-    }
 
     private void makeAddContactFromActivity(UserModel model) {
         RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
@@ -245,7 +198,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
             }
 
-            ;
 
 
         };
@@ -281,15 +233,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         Toast.makeText(context, "result", Toast.LENGTH_LONG).show();
         if (resultCode != -1) return;
         if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
-
             makeAddContactFromActivity(loadUserModelFromProfileEditor(data));
-
-
         }
     }
 
     public UserModel loadUserModelFromProfileEditor(Intent intent) {
-        UserModel newUserModel = (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
-        return newUserModel;
+        return (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
+
     }
 }

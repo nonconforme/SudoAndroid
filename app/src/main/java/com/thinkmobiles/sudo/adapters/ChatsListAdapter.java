@@ -88,8 +88,7 @@ public class ChatsListAdapter extends BaseAdapter {
         if (chats != null && chats.size() > 0) thisChat = chats.get(position);
         if (thisChat != null) {
             thisChatList = thisChat.getListMessages();
-            if (thisChatList != null && thisChatList.size() > 0)
-                lastMessage = thisChatList.get(thisChatList.size() - 1);
+            if (thisChatList != null && thisChatList.size() > 0) lastMessage = thisChatList.get(0);
 
             holder.tvSenderName.setText(thisChat.getSender().getCompanion());
 /*
