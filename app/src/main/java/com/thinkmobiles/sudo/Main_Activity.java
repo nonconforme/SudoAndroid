@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Toast;
+
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -61,8 +61,10 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchView searchView;
 
 
+
     private UserModel selectedContact;
     private boolean showDrawer;
+    private boolean showSearchView = true;
 
 
     @Override
@@ -74,6 +76,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         openHomeFragment();
         initDrawer();
         initSignOutCB();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
 
     }
 
@@ -101,17 +110,25 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!showDrawer) onBackPressed();
-        else {
-            if (mDrawer.isDrawerOpen()) {
-                mDrawer.closeDrawer();
-            } else {
-                mDrawer.openDrawer();
+        if (item.getItemId() == android.R.id.home) {
+            if (!showDrawer) onBackPressed();
+            else {
+                if (mDrawer.isDrawerOpen()) {
+                    mDrawer.closeDrawer();
+                } else {
+                    mDrawer.openDrawer();
 
+                }
             }
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -132,12 +149,10 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
         if (show) {
             mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
-            mDrawer.closeDrawer();
 
         } else {
 
             mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-
         }
 
     }
@@ -165,7 +180,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l, IDrawerItem iDrawerItem) {
-        Toast.makeText(this, "pos " + pos, Toast.LENGTH_SHORT).show();
         implementClick(pos);
 
     }
@@ -292,5 +306,16 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         return homeFragment.getCurrentTab();
     }
 
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        if (showSearchView) searchItem.setVisible(true);
+        else searchItem.setVisible(false);
 
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    public void enableSearchView(boolean show) {
+        this.showSearchView = show;
+    }
 }

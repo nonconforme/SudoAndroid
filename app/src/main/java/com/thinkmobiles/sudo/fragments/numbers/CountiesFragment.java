@@ -72,7 +72,8 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
     @Override
     public void onResume() {
         super.onResume();
-        ToolbarManager.getInstance(mActivity).enableDrawer();
+        ToolbarManager.getInstance(mActivity).enableDrawer(true);
+        ToolbarManager.getInstance(mActivity).enableSearchView(false);
     }
 
     @Override

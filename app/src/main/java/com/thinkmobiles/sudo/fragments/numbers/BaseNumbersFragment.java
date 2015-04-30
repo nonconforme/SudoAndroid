@@ -37,7 +37,7 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     protected void openNumbersFragment() {
-        ToolbarManager.getInstance(mActivity).disableDrawer();
+        ToolbarManager.getInstance(mActivity).enableDrawer(false);
         changeFragment(new NumberListFragment());
     }
 
@@ -69,5 +69,18 @@ public abstract class BaseNumbersFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ToolbarManager.getInstance(mActivity).enableSearchView(false);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ToolbarManager.getInstance(mActivity).enableSearchView(true);
+
+
+    }
 }

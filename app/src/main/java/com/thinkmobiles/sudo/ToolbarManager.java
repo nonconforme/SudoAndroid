@@ -49,14 +49,14 @@ public class ToolbarManager {
         mToolbar.setTitle(title);
     }
 
-    public void enableDrawer() {
-        mMain_Activity.enableDrawer(true);
+    public void enableDrawer(boolean show) {
+        mMain_Activity.enableDrawer(show);
 
 
     }
 
-    public void disableDrawer() {
-        mMain_Activity.enableDrawer(false);
+    public void enableSearchView(boolean show) {
+        mMain_Activity.enableSearchView(show);
 
 
     }
