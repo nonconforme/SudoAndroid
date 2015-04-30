@@ -25,7 +25,7 @@ import retrofit.client.Response;
 /**
  * Created by Pavilion on 14.04.2015.
  */
-public class CountiesFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener{
+public class CountriesFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener {
 
     private View mView;
     private Main_Activity mActivity;
@@ -73,7 +73,6 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
     public void onResume() {
         super.onResume();
         ToolbarManager.getInstance(mActivity).enableDrawer(true);
-        ToolbarManager.getInstance(mActivity).enableSearchView(false);
     }
 
     @Override

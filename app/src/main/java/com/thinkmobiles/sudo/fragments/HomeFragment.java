@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
 import com.thinkmobiles.sudo.global.Constants;
@@ -115,5 +116,22 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     public ViewPagerAdapter getAdapter(){
         return adapter;
+    }
+
+    @Override
+    public void onResume() {
+        ToolbarManager.getInstance(mActivity).enableSearchView(true);
+        super.onResume();
+
+
+    }
+
+
+    @Override
+    public void onPause() {
+        ToolbarManager.getInstance(mActivity).enableSearchView(false);
+        super.onPause();
+
+
     }
 }

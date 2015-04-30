@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -111,5 +112,6 @@ public class ChatsFragment extends Fragment {
         chatsModelList = new ArrayList<>();
         chatsModelList.add(testChatModel);
     }
+
 
 }

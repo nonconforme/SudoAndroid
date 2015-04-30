@@ -96,8 +96,6 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     private void getNumbers() {
         /*RetrofitAdapter.getInterface().getCountries(mNumbers);*/
     }
-
-
 }
 
 

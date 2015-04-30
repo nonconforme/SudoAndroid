@@ -1,6 +1,7 @@
 package com.thinkmobiles.sudo;
 
 
+import android.app.Activity;
 import android.support.v7.widget.Toolbar;
 
 
@@ -17,13 +18,13 @@ public class ToolbarManager {
 
     }
 
-    public static ToolbarManager getInstance(Main_Activity _actionBarActivity) {
+    public static ToolbarManager getInstance(Activity _actionBarActivity) {
         if (sToolbarManager == null) {
             sToolbarManager = new ToolbarManager();
-            mMain_Activity = _actionBarActivity;
+            mMain_Activity = (Main_Activity) _actionBarActivity;
             initToolbar();
         } else {
-            mMain_Activity = _actionBarActivity;
+            mMain_Activity = (Main_Activity) _actionBarActivity;
             initToolbar();
         }
         return sToolbarManager;

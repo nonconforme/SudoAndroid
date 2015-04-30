@@ -64,12 +64,14 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private UserModel selectedContact;
     private boolean showDrawer;
-    private boolean showSearchView = true;
+    private boolean showSearchView;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        enableSearchView(false);
         setContentView(R.layout.activity_main);
         setBaseTitle();
         initToolbar();
@@ -124,12 +126,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
 
-
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public void onBackPressed() {
@@ -316,6 +313,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     public void enableSearchView(boolean show) {
-        this.showSearchView = show;
+        showSearchView = show;
     }
 }

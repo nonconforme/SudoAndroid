@@ -29,9 +29,5 @@ public class NumberMainFragment  extends BaseNumbersFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-    }
 }

@@ -23,6 +23,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileEditActivity;
@@ -45,7 +46,7 @@ import java.util.List;
  */
 public class ContactsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private Activity context;
+    private Activity mActivity;
     private FloatingActionButton mBTNAddFriend;
     private View mView;
 
@@ -113,7 +114,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        context = activity;
+        mActivity = activity;
         contactsFragmentCallback = (ContactsFragmentCallback) activity;
     }
 
@@ -125,7 +126,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
-        stickyListAdapter = new ContactsListAdapter(context);
+        stickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(stickyListAdapter);
 
 
@@ -153,7 +154,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void addFriendActivity() {
-        ProfileAddActivity.launch(context);
+        ProfileAddActivity.launch(mActivity);
     }
 
 
@@ -165,12 +166,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         contactsFragmentCallback.setCurrentContact(contactsList.get(i));
 
 
-        ((ActionBarActivity) context).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
+        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
 
         String imageUrl = contactsList.get(i).getAvatar();
 
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(mTarget);
+            Picasso.with(mActivity).load(imageUrl).transform(new CircleTransform()).into(mTarget);
         }
 
     }
@@ -178,13 +179,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private void initTarget() {
 
         mTarget = new Target() {
-            ImageView imageView = new ImageView(context);
+            ImageView imageView = new ImageView(mActivity);
 
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 imageView.setImageBitmap(bitmap);
                 Drawable image = imageView.getDrawable();
-                ((ActionBarActivity) context).getSupportActionBar().setIcon(image);
+                ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
             }
 
             @Override
@@ -230,7 +231,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(context, "result", Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, "result", Toast.LENGTH_LONG).show();
         if (resultCode != -1) return;
         if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
             makeAddContactFromActivity(loadUserModelFromProfileEditor(data));
@@ -241,4 +242,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         return (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
 
     }
+
+
 }
