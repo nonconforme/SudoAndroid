@@ -1,7 +1,6 @@
 package com.thinkmobiles.sudo.fragments.numbers;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.models.counties.Numbers;
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
     private NumbersAdapter mAdapter;
 
     private ListView mListView;
-    private Callback<List<Numbers>> mContries;
+    private Callback<List<CountryModel>> mContries;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,9 +47,9 @@ public class CountiesFragment extends BaseNumbersFragment implements AdapterView
     }
 
     private void initCountiesCB() {
-        mContries = new Callback<List<Numbers>>() {
+        mContries = new Callback<List<CountryModel>>() {
             @Override
-            public void success(List<Numbers> _countryModels, Response _response) {
+            public void success(List<CountryModel> _countryModels, Response _response) {
                 mAdapter.reloadList(_countryModels);
             }
 

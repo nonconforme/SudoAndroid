@@ -36,7 +36,7 @@ public abstract class BaseNumbersFragment extends Fragment {
         changeFragment(new NumberListFragment());
     }
     protected void openBuyNumberFragment(){
-        changeFragment(new BayNumberFragment());
+        changeFragment(new BuyNumberFragment());
     }
 
     private void changeFragment(final Fragment _fragment){
@@ -49,7 +49,7 @@ public abstract class BaseNumbersFragment extends Fragment {
         }
     }
 
-    protected CountryModel getmCountryModel() {
+    protected CountryModel getCountryModel() {
         return mCountryModel;
     }
 

@@ -15,7 +15,7 @@ import com.thinkmobiles.sudo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thinkmobiles.sudo.models.counties.Numbers;
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
@@ -24,12 +24,12 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 public class NumbersAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<Numbers> mListCountries;
+    private List<CountryModel> mListCountries;
     private LayoutInflater inflater;
 
     public NumbersAdapter(Context _context) {
         mContext = _context;
-        mListCountries = new ArrayList<Numbers>();
+        mListCountries = new ArrayList<CountryModel>();
         inflater = (LayoutInflater) _context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -40,7 +40,7 @@ public class NumbersAdapter extends BaseAdapter{
     }
 
     @Override
-    public Numbers getItem(int _position) {
+    public CountryModel getItem(int _position) {
         return mListCountries.get(_position);
     }
 
@@ -79,7 +79,7 @@ public class NumbersAdapter extends BaseAdapter{
         return view;
     }
 
-    public void reloadList(List<Numbers> _listCountries) {
+    public void reloadList(List<CountryModel> _listCountries) {
         this.mListCountries = _listCountries;
         notifyDataSetChanged();
     }

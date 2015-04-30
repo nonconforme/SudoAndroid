@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by njakawaii on 28.04.2015.
  */
-public class Numbers {
+public class CountryModel {
     private String name;
     private String countryIso;
 

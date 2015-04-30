@@ -12,10 +12,10 @@ import com.thinkmobiles.sudo.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BayNumberFragment extends BaseNumbersFragment {
+public class BuyNumberFragment extends BaseNumbersFragment {
 
 
-    public BayNumberFragment() {
+    public BuyNumberFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class BayNumberFragment extends BaseNumbersFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_buy_nuber, container, false);
+        View view = inflater.inflate(R.layout.fragment_buy_number, container, false);
         return view;
     }
 

@@ -9,7 +9,7 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-import com.thinkmobiles.sudo.models.counties.Numbers;
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public interface RetrofitInterface {
     void getContacts( Callback<List<UserModel>> callback);
 
     @GET(APIConstants.URL_PRICE + APIConstants.API_COUNTRIES)
-    void getCountries(Callback<List<Numbers>> callback);
+    void getCountries(Callback<List<CountryModel>> callback);
 
 //    @FormUrlEncoded
 //    @POST(APIConstants.URL_MESSAGE+APIConstants.URL_SEND)

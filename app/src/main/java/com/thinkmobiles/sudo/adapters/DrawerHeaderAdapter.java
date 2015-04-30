@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.counties.Numbers;
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class DrawerHeaderAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Numbers> mListNumbers;
+    private List<CountryModel> mListNumbers;
     private LayoutInflater inflater;
 
     public DrawerHeaderAdapter(Context _context) {
@@ -36,7 +36,7 @@ public class DrawerHeaderAdapter extends BaseAdapter {
     }
 
     @Override
-    public Numbers getItem(int _position) {
+    public CountryModel getItem(int _position) {
         return mListNumbers.get(_position);
     }
 
@@ -71,7 +71,7 @@ public class DrawerHeaderAdapter extends BaseAdapter {
         return view;
     }
 
-    public void reloadList(List<Numbers> _listNumbers) {
+    public void reloadList(List<CountryModel> _listNumbers) {
         this.mListNumbers = _listNumbers;
         notifyDataSetChanged();
     }
