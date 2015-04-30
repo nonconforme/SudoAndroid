@@ -1,4 +1,4 @@
-package com.thinkmobiles.sudo.fragments;
+package com.thinkmobiles.sudo.fragments.numbers;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -26,7 +26,7 @@ import retrofit.client.Response;
 /**
  * Created by Pavilion on 14.04.2015.
  */
-public class NumbersFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class CountiesFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener{
 
     private View mView;
     private Activity mActivity;
@@ -41,7 +41,12 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
         initComponent();
         initCountiesCB();
         getCountries();
+        setListeners();
         return mView;
+    }
+
+    private void setListeners() {
+        mListView.setOnItemClickListener(this);
     }
 
     private void initCountiesCB() {
@@ -61,14 +66,8 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
 
     private void initComponent(){
         mListView = (ListView) mView.findViewById(R.id.lvNumbers_FN);
-
-
-
-
-
         mAdapter = new NumbersAdapter(mActivity);
         mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
     }
 
     @Override
@@ -81,6 +80,7 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(mActivity, "Click: pos: " + position + " "
                 + mAdapter.getItem(position).getName() , Toast.LENGTH_SHORT).show();
+        openNumbersFragment();
     }
 
     private void getCountries(){

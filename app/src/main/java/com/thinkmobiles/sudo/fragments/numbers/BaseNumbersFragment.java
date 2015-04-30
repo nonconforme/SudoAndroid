@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.fragments.NumbersFragment;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 /**
@@ -13,23 +12,31 @@ import com.thinkmobiles.sudo.models.counties.CountryModel;
  */
 public abstract class BaseNumbersFragment extends Fragment {
     protected Activity mActivity;
-    protected FragmentManager mFragmentManager;
+    protected static FragmentManager mFragmentManager;
     private CountryModel mCountryModel;
+
 
     @Override
     public void onAttach(Activity _activity) {
         super.onAttach(_activity);
         mActivity           = _activity;
-        mFragmentManager    =  getChildFragmentManager();
+    }
+
+
+    public void setMainFragment(final NumberMainFragment _mainFragment){
+        mFragmentManager    =  _mainFragment.getChildFragmentManager();
     }
 
     protected void openCountryFragment() {
-        Fragment newFragment = new NumbersFragment();
+        Fragment newFragment = new CountiesFragment();
         mFragmentManager.beginTransaction().add(R.id.flContainer_FMN, newFragment).commit();
     }
 
     protected void openNumbersFragment(){
         changeFragment(new NumberListFragment());
+    }
+    protected void openBuyNumberFragment(){
+        changeFragment(new BayNumberFragment());
     }
 
     private void changeFragment(final Fragment _fragment){
