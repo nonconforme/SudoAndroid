@@ -20,6 +20,7 @@ public class NumberMainFragment  extends BaseNumbersFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_numbers, container, false);
+        setMainFragment(this);
         openCountryFragment();
         return view;
     }

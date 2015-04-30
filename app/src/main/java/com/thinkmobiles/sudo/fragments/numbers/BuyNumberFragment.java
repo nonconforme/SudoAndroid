@@ -12,10 +12,10 @@ import com.thinkmobiles.sudo.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BuyNumberFragment extends Fragment {
+public class BayNumberFragment extends BaseNumbersFragment {
 
 
-    public BuyNumberFragment() {
+    public BayNumberFragment() {
         // Required empty public constructor
     }
 

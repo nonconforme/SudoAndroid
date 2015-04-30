@@ -12,7 +12,7 @@ import com.thinkmobiles.sudo.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NumberListFragment extends Fragment {
+public class NumberListFragment extends BaseNumbersFragment {
 
 
     public NumberListFragment() {
