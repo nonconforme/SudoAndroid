@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/DrawerHeaderRL"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:scaleType="fitCenter"
+                android:id="@+id/llDrawerHeader">
 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:adjustViewBounds="true"
-    android:orientation="vertical"
-    android:scaleType="fitCenter"
-          android:background="@drawable/ic_drawe_header" android:id="@+id/lvDrawerHeader"/>
+
+    <ImageView
+            style="@style/DrawerAvatar_IV"
+
+            android:id="@+id/ivAvatar_Drawer" android:src="@drawable/ic_person"/>
+    <TextView
+            style="@style/DrawerProfileName_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:id="@+id/tvProfileName_Drawer" android:layout_below="@+id/ivAvatar_Drawer"
+            android:layout_alignLeft="@+id/ivAvatar_Drawer"
+            android:layout_alignStart="@+id/ivAvatar_Drawer"/>
+</RelativeLayout>
