@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.fragments.NumbersFragment;
-import com.thinkmobiles.sudo.models.counties.CountryModel;
+import com.thinkmobiles.sudo.models.counties.Numbers;
 
 /**
  * Created by njakawaii on 29.04.2015.
@@ -14,7 +14,7 @@ import com.thinkmobiles.sudo.models.counties.CountryModel;
 public abstract class BaseNumbersFragment extends Fragment {
     protected Activity mActivity;
     protected FragmentManager mFragmentManager;
-    private CountryModel mCountryModel;
+    private Numbers mCountryModel;
 
     @Override
     public void onAttach(Activity _activity) {
@@ -42,11 +42,11 @@ public abstract class BaseNumbersFragment extends Fragment {
         }
     }
 
-    protected CountryModel getmCountryModel() {
+    protected Numbers getmCountryModel() {
         return mCountryModel;
     }
 
-    protected void setmCountryModel(CountryModel mCountryModel) {
+    protected void setmCountryModel(Numbers mCountryModel) {
         this.mCountryModel = mCountryModel;
     }
 

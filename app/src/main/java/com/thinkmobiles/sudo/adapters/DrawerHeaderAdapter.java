@@ -7,41 +7,37 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-
+import com.thinkmobiles.sudo.models.counties.Numbers;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thinkmobiles.sudo.models.counties.Numbers;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-
 /**
  * Created by Pavilion on 14.04.2015.
  */
-public class NumbersAdapter extends BaseAdapter{
+public class DrawerHeaderAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Numbers> mListCountries;
+    private List<Numbers> mListNumbers;
     private LayoutInflater inflater;
 
-    public NumbersAdapter(Context _context) {
+    public DrawerHeaderAdapter(Context _context) {
         mContext = _context;
-        mListCountries = new ArrayList<Numbers>();
-        inflater = (LayoutInflater) _context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mListNumbers = new ArrayList<>();
+        inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mListCountries.size();
+        return mListNumbers.size();
     }
 
     @Override
     public Numbers getItem(int _position) {
-        return mListCountries.get(_position);
+        return mListNumbers.get(_position);
     }
 
 
@@ -56,37 +52,33 @@ public class NumbersAdapter extends BaseAdapter{
         ViewHolder viewHolder;
 
         if (view == null) {
-            view = inflater.inflate(R.layout.list_item_number, parent, false);
+            view = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.ivCountry    = (ImageView) view.findViewById(R.id.ivCountry_FN);
-            viewHolder.tvCountry    = (TextView) view.findViewById(R.id.tvCountry_FN);
+            viewHolder.ivCountry = (ImageView) view.findViewById(R.id.ivCountry_Drawer);
+            viewHolder.tvNumber = (TextView) view.findViewById(R.id.tvNumber_Drawer);
 
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Picasso.with(mContext)
-                .load(R.drawable.ic_launcher)
-                .resize(100, 100)
-                .transform(new CropCircleTransformation())
-                .into(viewHolder.ivCountry);
+        Picasso.with(mContext).load(R.drawable.ic_launcher).resize(100, 100).transform(new CropCircleTransformation()).into(viewHolder.ivCountry);
 
-        viewHolder.tvCountry.setText(mListCountries.get(position).getName());
+        viewHolder.tvNumber.setText(mListNumbers.get(position).getName());
 
 
         return view;
     }
 
-    public void reloadList(List<Numbers> _listCountries) {
-        this.mListCountries = _listCountries;
+    public void reloadList(List<Numbers> _listNumbers) {
+        this.mListNumbers = _listNumbers;
         notifyDataSetChanged();
     }
 
     static class ViewHolder {
         public ImageView ivCountry;
-        public TextView tvCountry;
+        public TextView tvNumber;
 
     }
 }

@@ -13,10 +13,8 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.models.Numbers;
-import com.thinkmobiles.sudo.models.counties.CountryModel;
+import com.thinkmobiles.sudo.models.counties.Numbers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -33,7 +31,7 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     private NumbersAdapter mAdapter;
 
     private ListView mListView;
-    private Callback<List<CountryModel>> mContries;
+    private Callback<List<Numbers>> mContries;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,9 +43,9 @@ public class NumbersFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void initCountiesCB() {
-        mContries = new Callback<List<CountryModel>>() {
+        mContries = new Callback<List<Numbers>>() {
             @Override
-            public void success(List<CountryModel> _countryModels, Response _response) {
+            public void success(List<Numbers> _countryModels, Response _response) {
                 mAdapter.reloadList(_countryModels);
             }
 
