@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.thinkmobiles.sudo.MainActivity;
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
-import com.thinkmobiles.sudo.fragments.NumbersFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
-import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 
@@ -93,7 +91,7 @@ public class LoginActivity extends Activity {
         RetrofitAdapter.getInterface().getProfile(App.getuId(), mUserCB);
     }
     private void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Main_Activity.class);
         startActivity(intent);
         finish();
     }

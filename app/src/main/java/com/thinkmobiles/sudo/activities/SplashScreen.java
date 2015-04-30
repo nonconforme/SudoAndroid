@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.thinkmobiles.sudo.MainActivity;
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.AuthenticatedModel;
-import com.thinkmobiles.sudo.models.DefaultResponseModel;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,7 +39,7 @@ public class SplashScreen extends Activity {
             public void success(AuthenticatedModel authenticatedModel, Response response) {
                 Log.d("authenticated", authenticatedModel.getSuccess());
                 App.setuId(authenticatedModel.getuId());
-                setNextActivity(MainActivity.class);
+                setNextActivity(Main_Activity.class);
                 showNewActivity();
             }
 

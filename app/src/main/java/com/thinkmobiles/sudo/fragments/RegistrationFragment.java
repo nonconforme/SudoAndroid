@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.thinkmobiles.sudo.MainActivity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.LoginResponse;
 
 import retrofit.Callback;

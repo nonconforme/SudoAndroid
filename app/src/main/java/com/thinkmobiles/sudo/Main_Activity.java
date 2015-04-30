@@ -27,7 +27,6 @@ import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
 import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
-import com.thinkmobiles.sudo.fragments.NumbersFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
@@ -46,7 +45,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
+public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
 
     // Declaring Your View and Variables
 
@@ -131,8 +130,8 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
 
     @Override
     public void onDrawerOpened(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) MainActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
+        InputMethodManager inputMethodManager = (InputMethodManager) Main_Activity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(Main_Activity.this.getCurrentFocus().getWindowToken(), 0);
     }
 
     @Override
@@ -220,11 +219,11 @@ public class MainActivity extends ActionBarActivity implements Drawer.OnDrawerIt
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-         searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+         searchManager = (SearchManager) Main_Activity.this.getSystemService(Context.SEARCH_SERVICE);
 
          searchView = (SearchView) searchItem.getActionView();
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(Main_Activity.this.getComponentName()));
         searchView.setActivated(true);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
