@@ -85,8 +85,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mActivity, "Click: pos: " + position + " "
-                + mAdapter.getItem(position).getName() , Toast.LENGTH_SHORT).show();
+
         openNumbersFragment(mAdapter.getItem(position).getCountryIso());
     }
 
