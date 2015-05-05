@@ -1,12 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.thinkmobiles.sudo.fragments.numbers.NumberListFragment">
+             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.thinkmobiles.sudo.fragments.numbers.NumberListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lvNumbersList_FN" android:layout_gravity="center_horizontal|top"/>
+            android:id="@+id/lvNumbersList_FN" android:divider="@android:color/white"
+            android:dividerHeight="1dp"/>
 </FrameLayout>

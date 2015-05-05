@@ -16,12 +16,14 @@ public abstract class BaseNumbersFragment extends Fragment {
     protected Activity mActivity;
     protected static FragmentManager mFragmentManager;
     private CountryModel mCountryModel;
+    private ToolbarManager mToolbarManager;
 
 
     @Override
     public void onAttach(Activity _activity) {
         super.onAttach(_activity);
         mActivity = _activity;
+        mToolbarManager = ToolbarManager.getInstance(mActivity);
     }
 
 
@@ -35,8 +37,12 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     protected void openNumbersFragment(final  String _countryIso) {
-        ToolbarManager.getInstance(mActivity).enableDrawer(false);
+        mToolbarManager.enableDrawer(false);
         changeFragment(NumberListFragment.newInstance(_countryIso));
+    }
+
+    protected ToolbarManager getToolbarManager() {
+        return mToolbarManager;
     }
 
     protected void openBuyNumberFragment() {

@@ -9,15 +9,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -70,14 +68,19 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private boolean showDrawer;
     private boolean showSearchView;
 
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         super.onCreate(savedInstanceState);
         enableSearchView(false);
         setContentView(R.layout.activity_main);
         setBaseTitle();
         initToolbar();
+        initProgressBar();
         openHomeFragment();
         initDrawer();
         initSignOutCB();
@@ -104,6 +107,18 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         sToolbarManager.setTitlie(mTitle);
     }
 
+
+    private void initProgressBar() {
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void setProgressBarVisible(boolean visible) {
+        if (visible) progressBar.setVisibility(View.VISIBLE);
+        else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

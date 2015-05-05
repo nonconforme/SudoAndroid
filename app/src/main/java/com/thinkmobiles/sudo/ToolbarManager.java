@@ -38,7 +38,6 @@ public class ToolbarManager {
             mMain_Activity.getSupportActionBar().setHomeButtonEnabled(true);
             mMain_Activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
             mMain_Activity.getSupportActionBar().setIcon(mMain_Activity.getResources().getDrawable(R.drawable.ic_launcher));
-
         }
     }
 
@@ -60,5 +59,9 @@ public class ToolbarManager {
         mMain_Activity.enableSearchView(show);
 
 
+    }
+
+    public void setProgressBarVisible(boolean _visible) {
+        mMain_Activity.setProgressBarVisible(_visible);
     }
 }
