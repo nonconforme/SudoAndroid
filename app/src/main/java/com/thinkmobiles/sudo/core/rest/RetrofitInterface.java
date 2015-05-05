@@ -10,6 +10,7 @@ import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
+import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 
 import java.util.List;
 
@@ -77,6 +78,9 @@ public interface RetrofitInterface {
 
     @GET(APIConstants.URL_SIGN_OUT)
     void sigOut(Callback<DefaultResponseModel> callback);
+
+    @GET(APIConstants.URL_NUMBER + APIConstants.API_SEARCH + "/{" + Constants.PATH_PARAM_COUNTRY_ISO + "}")
+    void searchNumbers(@Path(Constants.PATH_PARAM_COUNTRY_ISO) String iso, Callback<NumberListResponse> callback);
 
 //    @FormUrlEncoded
 //    @PUT(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_USER_ID + "}")

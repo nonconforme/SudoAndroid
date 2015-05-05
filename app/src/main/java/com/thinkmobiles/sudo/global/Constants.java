@@ -16,6 +16,7 @@ public abstract class Constants {
     public static final String PHONE_NUMBER                 = "number";
     public static final String EMAIL                        = "email";
     public static final String PATH_PARAM_ID                = "id";
+    public static final String PATH_PARAM_COUNTRY_ISO       = "countryIso";
     public static final String PATH_PARAM_USER_ID           = "uId";
     public static final String PASSWORD                     = "password";
     public static final String USER                         = "user";

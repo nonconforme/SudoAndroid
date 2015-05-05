@@ -16,8 +16,11 @@ import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
+import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,12 +36,21 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     private NumbersAdapter mAdapter;
     private ListView mListView;
     private View mView;
+    private String mCountryIso;
 
-    private Callback<List<NumberPackages>> mNumbers;
+    private Callback<NumberListResponse> mNumbers;
 
 
     public NumberListFragment() {
         // Required empty public constructor
+    }
+
+    public static NumberListFragment newInstance(String countryIso){
+        NumberListFragment numberListFragment = new NumberListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.PATH_PARAM_COUNTRY_ISO, countryIso);
+        numberListFragment.setArguments(bundle);
+        return numberListFragment;
     }
 
     @Override
@@ -50,16 +62,13 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
         initGetNumbersCB();
         getNumbers();
         setListeners();
-
-
         return mView;
     }
 
     private void initGetNumbersCB() {
-        mNumbers = new Callback<List<NumberPackages>>() {
+        mNumbers = new Callback<NumberListResponse>() {
             @Override
-            public void success(List<NumberPackages> _numberPackages, Response _response) {
-                mAdapter.reloadList(_numberPackages);
+            public void success(NumberListResponse _numberPackages, Response _response) {
             }
 
             @Override
@@ -85,16 +94,18 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        if (!getArguments().isEmpty()){
+            mCountryIso = (String) getArguments().get(Constants.PATH_PARAM_COUNTRY_ISO);
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(mActivity, "Click: pos: " + position + " " + mAdapter.getItem(position).getPackageName(), Toast.LENGTH_SHORT).show();
-        openNumbersFragment();
     }
 
     private void getNumbers() {
-        /*RetrofitAdapter.getInterface().getCountries(mNumbers);*/
+        RetrofitAdapter.getInterface().searchNumbers(mCountryIso.toUpperCase(), mNumbers);
     }
 }
 

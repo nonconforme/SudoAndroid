@@ -27,12 +27,14 @@ public abstract class APIConstants {
     public static final String ACTION_IS_AUTHENTICATED          = "/isAuthenticated";
     public static final String URL_ADDRESSBOOK                  = "/addressbook";
     public static final String URL_PRICE                        = "/price";
-    public static final String API_COUNTRIES = "/countries";
+    public static final String API_COUNTRIES                    = "/countries";
+    public static final String API_SEARCH                       = "/search";
     public static final String URL_MESSAGE                      = "/message";
     public static final String API_LAST_CONVERSATION            = "/lastConversations";
     public static final String API_CONVERSATION                 = "/conversations";
     public static final String URL_SEND                         = "/send";
     public static final String URL_USER                         = "/user";
+    public static final String URL_NUMBER                       = "/number";
 
 
 

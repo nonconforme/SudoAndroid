@@ -34,9 +34,9 @@ public abstract class BaseNumbersFragment extends Fragment {
         mFragmentManager.beginTransaction().add(R.id.flContainer_FMN, newFragment).commit();
     }
 
-    protected void openNumbersFragment() {
+    protected void openNumbersFragment(final  String _countryIso) {
         ToolbarManager.getInstance(mActivity).enableDrawer(false);
-        changeFragment(new NumberListFragment());
+        changeFragment(NumberListFragment.newInstance(_countryIso));
     }
 
     protected void openBuyNumberFragment() {
