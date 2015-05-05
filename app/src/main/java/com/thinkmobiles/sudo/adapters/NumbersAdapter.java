@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.models.counties.NumberPackages;
+import com.thinkmobiles.sudo.models.numbers.NumberObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,24 +18,25 @@ import java.util.List;
 public class NumbersAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<NumberPackages> mListNumberPackages;
+    private List<NumberObject> mListNumberObject;
     private LayoutInflater inflater;
+
 
     public NumbersAdapter(Context _context) {
         mContext = _context;
-        mListNumberPackages = new ArrayList<NumberPackages>();
-        inflater = (LayoutInflater) _context
+        mListNumberObject = new ArrayList<>();
+        inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mListNumberPackages.size();
+        return mListNumberObject.size();
     }
 
     @Override
-    public NumberPackages getItem(int _position) {
-        return mListNumberPackages.get(_position);
+    public NumberObject getItem(int _position) {
+        return mListNumberObject.get(_position);
     }
 
 
@@ -54,7 +55,7 @@ public class NumbersAdapter extends BaseAdapter{
 
             viewHolder = new ViewHolder();
             viewHolder.tvNumber = (TextView) view.findViewById(R.id.tvNumber_FN);
-            viewHolder.tvPrice = (TextView) view.findViewById(R.id.tvCountry_FN);
+
 
             view.setTag(viewHolder);
         } else {
@@ -62,21 +63,21 @@ public class NumbersAdapter extends BaseAdapter{
         }
 
 
-        viewHolder.tvNumber.setText(mListNumberPackages.get(position).getPackageName());
-        viewHolder.tvPrice.setText(mListNumberPackages.get(position).getPrice());
+        viewHolder.tvNumber.setText(mListNumberObject.get(position).getNumber());
+        
 
 
         return view;
     }
 
-    public void reloadList(List<NumberPackages> _listCountries) {
-        this.mListNumberPackages = _listCountries;
+    public void reloadList(List<NumberObject> _listCountries) {
+        this.mListNumberObject = _listCountries;
         notifyDataSetChanged();
     }
 
     static class ViewHolder {
         public TextView tvNumber;
-        public TextView tvPrice;
+
 
     }
 }

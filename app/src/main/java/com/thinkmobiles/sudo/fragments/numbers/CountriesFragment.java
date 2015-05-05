@@ -52,11 +52,13 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
         mContries = new Callback<List<CountryModel>>() {
             @Override
             public void success(List<CountryModel> _countryModels, Response _response) {
+                getToolbarManager().setProgressBarVisible(false);
                 mAdapter.reloadList(_countryModels);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                getToolbarManager().setProgressBarVisible(false);
                 Toast.makeText(mActivity, "Error! Pleasy try again.",Toast.LENGTH_LONG).show();
 
             }
@@ -83,12 +85,13 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mActivity, "Click: pos: " + position + " "
-                + mAdapter.getItem(position).getName() , Toast.LENGTH_SHORT).show();
+
         openNumbersFragment(mAdapter.getItem(position).getCountryIso());
     }
 
     private void getCountries(){
+        getToolbarManager().setProgressBarVisible(true);
+
         RetrofitAdapter.getInterface().getCountries(mContries);
     }
 }
