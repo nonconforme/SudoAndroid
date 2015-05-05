@@ -3,7 +3,7 @@
     android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              style="@style/SNllStyle" android:gravity="center_horizontal">
+              style="@style/SNllStyle">
     <ImageView
             android:id="@+id/ivUser_AVP"
             style="@style/AVC_Detailes_Subitem_Icon_IV"
