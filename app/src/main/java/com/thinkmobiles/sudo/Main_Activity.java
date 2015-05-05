@@ -73,7 +73,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
 
         super.onCreate(savedInstanceState);
         enableSearchView(false);

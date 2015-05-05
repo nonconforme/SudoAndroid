@@ -73,9 +73,11 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         mView = inflater.inflate(R.layout.fragment_buy_number, container, false);
         mList = getCountryModel().getBuyNumberPackages();
         initComponent();
+        initListeners();
         initBuyNumberCB();
         setContent();
-        /*buyNumber(0);*/
+
+
         return mView;
     }
 
@@ -83,12 +85,16 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         mBuyNumberCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-                Toast.makeText(mActivity, defaultResponseModel.toString(), Toast.LENGTH_LONG);
+                getToolbarManager().setProgressBarVisible(false);
+
+                Toast.makeText(mActivity, defaultResponseModel.toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(mActivity, error.toString(), Toast.LENGTH_LONG);
+                getToolbarManager().setProgressBarVisible(false);
+
+                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         };
@@ -99,9 +105,14 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
     }
 
     private void initComponent() {
-        mListView = (ListView) mView.findViewById(R.id.lvNumbersList_FN);
+        mListView = (ListView) mView.findViewById(R.id.lvNumbers_FN);
         mBuyNumbersAdapter = new BuyNumbersAdapter(mActivity);
         mListView.setAdapter(mBuyNumbersAdapter);
+
+    }
+
+    private void initListeners() {
+        mListView.setOnItemClickListener(this);
     }
 
     private void setContent() {
@@ -111,6 +122,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        getToolbarManager().setProgressBarVisible(true);
 
         buyNumber(position);
     }
