@@ -28,10 +28,6 @@ import retrofit.http.Path;
  */
 public interface RetrofitInterface {
 
-//    @FormUrlEncoded
-//    @POST(APIConstants.API_BAY_NUMBER)
-//    void bayNumber(@Field(Constants.PHONE_NUMBER) String number,
-//                   Callback<BayNumberResponse> callback);
     @FormUrlEncoded
     @POST(APIConstants.URL_SIGN_IN)
     void signIn(@Field(Constants.EMAIL) String email, @Field(Constants.PASSWORD) String password,
@@ -46,8 +42,8 @@ public interface RetrofitInterface {
     void addContact(@Body UserModel user,
                 Callback<DefaultResponseModel> callback);
 
-
-    @POST(APIConstants.URL_ADDRESSBOOK)
+    @FormUrlEncoded
+    @POST(APIConstants.URL_NUMBER + APIConstants.API_BAY_NUMBER)
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
                     Callback<DefaultResponseModel> callback);
 

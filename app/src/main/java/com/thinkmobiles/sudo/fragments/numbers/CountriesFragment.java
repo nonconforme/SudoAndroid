@@ -87,6 +87,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         openNumbersFragment(mAdapter.getItem(position).getCountryIso());
+        setmCountryModel(mAdapter.getItem(position));
     }
 
     private void getCountries(){

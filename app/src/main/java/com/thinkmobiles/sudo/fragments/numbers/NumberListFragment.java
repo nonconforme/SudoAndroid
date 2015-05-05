@@ -102,6 +102,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+       openBuyNumberFragment(mAdapter.getItem(position).getNumber(), mCountryIso);
     }
 
     private void getNumbers() {

@@ -23,7 +23,7 @@ public abstract class APIConstants {
     public static final String URL_SIGN_OUT                     = "/signOut";
     public static final String URL_SIGN_IN                      = "/signIn";
     public static final String URL_GET_NUMBERS                  = "/number/search";
-    public static final String API_BAY_NUMBER                   = "/number";
+    public static final String API_BAY_NUMBER                   = "/buy";
     public static final String ACTION_IS_AUTHENTICATED          = "/isAuthenticated";
     public static final String URL_ADDRESSBOOK                  = "/addressbook";
     public static final String URL_PRICE                        = "/price";

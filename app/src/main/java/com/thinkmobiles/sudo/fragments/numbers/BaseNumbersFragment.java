@@ -15,7 +15,7 @@ import com.thinkmobiles.sudo.models.counties.CountryModel;
 public abstract class BaseNumbersFragment extends Fragment {
     protected Activity mActivity;
     protected static FragmentManager mFragmentManager;
-    private CountryModel mCountryModel;
+    protected static CountryModel mCountryModel;
     private ToolbarManager mToolbarManager;
 
 
@@ -45,8 +45,8 @@ public abstract class BaseNumbersFragment extends Fragment {
         return mToolbarManager;
     }
 
-    protected void openBuyNumberFragment() {
-        changeFragment(new BuyNumberFragment());
+    protected void openBuyNumberFragment(final String _number,  final String _countryIso) {
+        changeFragment(BuyNumberFragment.newInstance(_number, _countryIso));
     }
 
     private void changeFragment(final Fragment _fragment) {
