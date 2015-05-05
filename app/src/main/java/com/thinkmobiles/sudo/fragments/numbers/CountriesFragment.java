@@ -92,7 +92,6 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
 
     private void getCountries(){
         getToolbarManager().setProgressBarVisible(true);
-
         RetrofitAdapter.getInterface().getCountries(mContries);
     }
 }
