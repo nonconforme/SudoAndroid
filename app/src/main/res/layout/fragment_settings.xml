@@ -1,89 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/SSllStyle"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#e5e5e5">
+              style="@style/SSllStyle"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#e5e5e5">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/SContainerStyle">
         android:id="@+id/setPinLayout"
-        style="@style/SContainerStyle">
 
         <TextView
-            android:id="@+id/tvPin_FS"
-            style="@style/SStvPinStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvPin_FS"
+                style="@style/SStvPinStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
 
             <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/swPin_FS"
-                android:enabled="true"
-                android:focusable="false" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swPin_FS"
+                    android:enabled="true"
+                    android:focusable="false"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/setNotifLayout"
-        style="@style/SContainerStyle">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/setNotifLayout"
+            style="@style/SContainerStyle">
 
         <TextView
-            android:id="@+id/tvNotification_FS"
-            style="@style/SStvNotificatuonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvNotification_FS"
+                style="@style/SStvNotificatuonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
 
             <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
 
-                android:id="@+id/swNotification_FS"
-                android:focusable="false" />
+                    android:id="@+id/swNotification_FS"
+                    android:focusable="false"/>
 
         </LinearLayout>
     </LinearLayout>
 
     <TextView
-        style="@style/SStvChangesStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            style="@style/SStvChangesStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+            android:layout_marginLeft="@dimen/sds_margin_left_righ"
+            android:layout_marginRight="@dimen/sds_margin_left_righ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
         <Button
-            android:id="@+id/btnChangePassword_FS"
-            style="@style/SSbtnChangePassword"
-            android:layout_width="wrap_content" />
+                android:id="@+id/btnChangePassword_FS"
+                style="@style/SSbtnSettings"
+                android:background="@drawable/selector_btn_change_password"
+                android:text="@string/ss_btn_password_text"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btnBlockNumber_FS"
-            style="@style/SSbtnBlockNumberStyle"
-            android:layout_width="match_parent" />
+                android:id="@+id/btnBlockNumber_FS"
+                style="@style/SSbtnSettings"
+                android:background="@drawable/selector_btn_block_number"
+                android:text="@string/ss_btn_block_text"
+                android:layout_width="match_parent"/>
 
     </LinearLayout>
 </LinearLayout>

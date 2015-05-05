@@ -15,7 +15,7 @@
     <dimen name="sds_margin_top_bottom">12dp</dimen>
     <dimen name="sds_margin_left_righ">20dp</dimen>
     <dimen name="sds_btn_text_size">18dp</dimen>
-    <dimen name="sds_btn_corner_radius">6dp</dimen>
+    <dimen name="sds_btn_corner_radius">2dp</dimen>
     <dimen name="sds_btn_shadow_offset">3dp</dimen>
 
     <!-- end region -->
@@ -28,15 +28,17 @@
     <color name="ss_text_black">#000000</color>
     <color name="ss_tv_line_color">#9E9E9E</color>
     <color name="ss_tv_changes_color">#43A047</color>
-    <color name="ss_btn_bloc_number_default">#FF3900</color>
-    <color name="ss_btn_bloc_number_click">#E64A19</color>
-    <color name="ss_btn_change_password_default">#ff8f00</color>
-    <color name="ss_btn_change_password_click">#f7b767</color>
+
+    <color name="ss_btn_bloc_number_default">#f0c000</color>
+    <color name="ss_btn_bloc_number_click">#f0f000</color>
+    <color name="ss_btn_change_password_default">@color/colorPrimaryDark</color>
+    <color name="ss_btn_change_password_click">@color/colorPrimary</color>
     <color name="sds_btn_selector_click">#BDBDBD</color>
+
     <color name="sds_dialog_bg">#E0E0E0</color>
     <color name="ss_bg_color">#E5E5E5</color>
     <color name="ss_changes_color">#666666</color>
-    <color name="ss_btn_shadow">#777777</color>
+    <color name="ss_btn_shadow">#dddddd</color>
     <!-- end region -->
 
     <!-- STYLES -->
@@ -66,29 +68,16 @@
         <item name="android:layout_margin">@dimen/ss_tv_margin</item>
     </style>
 
-    <style name="SSbtnBlockNumberStyle">
+    <style name="SSbtnSettings">
         <item name="android:layout_weight">@integer/ss_btn_weight</item>
         <item name="android:layout_height">@dimen/ss_btn_height</item>
         <item name="android:textSize">@dimen/ss_btn_text_size</item>
-        <item name="android:textColor">@color/ss_text_black</item>
-        <item name="android:text">@string/ss_btn_block_text</item>
-        <item name="android:background">@drawable/selector_btn_block_number</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:paddingLeft">@dimen/ss_ll_padding</item>
         <item name="android:paddingRight">@dimen/ss_ll_padding</item>
         <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
     </style>
 
-    <style name="SSbtnChangePassword">
-        <item name="android:layout_weight">@integer/ss_btn_weight</item>
-        <item name="android:layout_height">@dimen/ss_btn_height</item>
-        <item name="android:text">@string/ss_btn_password_text</item>
-        <item name="android:textSize">@dimen/ss_btn_text_size</item>
-        <item name="android:textColor">@color/ss_text_black</item>
-        <item name="android:background">@drawable/selector_btn_change_password</item>
-        <item name="android:paddingLeft">@dimen/ss_ll_padding</item>
-        <item name="android:paddingRight">@dimen/ss_ll_padding</item>
-        <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
-    </style>
 
     <style name="SStvLaneStyle">
         <item name="android:background">@color/ss_tv_line_color</item>
