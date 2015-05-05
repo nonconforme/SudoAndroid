@@ -7,25 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
-import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.models.counties.CountryModel;
-import com.thinkmobiles.sudo.models.counties.NumberPackages;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +61,8 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
         mNumbers = new Callback<NumberListResponse>() {
             @Override
             public void success(NumberListResponse _numberPackages, Response _response) {
+                mAdapter.reloadList(_numberPackages.getObjects());
+
             }
 
             @Override
@@ -101,7 +95,6 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mActivity, "Click: pos: " + position + " " + mAdapter.getItem(position).getPackageName(), Toast.LENGTH_SHORT).show();
     }
 
     private void getNumbers() {
