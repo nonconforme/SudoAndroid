@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/baseBG"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:background="@color/baseBG"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/lvNumbers_FN"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:divider="@android:color/white"
-        android:dividerHeight="1dp"/>
+            style="@style/SNList"
+            android:id="@+id/lvNumbers_FN"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            />
 
 </LinearLayout>

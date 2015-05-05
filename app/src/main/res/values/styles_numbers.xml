@@ -5,10 +5,15 @@
     <dimen name="sn_text_size_country">20dp</dimen>
     <dimen name="sn_margin">0dp</dimen>
     <dimen name="sn_padding">16dp</dimen>
+    <dimen name="sn_list_devider_height">2dp</dimen>
+    <dimen name="sn_item_bg_corner_radius">2dp</dimen>
+    <dimen name="sn_item_bg_shadow_offset">2dp</dimen>
+    <dimen name="sn_list_padding_lr">2dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
-
+    <color name="sn_list_devider_color">#dfdfdf</color>
+    <color name="sn_item_bg_shadow_color">#d7d7d7</color>
     <!-- end region -->
 
     <!-- STYLES -->
@@ -35,5 +40,15 @@
     <!-- end region -->
     <style name="SNllStyle">
         <item name="android:padding">@dimen/sn_padding</item>
+        <item name="android:background">@drawable/bg_numbers_list_item</item>
+    </style>
+
+
+    <style name="SNList">
+        <item name="android:dividerHeight">@dimen/sn_list_devider_height</item>
+        <item name="android:divider">@color/sn_list_devider_color</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/sn_list_padding_lr</item>
+        <item name="android:paddingRight">@dimen/sn_list_padding_lr</item>
     </style>
 </resources>

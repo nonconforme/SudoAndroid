@@ -5,8 +5,8 @@
 
 
     <ListView
+            style="@style/SNList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvNumbersList_FN" android:divider="@android:color/white"
-            android:dividerHeight="1dp"/>
+            android:layout_height="match_parent"
+            android:id="@+id/lvNumbersList_FN"/>
 </FrameLayout>
