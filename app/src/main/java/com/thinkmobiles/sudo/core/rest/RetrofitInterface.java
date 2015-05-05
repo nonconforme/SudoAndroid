@@ -47,6 +47,10 @@ public interface RetrofitInterface {
                 Callback<DefaultResponseModel> callback);
 
 
+    @POST(APIConstants.URL_ADDRESSBOOK)
+    void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
+                    Callback<DefaultResponseModel> callback);
+
     @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
     void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
                        Callback<DefaultResponseModel> callback);
