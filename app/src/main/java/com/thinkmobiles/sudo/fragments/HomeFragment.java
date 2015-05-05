@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,46 +21,44 @@ import com.thinkmobiles.sudo.global.Constants;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer {
+public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer, ViewPager.OnPageChangeListener {
 
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
-    private CharSequence Titles[]={Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
+    private CharSequence Titles[] = {Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
     private int mTabsCount = 2;
     private int currentTab = 0;
-    private FragmentActivity mActivity;
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    private ActionBarActivity mActivity;
 
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (FragmentActivity) activity;
+        mActivity = (ActionBarActivity) activity;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         findUI(view);
         initAdapter();
         initPagerListener();
         initTabs();
+        pager.setCurrentItem(0, true);
+
         return view;
     }
 
-    private void findUI(final View _view) {
-        pager           = (ViewPager) _view.findViewById(R.id.vpHome_HF);
-        tabs            = (SlidingTabLayout) _view.findViewById(R.id.tabs);
+    private void findUI(View _view) {
+        pager = (ViewPager) _view.findViewById(R.id.vpHome_HF);
+        tabs = (SlidingTabLayout) _view.findViewById(R.id.tabs);
 
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(mActivity.getSupportFragmentManager(),Titles, mTabsCount);
+        adapter = new ViewPagerAdapter(mActivity.getSupportFragmentManager(), Titles, mTabsCount);
 
         // Assigning ViewPager View and setting the adapter
         pager.setAdapter(adapter);
@@ -67,7 +66,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     }
 
 
-    private void initTabs(){
+    private void initTabs() {
         // Assiging the Sliding Tab Layout View
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
@@ -80,26 +79,9 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     }
 
-    public void initPagerListener(){
+    public void initPagerListener() {
 
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                currentTab = position;
-                Log.d("pagechange", String.valueOf(position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        pager.setOnPageChangeListener(this);
     }
 
     @Override
@@ -108,18 +90,19 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     }
 
 
-    public int getCurrentTab(){
+    public int getCurrentTab() {
 
 
         return currentTab;
     }
 
-    public ViewPagerAdapter getAdapter(){
+    public ViewPagerAdapter getAdapter() {
         return adapter;
     }
 
     @Override
     public void onResume() {
+
         ToolbarManager.getInstance(mActivity).enableSearchView(true);
         super.onResume();
 
@@ -129,9 +112,28 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     @Override
     public void onPause() {
+
         ToolbarManager.getInstance(mActivity).enableSearchView(false);
+
         super.onPause();
 
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+        currentTab = position;
+        Log.d("pagechange", String.valueOf(position));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }

@@ -71,7 +71,6 @@ public class SplashScreen extends Activity {
     private void openActivity() {
         startActivity(mIntent);
         finish();
-
     }
 
     private void setNextActivity(Class _class){

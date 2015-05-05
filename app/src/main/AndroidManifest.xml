@@ -31,7 +31,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen">
+            android:theme="@style/NoTitleTheme">
 
         </activity>
         <activity

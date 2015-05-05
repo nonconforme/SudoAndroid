@@ -29,6 +29,7 @@ import retrofit.client.Response;
 public class LoginFragment extends Fragment implements View.OnClickListener{
     private Activity    mActivity;
     private View        mView;
+    private ImageView mImage;
     private EditText    mETEmail, mETPassword;
     private Button mBTNSignIn, mBTNRegister;
 

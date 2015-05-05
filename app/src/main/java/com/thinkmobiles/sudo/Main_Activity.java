@@ -11,12 +11,9 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.widget.*;
 
 
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -81,7 +78,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         setBaseTitle();
         initToolbar();
         initProgressBar();
-        initComponent();
+
         openHomeFragment();
         initDrawer();
         initSignOutCB();
@@ -95,8 +92,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     }
 
-    private void initComponent() {
-    }
 
     private void openLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -153,6 +148,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         if (showDrawer) {
             if (mDrawer.isDrawerOpen()) {
                 mDrawer.closeDrawer();
+            } else {
+                super.onBackPressed();
             }
         } else {
             BaseNumbersFragment.goBack();
@@ -222,22 +219,23 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     private void openCreditsFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new RechargeCreditsFragment());
+        FragmentReplacer.replaceCurrentFragment(this, new RechargeCreditsFragment());
     }
 
     private void openSettingsFragment() {
-        FragmentReplacer.replaceTopNavigationFragment(this, new SettingsFragment());
+        FragmentReplacer.replaceCurrentFragment(this, new SettingsFragment());
     }
 
     private void openNumbersFragment() {
 
-        FragmentReplacer.replaceTopNavigationFragment(this, new NumberMainFragment());
+        FragmentReplacer.replaceCurrentFragment(this, new NumberMainFragment());
     }
 
     private void openHomeFragment() {
         homeFragment = new HomeFragment();
-        FragmentReplacer.replaceTopNavigationFragment(this, homeFragment);
+        FragmentReplacer.replaceCurrentFragment(this, homeFragment);
     }
+
 
     private void makeSignOutRequest() {
         RetrofitAdapter.getInterface().sigOut(mSignOutCB);
@@ -259,7 +257,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void setAvatarContent(UserModel userModel) {
         tvProfileNameDrawer.setText(userModel.getCompanion());
-        
+
 
     }
 
@@ -343,8 +341,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     public void enableSearchView(boolean show) {
         showSearchView = show;
     }
-
-
 
 
 }

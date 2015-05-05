@@ -64,4 +64,8 @@ public class ToolbarManager {
     public void setProgressBarVisible(boolean _visible) {
         mMain_Activity.setProgressBarVisible(_visible);
     }
+
+    public void setToolbarTitle(int id) {
+        mToolbar.setTitle(id);
+    }
 }
