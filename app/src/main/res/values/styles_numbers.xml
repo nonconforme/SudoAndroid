@@ -7,8 +7,12 @@
     <dimen name="sn_padding">16dp</dimen>
     <dimen name="sn_list_devider_height">2dp</dimen>
     <dimen name="sn_item_bg_corner_radius">2dp</dimen>
-    <dimen name="sn_item_bg_shadow_offset">2dp</dimen>
+    <dimen name="sn_item_stroke">2dp</dimen>
     <dimen name="sn_list_padding_lr">2dp</dimen>
+    <dimen name="sn_item_bg_get_btn_corner_radius">5dp</dimen>
+    <dimen name="sn_item_bg_get_btn_stroke">1dp</dimen>
+    <dimen name="sn_item_bg_get_btn_padding">8dp</dimen>
+
     <!-- end region -->
 
     <!-- COLORS -->
@@ -34,7 +38,8 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/sn_text_size_cred</item>
-        <item name="android:padding">@dimen/sn_padding</item>
+        <item name="android:padding">@dimen/sn_item_bg_get_btn_padding</item>
+        <item name="android:background">@drawable/bg_numbers_tv_get</item>
 
     </style>
     <!-- end region -->

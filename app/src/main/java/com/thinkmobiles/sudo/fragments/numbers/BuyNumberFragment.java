@@ -7,9 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import android.widget.ListView;
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.adapters.BuyNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
@@ -24,13 +28,20 @@ import retrofit.client.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BuyNumberFragment extends BaseNumbersFragment {
+public class BuyNumberFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener {
 
     private String mNumber;
     private String mCountryIso;
-    private Activity mActivity;
     private Callback<DefaultResponseModel> mBuyNumberCB;
     private List<NumberPackages> mList;
+
+
+    private View mView;
+    private BuyNumbersAdapter mBuyNumbersAdapter;
+    private ListView mListView;
+    private Activity mActivity;
+
+
 
     public BuyNumberFragment() {
         // Required empty public constructor
@@ -59,22 +70,25 @@ public class BuyNumberFragment extends BaseNumbersFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_buy_number, container, false);
+        mView = inflater.inflate(R.layout.fragment_buy_number, container, false);
         mList = getCountryModel().getBuyNumberPackages();
+        initComponent();
         initBuyNumberCB();
-        buyNumber(0);
-        return view;
+        setContent();
+        /*buyNumber(0);*/
+        return mView;
     }
 
     private void initBuyNumberCB() {
         mBuyNumberCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-
+                Toast.makeText(mActivity, defaultResponseModel.toString(), Toast.LENGTH_LONG);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(mActivity, error.toString(), Toast.LENGTH_LONG);
 
             }
         };
@@ -84,4 +98,20 @@ public class BuyNumberFragment extends BaseNumbersFragment {
         RetrofitAdapter.getInterface().buyNumber(mNumber, mCountryIso.toUpperCase(), getCountryModel().getBuyNumberPackages().get(_pos).getPackageName(), mBuyNumberCB);
     }
 
+    private void initComponent() {
+        mListView = (ListView) mView.findViewById(R.id.lvNumbersList_FN);
+        mBuyNumbersAdapter = new BuyNumbersAdapter(mActivity);
+        mListView.setAdapter(mBuyNumbersAdapter);
+    }
+
+    private void setContent() {
+        mBuyNumbersAdapter.reloadList(mList);
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+        buyNumber(position);
+    }
 }
