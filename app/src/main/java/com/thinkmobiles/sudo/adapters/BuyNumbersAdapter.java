@@ -62,7 +62,7 @@ public class BuyNumbersAdapter extends BaseAdapter {
         }
 
 
-        viewHolder.tvInfo.setText(mListNumberPackages.get(position).getPackageName() + " - " + mListNumberPackages.get(position).getPrice());
+        viewHolder.tvInfo.setText(mListNumberPackages.get(position).getPackageName() + " - " + mListNumberPackages.get(position).getPrice() + " credits");
 
 
         return view;
