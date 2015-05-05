@@ -24,6 +24,11 @@
         <item name="android:windowFullscreen">false</item> <!-- Hides the status bar -->
 
     </style>
+    <style name="FullScreen" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
+        <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
+
+    </style>
 
     <style name="TextAppearance.Sudo.FloatLabel" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/colorPrimaryDark</item>

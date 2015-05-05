@@ -69,7 +69,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private boolean showSearchView;
 
     private ProgressBar progressBar;
-    private TextView tvAvailableCredits;
 
 
     @Override
@@ -97,8 +96,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     private void initComponent() {
-        tvAvailableCredits = (TextView) findViewById(R.id.tvAvailableCredits);
-        tvAvailableCredits.setVisibility(View.INVISIBLE);
     }
 
     private void openLoginActivity() {
@@ -347,14 +344,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         showSearchView = show;
     }
 
-    public void showAvailableCredits(String credits) {
-        tvAvailableCredits.setText(credits);
-        tvAvailableCredits.setVisibility(View.VISIBLE);
-    }
-
-    public void hideAvailableCredits() {
-        tvAvailableCredits.setVisibility(View.INVISIBLE);
-    }
 
 
 
