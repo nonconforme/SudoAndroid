@@ -29,6 +29,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTheme">
 

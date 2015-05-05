@@ -31,8 +31,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private View        mView;
     private ImageView   mImage;
     private EditText    mETEmail, mETPassword;
-    private Button      mBTNSignIn;
-    private RelativeLayout rlRegistration;
+    private Button mBTNSignIn, mBTNRegister;
+
     private Callback<LoginResponse> mSignInCB;
 
     @Override
@@ -57,7 +57,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         mETEmail            = (EditText) mView.findViewById(R.id.etEmail_FSI);
         mETPassword         = (EditText) mView.findViewById(R.id.etPassword_FSI);
         mBTNSignIn          = (Button) mView.findViewById(R.id.btnSignIn_FSI);
-        rlRegistration      = (RelativeLayout) mView.findViewById(R.id.rlGoRegister_FSI);
+        mBTNRegister = (Button) mView.findViewById(R.id.btnRegister_FSI);
+
 
     }
 
@@ -72,7 +73,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.btnSignIn_FSI:
                 if (isValidateParam(mETEmail) && isValidateParam(mETPassword))   loginRequest();
                 break;
-            case R.id.rlGoRegister_FSI:
+            case R.id.btnRegister_FSI:
                 ((LoginActivity) mActivity).openRegisterFragment();
                 break;
         }
@@ -106,6 +107,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private void setListeners() {
         mBTNSignIn.setOnClickListener(this);
-        rlRegistration.setOnClickListener(this);
+        mBTNRegister.setOnClickListener(this);
     }
 }

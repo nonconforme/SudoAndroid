@@ -87,14 +87,14 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 getToolbarManager().setProgressBarVisible(false);
 
-                Toast.makeText(mActivity, defaultResponseModel.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "Success!", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 getToolbarManager().setProgressBarVisible(false);
 
-                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "Error!", Toast.LENGTH_LONG).show();
 
             }
         };
