@@ -11,7 +11,7 @@ public class ProfileModel extends DefaultResponseModel{
     private String email;
     private String mobile;
     private String __v;
-    private List<String> numbers;
+    private List<ProfileNumberModel> numbers;
     private boolean enablepush;
 
     public String getEmail() {
@@ -38,11 +38,11 @@ public class ProfileModel extends DefaultResponseModel{
         this.__v = __v;
     }
 
-    public List<String> getNumbers() {
+    public List<ProfileNumberModel> getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(List<String> numbers) {
+    public void setNumbers(List<ProfileNumberModel> numbers) {
         this.numbers = numbers;
     }
 
