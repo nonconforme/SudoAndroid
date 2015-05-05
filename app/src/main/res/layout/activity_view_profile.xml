@@ -43,8 +43,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/ivUser_AVP"
-                        android:layout_toRightOf="@+id/ivUser_AVP"
+                        android:layout_toEndOf="@+id/ivUser_FN"
+                        android:layout_toRightOf="@+id/ivUser_FN"
                             />
 
                     <!--   <TextView
@@ -61,7 +61,7 @@
                            android:text="@string/avc_default_name" />-->
 
                     <ImageView
-                        android:id="@+id/ivUser_AVP"
+                            android:id="@+id/ivUser_FN"
                         style="@style/AVC_Detailes_Subitem_Icon_IV"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
