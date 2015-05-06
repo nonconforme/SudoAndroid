@@ -16,6 +16,7 @@
     <dimen name="sds_margin_left_righ">20dp</dimen>
     <dimen name="sds_btn_text_size">18dp</dimen>
     <dimen name="sds_btn_corner_radius">2dp</dimen>
+    <dimen name="sds_btn_stroke">2dp</dimen>
     <dimen name="sds_btn_shadow_offset">3dp</dimen>
 
     <!-- end region -->

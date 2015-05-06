@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- "background shadow" -->
+
+
+    <!-- background color -->
+    <item android:bottom="@dimen/schat_item_shadow_offset" android:left="@dimen/schat_item_shadow_offset">
+
+        <shape>
+            <solid android:color="@android:color/white"/>
+            <corners android:radius="@dimen/sds_btn_corner_radius"/>
+            <stroke android:width="@dimen/sds_btn_stroke"
+                    android:color="@android:color/darker_gray"/>
+        </shape>
+    </item>
+
+
+</layer-list>
