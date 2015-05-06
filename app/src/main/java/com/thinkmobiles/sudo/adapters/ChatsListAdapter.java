@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
@@ -73,7 +72,7 @@ public class ChatsListAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
-            view = mInflater.inflate(R.layout.chats_item, viewGroup, false);
+            view = mInflater.inflate(R.layout.list_item_chat, viewGroup, false);
             holder = initViewHolder(view);
             holder.ivOptions.setOnClickListener(mItemOptionListeners);
             holder.tvViewDetails.setOnClickListener(mItemOptionListeners);

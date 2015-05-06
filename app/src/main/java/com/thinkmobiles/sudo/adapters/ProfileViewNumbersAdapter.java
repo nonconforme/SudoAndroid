@@ -49,7 +49,7 @@ public class ProfileViewNumbersAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (view == null) {
-            view = inflater.inflate(R.layout.phone_number_item, parent, false);
+            view = inflater.inflate(R.layout.list_item_phone_number, parent, false);
 
             viewHolder = new ViewHolder();
             viewHolder. tvPhoneNumber = (TextView) view.findViewById(R.id.tvPhoneNumber_AVC);

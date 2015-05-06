@@ -79,7 +79,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(R.layout.contact_item, viewGroup, false);
+            view = mInflater.inflate(R.layout.list_item_contact, viewGroup, false);
             holder.ivAvatar = (ImageView) view.findViewById(R.id.ivContactsAvatar);
             holder.tvFirstName = (TextView) view.findViewById(R.id.tvContacstFirstName);
             holder.tvNumber = (TextView) view.findViewById(R.id.tvContactNumber);
