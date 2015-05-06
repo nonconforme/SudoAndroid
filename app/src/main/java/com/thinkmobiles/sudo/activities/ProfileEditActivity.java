@@ -12,6 +12,7 @@ import android.widget.*;
 
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -49,6 +50,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         setContent();
         initAddContactCB();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
+        ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
 
     }
 

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
@@ -68,14 +69,14 @@ public class ProfileViewActivity extends BaseProfileActivity {
         setContent();
         initTarget();
         setImages();
-
+        ToolbarManager.getInstance(this).changeToolbarTitleAndImage(R.string.edit_profile, 0);
 
 
     }
 
     private void setImages() {
         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
-        getSupportActionBar().setTitle("");
+
 
         Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).transform(new CircleTransform()).into(ivAvatar);
         Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(mTarget);

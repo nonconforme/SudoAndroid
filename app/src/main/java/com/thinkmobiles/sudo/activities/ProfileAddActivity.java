@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -31,6 +32,8 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
 
         thisUserModel = new UserModel();
         initAddContactCB();
+        ToolbarManager.getInstance(this).changeToolbarTitleAndImage(R.string.add_profile, 0);
+
 
     }
 

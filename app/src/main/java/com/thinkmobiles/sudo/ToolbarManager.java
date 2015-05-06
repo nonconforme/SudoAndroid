@@ -38,7 +38,6 @@ public class ToolbarManager {
             mMain_Activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mMain_Activity.getSupportActionBar().setHomeButtonEnabled(true);
             mMain_Activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-            mMain_Activity.getSupportActionBar().setIcon(mMain_Activity.getResources().getDrawable(R.drawable.ic_launcher));
         }
     }
 
@@ -85,4 +84,12 @@ public class ToolbarManager {
         }
     }
 
+    public void changeToolbarTitle(int title) {
+        mToolbar.setTitle(title);
+    }
+
+    public void changeToolbarTitle(String title) {
+        mToolbar.setTitle(title);
+
+    }
 }
