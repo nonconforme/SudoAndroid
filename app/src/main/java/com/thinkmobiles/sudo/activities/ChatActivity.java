@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.Utils;
+import com.thinkmobiles.sudo.Utils;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
+import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
 
 /**
@@ -24,6 +26,7 @@ public class ChatActivity extends ActionBarActivity {
     private String message;
     private ChatListAdapter chatListAdapter;
     private ChatModel thisChat;
+    private Toolbar toolbar;
 
 
     public static final String CHAT_MODEL = "chat";
@@ -37,6 +40,8 @@ public class ChatActivity extends ActionBarActivity {
         initListeners();
         reloadContent();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", R.drawable.ic_launcher);
+
 
     }
 
@@ -56,6 +61,9 @@ public class ChatActivity extends ActionBarActivity {
         btnSend = (Button) findViewById(R.id.btnSend);
         chatListAdapter = new ChatListAdapter(this);
         lvChatList.setAdapter(chatListAdapter);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void reloadContent() {
@@ -94,5 +102,17 @@ public class ChatActivity extends ActionBarActivity {
         intent.putExtra(BUNDLE, b);
         activity.startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

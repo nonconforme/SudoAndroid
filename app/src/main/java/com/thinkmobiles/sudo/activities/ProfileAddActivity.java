@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -33,6 +32,8 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
         mUserModel = new UserModel();
         initAddContactCB();
         getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.add_profile, 0);
+        ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
 
     }

@@ -10,7 +10,7 @@
             android:layout_above="@+id/etMessage"
             android:background="#fff" android:choiceMode="none"
             android:stackFromBottom="true"
-            android:transcriptMode="normal"/>
+            android:transcriptMode="normal" android:layout_below="@+id/toolbar"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,4 +27,7 @@
             android:id="@+id/btnSend"
             android:background="@drawable/selector_btn_send" android:layout_alignTop="@+id/etMessage"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
 </RelativeLayout>

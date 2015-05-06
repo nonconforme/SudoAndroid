@@ -4,7 +4,6 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
 import com.thinkmobiles.sudo.global.Constants;
@@ -103,7 +102,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onResume() {
 
-        ToolbarManager.getInstance(mActivity).enableSearchView(true);
+        MainToolbarManager.getCustomInstance(mActivity).enableSearchView(true);
         super.onResume();
 
 
@@ -113,7 +112,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onPause() {
 
-        ToolbarManager.getInstance(mActivity).enableSearchView(false);
+        MainToolbarManager.getCustomInstance(mActivity).enableSearchView(false);
 
         super.onPause();
 

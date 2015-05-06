@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 /**
@@ -19,14 +19,14 @@ public abstract class BaseNumbersFragment extends Fragment {
     protected Activity mActivity;
     protected static FragmentManager mFragmentManager;
     protected static CountryModel mCountryModel;
-    private ToolbarManager mToolbarManager;
+    private MainToolbarManager mToolbarManager;
 
 
     @Override
     public void onAttach(Activity _activity) {
         super.onAttach(_activity);
         mActivity = _activity;
-        mToolbarManager = ToolbarManager.getInstance(mActivity);
+        mToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
     }
 
 
@@ -44,7 +44,7 @@ public abstract class BaseNumbersFragment extends Fragment {
         changeFragment(NumberListFragment.newInstance(_countryIso));
     }
 
-    protected ToolbarManager getToolbarManager() {
+    protected MainToolbarManager getToolbarManager() {
         return mToolbarManager;
     }
 
@@ -77,6 +77,6 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     protected void changeToolbarTitleAndImage(int title) {
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(title, R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(title, 0);
     }
 }

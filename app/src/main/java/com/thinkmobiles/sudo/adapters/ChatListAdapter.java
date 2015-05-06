@@ -65,8 +65,8 @@ public class ChatListAdapter extends BaseAdapter {
         if (view == null) {
             holder = new ViewHolder();
 
-            if (isIncoming(postion)) view = mInflater.inflate(R.layout.chat_item_in, viewGroup, false);
-            else view = mInflater.inflate(R.layout.chat_item_out, viewGroup, false);
+            if (isIncoming(postion)) view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
+            else view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
 
             holder.ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
             holder.tvMessage = (TextView) view.findViewById(R.id.tvChatText);

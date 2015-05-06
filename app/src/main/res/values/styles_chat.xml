@@ -13,17 +13,17 @@
     <dimen name="schats_view_detailes_padding">10dp</dimen>
     <dimen name="schats_text_size">16dp</dimen>
     <dimen name="schats_details_text_size">14dp</dimen>
-    <dimen name="schats_small_text_size">14dp</dimen>
+    <dimen name="schats_small_text_size">12dp</dimen>
     <dimen name="schats_item_icon_size">18dp</dimen>
 
 
-    <dimen name="schat_text_size">16dp</dimen>
+    <dimen name="schat_text_size">14dp</dimen>
     <dimen name="schat_padding">8dp</dimen>
     <dimen name="schat_small_text_size">12dp</dimen>
     <dimen name="schat_margin_top_bottom">12dp</dimen>
     <dimen name="schat_send_btn_height">32dp</dimen>
     <dimen name="schat_margin_btn_send">4dp</dimen>
-    <dimen name="schat_item_shadow_offset">2dp</dimen>
+    <dimen name="schat_item_shadow_offset">4dp</dimen>
 
 
     <!-- end region -->
@@ -85,7 +85,6 @@
     </style>
 
     <style name="SChatsItemTVTimedate">
-
         <item name="android:textSize">@dimen/schats_small_text_size</item>
     </style>
 
@@ -97,19 +96,18 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_width">@dimen/schats_item_icon_size</item>
         <item name="android:layout_height">@dimen/schats_item_icon_size</item>
-
-
     </style>
 
 
     <style name="SChatItemText">
         <item name="android:textSize">@dimen/schat_text_size</item>
-
         <item name="android:padding">@dimen/schat_padding</item>
     </style>
+
     <style name="SChatItemTVTimedate">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/schats_small_text_size</item>
+        <item name="android:padding">@dimen/schat_padding</item>
     </style>
 
     <style name="SChatItemLayout">

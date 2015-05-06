@@ -14,7 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{
 
@@ -34,7 +34,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         initComponent();
         setListeners();
 
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.settings, R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(R.string.settings, 0);
 
         return mView;
     }
@@ -69,7 +69,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         mBTNSubmit      = (Button) mView.findViewById(R.id.btnDialogSubmitFS);
     }
 
-    private void setDialogListeners() {
+    private void setChangePasswordDialogListeners() {
         mBTNCancel.setOnClickListener(this);
         mBTNSubmit.setOnClickListener(this);
     }
@@ -79,7 +79,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         mView = inflater.inflate(R.layout.dialog_change_password, null);
         mDialog = new Dialog(mActivity);
         mDialog.setContentView(mView);
-        setDialogListeners();
+
         initDialogComponent();
         mDialog.setTitle(getResources().getString(R.string.ss_dialog_title));
         mDialog.show();
@@ -103,6 +103,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.btnChangePassword_FS:
                 changePasswordDialog();
+                setChangePasswordDialogListeners();
                 break;
         }
     }

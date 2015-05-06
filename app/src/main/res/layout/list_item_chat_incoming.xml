@@ -8,28 +8,28 @@
     <ImageView
             style="@style/SChatsItemEVAvatar"
             android:id="@+id/ivAvatar"/>
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+    <FrameLayout
+            style="@style/SChatTextFrame"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/schat_padding">
-        <FrameLayout
-                style="@style/SChatTextFrame"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/chat_item_in_text_bg">
+            android:background="@drawable/bg_chat_item_in_text" android:layout_marginRight="@dimen/schat_padding">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
             <TextView
                     style="@style/SChatItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/some_random_chat_text"
                     android:id="@+id/tvChatText" android:layout_gravity="center_horizontal"/>
-        </FrameLayout>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/some_timedate"
-                android:id="@+id/tvTimeDate" style="@style/SChatItemTVTimedate"
-                />
-    </LinearLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/some_timedate"
+                    android:id="@+id/tvTimeDate" style="@style/SChatItemTVTimedate"
+                    android:layout_gravity="right"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
