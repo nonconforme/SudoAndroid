@@ -27,10 +27,10 @@ import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileEditActivity;
+import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import retrofit.Callback;
@@ -54,7 +54,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Callback<List<UserModel>> mContactsCB;
 
     private StickyListHeadersListView stickyList;
-    private ContactsListAdapter stickyListAdapter;
+    private ContactsListAdapter mStickyListAdapter;
 
     private Callback<DefaultResponseModel> mAddContactCB;
     private List<UserModel> contactsList;
@@ -70,7 +70,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initAddContactCB();
         initTarget();
         makeGetUserRequest();
-
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage("name", R.drawable.ic_launcher);
         return mView;
     }
 
@@ -126,15 +126,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
-        stickyListAdapter = new ContactsListAdapter(mActivity);
-        stickyList.setAdapter(stickyListAdapter);
+        mStickyListAdapter = new ContactsListAdapter(mActivity);
+        stickyList.setAdapter(mStickyListAdapter);
 
 
     }
 
     public void reloadList(List<UserModel> contacts) {
 
-        stickyListAdapter.reloadList(contacts);
+        mStickyListAdapter.reloadList(contacts);
     }
 
     private void setListener() {
@@ -161,19 +161,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private void makeAddContactFromActivity(UserModel model) {
         RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        contactsFragmentCallback.setCurrentContact(contactsList.get(i));
-
-
-        ((ActionBarActivity) mActivity).getSupportActionBar().setTitle(contactsList.get(i).getCompanion());
-
-        String imageUrl = contactsList.get(i).getAvatar();
-
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(mActivity).load(imageUrl).transform(new CircleTransform()).into(mTarget);
-        }
-
+        UserModel tempModel = mStickyListAdapter.getItem(i);
+        ImageView transitionView = ((ContactsListAdapter.ViewHolder) view.getTag()).getAvatarIV();
+        startProfileViewActivity(tempModel, transitionView);
     }
 
     private void initTarget() {
@@ -198,7 +191,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             public void onPrepareLoad(Drawable placeHolderDrawable) {
 
             }
-
 
 
         };
@@ -243,5 +235,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+
+    private void startProfileViewActivity(UserModel userModel, View view) {
+
+        Log.d("start profile activity", "starting");
+
+        ProfileViewActivity.launch(mActivity, view, userModel);
+
+    }
 
 }

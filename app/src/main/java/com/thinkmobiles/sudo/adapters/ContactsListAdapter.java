@@ -53,7 +53,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
     @Override
-    public Object getItem(int i) {
+    public UserModel getItem(int i) {
         return contacts.get(i);
     }
 
@@ -68,8 +68,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
         if (contacts.size() > 0) {
             return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-        } else
-            return 0;
+        } else return 0;
 
 
     }
@@ -101,7 +100,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
 
         setAvatar(holder.ivAvatar, thisUser.getAvatar());
-       final ImageView transitionView = holder.ivAvatar;
+        final ImageView transitionView = holder.ivAvatar;
 
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,10 +134,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         String headerText;
 
 
-        if (contacts.size() > 0)
-            headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-        else
-            headerText = "";
+        if (contacts.size() > 0) headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+        else headerText = "";
 
 
         holder.text.setText(headerText);
@@ -146,9 +143,13 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
 
-    private class ViewHolder {
+    public class ViewHolder {
         ImageView ivAvatar, ivOptions;
         TextView tvFirstName, tvNumber;
+
+        public ImageView getAvatarIV() {
+            return ivAvatar;
+        }
 
     }
 
@@ -161,10 +162,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private void setAvatar(ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             int dimen = (int) mActivity.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(mActivity)
-                    .load(imageUrl)
-                    .transform(new CircleTransform())
-//                    .resize(dimen, dimen)
+            Picasso.with(mActivity).load(imageUrl).transform(new CircleTransform())
+                    //                    .resize(dimen, dimen)
                     .into(imageView);
 
 

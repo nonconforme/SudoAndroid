@@ -41,6 +41,8 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
         initCountiesCB();
         getCountries();
         setListeners();
+
+        changeToolbarTitleAndImage(R.string.countries);
         return mView;
     }
 

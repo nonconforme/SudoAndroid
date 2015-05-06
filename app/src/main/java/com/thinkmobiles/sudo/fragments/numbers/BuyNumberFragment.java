@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 
 import android.widget.ListView;
 import android.widget.Toast;
@@ -77,6 +76,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         initBuyNumberCB();
         setContent();
 
+        changeToolbarTitleAndImage(R.string.buy_a_number);
 
         return mView;
     }

@@ -4,7 +4,6 @@ package com.thinkmobiles.sudo.fragments.numbers;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.Constants;
@@ -57,6 +55,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
         initGetNumbersCB();
         getNumbers();
         setListeners();
+        changeToolbarTitleAndImage(R.string.available_numbers);
         return mView;
     }
 

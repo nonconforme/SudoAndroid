@@ -105,4 +105,10 @@
     <string name="number_price">Price</string>
     <string name="buy">BUY</string>
     <string name="info">info</string>
+    <string name="settings">Settings</string>
+    <string name="credits">Credits</string>
+    <string name="numbers">Numbers</string>
+    <string name="buy_a_number">Buy number</string>
+    <string name="countries">Countries</string>
+    <string name="available_numbers">Available numbers</string>
 </resources>

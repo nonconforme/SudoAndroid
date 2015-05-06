@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.ToolbarManager;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{
 
@@ -33,6 +33,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         initComponent();
         setListeners();
+
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.settings, R.drawable.ic_launcher);
+
         return mView;
     }
 
@@ -139,4 +142,5 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
 
     }
+
 }
