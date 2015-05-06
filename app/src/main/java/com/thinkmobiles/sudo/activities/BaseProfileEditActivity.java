@@ -2,21 +2,27 @@ package com.thinkmobiles.sudo.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -39,8 +45,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     private DoneOnEditorActionListener doneOnEditorActionListener;
 
 
+
     public static final String EXTRA_IMAGE = "DetailActivity:image";
-    private static final int GET_IMAGE_REQUEST_CODE = 1;
+    private static final int SELECT_PHOTO = 1;
     public static final int START_EDIT_PROFILE_ACTIVITY_CODE = 231;
 
     @Override
@@ -70,7 +77,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
             profileEditNumbersAdapter.reloadList(myNumberList);
 
         }
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(ivChangeAvatar);
+        if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty())
+        Picasso.with(this).load(mUserModel.getAvatar()).into(ivChangeAvatar);
     }
 
     protected void loadContent() {
@@ -162,14 +170,14 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     protected void updateUserModel() {
         updateNumberList();
-        mUserModel.setAvatar(urlAvatar);
+//        mUserModel.setAvatar(urlAvatar);
     }
 
 
     protected void loadAvatarFromGallery() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GET_IMAGE_REQUEST_CODE);
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
 
@@ -179,7 +187,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         Log.d("mediastore result ", String.valueOf(resultCode));
         if (resultCode != -1) return;
 
-        if (requestCode == GET_IMAGE_REQUEST_CODE) {
+        if (requestCode == SELECT_PHOTO) {
 
             Uri avatarUri = data.getData();
             if (avatarUri != null) {
@@ -188,7 +196,18 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 Log.d("mediastore uri ", avatarUri.toString());
 
                 dimen = (int) getResources().getDimension(R.dimen.avc_change_avatar_size);
-                Picasso.with(this).load(avatarUri).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
+                Bitmap bitmap = null;
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    ivChangeAvatar.setImageBitmap(selectedImage);
+                    mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
+                    Log.d("image", mUserModel.getAvatar());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
             }
 
         }

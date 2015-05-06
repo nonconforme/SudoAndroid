@@ -19,6 +19,7 @@ import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
@@ -37,7 +38,9 @@ public interface RetrofitInterface {
     void signUp(@Field(Constants.EMAIL) String email, @Field(Constants.PASSWORD) String password,
                 Callback<LoginResponse> callback);
 
-
+    @Headers({
+            "content-type:application/x-www-form-urlencoded"
+    })
     @POST(APIConstants.URL_ADDRESSBOOK)
     void addContact(@Body UserModel user,
                 Callback<DefaultResponseModel> callback);
@@ -46,7 +49,9 @@ public interface RetrofitInterface {
     @POST(APIConstants.URL_NUMBER + APIConstants.API_BAY_NUMBER)
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
                     Callback<DefaultResponseModel> callback);
-
+    @Headers({
+            "content-type:application/x-www-form-urlencoded"
+    })
     @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
     void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
                        Callback<DefaultResponseModel> callback);

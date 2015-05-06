@@ -67,9 +67,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
         if (contacts.size() > 0) {
-            return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+            if (contacts.get(i).getCompanion().length() > 0) {
+                return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+            }
         } else return 0;
-
+        return 0;
 
     }
 
@@ -89,6 +91,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        if (contacts.get(i).getAvatar() == null || contacts.get(i).getAvatar().isEmpty())
         contacts.get(i).setAvatar("http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg");
         final UserModel thisUser = contacts.get(i);
         List<NumberModel> thisNumberModel = thisUser.getNumbers();
@@ -132,10 +135,13 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
         String headerText;
+        headerText = "";
 
 
-        if (contacts.size() > 0) headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-        else headerText = "";
+        if (contacts.size() > 0)
+            if (contacts.get(i).getCompanion().length() > 0)
+                headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
+
 
 
         holder.text.setText(headerText);
