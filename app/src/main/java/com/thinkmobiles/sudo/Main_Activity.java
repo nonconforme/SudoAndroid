@@ -51,7 +51,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private String mTitle;
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
-    private ToolbarManager sToolbarManager;
+    private MainToolbarManager sToolbarManager;
     private HomeFragment homeFragment;
 
     private SearchManager searchManager;
@@ -78,7 +78,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         setBaseTitle();
         initToolbar();
         initProgressBar();
-
         openHomeFragment();
         initDrawer();
         initSignOutCB();
@@ -101,7 +100,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void initToolbar() {
         showDrawer = true;
-        sToolbarManager = ToolbarManager.getInstance(this);
+        sToolbarManager = MainToolbarManager.getMainInstance(this);
         sToolbarManager.changeToolbarTitleAndImage(mTitle, 0);
     }
 

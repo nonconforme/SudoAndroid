@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
@@ -76,7 +76,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
     @Override
     public void onResume() {
         super.onResume();
-        ToolbarManager.getInstance(mActivity).enableDrawer(true);
+        MainToolbarManager.getMainInstance(mActivity).enableDrawer(true);
     }
 
     @Override

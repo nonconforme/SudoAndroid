@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
 import com.thinkmobiles.sudo.models.Credits;
 
@@ -35,7 +35,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
         mView = inflater.inflate(R.layout.fragment_recharge_credits, container, false);
         initComponent();
         setListener();
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.credits, 0);
+        MainToolbarManager.getMainInstance(mActivity).changeToolbarTitleAndImage(R.string.credits, 0);
         return mView;
     }
 

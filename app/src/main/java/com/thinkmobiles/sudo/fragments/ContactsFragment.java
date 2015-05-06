@@ -23,7 +23,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileEditActivity;
@@ -70,7 +70,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initAddContactCB();
         initTarget();
         makeGetUserRequest();
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage("name", R.drawable.ic_launcher);
+        MainToolbarManager.getMainInstance(mActivity).changeToolbarTitleAndImage("name", R.drawable.ic_launcher);
         return mView;
     }
 

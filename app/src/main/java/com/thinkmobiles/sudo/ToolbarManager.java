@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo;
 
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
@@ -11,33 +12,34 @@ import android.support.v7.widget.Toolbar;
  */
 public class ToolbarManager {
 
-    private static Main_Activity mMain_Activity;
-    private static Toolbar mToolbar;
+    private static ActionBarActivity mActivity;
+    public static Toolbar mToolbar;
     private static ToolbarManager sToolbarManager;
 
-    private ToolbarManager() {
+    public static void setmActivity(ActionBarActivity _mActivity) {
+        mActivity = _mActivity;
 
     }
 
     public static ToolbarManager getInstance(Activity _actionBarActivity) {
         if (sToolbarManager == null) {
             sToolbarManager = new ToolbarManager();
-            mMain_Activity = (Main_Activity) _actionBarActivity;
+            mActivity = (ActionBarActivity) _actionBarActivity;
             initToolbar();
         } else {
-            mMain_Activity = (Main_Activity) _actionBarActivity;
+            mActivity = (ActionBarActivity) _actionBarActivity;
             initToolbar();
         }
         return sToolbarManager;
     }
 
-    private static void initToolbar() {
+    public static void initToolbar() {
         if (sToolbarManager != null) {
-            mToolbar = (Toolbar) mMain_Activity.findViewById(R.id.tool_bar);
-            mMain_Activity.setSupportActionBar(mToolbar);
-            mMain_Activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            mMain_Activity.getSupportActionBar().setHomeButtonEnabled(true);
-            mMain_Activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+            mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+            mActivity.setSupportActionBar(mToolbar);
+            mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+            mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 
@@ -46,41 +48,24 @@ public class ToolbarManager {
     }
 
 
-    public void enableDrawer(boolean show) {
-        mMain_Activity.enableDrawer(show);
-
-
-    }
-
-    public void enableSearchView(boolean show) {
-        mMain_Activity.enableSearchView(show);
-
-
-    }
-
-    public void setProgressBarVisible(boolean _visible) {
-        mMain_Activity.setProgressBarVisible(_visible);
-    }
-
-
     public void changeToolbarTitleAndImage(int title, int image) {
         mToolbar.setTitle(title);
         if (image == 0) {
-            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+            mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         }
     }
 
     public void changeToolbarTitleAndImage(int title, String image) {
         mToolbar.setTitle(title);
         if (image == null) {
-            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+            mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         }
     }
 
     public void changeToolbarTitleAndImage(String title, int image) {
         mToolbar.setTitle(title);
         if (image == 0) {
-            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+            mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         }
     }
 
@@ -92,4 +77,6 @@ public class ToolbarManager {
         mToolbar.setTitle(title);
 
     }
+
+
 }

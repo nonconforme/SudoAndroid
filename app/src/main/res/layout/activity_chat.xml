@@ -27,7 +27,7 @@
             android:id="@+id/btnSend"
             android:background="@drawable/selector_btn_send" android:layout_alignTop="@+id/etMessage"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
-    <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
 </RelativeLayout>
