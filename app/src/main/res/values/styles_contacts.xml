@@ -29,7 +29,6 @@
     <integer name="avc_phonenumber_maxlength">15</integer>
     <integer name="avc_transition_animation_speed">700</integer>
     <dimen name="avc_phonenumber_width">200dp</dimen>
-
     <dimen name="drawer_avatar_size">48dp</dimen>
     <dimen name="drawer_text_size">16dp</dimen>
     <dimen name="drawer_padding">12dp</dimen>

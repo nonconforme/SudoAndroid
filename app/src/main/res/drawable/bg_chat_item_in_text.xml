@@ -3,13 +3,13 @@
 
 
     <!-- background color -->
-    <item android:bottom="@dimen/schat_item_shadow_offset" android:left="@dimen/schat_item_shadow_offset">
+    <item android:top="@dimen/schat_item_shadow_offset" android:left="@dimen/schat_item_shadow_offset">
 
         <shape>
             <solid android:color="@android:color/white"/>
 
             <stroke android:width="@dimen/sds_btn_stroke"
-                    android:color="@android:color/darker_gray"/>
+                    android:color="@color/sn_list_devider_color"/>
         </shape>
     </item>
 

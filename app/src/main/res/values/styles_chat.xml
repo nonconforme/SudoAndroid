@@ -54,6 +54,14 @@
         <item name="android:layout_marginRight">@dimen/schats_margin_left_right</item>
     </style>
 
+
+    <style name="SChatItemEVAvatar">
+        <item name="android:background">@drawable/ic_launcher</item>
+        <item name="android:layout_width">@dimen/schats_avatar_size</item>
+        <item name="android:layout_height">@dimen/schats_avatar_size</item>
+
+
+    </style>
     <style name="SChatsItemTVName">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/schats_text_size</item>
@@ -111,8 +119,8 @@
     </style>
 
     <style name="SChatItemLayout">
-        <item name="android:paddingTop">20dp</item>
-        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
     <style name="SChatTextFrame">
         <item name="android:layout_marginBottom">@dimen/schat_margin_top_bottom</item>
