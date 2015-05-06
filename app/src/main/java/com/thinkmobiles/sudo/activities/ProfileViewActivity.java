@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.models.ColorModel;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
@@ -43,7 +44,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
     private NonScrollListView lvNumbers;
     private ProfileViewNumbersAdapter profileViewNumbersAdapter;
 
-    private UserModel thisUserModel;
+    private UserModel mUserModel;
     private RelativeLayout rlImage;
     private ScrollView llMain;
     private String firstName, urlAvatar;
@@ -100,9 +101,9 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
     private void loadContent() {
-        firstName = thisUserModel.getCompanion();
-        urlAvatar = thisUserModel.getAvatar();
-        myNumberList = thisUserModel.getNumbers();
+        firstName = mUserModel.getCompanion();
+        urlAvatar = mUserModel.getAvatar();
+        myNumberList = mUserModel.getNumbers();
     }
 
 
@@ -117,12 +118,12 @@ public class ProfileViewActivity extends BaseProfileActivity {
 
 
     private void loadUserModel() {
-        thisUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
-        Log.d(TAG, thisUserModel.getCompanion());
+        mUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
+        Log.d(TAG, mUserModel.getCompanion());
     }
 
 
-    public static void launch(Activity activity, View transitionImage, View transitionText, UserModel userModel) {
+    public static void launch(Activity activity, View transitionImage, UserModel userModel) {
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, Pair.create(transitionImage, EXTRA_IMAGE));
@@ -166,7 +167,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
     private void launchEditProfileActivity() {
-        ProfileEditActivity.launch(this, thisUserModel);
+        ProfileEditActivity.launch(this, mUserModel);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,7 +185,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
     public void reloadUserModel(Intent intent) {
-        thisUserModel = (UserModel) intent
+        mUserModel = (UserModel) intent
                 .getExtras()
                 .getBundle(BaseProfileActivity.USER_MODEL)
                 .getSerializable(BaseProfileActivity.USER_MODEL);
@@ -198,8 +199,10 @@ public class ProfileViewActivity extends BaseProfileActivity {
     private void changeViewColor(final Bitmap _bitmap ) {
         Palette palette = Palette.generate(_bitmap);
         final int initialColor      = getResources().getColor(R.color.colorWhite);
+
         final int finalColor        = palette.getVibrantColor(0x009900);
         final int stausBarColor     = palette.getDarkVibrantColor(0x009900);
+        mUserModel.setColor(new ColorModel(finalColor, stausBarColor));
 
           setStatusBarColor(stausBarColor);
 

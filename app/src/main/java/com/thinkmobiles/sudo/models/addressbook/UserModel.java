@@ -1,5 +1,7 @@
 package com.thinkmobiles.sudo.models.addressbook;
 
+import com.thinkmobiles.sudo.models.ColorModel;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,16 @@ public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;
+    private ColorModel color;
+
+    public ColorModel getColor() {
+        return color;
+    }
+
+    public void setColor(ColorModel color) {
+        this.color = color;
+    }
+
 
     public UserModel() {
         numbers = new ArrayList<>();

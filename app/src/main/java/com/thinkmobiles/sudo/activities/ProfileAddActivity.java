@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -29,15 +30,17 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        thisUserModel = new UserModel();
+        mUserModel = new UserModel();
         initAddContactCB();
+        getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+
 
     }
 
     @Override
     protected void returnEditedProfile() {
         if (checkNewName() && checkNewPhone()) {
-            addProfile(thisUserModel);
+            addProfile(mUserModel);
             onBackPressed();
 
         }

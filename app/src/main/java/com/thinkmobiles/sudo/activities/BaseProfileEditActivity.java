@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +33,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     private View.OnClickListener mOnClickListener;
 
-    protected UserModel thisUserModel;
+    protected UserModel mUserModel;
     private String firstName,  urlAvatar, filepathAvatar;
     private List<NumberModel> myNumberList;
     private DoneOnEditorActionListener doneOnEditorActionListener;
@@ -61,7 +62,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
             etUserFirstName.setText(firstName);
         }
 
-
+        if (mUserModel.getColor() != null) {
+            setStatusBarColor(mUserModel.getColor().getDarkColor());
+            getToolbar().setBackgroundDrawable(new ColorDrawable(mUserModel.getColor().getMainColor()));
+        }
         if (Utils.checkList(myNumberList)) {
             profileEditNumbersAdapter.reloadList(myNumberList);
 
@@ -70,9 +74,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     }
 
     protected void loadContent() {
-        firstName = thisUserModel.getCompanion();
-        urlAvatar = thisUserModel.getAvatar();
-        myNumberList = thisUserModel.getNumbers();
+        firstName = mUserModel.getCompanion();
+        urlAvatar = mUserModel.getAvatar();
+        myNumberList = mUserModel.getNumbers();
     }
 
     protected void initComponent() {
@@ -100,8 +104,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     }
 
     protected void loadUserModel() {
-        thisUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
-        Log.d(TAG, thisUserModel.getCompanion());
+        mUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
+        Log.d(TAG, mUserModel.getCompanion());
     }
 
 
@@ -153,12 +157,12 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     protected void updateNumberList() {
         myNumberList = profileEditNumbersAdapter.getNumbersList();
-        thisUserModel.setNumbers(myNumberList);
+        mUserModel.setNumbers(myNumberList);
     }
 
     protected void updateUserModel() {
         updateNumberList();
-        thisUserModel.setAvatar(urlAvatar);
+        mUserModel.setAvatar(urlAvatar);
     }
 
 
@@ -229,7 +233,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 switch (v.getId()) {
 
                     case R.id.etUserFirstName_AVC:
-                        thisUserModel.setCompanion(firstName);
+                        mUserModel.setCompanion(firstName);
                         break;
 
                 }

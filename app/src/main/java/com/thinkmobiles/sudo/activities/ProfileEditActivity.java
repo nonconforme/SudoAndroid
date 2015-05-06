@@ -42,16 +42,16 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     protected void loadUserModel() {
         super.loadUserModel();
-        oldName = thisUserModel.getCompanion();
+        oldName = mUserModel.getCompanion();
     }
 
     @Override
     protected void returnEditedProfile() {
         if (checkNewName() && checkNewPhone()) {
-            updateProfile(oldName, thisUserModel);
+            updateProfile(oldName, mUserModel);
             Intent intent = new Intent();
             Bundle b = new Bundle();
-            b.putSerializable(BaseProfileActivity.USER_MODEL, thisUserModel);
+            b.putSerializable(BaseProfileActivity.USER_MODEL, mUserModel);
             intent.putExtra(BaseProfileActivity.USER_MODEL, b);
             setResult(RESULT_OK, intent);
             onBackPressed();
@@ -61,9 +61,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     public static void launch(Activity activity, UserModel userModel) {
 
-
         Intent intent = new Intent(activity, ProfileEditActivity.class);
-        intent.putExtra(EXTRA_IMAGE, "https://unseenflirtspoetry.files.wordpress.com/2012/05/homer-excited.png");
         Bundle b = new Bundle();
         if (userModel != null) {
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
