@@ -100,8 +100,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void initToolbar() {
         showDrawer = true;
-        sToolbarManager = MainToolbarManager.getMainInstance(this);
-        sToolbarManager.changeToolbarTitleAndImage(mTitle, 0);
+        sToolbarManager = MainToolbarManager.getCustomInstance(this);
+        sToolbarManager.changeToolbarTitleAndIcon(mTitle, 0);
     }
 
 

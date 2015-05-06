@@ -58,7 +58,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private Callback<DefaultResponseModel> mAddContactCB;
     private List<UserModel> contactsList;
-    private Target mTarget;
+
     private ContactsFragmentCallback contactsFragmentCallback;
 
     @Override
@@ -68,9 +68,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         setListener();
         initGetContactsCB();
         initAddContactCB();
-        initTarget();
         makeGetUserRequest();
-        MainToolbarManager.getMainInstance(mActivity).changeToolbarTitleAndImage("name", R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", "");
         return mView;
     }
 
@@ -169,32 +168,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         startProfileViewActivity(tempModel, transitionView);
     }
 
-    private void initTarget() {
-
-        mTarget = new Target() {
-            ImageView imageView = new ImageView(mActivity);
-
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                imageView.setImageBitmap(bitmap);
-                Drawable image = imageView.getDrawable();
-                ((ActionBarActivity) mActivity).getSupportActionBar().setIcon(image);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-
-
-        };
-    }
 
 
     public void searchContactsList(String querry) {

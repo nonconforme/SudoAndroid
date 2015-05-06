@@ -76,7 +76,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
     @Override
     public void onResume() {
         super.onResume();
-        MainToolbarManager.getMainInstance(mActivity).enableDrawer(true);
+        MainToolbarManager.getCustomInstance(mActivity).enableDrawer(true);
     }
 
     @Override

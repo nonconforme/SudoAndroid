@@ -32,7 +32,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
 
         thisUserModel = new UserModel();
         initAddContactCB();
-        ToolbarManager.getInstance(this).changeToolbarTitleAndImage(R.string.add_profile, 0);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.add_profile, 0);
         ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
     }

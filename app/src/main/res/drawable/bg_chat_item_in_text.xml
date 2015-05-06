@@ -7,7 +7,7 @@
 
         <shape>
             <solid android:color="@android:color/white"/>
-            <corners android:radius="@dimen/sds_btn_corner_radius"/>
+
             <stroke android:width="@dimen/sds_btn_stroke"
                     android:color="@android:color/darker_gray"/>
         </shape>

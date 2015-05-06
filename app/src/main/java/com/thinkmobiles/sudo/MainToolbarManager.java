@@ -17,7 +17,7 @@ public class MainToolbarManager extends ToolbarManager {
     private static MainToolbarManager sMainToolbarManager;
 
 
-    public static MainToolbarManager getMainInstance(Activity _main_Activity) {
+    public static MainToolbarManager getCustomInstance(Activity _main_Activity) {
         if (sMainToolbarManager == null) {
             sMainToolbarManager = new MainToolbarManager();
             mMain_Activity = (Main_Activity) _main_Activity;

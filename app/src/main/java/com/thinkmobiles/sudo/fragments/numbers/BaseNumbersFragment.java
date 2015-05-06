@@ -26,7 +26,7 @@ public abstract class BaseNumbersFragment extends Fragment {
     public void onAttach(Activity _activity) {
         super.onAttach(_activity);
         mActivity = _activity;
-        mToolbarManager = MainToolbarManager.getMainInstance(mActivity);
+        mToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
     }
 
 
@@ -77,6 +77,6 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     protected void changeToolbarTitleAndImage(int title) {
-        MainToolbarManager.getMainInstance(mActivity).changeToolbarTitleAndImage(title, 0);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(title, 0);
     }
 }

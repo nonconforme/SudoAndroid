@@ -43,7 +43,7 @@ public class ChatsFragment extends Fragment {
         initComponent(v);
         initTestingData();
         reloadList();
-        MainToolbarManager.getMainInstance(mActivity).changeToolbarTitleAndImage("name", R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", R.drawable.ic_launcher);
         return v;
     }
 

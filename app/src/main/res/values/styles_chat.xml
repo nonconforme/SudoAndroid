@@ -23,7 +23,7 @@
     <dimen name="schat_margin_top_bottom">12dp</dimen>
     <dimen name="schat_send_btn_height">32dp</dimen>
     <dimen name="schat_margin_btn_send">4dp</dimen>
-    <dimen name="schat_item_shadow_offset">2dp</dimen>
+    <dimen name="schat_item_shadow_offset">4dp</dimen>
 
 
     <!-- end region -->

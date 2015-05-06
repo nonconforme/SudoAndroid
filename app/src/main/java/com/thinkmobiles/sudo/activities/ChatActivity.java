@@ -41,7 +41,7 @@ public class ChatActivity extends ActionBarActivity {
         initListeners();
         reloadContent();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
-        ToolbarManager.getInstance(this).changeToolbarTitleAndImage("Chat", R.drawable.ic_launcher);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", R.drawable.ic_launcher);
 
 
     }

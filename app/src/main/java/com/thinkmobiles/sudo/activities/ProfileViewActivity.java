@@ -67,7 +67,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
         setContent();
         initTarget();
         setImages();
-        ToolbarManager.getInstance(this).changeToolbarTitleAndImage(R.string.edit_profile, 0);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.edit_profile, 0);
 
 
     }

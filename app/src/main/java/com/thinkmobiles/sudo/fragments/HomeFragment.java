@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onResume() {
 
-        MainToolbarManager.getMainInstance(mActivity).enableSearchView(true);
+        MainToolbarManager.getCustomInstance(mActivity).enableSearchView(true);
         super.onResume();
 
 
@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onPause() {
 
-        MainToolbarManager.getMainInstance(mActivity).enableSearchView(false);
+        MainToolbarManager.getCustomInstance(mActivity).enableSearchView(false);
 
         super.onPause();
 
