@@ -28,6 +28,7 @@ import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.ColorModel;
@@ -80,8 +81,8 @@ public class ProfileViewActivity extends BaseProfileActivity {
         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
 
 
-        Picasso.with(this).load(mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
-        Picasso.with(this).load(mUserModel.getAvatar()).into(mTarget);
+        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
+        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).into(mTarget);
 
     }
 
@@ -196,7 +197,7 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
     public void reloadAvatar() {
-        Picasso.with(this).load(urlAvatar).into(ivAvatar);
+        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + urlAvatar).into(ivAvatar);
     }
 
     private void changeViewColor(final Bitmap _bitmap ) {

@@ -79,7 +79,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
@@ -88,34 +88,26 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder.tvFirstName = (TextView) view.findViewById(R.id.tvContacstFirstName);
             holder.tvNumber = (TextView) view.findViewById(R.id.tvContactNumber);
             holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
-
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        if (contacts.get(i).getAvatar() == null || contacts.get(i).getAvatar().isEmpty()) {
-            contacts.get(i).setAvatar("http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg");
-        } else {
-            contacts.get(i).setAvatar(APIConstants.SERVER_URL + "/" +  contacts.get(i).getAvatar());
+        if (holder.ivAvatar.getTag() != i) {
+            holder.ivAvatar.setTag(i);
+            setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
         }
-        final UserModel thisUser = contacts.get(i);
-        List<NumberModel> thisNumberModel = thisUser.getNumbers();
+        holder.tvFirstName.setText(contacts.get(i).getCompanion());
 
+        if (contacts.get(i).getNumbers() != null && contacts.get(i).getNumbers().size() > 0)
+            holder.tvNumber.setText(contacts.get(i).getNumbers().get(contacts.get(i).getNumbers().size() - 1).getNumber());
 
-        holder.tvFirstName.setText(thisUser.getCompanion());
-
-        if (thisNumberModel != null && thisNumberModel.size() > 0)
-            holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
-
-        setAvatar(holder.ivAvatar, thisUser.getAvatar());
-       final ImageView transitionView = holder.ivAvatar;
+        final ImageView transitionView = holder.ivAvatar;
 
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                startProfileViewActivity(thisUser, transitionView);
 
             }
         });
@@ -136,7 +128,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        //set header text
 
 
         String headerText;
@@ -146,7 +137,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         if (contacts.size() > 0)
             if (contacts.get(i).getCompanion() != null && contacts.get(i).getCompanion().length() > 0)
                 headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
-
 
 
         holder.text.setText(headerText);
@@ -170,17 +160,14 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
 
-    private void setAvatar(ImageView imageView, String imageUrl) {
+    private void setAvatar(final ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) mActivity.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(mActivity).load(imageUrl).transform(new CircleTransform())
-                    //                    .resize(dimen, dimen)
-                    .into(imageView);
+            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView);
 
 
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
-            imageView.setImageBitmap(bm);
+            Picasso.with(mActivity).load(" http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg").transform(new CircleTransform()).into(imageView);
+
         }
 
     }

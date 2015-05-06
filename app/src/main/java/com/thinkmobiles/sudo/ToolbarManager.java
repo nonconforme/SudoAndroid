@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
 
 
@@ -103,7 +104,7 @@ public class ToolbarManager {
     public void setToolbarIcon(String imageURL) {
 
         initTarget();
-        Picasso.with(mActivity).load(imageURL).transform(new CircleTransform()).into(mTarget);
+        Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageURL).transform(new CircleTransform()).into(mTarget);
 
     }
 
