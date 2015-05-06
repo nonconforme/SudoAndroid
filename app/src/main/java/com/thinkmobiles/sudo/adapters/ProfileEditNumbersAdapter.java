@@ -3,20 +3,12 @@ package com.thinkmobiles.sudo.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
@@ -62,7 +54,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         ViewHolder viewHolder;
 
         if (view == null) {
-            view = inflater.inflate(R.layout.phone_number_item_edit, parent, false);
+            view = inflater.inflate(R.layout.list_item_phone_number_edit, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber_AVC);
             viewHolder.ivDeleteNumber = (ImageView) view.findViewById(R.id.ivRemoveNumber_AVC);

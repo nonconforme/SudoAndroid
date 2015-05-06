@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -14,23 +14,25 @@
 
     <TextView
             android:id="@+id/tvInfo_FN"
-            style="@style/SNtvCountryStyle"
+            style="@style/SNtvBuyStyle"
             android:text="@string/info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:layout_centerVertical="true" android:layout_toRightOf="@+id/ivCountry_FN"
+            android:layout_toLeftOf="@+id/tvCredit_FN" android:layout_toStartOf="@+id/tvCredit_FN"/>
 
-    <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="right">
+
 
         <TextView
                 android:id="@+id/tvCredit_FN"
                 style="@style/SNtvCreditStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/buy"/>
+                android:text="@string/buy"
+                android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
 
-    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
