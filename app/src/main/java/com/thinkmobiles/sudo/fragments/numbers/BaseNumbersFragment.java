@@ -77,6 +77,6 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     protected void changeToolbarTitleAndImage(int title) {
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(title, R.drawable.ic_launcher);
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(title, 0);
     }
 }

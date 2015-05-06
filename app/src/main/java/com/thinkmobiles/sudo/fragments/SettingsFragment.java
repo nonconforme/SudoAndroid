@@ -34,7 +34,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         initComponent();
         setListeners();
 
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.settings, R.drawable.ic_launcher);
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.settings, 0);
 
         return mView;
     }

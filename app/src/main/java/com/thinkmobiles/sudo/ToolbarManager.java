@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo;
 
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.Toolbar;
 
 
@@ -46,7 +47,6 @@ public class ToolbarManager {
     }
 
 
-
     public void enableDrawer(boolean show) {
         mMain_Activity.enableDrawer(show);
 
@@ -66,14 +66,23 @@ public class ToolbarManager {
 
     public void changeToolbarTitleAndImage(int title, int image) {
         mToolbar.setTitle(title);
+        if (image == 0) {
+            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+        }
     }
 
     public void changeToolbarTitleAndImage(int title, String image) {
         mToolbar.setTitle(title);
+        if (image == null) {
+            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+        }
     }
 
     public void changeToolbarTitleAndImage(String title, int image) {
         mToolbar.setTitle(title);
+        if (image == 0) {
+            mMain_Activity.getSupportActionBar().setIcon(new ColorDrawable(mMain_Activity.getResources().getColor(android.R.color.transparent)));
+        }
     }
 
 }

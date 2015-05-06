@@ -35,7 +35,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
         mView = inflater.inflate(R.layout.fragment_recharge_credits, container, false);
         initComponent();
         setListener();
-        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.credits, R.drawable.ic_launcher);
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(R.string.credits, 0);
         return mView;
     }
 
