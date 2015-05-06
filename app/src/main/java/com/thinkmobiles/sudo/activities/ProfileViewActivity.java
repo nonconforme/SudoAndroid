@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
@@ -25,12 +26,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.Utils;
+import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.models.ColorModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.Utils;
 
 import java.util.List;
 
