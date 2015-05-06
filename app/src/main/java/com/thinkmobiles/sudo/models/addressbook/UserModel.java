@@ -23,7 +23,9 @@ public class UserModel  implements Serializable{
         this.color = color;
     }
 
-
+//    public UserModel(){
+//
+//    }
     public UserModel() {
         numbers = new ArrayList<>();
         avatar = new String();
@@ -33,7 +35,13 @@ public class UserModel  implements Serializable{
     public List<NumberModel> getNumbers() {
         return numbers;
     }
-
+    public List<String> getStringNubers(){
+        List<String> strings = new ArrayList<>();
+        for (int i = 0; i < getNumbers().size(); i++) {
+            strings.add(getNumbers().get(i).getNumber());
+        }
+        return  strings;
+    }
     public void setNumbers(List<NumberModel> numbers) {
         this.numbers = numbers;
     }

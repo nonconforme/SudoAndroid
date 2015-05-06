@@ -23,6 +23,7 @@ import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -199,10 +200,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 Bitmap bitmap = null;
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                     Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     ivChangeAvatar.setImageBitmap(selectedImage);
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, 100, 100, true);
                     mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
-                    Log.d("image", mUserModel.getAvatar());
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -14,7 +14,7 @@ public abstract class ImageHelper {
     public static String encodeToBase64(Bitmap image) {
         Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 

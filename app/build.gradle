@@ -45,5 +45,7 @@ dependencies {
     compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
         transitive = true
     }
+
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'se.emilsjolander:stickylistheaders:2.6.+'
 }

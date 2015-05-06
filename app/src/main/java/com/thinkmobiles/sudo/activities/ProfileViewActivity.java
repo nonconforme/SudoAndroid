@@ -80,8 +80,8 @@ public class ProfileViewActivity extends BaseProfileActivity {
         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
 
 
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).transform(new CircleTransform()).into(ivAvatar);
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(mTarget);
+        Picasso.with(this).load(mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
+        Picasso.with(this).load(mUserModel.getAvatar()).into(mTarget);
 
     }
 

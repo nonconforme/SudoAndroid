@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -67,7 +69,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
         if (contacts.size() > 0) {
-            if (contacts.get(i).getCompanion().length() > 0) {
+            if (contacts.get(i).getCompanion() != null && contacts.get(i).getCompanion().length() > 0) {
                 return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
             }
         } else return 0;
@@ -91,8 +93,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        if (contacts.get(i).getAvatar() == null || contacts.get(i).getAvatar().isEmpty())
-        contacts.get(i).setAvatar("http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg");
+        if (contacts.get(i).getAvatar() == null || contacts.get(i).getAvatar().isEmpty()) {
+            contacts.get(i).setAvatar("http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg");
+        } else {
+            contacts.get(i).setAvatar(APIConstants.SERVER_URL + "/" +  contacts.get(i).getAvatar());
+        }
         final UserModel thisUser = contacts.get(i);
         List<NumberModel> thisNumberModel = thisUser.getNumbers();
 
@@ -139,7 +144,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
         if (contacts.size() > 0)
-            if (contacts.get(i).getCompanion().length() > 0)
+            if (contacts.get(i).getCompanion() != null && contacts.get(i).getCompanion().length() > 0)
                 headerText = "" + contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
 
 

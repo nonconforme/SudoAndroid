@@ -1,26 +1,15 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.*;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
 
-import com.squareup.picasso.Picasso;
+import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
-import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -47,7 +36,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         loadUserModel();
         loadContent();
         setContent();
-        initAddContactCB();
+        initUpdateContactCB();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
         ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
 
@@ -91,7 +80,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
     }
 
-    private void initAddContactCB() {
+    private void initUpdateContactCB() {
         mUpdateContactCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
@@ -104,7 +93,9 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     }
 
     private void updateProfile(final String _oldName, final UserModel _userModel){
-        RetrofitAdapter.getInterface().updateContact(_userModel, _oldName, mUpdateContactCB);
+        Gson gson = new Gson();
+        String temp = gson.toJson(_userModel);
+        RetrofitAdapter.getInterface().updateContact(temp, _oldName, mUpdateContactCB);
     }
 }
 

@@ -2,21 +2,27 @@ package com.thinkmobiles.sudo.core.rest;
 
 
 
+import android.content.Context;
+
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.AuthenticatedModel;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.models.ProfileResponse;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Headers;
@@ -49,13 +55,21 @@ public interface RetrofitInterface {
     @POST(APIConstants.URL_NUMBER + APIConstants.API_BAY_NUMBER)
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
                     Callback<DefaultResponseModel> callback);
-    @Headers({
-            "content-type:application/x-www-form-urlencoded"
-    })
+//    @FormUrlEncoded
+//    @Headers({
+//            "content-type:application/x-www-form-urlencoded"
+//    })
     @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
-    void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
+    void updateContact( @Body String userModel, @Path(Constants.PATH_PARAM_ID) String id,
                        Callback<DefaultResponseModel> callback);
 
+//    @Headers({
+//            "content-type:application/x-www-form-urlencoded"
+//    })
+//    @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
+//    void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
+//                       Callback<DefaultResponseModel> callback);
+//
 
     @GET(APIConstants.URL_ADDRESSBOOK)
     void getContacts( Callback<List<UserModel>> callback);

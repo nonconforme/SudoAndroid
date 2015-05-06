@@ -27,6 +27,9 @@ public abstract class Constants {
     public static final String TEXT_MESSAGE                 = "text";
     public static final String TYPE_MESSAGE                 = "type";
     public static final String COUNTRY_CODE                 = "countryIso";
+    public static final String COMPANION                    = "companion";
+    public static final String NUMBERS                      = "numbers";
+    public static final String AVATAR                       = "avatar";
     public static final String PARAM_NUMBER                 = "number";
     public static final String PARAM_PACKAGE_NAME           = "packageName";
 
