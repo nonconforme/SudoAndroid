@@ -6,8 +6,8 @@
               android:layout_height="match_parent">
 
     <ImageView
-            style="@style/SChatsItemEVAvatar"
-            android:id="@+id/ivAvatar"/>
+            style="@style/SChatItemEVAvatar"
+            android:id="@+id/ivAvatar" android:layout_marginTop="10dp" android:layout_marginLeft="7dp"/>
     <FrameLayout
             style="@style/SChatTextFrame"
             android:layout_width="fill_parent"
