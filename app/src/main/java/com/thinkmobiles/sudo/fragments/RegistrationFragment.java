@@ -16,6 +16,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.LoginResponse;
+import com.thinkmobiles.sudo.utils.ColorHelper;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,6 +39,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         initComponent();
         initSignUpCB();
         setListeners();
+        setColors();
         return mView;
     }
 
@@ -86,7 +88,6 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             public void success(LoginResponse loginResponse, Response response) {
                 Log.d("signUp", loginResponse.getSuccess());
                 Toast.makeText(mActivity, loginResponse.getSuccess(), Toast.LENGTH_SHORT).show();
-//                App.setuId(loginResponse.getuId());
                 ((LoginActivity) mActivity).goBack();
             }
 
@@ -97,5 +98,11 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
 
             }
         };
+    }
+
+    private void setColors() {
+        ColorHelper.changeEditTextUnderlineColor(mETEmail);
+        ColorHelper.changeEditTextUnderlineColor(mETPassword);
+        ColorHelper.changeEditTextUnderlineColor(mETConfirmPass);
     }
 }

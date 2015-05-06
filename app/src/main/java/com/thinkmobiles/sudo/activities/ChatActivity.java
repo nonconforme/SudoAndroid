@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.Utils;
+import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
-import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
 
 /**

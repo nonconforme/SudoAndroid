@@ -1,16 +1,15 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
@@ -25,7 +24,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.Utils;
+import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.CircleTransform;
@@ -123,10 +122,10 @@ public class ProfileViewActivity extends BaseProfileActivity {
     }
 
 
-    public static void launch(Activity activity, View transitionView, UserModel userModel) {
+    public static void launch(Activity activity, View transitionImage, View transitionText, UserModel userModel) {
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, transitionView, EXTRA_IMAGE);
+                        activity, Pair.create(transitionImage, EXTRA_IMAGE));
 
         Intent intent = new Intent(activity, ProfileViewActivity.class);
         intent.putExtra(EXTRA_IMAGE, userModel.getAvatar());

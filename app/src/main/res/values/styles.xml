@@ -40,6 +40,13 @@
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
+    <style name="FullScreen" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
+        <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
+
+    </style>
+
+
     <style name="DialogAnimationTest">
         <item name="android:windowEnterAnimation">@anim/anim_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/anim_dialog_out</item>

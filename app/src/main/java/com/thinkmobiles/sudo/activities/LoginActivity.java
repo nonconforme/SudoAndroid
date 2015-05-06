@@ -31,7 +31,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         openLoginFragment();
-
+        overridePendingTransition(R.anim.flade_in, R.anim.flade_out);
         initGetUserCB();
     }
 

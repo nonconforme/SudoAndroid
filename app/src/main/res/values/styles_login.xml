@@ -28,7 +28,7 @@
     <!-- end region -->
 
     <style name="ETLoginStyle" parent="Base.Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/loginPrimary</item>
         <item name="android:textColorHint">@color/color_hint</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>

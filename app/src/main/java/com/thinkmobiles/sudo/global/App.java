@@ -8,6 +8,17 @@ import android.app.Application;
 public class App extends Application {
     private static String currentMobile;
     private static String uId;
+    private static String getUserName;
+    private static String avatar;
+
+    public static String getAvatar() {
+        return avatar;
+    }
+
+    public static void setAvatar(String avatar) {
+        App.avatar = avatar;
+    }
+
 
     public static String getuId() {
         return uId;
@@ -33,5 +44,4 @@ public class App extends Application {
         App.currentMobile = currentMobile;
     }
 
-    private static String getUserName;
 }

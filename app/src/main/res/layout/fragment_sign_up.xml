@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sudo="http://schemas.android.com/apk/res-auto"
-                android:background="@color/background_floating_material_dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,14 +15,6 @@
         android:layout_alignLeft="@+id/frPass"
         android:layout_alignStart="@+id/frPass">
 
-    <EditText
-        style="@style/ETLoginStyle"
-        android:id="@+id/etEmail_FSU"
-        android:inputType="textEmailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sl_et_email_hint" />
-
     </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
 
     <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
@@ -36,16 +27,6 @@
         android:layout_alignLeft="@+id/frConfirmPass"
         android:layout_alignStart="@+id/frConfirmPass"
         android:layout_alignEnd="@+id/frConfirmPass">
-
-    <EditText
-        style="@style/ETLoginStyle"
-        android:id="@+id/etPassword_FSU"
-        android:hint="@string/sl_et_password_hint"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
 
     </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
 
@@ -60,6 +41,41 @@
         android:layout_alignRight="@+id/btnSignUp_FSU"
         android:layout_alignEnd="@+id/btnSignUp_FSU">
 
+    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
+
+    <Button
+        android:id="@+id/btnSignUp_FSU"
+        style="@style/SLbtnSignUpStyle"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/etConfirmPassword_FSU"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        style="@style/ETLoginStyle"
+        android:id="@+id/etEmail_FSU"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sl_et_email_hint"
+        android:layout_alignTop="@+id/frEmail"
+        android:layout_alignRight="@+id/frEmail"
+        android:layout_alignEnd="@+id/frEmail"
+        android:layout_alignLeft="@+id/frEmail"
+        android:layout_alignStart="@+id/frEmail" />
+
+    <EditText
+        style="@style/ETLoginStyle"
+        android:id="@+id/etPassword_FSU"
+        android:hint="@string/sl_et_password_hint"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEmail_FSU"
+        android:layout_alignRight="@+id/etEmail_FSU"
+        android:layout_alignEnd="@+id/etEmail_FSU"
+        android:layout_alignLeft="@+id/etEmail_FSU"
+        android:layout_alignStart="@+id/etEmail_FSU" />
+
     <EditText
         style="@style/ETLoginStyle"
         android:id="@+id/etConfirmPassword_FSU"
@@ -69,16 +85,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword_FSU"
-        android:layout_centerHorizontal="true" />
-
-    </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
-
-    <Button
-        android:id="@+id/btnSignUp_FSU"
-        style="@style/SLbtnSignUpStyle"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/frConfirmPass"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignRight="@+id/btnSignUp_FSU"
+        android:layout_alignEnd="@+id/btnSignUp_FSU"
+        android:layout_alignLeft="@+id/etPassword_FSU"
+        android:layout_alignStart="@+id/etPassword_FSU" />
 
 </RelativeLayout>

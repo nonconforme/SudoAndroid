@@ -101,14 +101,15 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder.tvNumber.setText(thisNumberModel.get(thisNumberModel.size() - 1).getNumber());
 
         setAvatar(holder.ivAvatar, thisUser.getAvatar());
-       final ImageView transitionView = holder.ivAvatar;
+       final ImageView transitionImage  = holder.ivAvatar;
+       final TextView transitionText    = holder.tvFirstName;
 
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                startProfileViewActivity(thisUser, transitionView);
+                startProfileViewActivity(thisUser, transitionImage, transitionText);
 
             }
         });
@@ -175,11 +176,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     }
 
-    private void startProfileViewActivity(UserModel userModel, View view) {
+    private void startProfileViewActivity(UserModel userModel, View transitionImage , View transitionText) {
 
         Log.d("start profile activity", "starting");
 
-        ProfileViewActivity.launch(mActivity, view, userModel);
+        ProfileViewActivity.launch(mActivity, transitionImage,transitionText , userModel);
 
     }
 
