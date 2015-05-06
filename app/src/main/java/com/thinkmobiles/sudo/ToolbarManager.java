@@ -45,9 +45,7 @@ public class ToolbarManager {
         return mToolbar;
     }
 
-    public void setTitlie(String title) {
-        mToolbar.setTitle(title);
-    }
+
 
     public void enableDrawer(boolean show) {
         mMain_Activity.enableDrawer(show);
@@ -65,7 +63,17 @@ public class ToolbarManager {
         mMain_Activity.setProgressBarVisible(_visible);
     }
 
-    public void setToolbarTitle(int id) {
-        mToolbar.setTitle(id);
+
+    public void changeToolbarTitleAndImage(int title, int image) {
+        mToolbar.setTitle(title);
     }
+
+    public void changeToolbarTitleAndImage(int title, String image) {
+        mToolbar.setTitle(title);
+    }
+
+    public void changeToolbarTitleAndImage(String title, int image) {
+        mToolbar.setTitle(title);
+    }
+
 }

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
@@ -68,10 +71,12 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
 
     }
 
-
+    protected void changeToolbarTitleAndImage(int title) {
+        ToolbarManager.getInstance(mActivity).changeToolbarTitleAndImage(title, R.drawable.ic_launcher);
+    }
 }
