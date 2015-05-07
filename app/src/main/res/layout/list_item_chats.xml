@@ -28,17 +28,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <TextView
-                    android:id="@+id/tvChatItemSenderName"
-                    style="@style/SChatsItemTVName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cf_first_name"/>
 
             <TextView
                     android:id="@+id/tvChatItemSenderNumber"
-                    style="@style/SChatsItemTVNumber"
+                    style="@style/SChatsItemTVName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
