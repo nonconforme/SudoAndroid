@@ -81,7 +81,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(final int pos, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
@@ -94,14 +94,13 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        if (holder.ivAvatar.getTag() != SUCCESS) {
+            holder.ivAvatar.setTag(pos);
+            setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
+//        }
+        holder.tvFirstName.setText(contacts.get(pos).getCompanion());
 
-            setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
-        }
-        holder.tvFirstName.setText(contacts.get(i).getCompanion());
-
-        if (contacts.get(i).getNumbers() != null && contacts.get(i).getNumbers().size() > 0)
-            holder.tvNumber.setText(contacts.get(i).getNumbers().get(contacts.get(i).getNumbers().size() - 1).getNumber());
+        if (contacts.get(pos).getNumbers() != null && contacts.get(pos).getNumbers().size() > 0)
+            holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
 
         final ImageView transitionView = holder.ivAvatar;
 
@@ -162,16 +161,19 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
 
-    private void setAvatar(final ImageView imageView, String imageUrl) {
+    private void setAvatar(final ImageView imageView, String imageUrl, final int pos) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
-                    imageView.setTag(SUCCESS);
+                  if ( (int)imageView.getTag() != pos){
+                      Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+                  }
                 }
 
                 @Override
                 public void onError() {
+                    Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
 
                 }
             });
@@ -181,7 +183,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
-                    imageView.setTag(SUCCESS);
                 }
 
                 @Override
