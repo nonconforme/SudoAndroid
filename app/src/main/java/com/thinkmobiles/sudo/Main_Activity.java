@@ -61,7 +61,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchView searchView;
 
     private ImageView ivAvatarDrawer;
-    private TextView tvProfileNameDrawer;
+    private TextView tvProfileNameDrawer, tvProfilePhoneDrawer;
 
 
     private UserModel selectedContact;
@@ -350,10 +350,9 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private void initDrawerHeader(){
         ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
         tvProfileNameDrawer = (TextView) findViewById(R.id.tvProfileName_Drawer);
+        tvProfilePhoneDrawer = (TextView) findViewById(R.id.tvProfilePhone_Drawer);
     }
     private void setDrawerHeaderContent(){
-        tvProfileNameDrawer.setText(App.getGetUserName());
-
         Picasso.with(this).load(App.getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
@@ -366,5 +365,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
                         .transparent)));
             }
         });
+
+        tvProfileNameDrawer.setText(App.getGetUserName());
+        tvProfilePhoneDrawer.setText(App.getCurrentMobile());
     }
 }
