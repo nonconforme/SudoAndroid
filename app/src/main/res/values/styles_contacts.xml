@@ -30,7 +30,7 @@
     <integer name="avc_transition_animation_speed">300</integer>
     <dimen name="avc_phonenumber_width">200dp</dimen>
     <dimen name="drawer_avatar_size">48dp</dimen>
-    <dimen name="drawer_text_size">16dp</dimen>
+    <dimen name="drawer_text_size">18dp</dimen>
     <dimen name="drawer_padding">12dp</dimen>
 
 
@@ -200,6 +200,10 @@
 
 
     <style name="DrawerProfileName_TV">
+        <item name="android:textSize">@dimen/drawer_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="DrawerProfilePhone_TV">
         <item name="android:textSize">@dimen/drawer_text_size</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
