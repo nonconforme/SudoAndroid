@@ -11,7 +11,7 @@ import java.util.List;
  * Created by omar on 21.04.15.
  */
 public class ChatModel implements Serializable {
-    private List<MessageModel> listMessages;
+    private List<MessageModelOld> listMessages;
 
     private UserModel sender, receiver;
     private NumberModel senderNumber;
@@ -59,7 +59,7 @@ public class ChatModel implements Serializable {
     }
 
 
-    public void addMessage(MessageModel message) {
+    public void addMessage(MessageModelOld message) {
         if (listMessages == null) listMessages = new ArrayList<>();
         listMessages.add(message);
     }
@@ -73,11 +73,11 @@ public class ChatModel implements Serializable {
     }
 
 
-    public List<MessageModel> getListMessages() {
+    public List<MessageModelOld> getListMessages() {
         return listMessages;
     }
 
-    public void setListMessages(List<MessageModel> listMessages) {
+    public void setListMessages(List<MessageModelOld> listMessages) {
         this.listMessages = listMessages;
     }
 

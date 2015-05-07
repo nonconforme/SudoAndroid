@@ -1,40 +1,45 @@
 package com.thinkmobiles.sudo.models.chat;
 
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
-import java.io.Serializable;
+import com.thinkmobiles.sudo.models.chat.CompanionModel;
 
 /**
- * Created by omar on 21.04.15.
+ * Created by njakawaii on 07.05.2015.
  */
-public class MessageModel implements Serializable {
-    private String messageText;
-    private Long timeStamp;
-    private UserModel sender;
+public class MessageModel {
+    private String body;
+    private String postedDate;
+    private CompanionModel companion;
+    private CompanionModel owner;
 
-
-    public UserModel getSender() {
-        return sender;
+    public String getBody() {
+        return body;
     }
 
-    public void setSender(UserModel sender) {
-        this.sender = sender;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public String getMessageText() {
-        return messageText;
+    public String getPostedDate() {
+        return postedDate;
     }
 
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
+    public void setPostedDate(String postedDate) {
+        this.postedDate = postedDate;
     }
 
-
-    public Long getTimeStamp() {
-        return timeStamp;
+    public CompanionModel getCompanion() {
+        return companion;
     }
 
-    public void setTimeStamp(Long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setCompanion(CompanionModel companion) {
+        this.companion = companion;
+    }
+
+    public CompanionModel getOwner() {
+        return owner;
+    }
+
+    public void setOwner(CompanionModel owner) {
+        this.owner = owner;
     }
 }

@@ -13,6 +13,7 @@ import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 import com.thinkmobiles.sudo.utils.TypedJsonString;
@@ -62,11 +63,13 @@ public interface RetrofitInterface {
     void updateContact( @Body TypedJsonString userModel, @Path(Constants.PATH_PARAM_ID) String id,
                        Callback<UpdateProfileModel> callback);
 
-
-
-
     @GET(APIConstants.URL_ADDRESSBOOK)
     void getContacts( Callback<List<UserModel>> callback);
+
+
+    @GET(APIConstants.URL_MESSAGE + APIConstants.URL_LAST_CHATS)
+    void getLastChats(Callback<List<LastChatsModel>> callback);
+
 
     @GET(APIConstants.URL_PRICE + APIConstants.API_COUNTRIES)
     void getCountries(Callback<List<CountryModel>> callback);

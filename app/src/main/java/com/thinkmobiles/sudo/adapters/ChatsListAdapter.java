@@ -15,7 +15,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
-import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.models.chat.MessageModelOld;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,9 +82,9 @@ public class ChatsListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        List<MessageModel> thisChatList;
+        List<MessageModelOld> thisChatList;
         ChatModel thisChat = null;
-        MessageModel lastMessage = null;
+        MessageModelOld lastMessage = null;
         if (chats != null && chats.size() > 0) thisChat = chats.get(position);
         if (thisChat != null) {
             thisChatList = thisChat.getListMessages();
