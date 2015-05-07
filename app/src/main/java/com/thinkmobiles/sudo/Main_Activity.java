@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -19,6 +20,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -28,6 +30,7 @@ import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -58,7 +61,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchView searchView;
 
     private ImageView ivAvatarDrawer;
-    private TextView tvProfileNameDrawer;
+    private TextView tvProfileNameDrawer, tvProfilePhoneDrawer;
 
 
     private UserModel selectedContact;
@@ -80,6 +83,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         initProgressBar();
         openHomeFragment();
         initDrawer();
+        initDrawerHeader();
+        setDrawerHeaderContent();
         initSignOutCB();
 
     }
@@ -250,8 +255,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void initDrawer() {
         mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).withHeader(R.layout.drawer_header).withOnDrawerListener(this).withOnDrawerItemClickListener(this).addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1), new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)), new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2), new DividerDrawerItem(), new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)), new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
-        ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
-        tvProfileNameDrawer = (TextView) findViewById(R.id.tvProfileName_Drawer);
+
     }
 
     private void setAvatarContent(UserModel userModel) {
@@ -342,4 +346,27 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
 
+
+    private void initDrawerHeader(){
+        ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
+        tvProfileNameDrawer = (TextView) findViewById(R.id.tvProfileName_Drawer);
+        tvProfilePhoneDrawer = (TextView) findViewById(R.id.tvProfilePhone_Drawer);
+    }
+    private void setDrawerHeaderContent(){
+        Picasso.with(this).load(App.getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+                tvProfileNameDrawer.setBackground(new ColorDrawable( getResources().getColor(android.R.color
+                        .transparent)));
+            }
+        });
+
+        tvProfileNameDrawer.setText(App.getGetUserName());
+        tvProfilePhoneDrawer.setText(App.getCurrentMobile());
+    }
 }

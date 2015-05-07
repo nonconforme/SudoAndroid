@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -59,6 +60,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     protected void returnEditedProfile() {
         if (checkNewName() && checkNewPhone()) {
 
+
             try {
                 updateProfile(oldName, mUserModel);
             } catch (UnsupportedEncodingException e) {
@@ -77,8 +79,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
             intent.putExtra(BaseProfileActivity.USER_MODEL, b);
         }
-        activity.startActivityForResult(intent, START_EDIT_PROFILE_ACTIVITY_CODE);
-
+        activity.startActivity(intent);
     }
 
     @Override

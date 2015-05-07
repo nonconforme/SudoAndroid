@@ -1,8 +1,6 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.models.chat.ChatModel;
-import com.thinkmobiles.sudo.models.chat.MessageModelOld;
+import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.models.chat.LastChatsModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -28,16 +25,16 @@ import java.util.List;
  */
 public class ChatsListAdapter extends BaseAdapter {
 
-    private List<ChatModel> chats;
+    private List<LastChatsModel> chats;
     private LayoutInflater mInflater;
-    private Activity activity;
+    private Activity mActivity;
     private CustomOnClickListener mItemOptionListeners;
 
 
-    public ChatsListAdapter(Activity activity) {
-        this.activity = activity;
+    public ChatsListAdapter(Activity mActivity) {
+        this.mActivity = mActivity;
         this.chats = new ArrayList<>();
-        mInflater = LayoutInflater.from(activity);
+        mInflater = LayoutInflater.from(mActivity);
         mItemOptionListeners = new CustomOnClickListener();
 
     }
@@ -47,7 +44,7 @@ public class ChatsListAdapter extends BaseAdapter {
         return false;
     }
 
-    public void reloadList(List<ChatModel> chats) {
+    public void reloadList(List<LastChatsModel> chats) {
         this.chats = chats;
         notifyDataSetChanged();
     }
@@ -73,7 +70,7 @@ public class ChatsListAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
-            view = mInflater.inflate(R.layout.list_item_chat, viewGroup, false);
+            view = mInflater.inflate(R.layout.list_item_chats, viewGroup, false);
             holder = initViewHolder(view);
             holder.ivOptions.setOnClickListener(mItemOptionListeners);
             holder.tvViewDetails.setOnClickListener(mItemOptionListeners);
@@ -82,28 +79,29 @@ public class ChatsListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        List<MessageModelOld> thisChatList;
-        ChatModel thisChat = null;
-        MessageModelOld lastMessage = null;
+        List<MessageModel> thisChatList;
+        LastChatsModel thisChat = null;
+        MessageModel lastMessage = null;
+
+
         if (chats != null && chats.size() > 0) thisChat = chats.get(position);
         if (thisChat != null) {
-            thisChatList = thisChat.getListMessages();
-            if (thisChatList != null && thisChatList.size() > 0) lastMessage = thisChatList.get(0);
+            thisChatList = thisChat.getLastmessage();
+            if (thisChatList != null && thisChatList.size() > 0) lastMessage = thisChatList.get(position);
 
-            holder.tvSenderName.setText(thisChat.getSender().getCompanion());
-/*
-            holder.tvSenderNumber.setText(thisChat.getSenderNumber().getNumber());
-
-            holder.tvReceiverDetails.setText(thisChat.getReceiver().getCompanion() + " " + thisChat.getReceiverNumber().getNumber());*/
 
             if (lastMessage != null) {
-                holder.tvMessagePreview.setText(lastMessage.getMessageText());
-                long timeStamp = lastMessage.getTimeStamp();
-                if (timeStamp != 0) holder.tvItemTimedate.setText(getDate(timeStamp));
+                holder.tvSenderNumber.setText(thisChat.getLastmessage().get(position).getOwner().getNumber());
+                holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().get(position).getCompanion().getNumber
+                        ());
+                holder.tvItemTimedate.setText(thisChat.getLastmessage().get(position).getPostedDate());
+                holder.tvMessagePreview.setText(thisChat.getLastmessage().get(position).getBody());
+                holder.ivAvatar.setTag(position);
+                setAvatar(holder.ivAvatar, thisChat.getLastmessage().get(position).getOwner().getAvatar(), position);
+
             }
 
-            setAvatar(holder.ivAvatar, thisChat.getReceiver().getAvatar());
-            if (lastMessage.getSender() != thisChat.getSender()) holder.ivReply.setVisibility(View.INVISIBLE);
+
         }
 
         holder.ivOptions.setTag(position);
@@ -116,9 +114,8 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private ViewHolder initViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
-        holder.tvSenderName = (TextView) view.findViewById(R.id.tvChatItemSenderName);
-        holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
-        holder.tvReceiverDetails = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
+         holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
+        holder.tvReceiverNumber = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
         holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
         holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
         holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
@@ -129,29 +126,34 @@ public class ChatsListAdapter extends BaseAdapter {
 
     }
 
-    private void setAvatar(ImageView imageView, String imageUrl) {
+    private void setAvatar(final ImageView imageView, String imageUrl, final int pos) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) activity.getResources().getDimension(R.dimen.sc_avatar_size);
-            Picasso.with(activity).load(APIConstants.SERVER_URL + "/" + imageUrl).resize(dimen, dimen).into(imageView);
+            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    if ( (int)imageView.getTag() != pos){
+                        Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+                    }
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+
+                }
+            });
 
 
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher);
-            imageView.setImageBitmap(bm);
+            Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+
         }
 
     }
 
-    private String getDate(long milliSeconds) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat(activity.getString(R.string.date_format));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(milliSeconds);
-        return formatter.format(calendar.getTime());
-    }
-
-    private void startChatActivity(ChatModel chatModel) {
-        ChatActivity.launch(activity, chatModel);
+    private void startChatActivity(LastChatsModel chatModel) {
+        /*ChatActivity.launch(activity, chatModel);*/
     }
 
     private class CustomOnClickListener implements View.OnClickListener {
@@ -177,7 +179,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView ivAvatar, ivReply, ivOptions;
-        TextView tvSenderName, tvSenderNumber, tvReceiverDetails, tvMessagePreview, tvItemTimedate, tvViewDetails;
+        TextView   tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvViewDetails;
 
     }
 

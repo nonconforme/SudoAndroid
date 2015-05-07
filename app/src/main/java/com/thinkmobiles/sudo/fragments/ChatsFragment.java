@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
@@ -37,34 +38,41 @@ public class ChatsFragment extends Fragment {
 
     private Activity mActivity;
     private ListView chatsList;
-    private List<ChatModel> chatsModelList;
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter chatListAdapter;
+    List<LastChatsModel> mLastChatsModel;
 
-    private UserModel thisUser;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
         initComponent(v);
-        initTestingData();
         iniGetChatsCB();
-        getLastChats();
-        reloadList();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", R.drawable.ic_launcher);
         return v;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLastChats();
     }
 
     private void iniGetChatsCB() {
         mLastChatsCB = new Callback<List<LastChatsModel>>() {
             @Override
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
-
+                mLastChatsModel = lastChatsModel;
+                reloadList(mLastChatsModel);
+                Toast.makeText(mActivity,lastChatsModel.size(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(mActivity,"error getting chats",Toast.LENGTH_SHORT).show();
+
 
             }
         };
@@ -80,13 +88,10 @@ public class ChatsFragment extends Fragment {
     public void searchChatList(String querry) {
     }
 
-    public void reloadList() {
+    public void reloadList(List<LastChatsModel> chatsModelList) {
         chatListAdapter.reloadList(chatsModelList);
     }
 
-    public void reloadCurrentList() {
-        if (chatsModelList != null) reloadList();
-    }
 
     private void initComponent(View view) {
         chatsList = (ListView) view.findViewById(R.id.lvChats_CF);
@@ -96,50 +101,14 @@ public class ChatsFragment extends Fragment {
         chatsList.setAdapter(chatListAdapter);
     }
 
-    private void initTestingData() {
 
-        thisUser = new UserModel();
-        UserModel sender = new UserModel();
-        thisUser.setCompanion("this user");
-        sender.setCompanion("sender");
-
-
-        ChatModel testChatModel = new ChatModel(sender, thisUser, new NumberModel(), new NumberModel());
-
-        MessageModelOld message1 = new MessageModelOld();
-        message1.setSender(thisUser);
-        message1.setMessageText("privet lalala 1");
-        message1.setTimeStamp(System.currentTimeMillis());
-
-        MessageModelOld message2 = new MessageModelOld();
-        message2.setSender(sender);
-        message2.setMessageText("privet lalala 2");
-        message2.setTimeStamp(System.currentTimeMillis());
-
-        MessageModelOld message3 = new MessageModelOld();
-        message3.setSender(thisUser);
-        message3.setMessageText("privet lalala 3");
-        message3.setTimeStamp(System.currentTimeMillis());
-
-        MessageModelOld message4 = new MessageModelOld();
-        message4.setSender(sender);
-        message4.setMessageText("privet lalala 4");
-        message4.setTimeStamp(System.currentTimeMillis());
-
-
-        testChatModel.addMessage(message1);
-        testChatModel.addMessage(message2);
-        testChatModel.addMessage(message3);
-        testChatModel.addMessage(message4);
-
-
-        chatsModelList = new ArrayList<>();
-        chatsModelList.add(testChatModel);
-    }
 
 
     private void getLastChats(){
         RetrofitAdapter.getInterface().getLastChats(mLastChatsCB);
     }
 
+    public void reloadCurrentList() {
+        getLastChats();
+    }
 }

@@ -21,4 +21,13 @@
             android:id="@+id/tvProfileName_Drawer" android:layout_below="@+id/ivAvatar_Drawer"
             android:layout_alignLeft="@+id/ivAvatar_Drawer"
             android:layout_alignStart="@+id/ivAvatar_Drawer"/>
+    <TextView
+            style = "@style/DrawerProfilePhone_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/tvProfilePhone_Drawer"
+            android:phoneNumber="true" android:layout_below="@+id/tvProfileName_Drawer"
+            android:layout_alignLeft="@+id/tvProfileName_Drawer" android:layout_alignStart="@+id/tvProfileName_Drawer"
+            />
 </RelativeLayout>

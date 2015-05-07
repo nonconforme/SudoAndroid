@@ -174,7 +174,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     protected void updateUserModel() {
         updateNumberList();
-//        mUserModel.setAvatar(urlAvatar);
+
+            firstName = etUserFirstName.getText().toString();
+            mUserModel.setCompanion(firstName);
+
     }
 
 
