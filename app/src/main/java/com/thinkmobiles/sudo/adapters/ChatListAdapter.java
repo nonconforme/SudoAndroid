@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
@@ -101,7 +102,7 @@ public class ChatListAdapter extends BaseAdapter {
         String imageUrl = listMessages.get(position).getSender().getAvatar();
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
             int dimen = (int) context.getResources().getDimension(R.dimen.schats_avatar_size);
-            Picasso.with(context).load(imageUrl).resize(dimen, dimen).into(iv);
+            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).resize(dimen, dimen).into(iv);
 
 
         } else {

@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
@@ -80,7 +81,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
         }
         if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty())
-        Picasso.with(this).load(mUserModel.getAvatar()).into(ivChangeAvatar);
+            Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).into(ivChangeAvatar);
     }
 
     protected void loadContent() {

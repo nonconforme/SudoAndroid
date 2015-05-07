@@ -165,6 +165,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         UserModel tempModel = mStickyListAdapter.getItem(i);
         ImageView transitionView = ((ContactsListAdapter.ViewHolder) view.getTag()).getAvatarIV();
+
         startProfileViewActivity(tempModel, transitionView);
     }
 
