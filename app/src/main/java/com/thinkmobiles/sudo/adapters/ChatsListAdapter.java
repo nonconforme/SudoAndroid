@@ -1,6 +1,9 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
+
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +20,12 @@ import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -92,9 +100,8 @@ public class ChatsListAdapter extends BaseAdapter {
 
             if (lastMessage != null) {
                 holder.tvSenderNumber.setText(thisChat.getLastmessage().getOwner().getNumber());
-                holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().getCompanion().getNumber
-                        ());
-                holder.tvItemTimedate.setText(thisChat.getLastmessage().getPostedDate());
+                holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().getCompanion().getNumber());
+                holder.tvItemTimedate.setText(stringToDate(thisChat.getLastmessage().getPostedDate()));
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
                 setAvatar(holder.ivAvatar, thisChat.getLastmessage().getOwner().getAvatar(), position);
@@ -103,7 +110,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
         }
-
+        holder.ivReply.setVisibility(View.INVISIBLE);
         holder.ivOptions.setTag(position);
         holder.tvViewDetails.setTag(position);
 
@@ -114,7 +121,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private ViewHolder initViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
-         holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
+        holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
         holder.tvReceiverNumber = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
         holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
         holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
@@ -131,7 +138,7 @@ public class ChatsListAdapter extends BaseAdapter {
             Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
-                    if ( (int)imageView.getTag() != pos){
+                    if ((int) imageView.getTag() != pos) {
                         Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
                     }
                 }
@@ -179,9 +186,29 @@ public class ChatsListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView ivAvatar, ivReply, ivOptions;
-        TextView   tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvViewDetails;
+        TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvViewDetails;
 
     }
 
+
+    private String stringToDate(String aDate) {
+        String oldFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        String newFormat = "MMM-dd, HH:mm";
+        Date date = null;
+
+        SimpleDateFormat format = new SimpleDateFormat(oldFormat);
+
+        try {
+            date = format.parse(aDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date == null) return null;
+
+        String datetime = DateFormat.format(newFormat, date).toString();
+
+        return datetime;
+
+    }
 
 }

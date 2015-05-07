@@ -14,8 +14,9 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.models.chat.ChatModel;
+
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+
 import com.thinkmobiles.sudo.utils.Utils;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ChatActivity extends ActionBarActivity {
     private String message;
     private ChatListAdapter chatListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
-    private MessageModel thisChat;
+    private MessageModel mLastMessage;
     private Toolbar toolbar;
 
 
@@ -101,7 +102,7 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void loadChat() {
-        thisChat = (MessageModel) getIntent().getExtras().getBundle(BUNDLE).getSerializable(CHAT_MODEL);
+        mLastMessage = (MessageModel) getIntent().getExtras().getBundle(BUNDLE).getSerializable(CHAT_MODEL);
 
     }
 
@@ -141,8 +142,7 @@ public class ChatActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-   private void getMessages(){
-       RetrofitAdapter.getInterface().getConversation(thisChat.getOwner().getNumber(), thisChat.getCompanion().getNumber(), mMessagesCB);
-   }
+    private void getMessages(){
+        RetrofitAdapter.getInterface().getConversation(mLastMessage.getOwner().getNumber(), mLastMessage.getCompanion().getNumber(), mMessagesCB);
+    }
 }
