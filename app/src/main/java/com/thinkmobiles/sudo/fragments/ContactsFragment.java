@@ -20,6 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
@@ -69,8 +72,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         setListener();
         initGetContactsCB();
         initAddContactCB();
-        makeGetUserRequest();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(),App.getAvatar());
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", "");
         return mView;
     }
 
@@ -109,6 +111,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
             }
         };
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        makeGetUserRequest();
+
     }
 
     @Override
@@ -158,7 +167,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-
+//    private void makeAddContactFromActivity(UserModel model) {
+//        Gson gson = new GsonBuilder()
+//                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+//        String temp = gson.toJson(model);
+//        RetrofitAdapter.getInterface().addContact(temp, mAddContactCB);
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -193,7 +207,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(mActivity, "result", Toast.LENGTH_LONG).show();
+        if (resultCode != -1) return;
+        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
+//            makeAddContactFromActivity(loadUserModelFromProfileEditor(data));
+        }
+    }
 
     public UserModel loadUserModelFromProfileEditor(Intent intent) {
         return (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
@@ -208,7 +230,5 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         ProfileViewActivity.launch(mActivity, view, userModel);
 
     }
-
-
 
 }

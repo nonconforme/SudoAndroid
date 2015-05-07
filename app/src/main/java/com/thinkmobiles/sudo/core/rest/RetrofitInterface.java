@@ -10,10 +10,12 @@ import com.thinkmobiles.sudo.models.AuthenticatedModel;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.models.ProfileResponse;
+import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
+import com.thinkmobiles.sudo.utils.TypedJsonString;
 
 import org.json.JSONObject;
 
@@ -29,6 +31,8 @@ import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.mime.TypedInput;
+import retrofit.mime.TypedString;
 
 /**
  * Created by Sasha on 19.11.2014.
@@ -44,11 +48,8 @@ public interface RetrofitInterface {
     void signUp(@Field(Constants.EMAIL) String email, @Field(Constants.PASSWORD) String password,
                 Callback<LoginResponse> callback);
 
-    @Headers({
-            "content-type:application/x-www-form-urlencoded"
-    })
     @POST(APIConstants.URL_ADDRESSBOOK)
-    void addContact(@Body UserModel user,
+    void addContact(@Body TypedJsonString userModel,
                 Callback<DefaultResponseModel> callback);
 
     @FormUrlEncoded
@@ -56,20 +57,13 @@ public interface RetrofitInterface {
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
                     Callback<DefaultResponseModel> callback);
 //    @FormUrlEncoded
-//    @Headers({
-//            "content-type:application/x-www-form-urlencoded"
-//    })
-    @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
-    void updateContact( @Body String userModel, @Path(Constants.PATH_PARAM_ID) String id,
-                       Callback<DefaultResponseModel> callback);
 
-//    @Headers({
-//            "content-type:application/x-www-form-urlencoded"
-//    })
-//    @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
-//    void updateContact(@Body UserModel user, @Path(Constants.PATH_PARAM_ID) String id,
-//                       Callback<DefaultResponseModel> callback);
-//
+    @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
+    void updateContact( @Body TypedJsonString userModel, @Path(Constants.PATH_PARAM_ID) String id,
+                       Callback<UpdateProfileModel> callback);
+
+
+
 
     @GET(APIConstants.URL_ADDRESSBOOK)
     void getContacts( Callback<List<UserModel>> callback);

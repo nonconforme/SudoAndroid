@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,20 +70,27 @@ public class ProfileViewActivity extends BaseProfileActivity {
         loadUserModel();
         initComponent();
         loadContent();
+        setDefaultColor();
         setContent();
         initTarget();
         setImages();
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.edit_profile, 0);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
 
 
     }
 
+    protected  void setDefaultColor(){
+        setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        rlImage.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+    }
     private void setImages() {
         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
 
-
-        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
-        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).into(mTarget);
+        if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty()) {
+            Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
+            Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).into(mTarget);
+        }
+        else Picasso.with(this).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(ivAvatar);
 
     }
 
@@ -203,9 +211,8 @@ public class ProfileViewActivity extends BaseProfileActivity {
     private void changeViewColor(final Bitmap _bitmap ) {
         Palette palette = Palette.generate(_bitmap);
         final int initialColor      = getResources().getColor(R.color.colorWhite);
-
-        final int finalColor        = palette.getVibrantColor(0x009900);
-        final int stausBarColor     = palette.getDarkVibrantColor(0x009900);
+        final int finalColor        = palette.getVibrantColor(getResources().getColor(R.color.colorPrimary));
+        final int stausBarColor     = palette.getDarkVibrantColor(getResources().getColor(R.color.colorPrimaryDark));
         mUserModel.setColor(new ColorModel(finalColor, stausBarColor));
 
           setStatusBarColor(stausBarColor);
