@@ -51,12 +51,8 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     protected void returnEditedProfile() {
         if (checkNewName() && checkNewPhone()) {
+            updateUserModel();
             updateProfile(oldName, mUserModel);
-            Intent intent = new Intent();
-            Bundle b = new Bundle();
-            b.putSerializable(BaseProfileActivity.USER_MODEL, mUserModel);
-            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-            setResult(RESULT_OK, intent);
             onBackPressed();
 
         }
@@ -70,7 +66,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
             intent.putExtra(BaseProfileActivity.USER_MODEL, b);
         }
-        activity.startActivityForResult(intent, START_EDIT_PROFILE_ACTIVITY_CODE);
+        activity.startActivity(intent);
 
     }
 
@@ -91,6 +87,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
             }
         };
     }
+
 
     private void updateProfile(final String _oldName, final UserModel _userModel){
         Gson gson = new Gson();

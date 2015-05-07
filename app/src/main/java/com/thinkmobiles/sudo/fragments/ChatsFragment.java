@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
@@ -43,7 +44,7 @@ public class ChatsFragment extends Fragment {
         initComponent(v);
         initTestingData();
         reloadList();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(),App.getAvatar());
         return v;
     }
 

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.core.APIConstants;
@@ -92,6 +93,8 @@ public class ToolbarManager {
         }
     }
 
+
+
     public void changeToolbarTitle(int title) {
         mToolbar.setTitle(title);
     }
@@ -104,7 +107,9 @@ public class ToolbarManager {
     public void setToolbarIcon(String imageURL) {
 
         initTarget();
-        Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageURL).transform(new CircleTransform()).into(mTarget);
+        Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageURL).transform(new CircleTransform()).into
+                (mTarget);
+
 
     }
 
@@ -122,6 +127,7 @@ public class ToolbarManager {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
+                mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
 
 
             }

@@ -31,6 +31,7 @@ import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import retrofit.Callback;
@@ -69,7 +70,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initGetContactsCB();
         initAddContactCB();
         makeGetUserRequest();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", "");
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(),App.getAvatar());
         return mView;
     }
 
@@ -157,9 +158,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-    private void makeAddContactFromActivity(UserModel model) {
-        RetrofitAdapter.getInterface().addContact(model, mAddContactCB);
-    }
+
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -194,15 +193,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(mActivity, "result", Toast.LENGTH_LONG).show();
-        if (resultCode != -1) return;
-        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
-            makeAddContactFromActivity(loadUserModelFromProfileEditor(data));
-        }
-    }
+
 
     public UserModel loadUserModelFromProfileEditor(Intent intent) {
         return (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
@@ -217,5 +208,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         ProfileViewActivity.launch(mActivity, view, userModel);
 
     }
+
+
 
 }
