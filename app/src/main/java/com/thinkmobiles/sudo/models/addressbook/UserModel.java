@@ -13,7 +13,7 @@ public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;
-    private ColorModel color;
+    private transient  ColorModel color;
 
     public ColorModel getColor() {
         return color;

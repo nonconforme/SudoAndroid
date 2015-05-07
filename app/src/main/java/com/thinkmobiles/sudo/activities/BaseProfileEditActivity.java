@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -201,9 +202,11 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
                      Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    ivChangeAvatar.setImageBitmap(selectedImage);
                     selectedImage = Bitmap.createScaledBitmap(selectedImage, 100, 100, true);
                     mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
+                    byte[] decodedByte = Base64.decode(mUserModel.getAvatar(), 0);
+                    selectedImage = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+                    ivChangeAvatar.setImageBitmap(selectedImage);
 
                 } catch (IOException e) {
                     e.printStackTrace();
