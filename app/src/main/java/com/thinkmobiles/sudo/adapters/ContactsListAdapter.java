@@ -36,7 +36,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private LayoutInflater mInflater;
     private Activity mActivity;
 
-    private static final String SUCCESS = "success";
+    private static final int SUCCESS = 10;
 
     public ContactsListAdapter(Activity context) {
         this.mActivity = context;
