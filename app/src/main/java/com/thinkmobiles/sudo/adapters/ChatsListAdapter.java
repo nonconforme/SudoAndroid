@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ChatsListAdapter extends BaseAdapter {
 
-    private List<LastChatsModel> chats;
+    private List<LastChatsModel> mLastChatModel;
     private LayoutInflater mInflater;
     private Activity mActivity;
     private CustomOnClickListener mItemOptionListeners;
@@ -33,7 +33,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
     public ChatsListAdapter(Activity mActivity) {
         this.mActivity = mActivity;
-        this.chats = new ArrayList<>();
+        this.mLastChatModel = new ArrayList<>();
         mInflater = LayoutInflater.from(mActivity);
         mItemOptionListeners = new CustomOnClickListener();
 
@@ -45,19 +45,19 @@ public class ChatsListAdapter extends BaseAdapter {
     }
 
     public void reloadList(List<LastChatsModel> chats) {
-        this.chats = chats;
+        this.mLastChatModel = chats;
         notifyDataSetChanged();
     }
 
 
     @Override
     public int getCount() {
-        return chats.size();
+        return mLastChatModel.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return chats.get(i);
+        return mLastChatModel.get(i);
     }
 
     @Override
@@ -79,25 +79,24 @@ public class ChatsListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        List<MessageModel> thisChatList;
+
         LastChatsModel thisChat = null;
         MessageModel lastMessage = null;
 
 
-        if (chats != null && chats.size() > 0) thisChat = chats.get(position);
+        if (mLastChatModel != null && mLastChatModel.size() > 0) thisChat = mLastChatModel.get(position);
         if (thisChat != null) {
-            thisChatList = thisChat.getLastmessage();
-            if (thisChatList != null && thisChatList.size() > 0) lastMessage = thisChatList.get(position);
+            lastMessage = thisChat.getLastmessage();
 
 
             if (lastMessage != null) {
-                holder.tvSenderNumber.setText(thisChat.getLastmessage().get(position).getOwner().getNumber());
-                holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().get(position).getCompanion().getNumber
+                holder.tvSenderNumber.setText(thisChat.getLastmessage().getOwner().getNumber());
+                holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().getCompanion().getNumber
                         ());
-                holder.tvItemTimedate.setText(thisChat.getLastmessage().get(position).getPostedDate());
-                holder.tvMessagePreview.setText(thisChat.getLastmessage().get(position).getBody());
+                holder.tvItemTimedate.setText(thisChat.getLastmessage().getPostedDate());
+                holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
-                setAvatar(holder.ivAvatar, thisChat.getLastmessage().get(position).getOwner().getAvatar(), position);
+                setAvatar(holder.ivAvatar, thisChat.getLastmessage().getOwner().getAvatar(), position);
 
             }
 
@@ -168,7 +167,7 @@ public class ChatsListAdapter extends BaseAdapter {
                     break;
                 case R.id.tvChatItemViewDetails:
 
-                    startChatActivity(chats.get(position));
+                    startChatActivity(mLastChatModel.get(position));
 
 
                     break;

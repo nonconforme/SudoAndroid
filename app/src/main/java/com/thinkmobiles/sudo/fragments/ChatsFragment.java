@@ -7,6 +7,7 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +67,11 @@ public class ChatsFragment extends Fragment {
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
                 mLastChatsModel = lastChatsModel;
                 reloadList(mLastChatsModel);
-                Toast.makeText(mActivity,lastChatsModel.size(),Toast.LENGTH_SHORT).show();
-            }
+             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(mActivity,"error getting chats",Toast.LENGTH_SHORT).show();
+                Log.d("Retrofit chat Error", error.getMessage());
 
 
             }
