@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.models.chat.MessageModelOld;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class ChatListAdapter extends BaseAdapter {
 
-    private List<MessageModel> listMessages;
+    private List<MessageModelOld> listMessages;
     private LayoutInflater mInflater;
     private Context context;
     private UserModel receiver;
@@ -39,7 +39,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     }
 
-    public void reloadContent(List<MessageModel> listMessages, UserModel receiver) {
+    public void reloadContent(List<MessageModelOld> listMessages, UserModel receiver) {
         this.listMessages = listMessages;
         this.receiver = receiver;
         notifyDataSetChanged();
