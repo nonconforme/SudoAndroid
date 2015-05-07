@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
@@ -35,6 +36,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private LayoutInflater mInflater;
     private Activity mActivity;
 
+    private static final String SUCCESS = "success";
 
     public ContactsListAdapter(Activity context) {
         this.mActivity = context;
@@ -92,8 +94,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        if (holder.ivAvatar.getTag() != i) {
-            holder.ivAvatar.setTag(i);
+        if (holder.ivAvatar.getTag() != SUCCESS) {
+
             setAvatar(holder.ivAvatar, contacts.get(i).getAvatar());
         }
         holder.tvFirstName.setText(contacts.get(i).getCompanion());
@@ -162,11 +164,31 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     private void setAvatar(final ImageView imageView, String imageUrl) {
         if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView);
+            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    imageView.setTag(SUCCESS);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
 
 
         } else {
-            Picasso.with(mActivity).load(" http://pix.vashdosug.ru/pix/feature/persons/3/21731.jpg").transform(new CircleTransform()).into(imageView);
+            Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    imageView.setTag(SUCCESS);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
 
         }
 
