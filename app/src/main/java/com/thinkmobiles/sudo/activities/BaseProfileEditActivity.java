@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.*;
@@ -25,7 +24,6 @@ import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -118,7 +116,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         mUserModel = (UserModel) getIntent().getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
         Log.d(TAG, mUserModel.getCompanion());
     }
-
+    protected  void setDefaultColor(){
+        setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -203,7 +204,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
                      Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    selectedImage = Bitmap.createScaledBitmap(selectedImage, 100, 100, true);
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
                     mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
                     byte[] decodedByte = Base64.decode(mUserModel.getAvatar(), 0);
                     selectedImage = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
