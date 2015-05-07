@@ -13,10 +13,16 @@ import android.widget.ListView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
-import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.chat.ChatModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by omar on 28.04.15.
@@ -28,7 +34,8 @@ public class ChatActivity extends ActionBarActivity {
     private Button btnSend;
     private String message;
     private ChatListAdapter chatListAdapter;
-    private ChatModel thisChat;
+    private Callback<List<MessageModel>> mMessagesCB;
+    private MessageModel thisChat;
     private Toolbar toolbar;
 
 
@@ -42,10 +49,26 @@ public class ChatActivity extends ActionBarActivity {
         loadContent();
         initListeners();
         reloadContent();
+        initGetMessageCB();
+        getMessages();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", R.drawable.ic_launcher);
 
 
+    }
+
+    private void initGetMessageCB() {
+        mMessagesCB = new Callback<List<MessageModel>>() {
+            @Override
+            public void success(List<MessageModel> messageModel, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
     }
 
     @Override
@@ -70,7 +93,7 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void reloadContent() {
-        chatListAdapter.reloadContent(thisChat.getListMessages(), thisChat.getReceiver());
+//        chatListAdapter.reloadContent(thisChat.getListMessages(), thisChat.getReceiver());
     }
 
     private void loadContent() {
@@ -78,7 +101,7 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void loadChat() {
-        thisChat = (ChatModel) getIntent().getExtras().getBundle(BUNDLE).getSerializable(CHAT_MODEL);
+        thisChat = (MessageModel) getIntent().getExtras().getBundle(BUNDLE).getSerializable(CHAT_MODEL);
 
     }
 
@@ -97,11 +120,11 @@ public class ChatActivity extends ActionBarActivity {
     private void sendMessage() {
     }
 
-    public static void launch(Activity activity, ChatModel chatModel) {
+    public static void launch(Activity activity, MessageModel messageModel) {
 
         Intent intent = new Intent(activity, ChatActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable(CHAT_MODEL, chatModel);
+        b.putSerializable(CHAT_MODEL, messageModel);
         intent.putExtra(BUNDLE, b);
         activity.startActivity(intent);
 
@@ -118,4 +141,8 @@ public class ChatActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+   private void getMessages(){
+       RetrofitAdapter.getInterface().getConversation(thisChat.getOwner().getNumber(), thisChat.getCompanion().getNumber(), mMessagesCB);
+   }
 }

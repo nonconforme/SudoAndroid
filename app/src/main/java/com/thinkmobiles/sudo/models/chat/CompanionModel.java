@@ -1,9 +1,11 @@
 package com.thinkmobiles.sudo.models.chat;
 
+import java.io.Serializable;
+
 /**
  * Created by njakawaii on 07.05.2015.
  */
-public class CompanionModel {
+public class CompanionModel implements Serializable{
     private String number;
     private String avatar;
 

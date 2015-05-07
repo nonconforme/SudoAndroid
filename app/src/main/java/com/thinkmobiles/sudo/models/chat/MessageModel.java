@@ -2,10 +2,12 @@ package com.thinkmobiles.sudo.models.chat;
 
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 
+import java.io.Serializable;
+
 /**
  * Created by njakawaii on 07.05.2015.
  */
-public class MessageModel {
+public class MessageModel implements Serializable{
     private String body;
     private String postedDate;
     private CompanionModel companion;

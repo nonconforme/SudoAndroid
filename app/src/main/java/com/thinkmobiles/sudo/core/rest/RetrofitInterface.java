@@ -14,6 +14,7 @@ import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 import com.thinkmobiles.sudo.utils.TypedJsonString;
@@ -69,6 +70,9 @@ public interface RetrofitInterface {
 
     @GET(APIConstants.URL_MESSAGE + APIConstants.URL_LAST_CHATS)
     void getLastChats(Callback<List<LastChatsModel>> callback);
+
+    @GET(APIConstants.URL_MESSAGE + APIConstants.API_CONVERSATION + "/{" + Constants.FROM_NUMBER + "}" + "/{" + Constants.TO_NUMBER + "}")
+    void getConversation(@Path(Constants.FROM_NUMBER) String src, @Path(Constants.TO_NUMBER) String dst, Callback<List<MessageModel>> callback);
 
 
     @GET(APIConstants.URL_PRICE + APIConstants.API_COUNTRIES)

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
@@ -152,7 +153,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
     private void startChatActivity(LastChatsModel chatModel) {
-        /*ChatActivity.launch(activity, chatModel);*/
+        ChatActivity.launch(mActivity, chatModel.getLastmessage());
     }
 
     private class CustomOnClickListener implements View.OnClickListener {
