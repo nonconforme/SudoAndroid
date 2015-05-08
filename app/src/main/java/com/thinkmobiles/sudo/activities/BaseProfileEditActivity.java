@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
@@ -61,7 +63,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         super.onCreate(savedInstanceState);
         initComponent();
 
-        setOnClickListener();
+//        setOnClickListener();
 
     }
 
@@ -105,7 +107,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         lvNumbers.setAdapter(mAdapter);
 
         View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);
-        footerView.setOnClickListener(new OnClickListener() {
+        footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdapter.addBlankNumberView();
@@ -293,13 +295,13 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
-        if(view.getId() == R.id.btnAddPhone_AVC){
-            addNewNumber();
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
+//        if(view.getId() == R.id.btnAddPhone_AVC){
+//            addNewNumber();
+//        }
+//    }
 
     protected void addNewNumber() {
         myNumberList  =  mAdapter.getNumbersList();
