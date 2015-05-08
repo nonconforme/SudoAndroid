@@ -228,6 +228,8 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
             }
+
+
         };
     }
 
@@ -240,7 +242,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ChatActivity.launch(this, App.getCurrentMobile(), myNumberList.get(i).getNumber());
+        String companionNumber =myNumberList.get(i).getNumber();
+        String currentNumber = App.getCurrentMobile();
+        ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
     }
 
     @Override

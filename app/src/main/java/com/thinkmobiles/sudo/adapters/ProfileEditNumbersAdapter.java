@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
     private Context mContext;
     private List<NumberModel> mListNumbers;
     private LayoutInflater inflater;
+    private boolean errorsInNumbers [];
 
 
     public ProfileEditNumbersAdapter(Context _context) {
@@ -67,6 +69,11 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
 
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
         viewHolder.etPhoneNumber.setTag(position);
+        if(errorsInNumbers != null){
+            if (errorsInNumbers[position])
+                viewHolder.etPhoneNumber.setBackgroundResource(android.R.color.holo_red_dark);
+        }else
+            viewHolder.etPhoneNumber.setBackgroundResource(android.R.color.transparent);
 
 
         return view;
@@ -74,6 +81,12 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
 
     public void reloadList(List<NumberModel> mListNumbers) {
         this.mListNumbers = mListNumbers;
+        errorsInNumbers = null;
+        notifyDataSetChanged();
+    }
+
+    public void showErrorsInNumbers(boolean [] errorsInNumbers){
+        this.errorsInNumbers = errorsInNumbers;
         notifyDataSetChanged();
     }
 
@@ -92,6 +105,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         if (b) {
             int pos = (int) view.getTag();
             mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+            view.setBackgroundResource(android.R.color.transparent);
         }
     }
 

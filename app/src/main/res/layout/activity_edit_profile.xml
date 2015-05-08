@@ -4,12 +4,15 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:background="@color/background_floating_material_light">
 
-    <RelativeLayout
+
+<RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+        >
 
         <include
                 android:id="@+id/toolbar"
@@ -18,7 +21,7 @@
         <RelativeLayout
 
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:orientation="vertical"
@@ -27,12 +30,12 @@
 
             <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:orientation="vertical">
 
                 <RelativeLayout
                         style="@style/AVC_Detailes_SubItem_RL"
-                        android:layout_width="fill_parent"
+                        android:layout_width="340dp"
                         android:layout_height="wrap_content">
 
                     <EditText
@@ -45,7 +48,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/ivUser_FN"
                             android:layout_toRightOf="@+id/ivUser_FN"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone" android:layout_marginRight="16dp"/>
 
                     <!--   <EditText
                                android:id="@+id/etUserSecondName_AVC"
@@ -109,7 +112,7 @@
                 <RelativeLayout
                         style="@style/AVC_Detailes_SubItem_RL"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="fill_parent">
 
                     <ImageView
                             android:id="@+id/ivPhoneIcon_AVC"
@@ -126,6 +129,14 @@
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/ivPhoneIcon_AVC"
                             android:layout_toRightOf="@+id/ivPhoneIcon_AVC"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add"
+                            android:id="@+id/btnAddPhone_AVC"
+                            android:layout_below="@+id/lvPhoneNumbersView_AVC"
+                            android:layout_alignLeft="@+id/lvPhoneNumbersView_AVC"
+                            android:layout_alignStart="@+id/lvPhoneNumbersView_AVC"/>
 
                 </RelativeLayout>
 
