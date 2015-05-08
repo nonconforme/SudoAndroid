@@ -19,6 +19,7 @@ import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.utils.Utils;
 
 
 import java.text.ParseException;
@@ -90,7 +91,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
         LastChatsModel thisChat = null;
-        MessageModel lastMessage = null;
+        MessageModel lastMessage;
 
 
         if (mLastChatModel != null && mLastChatModel.size() > 0) thisChat = mLastChatModel.get(position);
@@ -101,10 +102,11 @@ public class ChatsListAdapter extends BaseAdapter {
             if (lastMessage != null) {
                 holder.tvSenderNumber.setText(thisChat.getLastmessage().getOwner().getNumber());
                 holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().getCompanion().getNumber());
-                holder.tvItemTimedate.setText(stringToDate(thisChat.getLastmessage().getPostedDate()));
+                holder.tvItemTimedate.setText(Utils.stringToDate(thisChat.getLastmessage().getPostedDate()));
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
+
                 holder.ivAvatar.setTag(position);
-                setAvatar(holder.ivAvatar, thisChat.getLastmessage().getOwner().getAvatar(), position);
+                Utils.setAvatar(mActivity, holder.ivAvatar, thisChat.getLastmessage().getOwner().getAvatar(), position);
 
             }
 
@@ -133,30 +135,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
     }
 
-    private void setAvatar(final ImageView imageView, String imageUrl, final int pos) {
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    if ((int) imageView.getTag() != pos) {
-                        Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-                    }
-                }
 
-                @Override
-                public void onError() {
-                    Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-
-                }
-            });
-
-
-        } else {
-            Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-
-        }
-
-    }
 
 
     private void startChatActivity(LastChatsModel chatModel) {
@@ -191,24 +170,6 @@ public class ChatsListAdapter extends BaseAdapter {
     }
 
 
-    private String stringToDate(String aDate) {
-        String oldFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        String newFormat = "MMM-dd, HH:mm";
-        Date date = null;
 
-        SimpleDateFormat format = new SimpleDateFormat(oldFormat);
-
-        try {
-            date = format.parse(aDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (date == null) return null;
-
-        String datetime = DateFormat.format(newFormat, date).toString();
-
-        return datetime;
-
-    }
 
 }

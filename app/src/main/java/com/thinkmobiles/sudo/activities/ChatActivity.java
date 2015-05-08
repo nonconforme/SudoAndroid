@@ -25,16 +25,16 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.Utils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -48,14 +48,16 @@ public class ChatActivity extends ActionBarActivity {
     private EditText etMessage;
     private Button btnSend;
     private String message;
-    private ChatListAdapter chatListAdapter;
+    private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
-    private MessageModel thisChat;
+
     private Toolbar toolbar;
+
     private String mOwnerNumber;
     private String mCompanionNumber;
     private Socket mSocket;
+
     {
         try {
             mSocket = IO.socket(APIConstants.SERVER_URL);
@@ -65,7 +67,10 @@ public class ChatActivity extends ActionBarActivity {
     }
 
 
-    public static final String CHAT_MODEL = "chat";
+    private MessageModel mSendMessageModel;
+    private MessageModel mFirstMessageModel;
+
+
     public static final String BUNDLE = "bundle";
 
     @Override
@@ -74,13 +79,13 @@ public class ChatActivity extends ActionBarActivity {
         initComponents();
         loadContent();
         initListeners();
-        reloadContent();
+
         initGetMessageCB();
         initSendMessageCB();
         getMessages();
         initSocked();
-         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", R.drawable.ic_launcher);
+        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
 
         mSocket.connect();
     }
@@ -92,8 +97,8 @@ public class ChatActivity extends ActionBarActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("uId",  App.getuId());
-            mSocket.emit("authorize",jsonObject);
+            jsonObject.put("uId", App.getuId());
+            mSocket.emit("authorize", jsonObject);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -107,10 +112,10 @@ public class ChatActivity extends ActionBarActivity {
             Gson gson = new Gson();
             MessageModel message = gson.fromJson(data.toString(), MessageModel.class);
             Log.d("socket", "received");
-            //TODO add to list new message
-
+            mListAdapter.addNewMessage(message);
         }
     };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -123,7 +128,7 @@ public class ChatActivity extends ActionBarActivity {
         public void call(Object... args) {
 
                     Toast.makeText(getApplicationContext(),
-                            "Connection problims  ", Toast.LENGTH_LONG).show();
+                            "Connection problims ", Toast.LENGTH_LONG).show();
 
         }
     };
@@ -132,7 +137,7 @@ public class ChatActivity extends ActionBarActivity {
         mSendMessageCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-
+                mListAdapter.addNewMessage(mSendMessageModel);
             }
 
             @Override
@@ -146,6 +151,11 @@ public class ChatActivity extends ActionBarActivity {
         mMessagesCB = new Callback<List<MessageModel>>() {
             @Override
             public void success(List<MessageModel> messageModel, Response response) {
+                if (messageModel.size() > 0) {
+                    mFirstMessageModel = messageModel.get(0);
+                    mListAdapter.reloadContent(messageModel, mOwnerNumber);
+
+                }
 
             }
 
@@ -170,24 +180,21 @@ public class ChatActivity extends ActionBarActivity {
         lvChatList.setDividerHeight(0);
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
-        chatListAdapter = new ChatListAdapter(this);
-        lvChatList.setAdapter(chatListAdapter);
+        mListAdapter = new ChatListAdapter(this);
+        lvChatList.setAdapter(mListAdapter);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void reloadContent() {
-//        chatListAdapter.reloadContent(thisChat.getListMessages(), thisChat.getReceiver());
-    }
 
     private void loadContent() {
         loadChat();
     }
 
     private void loadChat() {
-        mOwnerNumber        = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
-        mCompanionNumber    =  getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
+        mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
+        mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
 
     }
 
@@ -198,13 +205,24 @@ public class ChatActivity extends ActionBarActivity {
             public void onClick(View view) {
                 message = String.valueOf(etMessage.getText());
                 if (Utils.checkString(message)) sendMessage(message);
+                etMessage.setText("");
             }
         });
 
     }
 
     private void sendMessage(final String _message) {
-        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, "sms" ,mSendMessageCB);
+        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, "sms", mSendMessageCB);
+        setSendMessageModel(mOwnerNumber, mCompanionNumber, _message);
+    }
+
+    private void setSendMessageModel(String _mOwnerNumber, String _mCompanionNumber, String _message) {
+        mSendMessageModel = new MessageModel();
+
+        mSendMessageModel.setCompanion(createCompanion(_mCompanionNumber, mFirstMessageModel));
+        mSendMessageModel.setOwner(createCompanion(_mOwnerNumber, mFirstMessageModel));
+        mSendMessageModel.setPostedDate(Utils.getDateServerStyle());
+        mSendMessageModel.setBody(_message);
     }
 
     public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber) {
@@ -235,7 +253,24 @@ public class ChatActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-   private void getMessages(){
-       RetrofitAdapter.getInterface().getConversation(mOwnerNumber, mCompanionNumber, mMessagesCB);
-   }
+    private void getMessages() {
+        RetrofitAdapter.getInterface().getConversation(mOwnerNumber, mCompanionNumber, mMessagesCB);
+    }
+
+    private CompanionModel createCompanion(String number, MessageModel messageModel) {
+
+        CompanionModel companionModel = new CompanionModel();
+        companionModel.setNumber(number);
+
+        if (messageModel != null) {
+
+            if (number.equalsIgnoreCase(messageModel.getCompanion().getNumber()))
+                companionModel.setAvatar(messageModel.getCompanion().getAvatar());
+            else companionModel.setAvatar(messageModel.getOwner().getAvatar());
+        }
+
+        return companionModel;
+    }
+
+
 }

@@ -11,6 +11,7 @@
             android:choiceMode="none"
             android:stackFromBottom="true"
             android:transcriptMode="normal" android:layout_below="@+id/toolbar"
+
             android:dividerHeight="1dp"
             android:divider="@color/sn_list_devider_color"/>
     <EditText
