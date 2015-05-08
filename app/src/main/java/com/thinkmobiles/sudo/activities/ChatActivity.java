@@ -110,9 +110,15 @@ public class ChatActivity extends ActionBarActivity {
         public void call(Object... args) {
             JSONObject data = (JSONObject) args[0];
             Gson gson = new Gson();
-            MessageModel message = gson.fromJson(data.toString(), MessageModel.class);
+            final MessageModel message = gson.fromJson(data.toString(), MessageModel.class);
             Log.d("socket", "received");
-            mListAdapter.addNewMessage(message);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mListAdapter.addNewMessage(message);
+                }
+            });
+
         }
     };
 
