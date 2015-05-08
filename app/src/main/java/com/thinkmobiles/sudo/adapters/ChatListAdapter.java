@@ -45,8 +45,8 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return mListMessages.get(i);
+    public Object getItem(int position) {
+        return mListMessages.get(position);
     }
 
     @Override
@@ -55,7 +55,8 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        int position = getCount() - i - 1;
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
@@ -112,6 +113,16 @@ public class ChatListAdapter extends BaseAdapter {
     private void setTimeDate(TextView tv, int position) {
         String timeDate = Utils.stringToDate(mListMessages.get(position).getPostedDate());
         tv.setText(timeDate);
+    }
+
+    public void addNewMessage(MessageModel newMessage) {
+        List<MessageModel> tempList = new ArrayList<>();
+        tempList.add(newMessage);
+
+        tempList.addAll(mListMessages);
+        mListMessages = tempList;
+
+        notifyDataSetChanged();
     }
 
 }
