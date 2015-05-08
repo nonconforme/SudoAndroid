@@ -116,11 +116,8 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     public void addNewMessage(MessageModel newMessage) {
-        List<MessageModel> tempList = new ArrayList<>();
-        tempList.add(newMessage);
 
-        tempList.addAll(mListMessages);
-        mListMessages = tempList;
+        mListMessages.add(0, newMessage);
 
         notifyDataSetChanged();
     }
