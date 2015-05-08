@@ -34,6 +34,7 @@
     <color name="chat_text_color">#b5000000</color>
     <color name="schat_item_text_shadow">#7f7f7f</color>
     <color name="schat_item_text_bg">#e7e7e7</color>
+    <color name="schat_item_et">#e54b4b4b</color>
 
 
     <!-- end region -->
@@ -134,8 +135,10 @@
 
     </style>
     <style name="SChatItemET">
-        <item name="android:textColor">@color/schats_phone_number_color</item>
-        <item name="android:textSize">@dimen/schats_small_text_size</item>
+        <item name="android:textColor">@color/schat_item_et</item>
+        <item name="android:textColorHint">@color/schat_item_et</item>
+
+        <item name="android:textSize">16dp</item>
         <item name="android:paddingLeft">@dimen/schat_padding</item>
     </style>
 </resources>
