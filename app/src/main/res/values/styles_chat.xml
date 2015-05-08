@@ -31,7 +31,7 @@
     <!-- COLORS -->
     <color name="schats_view_details_color">@android:color/holo_blue_dark</color>
     <color name="schats_phone_number_color">@android:color/darker_gray</color>
-
+    <color name="chat_text_color">#b5000000</color>
     <color name="schat_item_text_shadow">#7f7f7f</color>
     <color name="schat_item_text_bg">#e7e7e7</color>
 
@@ -78,7 +78,7 @@
     </style>
 
     <style name="SChatsItemTVMessagePreview">
-
+        <item name="android:textColor">@color/chat_text_color</item>
         <item name="android:textSize">@dimen/schats_details_text_size</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
@@ -93,6 +93,7 @@
     </style>
 
     <style name="SChatsItemTVTimedate">
+        <item name="android:textColor">@color/chat_text_color</item>
         <item name="android:textSize">@dimen/schats_small_text_size</item>
     </style>
 
@@ -110,6 +111,7 @@
     <style name="SChatItemText">
         <item name="android:textSize">@dimen/schat_text_size</item>
         <item name="android:padding">@dimen/schat_padding</item>
+        <item name="android:textColor">@color/chat_text_color</item>
     </style>
 
     <style name="SChatItemTVTimedate">
@@ -130,5 +132,10 @@
         <item name="android:layout_height">@dimen/schat_send_btn_height</item>
         <item name="android:layout_margin">@dimen/schat_margin_btn_send</item>
 
+    </style>
+    <style name="SChatItemET">
+        <item name="android:textColor">@color/schats_phone_number_color</item>
+        <item name="android:textSize">@dimen/schats_small_text_size</item>
+        <item name="android:paddingLeft">@dimen/schat_padding</item>
     </style>
 </resources>

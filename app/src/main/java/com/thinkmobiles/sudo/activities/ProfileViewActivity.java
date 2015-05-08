@@ -19,10 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -31,6 +28,7 @@ import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.ColorModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
@@ -42,7 +40,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileViewActivity extends BaseProfileActivity {
+public class ProfileViewActivity extends BaseProfileActivity implements AdapterView.OnItemClickListener{
 
     private TextView tvUserFirstName;
     private ImageView ivAvatar;
@@ -100,14 +98,12 @@ public class ProfileViewActivity extends BaseProfileActivity {
             tvUserFirstName.setText(firstName);
         }
 
-   /*     if (Utils.checkString(lastName)) {
-            tvUserLastName.setText(firstName);
-        }
-*/
 
         if (Utils.checkList(myNumberList)) {
             profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, myNumberList);
+
             lvNumbers.setAdapter(profileViewNumbersAdapter);
+            lvNumbers.setOnItemClickListener(this);
         }
 
     }
@@ -280,4 +276,9 @@ public class ProfileViewActivity extends BaseProfileActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        ChatActivity.launch(this, App.getCurrentMobile(), myNumberList.get(i).getNumber());
+    }
 }

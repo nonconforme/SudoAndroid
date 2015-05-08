@@ -23,7 +23,7 @@ public class ChatListAdapter extends BaseAdapter {
     private List<MessageModel> mListMessages;
     private LayoutInflater mInflater;
     private Context context;
-    private String mOwnerNumber;
+    private   String mOwnerNumber;
 
 
     public ChatListAdapter(Context context) {
@@ -117,7 +117,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     public void addNewMessage(MessageModel newMessage) {
 
-        mListMessages.add(0, newMessage);
+        mListMessages.add(0,newMessage);
 
         notifyDataSetChanged();
     }
