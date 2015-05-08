@@ -75,6 +75,10 @@ public class Utils {
         }
 
     }
+    public static boolean stringContains(String source, String toCheck) {
+
+        return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
+    }
 
     public static String getDateServerStyle() {
         SimpleDateFormat sdf = new SimpleDateFormat(Utils.SERVER_DATE_FORMAT);

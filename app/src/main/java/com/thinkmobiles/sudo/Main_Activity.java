@@ -288,7 +288,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                Log.d("searchView", "closed");
+
                 if (getCurrentTab() == 0) homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
                 else homeFragment.getAdapter().getChatFragment().reloadCurrentList();
 

@@ -37,6 +37,7 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -189,7 +190,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         List<UserModel> tempContactsArrayList = new ArrayList<>();
         if (contactsList != null) {
             for (UserModel userModel : contactsList) {
-                if (stringContains(userModel.getCompanion(), querry)) tempContactsArrayList.add(userModel);
+                if (Utils.stringContains(userModel.getCompanion(), querry)) tempContactsArrayList.add(userModel);
 
             }
             reloadList(tempContactsArrayList);
@@ -202,10 +203,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         if (contactsList != null) reloadList(contactsList);
     }
 
-    public static boolean stringContains(String source, String toCheck) {
 
-        return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

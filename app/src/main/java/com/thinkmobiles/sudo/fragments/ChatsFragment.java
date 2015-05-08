@@ -20,10 +20,13 @@ import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -38,7 +41,7 @@ public class ChatsFragment extends Fragment {
     private ListView lvChats;
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter mChatAdapter;
-    List<LastChatsModel> mLastChatsModel;
+    private List<LastChatsModel> mLastChatsModel;
 
 
 
@@ -92,9 +95,24 @@ public class ChatsFragment extends Fragment {
 
     }
 
-    public void searchChatList(String querry) {
-    }
 
+    public void searchChatList(String querry) {
+
+        List<LastChatsModel> tempContactsArrayList = new ArrayList<>();
+        if (mLastChatsModel != null) {
+            for (LastChatsModel tempModel : mLastChatsModel) {
+                if (Utils.stringContains(tempModel.getLastmessage().getCompanion().getNumber(), querry)) tempContactsArrayList
+                        .add(tempModel);
+                else if (Utils.stringContains(tempModel.getLastmessage().getOwner().getNumber(), querry))
+                tempContactsArrayList
+                        .add(tempModel);
+
+            }
+            reloadList(tempContactsArrayList);
+        }
+
+
+    }
     public void reloadList(List<LastChatsModel> chatsModelList) {
         mChatAdapter.reloadList(chatsModelList);
     }

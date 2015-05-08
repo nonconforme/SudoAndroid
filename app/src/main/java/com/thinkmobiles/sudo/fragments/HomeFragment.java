@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
@@ -20,7 +22,7 @@ import com.thinkmobiles.sudo.global.Constants;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer, ViewPager.OnPageChangeListener {
+public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer  {
 
     private ViewPager pager;
     private ViewPagerAdapter adapter;
@@ -80,7 +82,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     public void initPagerListener() {
 
-        pager.setOnPageChangeListener(this);
+
     }
 
     @Override
@@ -119,20 +121,5 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-        currentTab = position;
-        Log.d("pagechange", String.valueOf(position));
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }

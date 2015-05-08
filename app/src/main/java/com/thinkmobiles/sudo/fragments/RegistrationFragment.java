@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +26,16 @@ import retrofit.client.Response;
 /**
  * Created by Pavilion on 09.04.2015.
  */
-public class RegistrationFragment extends Fragment implements View.OnClickListener{
+public class RegistrationFragment extends Fragment implements View.OnClickListener {
     private View mView;
     private Activity mActivity;
     private EditText mETEmail, mETPassword, mETConfirmPass;
     private ImageView mImage;
     private Button mBTNSignUp;
     private Callback<LoginResponse> mSignUpCB;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_sign_up, container, false);
         initComponent();
         initSignUpCB();
@@ -54,32 +55,64 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         mBTNSignUp.setOnClickListener(this);
     }
 
-    private void initComponent(){
-        mETEmail            = (EditText) mView.findViewById(R.id.etEmail_FSU);
-        mETPassword         = (EditText) mView.findViewById(R.id.etPassword_FSU);
-        mETConfirmPass      = (EditText) mView.findViewById(R.id.etConfirmPassword_FSU);
-        mBTNSignUp          = (Button) mView.findViewById(R.id.btnSignUp_FSU);
+    private void initComponent() {
+        mETEmail = (EditText) mView.findViewById(R.id.etEmail_FSU);
+        mETPassword = (EditText) mView.findViewById(R.id.etPassword_FSU);
+        mETConfirmPass = (EditText) mView.findViewById(R.id.etConfirmPassword_FSU);
+        mBTNSignUp = (Button) mView.findViewById(R.id.btnSignUp_FSU);
 
     }
 
-    private boolean isValidateParam(EditText _et){
-        String check = _et.getText().toString();
-        return !check.isEmpty();
+
+    private boolean isValidPassword(EditText _et1, EditText _et2) {
+        String p1 = _et1.getText().toString();
+        String p2 = _et2.getText().toString();
+        if (p1.isEmpty() || p2.isEmpty()) {
+            Toast.makeText(mActivity, "Password cannot be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!p1.equals(p2)) {
+            Toast.makeText(mActivity, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (p1.length() < 6) {
+            Toast.makeText(mActivity, "Password must be at least 6 symbols long", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+       if(! p2.matches("\\w+")){
+           Toast.makeText(mActivity, "Password can only contain numbers and English letters", Toast.LENGTH_SHORT)
+                   .show();
+           return false;
+
+       }
+
+
+        return true;
+    }
+
+    private boolean isValidEmail(EditText et){
+        String target = et.getText().toString();
+        if (TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
+            return true;
+        } else {
+            Toast.makeText(mActivity, "Not a valid e-mail", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSignUp_FSU:
-                if (isValidateParam(mETEmail) && isValidateParam(mETPassword))   signUpRequest();
+                if (isValidEmail(mETEmail )&& isValidPassword(mETPassword, mETConfirmPass)) signUpRequest();
                 break;
 
         }
     }
 
     private void signUpRequest() {
-        RetrofitAdapter.getInterface().signUp(mETEmail.getText().toString(),
-                mETPassword.getText().toString(), mSignUpCB);
+        RetrofitAdapter.getInterface().signUp(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignUpCB);
     }
 
     private void initSignUpCB() {
@@ -94,7 +127,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             @Override
             public void failure(RetrofitError error) {
                 Log.d("signUp", error.getMessage());
-                Toast.makeText(mActivity,  error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         };
