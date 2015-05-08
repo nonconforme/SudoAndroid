@@ -8,7 +8,34 @@ import java.io.Serializable;
 public class NumberModel implements Serializable{
     private String number;
     private boolean  isBlocked;
+    private String countryIso;
+    private String expire;
+    private String left;
 
+
+    public String getLeft() {
+        return left;
+    }
+
+    public void setLeft(String left) {
+        this.left = left;
+    }
+
+    public String getExpire() {
+        return expire;
+    }
+
+    public void setExpire(String expire) {
+        this.expire = expire;
+    }
+
+    public String getCountryIso() {
+        return countryIso;
+    }
+
+    public void setCountryIso(String countryIso) {
+        this.countryIso = countryIso;
+    }
 
     public boolean isBlocked() {
         return isBlocked;

@@ -13,7 +13,7 @@
     <ImageView
             style="@style/DrawerAvatar_IV"
 
-            android:id="@+id/ivAvatar_Drawer" android:src="@drawable/ic_person"/>
+            android:id="@+id/ivAvatar_Drawer"/>
     <TextView
             style="@style/DrawerProfileName_TV"
             android:layout_width="wrap_content"

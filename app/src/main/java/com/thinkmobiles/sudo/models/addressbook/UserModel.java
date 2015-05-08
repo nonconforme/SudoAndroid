@@ -13,7 +13,18 @@ public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;
-    private   ColorModel color;
+
+    private String email ;
+    private ColorModel color;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public ColorModel getColor() {
         return color;
@@ -23,9 +34,6 @@ public class UserModel  implements Serializable{
         this.color = color;
     }
 
-//    public UserModel(){
-//
-//    }
     public UserModel() {
         numbers = new ArrayList<>();
         avatar = new String();
@@ -35,13 +43,13 @@ public class UserModel  implements Serializable{
     public List<NumberModel> getNumbers() {
         return numbers;
     }
-    public List<String> getStringNubers(){
-        List<String> strings = new ArrayList<>();
-        for (int i = 0; i < getNumbers().size(); i++) {
-            strings.add(getNumbers().get(i).getNumber());
-        }
-        return  strings;
-    }
+//    public List<String> getStringNubers(){
+//        List<String> strings = new ArrayList<>();
+//        for (int i = 0; i < getNumbers().size(); i++) {
+//            strings.add(getNumbers().get(i).getNumber());
+////        }
+//        return  num;
+//    }
     public void setNumbers(List<NumberModel> numbers) {
         this.numbers = numbers;
     }
@@ -62,23 +70,4 @@ public class UserModel  implements Serializable{
         this.avatar = avatar;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserModel)) return false;
-
-        UserModel userModel = (UserModel) o;
-
-        if (!getCompanion().equals(userModel.getCompanion())) return false;
-        return !(getNumbers() != null ? !getNumbers().equals(userModel.getNumbers()) : userModel.getNumbers() != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getCompanion().hashCode();
-        result = 31 * result + (getNumbers() != null ? getNumbers().hashCode() : 0);
-        return result;
-    }
 }

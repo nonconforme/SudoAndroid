@@ -1,17 +1,19 @@
 package com.thinkmobiles.sudo.models;
 
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
 /**
  * Created by njakawaii on 16.04.2015.
  */
 public class ProfileResponse extends DefaultResponseModel {
 
-    private ProfileModel user;
+    private UserModel user;
 
-    public ProfileModel getUser() {
+    public UserModel getUser() {
         return user;
     }
 
-    public void setUser(ProfileModel user) {
+    public void setUser(UserModel user) {
         this.user = user;
     }
 

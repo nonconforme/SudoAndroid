@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.utils;
 
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.ProfileNumberModel;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public abstract class ContactManager {
     }
     public static boolean isMyNumber(final String _number){
         boolean res = false;
-        List<ProfileNumberModel> temp = App.getCurrentUser().getNumbers();
-        for ( ProfileNumberModel numberItem : temp){
+        List<NumberModel> temp = App.getCurrentUser().getNumbers();
+        for ( NumberModel numberItem : temp){
             if (numberItem.getNumber().equals(_number)) {
                 res = true;
                 break;

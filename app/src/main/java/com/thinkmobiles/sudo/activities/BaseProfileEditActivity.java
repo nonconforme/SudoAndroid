@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
@@ -37,7 +39,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter profileEditNumbersAdapter;
 
-
+    private Bitmap mCurrentPhoto;
     private View.OnClickListener mOnClickListener;
 
     protected UserModel mUserModel;
@@ -174,6 +176,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     protected void updateUserModel() {
         updateNumberList();
+        ProgressDialogWorker.createDialog(this);
+        if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable)ivChangeAvatar.getDrawable()).getBitmap();
+        mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
             firstName = etUserFirstName.getText().toString();
             mUserModel.setCompanion(firstName);
@@ -198,21 +203,11 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
             Uri avatarUri = data.getData();
             if (avatarUri != null) {
-                int dimen;
-
-                Log.d("mediastore uri ", avatarUri.toString());
-
-                dimen = (int) getResources().getDimension(R.dimen.avc_change_avatar_size);
-                Bitmap bitmap = null;
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
                      Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    selectedImage = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
-                    mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
-                    byte[] decodedByte = Base64.decode(mUserModel.getAvatar(), 0);
-                    selectedImage = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+                    mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
                     ivChangeAvatar.setImageBitmap(selectedImage);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

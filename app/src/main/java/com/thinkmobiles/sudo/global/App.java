@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.global;
 import android.app.Application;
 
 import com.thinkmobiles.sudo.models.ProfileModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 /**
  * Created by Sasha on 12.02.2015.
@@ -10,13 +11,13 @@ import com.thinkmobiles.sudo.models.ProfileModel;
 public class App extends Application {
     private static String currentMobile;
     private static String uId;
-    private static ProfileModel currentUser;
+    private static UserModel currentUser;
 
-    public static ProfileModel getCurrentUser() {
+    public static UserModel getCurrentUser() {
         return currentUser;
     }
 
-    public static void setCurrentUser(ProfileModel currentUser) {
+    public static void setCurrentUser(UserModel currentUser) {
         App.currentUser = currentUser;
     }
 

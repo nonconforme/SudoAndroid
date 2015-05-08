@@ -99,7 +99,7 @@ public interface RetrofitInterface {
 //    void lastHistory(@Path("owner") String owner, @Path("companion") String companion, Callback<ConversationResponse> callback);
 //
     @GET(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_ID + "}")
-    void getProfile(@Path(Constants.PATH_PARAM_ID) String id, Callback<ProfileResponse> callback);
+    void getProfile(@Path(Constants.PATH_PARAM_ID) String name, Callback<ProfileResponse> callback);
 
     @GET(APIConstants.URL_SIGN_OUT)
     void sigOut(Callback<DefaultResponseModel> callback);

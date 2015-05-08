@@ -357,19 +357,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
 
     private void setDrawerHeaderContent(){
-        Picasso.with(this).load(App.getCurrentUser().getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onError() {
-//                tvName.setBackground(new ColorDrawable(getResources().getColor(android.R.color
-//                        .transparent)));
-                ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
-            }
-        });
         tvName.setText(App.getCurrentUser().getEmail());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ContactManager.getNumbers());
         spNubers.setAdapter(adapter);
