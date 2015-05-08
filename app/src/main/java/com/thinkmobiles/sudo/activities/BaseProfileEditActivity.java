@@ -100,7 +100,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         mAdapter = new ProfileEditNumbersAdapter(this);
         lvNumbers.setDivider(null);
-        lvNumbers.setDividerHeight(2);
+        lvNumbers.setDividerHeight(0);
         lvNumbers.setAdapter(mAdapter);
 
         View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);

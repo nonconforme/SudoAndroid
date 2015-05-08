@@ -170,13 +170,18 @@
         <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
         <item name="android:layout_marginBottom">@dimen/avc_margin</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/black</item>
 
     </style>
     <style name="AVC_Detailes_Phone_Number_ET">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/black</item>
+
         <item name="android:textSize">@dimen/avc_card_detailes_text_size</item>
         <item name="android:layout_marginBottom">@dimen/avc_margin</item>
         <item name="android:maxLength">@integer/avc_phonenumber_maxlength</item>
         <item name="android:width">@dimen/avc_phonenumber_width</item>
+
 
 
     </style>
