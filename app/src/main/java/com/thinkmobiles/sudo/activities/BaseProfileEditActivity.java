@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-abstract public class BaseProfileEditActivity extends BaseProfileActivity {
+abstract public class BaseProfileEditActivity extends BaseProfileActivity implements View.OnClickListener {
 
     private EditText etUserFirstName;
     private ImageView ivChangeAvatar;
@@ -40,7 +40,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     private ProfileEditNumbersAdapter mAdapter;
 
     private Bitmap mCurrentPhoto;
-    private View.OnClickListener mOnClickListener;
 
 
     protected UserModel mUserModel;
@@ -63,7 +62,13 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         super.onCreate(savedInstanceState);
         initComponent();
 
-//        setOnClickListener();
+        setOnClickListener();
+
+    }
+
+    private void setOnClickListener() {
+        btnChangeAvatar.setOnClickListener(this);
+        btnAddNumber.setOnClickListener(this);
 
     }
 
@@ -96,7 +101,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
         ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
         btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
-        btnAddNumber= (Button) findViewById(R.id.btnAddPhone_AVC);
+        btnAddNumber = (Button) findViewById(R.id.btnAddPhone_AVC);
 
         doneOnEditorActionListener = new DoneOnEditorActionListener();
         etUserFirstName.setOnEditorActionListener(doneOnEditorActionListener);
@@ -157,15 +162,15 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     }
 
     private boolean profileChangesValidator() {
-        boolean[] errorsInNumbers =  validateNumbers();
-        if(errorsInNumbers == null && checkNewName())
-        return true;
-        else{
+        boolean[] errorsInNumbers = validateNumbers();
+        if (errorsInNumbers == null && checkNewName()) return true;
+        else {
             showNumberErrors(errorsInNumbers);
-            return false;}
+            return false;
+        }
     }
 
-    private void showNumberErrors( boolean[] errorsInNumbers ) {
+    private void showNumberErrors(boolean[] errorsInNumbers) {
         mAdapter.showErrorsInNumbers(errorsInNumbers);
 
     }
@@ -209,7 +214,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
     protected void updateUserModel() {
         updateNumberList();
         ProgressDialogWorker.createDialog(this);
-        if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable)ivChangeAvatar.getDrawable()).getBitmap();
+        if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
         firstName = etUserFirstName.getText().toString();
@@ -237,13 +242,13 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
             if (avatarUri != null) {
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
-                     Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
                     ivChangeAvatar.setImageBitmap(selectedImage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
+                //                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
             }
 
         }
@@ -259,13 +264,12 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
             Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
             etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
             return false;
-        }else {
+        } else {
             etUserFirstName.setBackgroundResource(android.R.color.transparent);
 
             return true;
         }
     }
-
 
 
     protected class DoneOnEditorActionListener implements EditText.OnEditorActionListener {
@@ -295,19 +299,19 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity {
         }
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
-//        if(view.getId() == R.id.btnAddPhone_AVC){
-//            addNewNumber();
-//        }
-//    }
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
+        if (view.getId() == R.id.btnAddPhone_AVC) {
+            addNewNumber();
+        }
+    }
 
     protected void addNewNumber() {
-        myNumberList  =  mAdapter.getNumbersList();
+        myNumberList = mAdapter.getNumbersList();
         myNumberList.add(new NumberModel());
         mAdapter.reloadList(myNumberList);
     }
 
- }
+}
 
