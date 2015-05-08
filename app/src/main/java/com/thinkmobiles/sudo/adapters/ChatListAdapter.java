@@ -1,24 +1,17 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
-import com.thinkmobiles.sudo.models.chat.LastChatsModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.utils.Utils;
 
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -27,33 +20,33 @@ import java.util.List;
  */
 public class ChatListAdapter extends BaseAdapter {
 
-    private List<LastChatsModel> listMessages;
+    private List<MessageModel> mListMessages;
     private LayoutInflater mInflater;
     private Context context;
-    private UserModel receiver;
+    private String mOwnerNumber;
 
 
     public ChatListAdapter(Context context) {
         this.context = context;
-        listMessages = new ArrayList<>();
+        mListMessages = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
 
     }
 
-    public void reloadContent(List<LastChatsModel> listMessages, UserModel receiver) {
-        this.listMessages = listMessages;
-        this.receiver = receiver;
+    public void reloadContent(List<MessageModel> mListMessages, String mOwnerNumber) {
+        this.mListMessages = mListMessages;
+        this.mOwnerNumber = mOwnerNumber;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return listMessages.size();
+        return mListMessages.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return listMessages.get(i);
+        return mListMessages.get(i);
     }
 
     @Override
@@ -62,12 +55,13 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int postion, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
 
-            if (isIncoming(postion)) view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
+            if (isIncomingMessage(position))
+                view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
             else view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
 
             holder.ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
@@ -78,9 +72,11 @@ public class ChatListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        setAvatar(holder.ivAvatar, postion);
-        setMessage(holder.tvMessage, postion);
-        setTimeDate(holder.tvTimedate, postion);
+
+
+        setAvatar(holder.ivAvatar, position);
+        setMessage(holder.tvMessage, position);
+        setTimeDate(holder.tvTimedate, position);
 
 
         return view;
@@ -92,41 +88,30 @@ public class ChatListAdapter extends BaseAdapter {
 
     }
 
-    private boolean isIncoming(int position) {
+    private boolean isIncomingMessage(int position) {
 
-/*
-        if (listMessages.get(position).getSender().equals(receiver)) return false;
-*/
-        return true;
+
+        if (mListMessages.get(position).getOwner().getNumber().equals(mOwnerNumber)) return true;
+
+        return false;
 
     }
 
     private void setAvatar(ImageView iv, int position) {
-     /*   String imageUrl = listMessages.get(position).getSender().getAvatar();
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            int dimen = (int) context.getResources().getDimension(R.dimen.schats_avatar_size);
-            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).resize(dimen, dimen).into(iv);
+        iv.setTag(position);
+        Utils.setAvatar(context, iv, mListMessages.get(position).getOwner().getAvatar(), position);
 
-
-        } else {
-            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-            iv.setImageBitmap(bm);
-        }*/
 
     }
 
     private void setMessage(TextView tv, int position) {
-        /*tv.setText(listMessages.get(position).getMessageText());*/
+        tv.setText(mListMessages.get(position).getBody());
 
     }
 
     private void setTimeDate(TextView tv, int position) {
-        /*long timestamp = listMessages.get(position).getTimeStamp();*/
-
-        SimpleDateFormat formatter = new SimpleDateFormat(context.getString(R.string.date_format));
-        Calendar calendar = Calendar.getInstance();
-        /*calendar.setTimeInMillis(timestamp);*/
-        tv.setText(formatter.format(calendar.getTime()));
+        String timeDate = Utils.stringToDate(mListMessages.get(position).getPostedDate());
+        tv.setText(timeDate);
     }
 
 }

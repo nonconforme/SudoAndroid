@@ -9,8 +9,8 @@
             android:id="@+id/lvChatList" android:layout_gravity="center_horizontal"
             android:layout_above="@+id/etMessage"
             android:choiceMode="none"
-            android:stackFromBottom="true"
-            android:transcriptMode="normal" android:layout_below="@+id/toolbar"
+           android:layout_below="@+id/toolbar"
+
             android:dividerHeight="1dp"
             android:divider="@color/sn_list_devider_color"/>
     <EditText

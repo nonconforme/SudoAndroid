@@ -14,13 +14,15 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.Utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.Callback;
@@ -36,13 +38,19 @@ public class ChatActivity extends ActionBarActivity {
     private EditText etMessage;
     private Button btnSend;
     private String message;
-    private ChatListAdapter chatListAdapter;
+    private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
-    private MessageModel thisChat;
+
     private Toolbar toolbar;
+
     private String mOwnerNumber;
     private String mCompanionNumber;
+
+
+
+    private MessageModel sendMessageModel;
+    private MessageModel firstMessageModel;
 
 
     public static final String CHAT_MODEL = "chat";
@@ -54,12 +62,12 @@ public class ChatActivity extends ActionBarActivity {
         initComponents();
         loadContent();
         initListeners();
-        reloadContent();
+
         initGetMessageCB();
         initSendMessageCB();
         getMessages();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", R.drawable.ic_launcher);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
 
 
     }
@@ -68,7 +76,6 @@ public class ChatActivity extends ActionBarActivity {
         mSendMessageCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-
             }
 
             @Override
@@ -82,6 +89,11 @@ public class ChatActivity extends ActionBarActivity {
         mMessagesCB = new Callback<List<MessageModel>>() {
             @Override
             public void success(List<MessageModel> messageModel, Response response) {
+                if (messageModel.size() > 0) {
+                    firstMessageModel = messageModel.get(0);
+                    mListAdapter.reloadContent(messageModel, mOwnerNumber);
+
+                }
 
             }
 
@@ -106,24 +118,21 @@ public class ChatActivity extends ActionBarActivity {
         lvChatList.setDividerHeight(0);
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
-        chatListAdapter = new ChatListAdapter(this);
-        lvChatList.setAdapter(chatListAdapter);
+        mListAdapter = new ChatListAdapter(this);
+        lvChatList.setAdapter(mListAdapter);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void reloadContent() {
-//        chatListAdapter.reloadContent(thisChat.getListMessages(), thisChat.getReceiver());
-    }
 
     private void loadContent() {
         loadChat();
     }
 
     private void loadChat() {
-        mOwnerNumber        = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
-        mCompanionNumber    =  getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
+        mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
+        mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
 
     }
 
@@ -140,7 +149,18 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void sendMessage(final String _message) {
-        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, "sms" ,mSendMessageCB);
+        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, "sms", mSendMessageCB);
+
+        setSendMessageModel(mOwnerNumber, mCompanionNumber,_message);
+    }
+
+    private void setSendMessageModel(String _mOwnerNumber, String _mCompanionNumber, String _message) {
+         sendMessageModel = new MessageModel();
+
+        sendMessageModel.setCompanion(createCompanion(_mCompanionNumber,firstMessageModel));
+        sendMessageModel.setOwner(createCompanion(_mOwnerNumber,firstMessageModel));
+        sendMessageModel.setPostedDate(Utils.getDateServerStyle());
+        sendMessageModel.setBody(_message);
     }
 
     public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber) {
@@ -151,7 +171,7 @@ public class ChatActivity extends ActionBarActivity {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
         } else {
-            b.putString(Constants.FROM_NUMBER, _companionNumber  );
+            b.putString(Constants.FROM_NUMBER, _companionNumber);
             b.putString(Constants.TO_NUMBER, _ownerNumber);
         }
         intent.putExtra(BUNDLE, b);
@@ -171,7 +191,25 @@ public class ChatActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-   private void getMessages(){
-       RetrofitAdapter.getInterface().getConversation(mOwnerNumber, mCompanionNumber, mMessagesCB);
-   }
+    private void getMessages() {
+        RetrofitAdapter.getInterface().getConversation(mOwnerNumber, mCompanionNumber, mMessagesCB);
+    }
+
+    private CompanionModel createCompanion(String number, MessageModel messageModel) {
+
+        CompanionModel companionModel = new CompanionModel();
+        companionModel.setNumber(number);
+
+        if(messageModel != null) {
+
+            if (number.equalsIgnoreCase(messageModel.getCompanion().getNumber())) companionModel.setAvatar(messageModel.getCompanion().getAvatar());
+            else companionModel.setAvatar(messageModel.getOwner().getAvatar());
+        }
+
+        return companionModel;
+    }
+
+    private void addNewMessage() {
+
+    }
 }
