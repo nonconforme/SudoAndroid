@@ -1,14 +1,11 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -19,7 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -31,7 +32,6 @@ import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.ColorModel;
-import com.thinkmobiles.sudo.models.ProfileNumberModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.Utils;
@@ -74,9 +74,8 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         initTarget();
         setImages();
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
-
-
     }
+
 
     protected  void setDefaultColor(){
         setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -95,14 +94,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     private void setContent() {
         if (Utils.checkString(firstName)) {
-
             tvUserFirstName.setText(firstName);
         }
 
-
         if (Utils.checkList(myNumberList)) {
             profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, myNumberList);
-
             lvNumbers.setAdapter(profileViewNumbersAdapter);
             lvNumbers.setOnItemClickListener(this);
         }
@@ -110,9 +106,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     }
 
     private void loadContent() {
-        firstName = mUserModel.getCompanion();
-        urlAvatar = mUserModel.getAvatar();
-        myNumberList = mUserModel.getNumbers();
+        firstName           = mUserModel.getCompanion();
+        urlAvatar           = mUserModel.getAvatar();
+        myNumberList        = mUserModel.getNumbers();
     }
 
 
@@ -164,45 +160,14 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
                 onBackPressed();
                 break;
         }
-
         if (id == R.id.action_edit) {
-            launchEditProfileActivity();
+            launchEditActivity(mUserModel);
 
             return true;
 
         }
         return super.onOptionsItemSelected(item);
 
-    }
-
-    private void launchEditProfileActivity() {
-        ProfileEditActivity.launch(this, mUserModel);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(" activity result", String.valueOf(resultCode));
-        if (resultCode != -1) return;
-        if (requestCode == ProfileEditActivity.START_EDIT_PROFILE_ACTIVITY_CODE) {
-            reloadUserModel(data);
-            loadContent();
-            reloadAvatar();
-            setContent();
-
-        }
-
-    }
-
-    public void reloadUserModel(Intent intent) {
-        mUserModel = (UserModel) intent
-                .getExtras()
-                .getBundle(BaseProfileActivity.USER_MODEL)
-                .getSerializable(BaseProfileActivity.USER_MODEL);
-
-    }
-
-    public void reloadAvatar() {
-        Picasso.with(this).load(APIConstants.SERVER_URL + "/" + urlAvatar).into(ivAvatar);
     }
 
     private void changeViewColor(final Bitmap _bitmap ) {
@@ -258,12 +223,10 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
 
-
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-
             }
 
 
@@ -283,4 +246,36 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         String currentNumber = App.getCurrentMobile();
         ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(" activity result", String.valueOf(resultCode));
+        if (resultCode == RESULT_OK) {
+        reloadUserModel(data);
+        loadContent();
+        setDefaultColor();
+        setContent();
+        setImages();
+        }
+    }
+
+    public void launchEditActivity(UserModel userModel) {
+        Intent intent = new Intent(ProfileViewActivity.this, ProfileEditActivity.class);
+        Bundle b = new Bundle();
+        if (userModel != null) {
+            b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
+            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+        }
+        startActivityForResult(intent, 1);
+    }
+
+    public void reloadUserModel(Intent intent) {
+        mUserModel = (UserModel) intent
+                .getExtras()
+                .getBundle(BaseProfileActivity.USER_MODEL)
+                .getSerializable(BaseProfileActivity.USER_MODEL);
+
+    }
+
 }

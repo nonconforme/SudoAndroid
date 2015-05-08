@@ -4,18 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-abstract public class BaseProfileEditActivity extends BaseProfileActivity implements OnClickListener{
+abstract public class BaseProfileEditActivity extends BaseProfileActivity {
 
     private EditText etUserFirstName;
     private ImageView ivChangeAvatar;
@@ -38,6 +39,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter mAdapter;
 
+    private Bitmap mCurrentPhoto;
+    private View.OnClickListener mOnClickListener;
 
 
     protected UserModel mUserModel;
@@ -60,7 +63,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         super.onCreate(savedInstanceState);
         initComponent();
 
-        setOnClickListener();
+//        setOnClickListener();
 
     }
 
@@ -104,7 +107,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         lvNumbers.setAdapter(mAdapter);
 
         View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);
-        footerView.setOnClickListener(new OnClickListener() {
+        footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdapter.addBlankNumberView();
@@ -192,13 +195,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         return null;
     }
 
-    protected void setOnClickListener() {
-        btnChangeAvatar.setOnClickListener(this);
-        btnAddNumber.setOnClickListener(this);
-    }
-
-
-
 
     protected void reLoadAvatar() {
         loadAvatarFromGallery();
@@ -212,6 +208,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void updateUserModel() {
         updateNumberList();
+        ProgressDialogWorker.createDialog(this);
+        if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable)ivChangeAvatar.getDrawable()).getBitmap();
+        mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
         firstName = etUserFirstName.getText().toString();
         mUserModel.setCompanion(firstName);
@@ -236,25 +235,15 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
             Uri avatarUri = data.getData();
             if (avatarUri != null) {
-                int dimen;
-
-                Log.d("mediastore uri ", avatarUri.toString());
-
-                dimen = (int) getResources().getDimension(R.dimen.avc_change_avatar_size);
-                Bitmap bitmap = null;
                 try {
                     final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
-                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    selectedImage = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
-                    mUserModel.setAvatar(ImageHelper.encodeToBase64(selectedImage));
-                    byte[] decodedByte = Base64.decode(mUserModel.getAvatar(), 0);
-                    selectedImage = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+                     Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
                     ivChangeAvatar.setImageBitmap(selectedImage);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
+//                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
             }
 
         }
@@ -306,13 +295,13 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
-        if(view.getId() == R.id.btnAddPhone_AVC){
-            addNewNumber();
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
+//        if(view.getId() == R.id.btnAddPhone_AVC){
+//            addNewNumber();
+//        }
+//    }
 
     protected void addNewNumber() {
         myNumberList  =  mAdapter.getNumbersList();

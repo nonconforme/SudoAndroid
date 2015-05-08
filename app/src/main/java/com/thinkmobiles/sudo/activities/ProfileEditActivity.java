@@ -2,14 +2,12 @@ package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
@@ -69,21 +67,13 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     }
 
-    public static void launch(Activity activity, UserModel userModel) {
 
-        Intent intent = new Intent(activity, ProfileEditActivity.class);
-        Bundle b = new Bundle();
-        if (userModel != null) {
-        b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
-            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-        }
-        activity.startActivity(intent);
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
+        finish();
     }
 
     private void initUpdateContactCB() {
@@ -93,14 +83,20 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
                 mUserModel.setAvatar(updateProfileModel.getAvatar());
                 Intent intent = new Intent();
                 Bundle b = new Bundle();
-                b.putSerializable(BaseProfileActivity.USER_MODEL, mUserModel);
-                intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+                if (mUserModel != null) {
+                    b.putSerializable(BaseProfileActivity.USER_MODEL, mUserModel);
+                    intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+                }
                 setResult(RESULT_OK, intent);
-                onBackPressed();
+                finish();
+                overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
+                ProgressDialogWorker.dismissDialog();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                ProgressDialogWorker.dismissDialog();
+
             }
         };
     }
