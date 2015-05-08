@@ -19,6 +19,7 @@ import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ChatsFragment extends Fragment {
 
         initComponent();
         iniGetChatsCB();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(), App.getAvatar());
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentUser().getAvatar());
 
         return v;
     }

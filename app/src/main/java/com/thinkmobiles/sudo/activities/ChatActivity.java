@@ -17,7 +17,6 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
-import com.thinkmobiles.sudo.models.chat.ChatModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.Utils;
