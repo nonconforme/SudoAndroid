@@ -123,7 +123,7 @@ public class ChatActivity extends ActionBarActivity {
         public void call(Object... args) {
 
                     Toast.makeText(getApplicationContext(),
-                            "Connection problims ", Toast.LENGTH_LONG).show();
+                            "Connection problims  ", Toast.LENGTH_LONG).show();
 
         }
     };
