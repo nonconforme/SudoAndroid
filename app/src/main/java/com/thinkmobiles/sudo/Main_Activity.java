@@ -34,6 +34,7 @@ import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.ContactManager;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -46,7 +47,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback {
+public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener, Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback, AdapterView.OnItemSelectedListener {
 
     // Declaring Your View and Variables
 
@@ -61,7 +62,9 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchView searchView;
 
     private ImageView ivAvatarDrawer;
-    private TextView tvProfileNameDrawer, tvProfilePhoneDrawer;
+    private TextView tvName;
+    private Spinner spNubers;
+    private View mHeader;
 
 
     private UserModel selectedContact;
@@ -83,7 +86,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         initProgressBar();
         openHomeFragment();
         initDrawer();
-        initDrawerHeader();
+        findHeaderUI();
         setDrawerHeaderContent();
         initSignOutCB();
 
@@ -176,14 +179,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 
     @Override
     public void onDrawerOpened(View view) {
@@ -254,13 +249,27 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     }
 
     private void initDrawer() {
-        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).withHeader(R.layout.drawer_header).withOnDrawerListener(this).withOnDrawerItemClickListener(this).addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1), new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)), new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2), new DividerDrawerItem(), new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)), new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
+        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).
+                withHeader(R.layout.drawer_header).withOnDrawerListener(this).
+                withOnDrawerItemClickListener(this).
+                addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R.drawable.ic_contacts_chats)).withBadge("99").withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable.ic_recharge_credits)).withBadge("6").withIdentifier(2),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
+    }
+
+    private  void findHeaderUI(){
+
+        ivAvatarDrawer      = (ImageView) findViewById(R.id.ivAvatar_Drawer);
+        tvName              = (TextView) findViewById(R.id.tvProfileName_Drawer);
+        spNubers            = (Spinner) findViewById(R.id.spPhone_DH);
 
     }
 
     private void setAvatarContent(UserModel userModel) {
-        tvProfileNameDrawer.setText(userModel.getCompanion());
-
+        tvName.setText(userModel.getCompanion());
 
     }
 
@@ -347,11 +356,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
 
 
-    private void initDrawerHeader(){
-        ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
-        tvProfileNameDrawer = (TextView) findViewById(R.id.tvProfileName_Drawer);
-        tvProfilePhoneDrawer = (TextView) findViewById(R.id.tvProfilePhone_Drawer);
-    }
     private void setDrawerHeaderContent(){
         Picasso.with(this).load(App.getCurrentUser().getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
             @Override
@@ -361,12 +365,35 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
             @Override
             public void onError() {
-                tvProfileNameDrawer.setBackground(new ColorDrawable( getResources().getColor(android.R.color
-                        .transparent)));
+//                tvName.setBackground(new ColorDrawable(getResources().getColor(android.R.color
+//                        .transparent)));
+                ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
             }
         });
+        tvName.setText(App.getCurrentUser().getEmail());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ContactManager.getNumbers());
+        spNubers.setAdapter(adapter);
+        if (ContactManager.getNumbers().length >0 )
+        spNubers.setSelection(0);
 
-        tvProfileNameDrawer.setText(App.getCurrentUser().getEmail());
-        tvProfilePhoneDrawer.setText(App.getCurrentMobile());
+        spNubers.setOnItemSelectedListener(this);
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
+        App.setCurrentMobile(ContactManager.getNumbers()[i]);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+
 }

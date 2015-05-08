@@ -9,6 +9,13 @@ import java.util.List;
  * Created by njakawaii on 08.05.2015.
  */
 public abstract class ContactManager {
+    public  static String[] getNumbers(){
+        String [] numbers = new String[App.getCurrentUser().getNumbers().size()];
+        for ( int i = 0; i < App.getCurrentUser().getNumbers().size(); i++) {
+            numbers[i] = App.getCurrentUser().getNumbers().get(i).getNumber();
+        }
+        return numbers;
+    }
     public static boolean isMyNumber(final String _number){
         boolean res = false;
         List<ProfileNumberModel> temp = App.getCurrentUser().getNumbers();

@@ -112,6 +112,7 @@ public class ChatActivity extends ActionBarActivity {
             Gson gson = new Gson();
             final MessageModel message = gson.fromJson(data.toString(), MessageModel.class);
             Log.d("socket", "received");
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -133,7 +134,8 @@ public class ChatActivity extends ActionBarActivity {
         @Override
         public void call(Object... args) {
 
-            Toast.makeText(getApplicationContext(), "Connection problims ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Connection problims ", Toast.LENGTH_LONG).show();
 
         }
     };
@@ -238,7 +240,7 @@ public class ChatActivity extends ActionBarActivity {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
         } else {
-            b.putString(Constants.FROM_NUMBER, _companionNumber);
+            b.putString(Constants.FROM_NUMBER, _companionNumber  );
             b.putString(Constants.TO_NUMBER, _ownerNumber);
         }
         intent.putExtra(BUNDLE, b);
