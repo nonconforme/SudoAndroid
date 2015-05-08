@@ -12,6 +12,7 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.ProfileModel;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 
 import retrofit.Callback;
@@ -83,7 +84,10 @@ public class LoginActivity extends Activity {
     }
 
     private void setProfile(final ProfileResponse _profile) {
-        App.setGetUserName(_profile.getUser().getEmail());
+        ProfileModel profileModel = new ProfileModel();
+        profileModel.setEmail(_profile.getUser().getEmail());
+        profileModel.setNumbers(_profile.getUser().getNumbers());
+        App.setCurrentUser(profileModel);
         App.setCurrentMobile(_profile.getUser().getMobile());
     }
 

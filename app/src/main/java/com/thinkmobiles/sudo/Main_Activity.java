@@ -247,7 +247,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void setBaseTitle() {
         if (App.getCurrentMobile() == null) {
-            mTitle = App.getGetUserName();
+            mTitle = App.getCurrentUser().getEmail();
         } else {
             mTitle = App.getCurrentMobile();
         }
@@ -353,7 +353,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         tvProfilePhoneDrawer = (TextView) findViewById(R.id.tvProfilePhone_Drawer);
     }
     private void setDrawerHeaderContent(){
-        Picasso.with(this).load(App.getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
+        Picasso.with(this).load(App.getCurrentUser().getAvatar()).transform(new CircleTransform()).into(ivAvatarDrawer, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 
@@ -366,7 +366,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
             }
         });
 
-        tvProfileNameDrawer.setText(App.getGetUserName());
+        tvProfileNameDrawer.setText(App.getCurrentUser().getEmail());
         tvProfilePhoneDrawer.setText(App.getCurrentMobile());
     }
 }

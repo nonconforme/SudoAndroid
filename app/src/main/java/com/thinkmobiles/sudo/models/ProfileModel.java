@@ -10,7 +10,7 @@ import java.util.List;
 public class ProfileModel extends DefaultResponseModel{
     private String email;
     private String mobile;
-    private String __v;
+    private String avatar;
     private List<ProfileNumberModel> numbers;
     private boolean enablepush;
 
@@ -30,12 +30,12 @@ public class ProfileModel extends DefaultResponseModel{
         this.mobile = mobile;
     }
 
-    public String get__v() {
-        return __v;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void set__v(String __v) {
-        this.__v = __v;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public List<ProfileNumberModel> getNumbers() {

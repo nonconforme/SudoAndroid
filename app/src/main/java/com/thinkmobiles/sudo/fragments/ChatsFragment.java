@@ -120,6 +120,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ChatActivity.launch(getActivity(), mLastChatsModel.get(i).getLastmessage());
+        ChatActivity.launch(getActivity(), mLastChatsModel.get(i).getLastmessage().getOwner().getNumber(),
+                mLastChatsModel.get(i).getLastmessage().getCompanion().getNumber());
     }
 }

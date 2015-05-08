@@ -2,21 +2,22 @@ package com.thinkmobiles.sudo.global;
 
 import android.app.Application;
 
+import com.thinkmobiles.sudo.models.ProfileModel;
+
 /**
  * Created by Sasha on 12.02.2015.
  */
 public class App extends Application {
     private static String currentMobile;
     private static String uId;
-    private static String getUserName;
-    private static String avatar;
+    private static ProfileModel currentUser;
 
-    public static String getAvatar() {
-        return avatar;
+    public static ProfileModel getCurrentUser() {
+        return currentUser;
     }
 
-    public static void setAvatar(String avatar) {
-        App.avatar = avatar;
+    public static void setCurrentUser(ProfileModel currentUser) {
+        App.currentUser = currentUser;
     }
 
 
@@ -26,14 +27,6 @@ public class App extends Application {
 
     public static void setuId(String uId) {
         App.uId = uId;
-    }
-
-    public static String getGetUserName() {
-        return getUserName;
-    }
-
-    public static void setGetUserName(String getUserName) {
-        App.getUserName = getUserName;
     }
 
     public static String getCurrentMobile() {

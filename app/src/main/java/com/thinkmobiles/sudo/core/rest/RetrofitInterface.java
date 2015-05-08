@@ -74,6 +74,11 @@ public interface RetrofitInterface {
     @GET(APIConstants.URL_MESSAGE + APIConstants.API_CONVERSATION + "/{" + Constants.FROM_NUMBER + "}" + "/{" + Constants.TO_NUMBER + "}")
     void getConversation(@Path(Constants.FROM_NUMBER) String src, @Path(Constants.TO_NUMBER) String dst, Callback<List<MessageModel>> callback);
 
+    @FormUrlEncoded
+    @POST(APIConstants.URL_MESSAGE + APIConstants.API_SEND)
+    void senMessage(@Field(Constants.FROM_NUMBER) String src, @Field(Constants.TO_NUMBER) String dst, @Field(Constants.TEXT_MESSAGE) String text,
+                    @Field(Constants.TYPE_MESSAGE) String type, Callback<DefaultResponseModel> callback);
+
 
     @GET(APIConstants.URL_PRICE + APIConstants.API_COUNTRIES)
     void getCountries(Callback<List<CountryModel>> callback);

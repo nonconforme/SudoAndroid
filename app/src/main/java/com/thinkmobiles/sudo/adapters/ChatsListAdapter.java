@@ -153,7 +153,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
     private void startChatActivity(LastChatsModel chatModel) {
-        ChatActivity.launch(mActivity, chatModel.getLastmessage());
+        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(),  chatModel.getLastmessage().getCompanion().getNumber());
     }
 
     private class CustomOnClickListener implements View.OnClickListener {
