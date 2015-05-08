@@ -126,6 +126,14 @@
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/ivPhoneIcon_AVC"
                             android:layout_toRightOf="@+id/ivPhoneIcon_AVC"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add"
+                            android:id="@+id/btnAddPhone_AVC"
+                            android:layout_below="@+id/lvPhoneNumbersView_AVC"
+                            android:layout_alignLeft="@+id/lvPhoneNumbersView_AVC"
+                            android:layout_alignStart="@+id/lvPhoneNumbersView_AVC"/>
 
                 </RelativeLayout>
 

@@ -58,17 +58,15 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     @Override
     protected void returnEditedProfile() {
-        if (checkNewName() && checkNewPhone()) {
 
 
-            try {
-                updateProfile(oldName, mUserModel);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-
+        try {
+            updateProfile(oldName, mUserModel);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+
+
     }
 
     public static void launch(Activity activity, UserModel userModel) {

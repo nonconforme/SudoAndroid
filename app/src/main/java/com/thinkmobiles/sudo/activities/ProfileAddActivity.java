@@ -42,17 +42,17 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
         getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.add_profile, 0);
         ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
+        addNewNumber();
 
     }
 
     @Override
     protected void returnEditedProfile() {
-        if (checkNewName() && checkNewPhone()) {
+
             addProfile(mUserModel);
             onBackPressed();
 
-        }
+
     }
 
     public static void launch(Activity activity) {

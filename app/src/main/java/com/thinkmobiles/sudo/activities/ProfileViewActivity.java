@@ -31,6 +31,7 @@ import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.ColorModel;
+import com.thinkmobiles.sudo.models.ProfileNumberModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.Utils;
@@ -278,6 +279,10 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+       for (ProfileNumberModel number : App.getCurrentUser().getNumbers()){
+
+           Toast.makeText(this,   number.getNumber(), Toast.LENGTH_SHORT).show();
+       }
 
         ChatActivity.launch(this, App.getCurrentMobile(), myNumberList.get(i).getNumber());
     }
