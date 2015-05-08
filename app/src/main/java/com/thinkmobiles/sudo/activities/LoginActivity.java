@@ -88,7 +88,8 @@ public class LoginActivity extends Activity {
         profileModel.setEmail(_profile.getUser().getEmail());
         profileModel.setNumbers(_profile.getUser().getNumbers());
         App.setCurrentUser(profileModel);
-        App.setCurrentMobile(_profile.getUser().getMobile());
+        App.setCurrentMobile(_profile.getUser().getNumbers().get(0).getNumber());
+
     }
 
     public void getUserRequest(){

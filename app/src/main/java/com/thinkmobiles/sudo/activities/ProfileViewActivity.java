@@ -266,7 +266,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
             }
 
-            ;
+
         };
     }
 
@@ -279,11 +279,8 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       for (ProfileNumberModel number : App.getCurrentUser().getNumbers()){
-
-           Toast.makeText(this,   number.getNumber(), Toast.LENGTH_SHORT).show();
-       }
-
-        ChatActivity.launch(this, App.getCurrentMobile(), myNumberList.get(i).getNumber());
+        String companionNumber =myNumberList.get(i).getNumber();
+        String currentNumber = App.getCurrentMobile();
+        ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
     }
 }
