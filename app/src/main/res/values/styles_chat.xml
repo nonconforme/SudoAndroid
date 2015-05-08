@@ -11,9 +11,9 @@
     <dimen name="schats_padding">1dp</dimen>
     <dimen name="schats_padding_left_right">4dp</dimen>
     <dimen name="schats_view_detailes_padding">10dp</dimen>
-    <dimen name="schats_text_size">16dp</dimen>
+    <dimen name="schats_text_size">14dp</dimen>
     <dimen name="schats_details_text_size">14dp</dimen>
-    <dimen name="schats_small_text_size">12dp</dimen>
+    <dimen name="schats_small_text_size">14dp</dimen>
     <dimen name="schats_item_icon_size">18dp</dimen>
 
 

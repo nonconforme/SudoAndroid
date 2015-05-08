@@ -72,7 +72,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         setListener();
         initGetContactsCB();
         initAddContactCB();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", "");
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(), App.getAvatar());
         return mView;
     }
 

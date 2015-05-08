@@ -7,7 +7,9 @@
             android:id="@+id/lvChats_CF"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:clickable="false">
+             android:padding="2dp"
+             android:divider="@android:color/black"
+             />
 
-    </ListView>
+
 </LinearLayout>

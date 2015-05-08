@@ -30,7 +30,7 @@ import retrofit.client.Response;
 /**
  * Created by hp1 on 21-01-2015.
  */
-public class ChatsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ChatsFragment extends Fragment {
 
 
     private Activity mActivity;
@@ -45,10 +45,11 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
         findUI(v);
-        setListeners();
+
         initComponent();
         iniGetChatsCB();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon("name", R.drawable.ic_launcher);
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getGetUserName(), App.getAvatar());
+
         return v;
     }
 
@@ -57,9 +58,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
-    private void setListeners() {
-        lvChats.setOnItemClickListener(this);
-    }
+ 
 
 
     @Override
@@ -118,9 +117,4 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         getLastChats();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ChatActivity.launch(getActivity(), mLastChatsModel.get(i).getLastmessage().getOwner().getNumber(),
-                mLastChatsModel.get(i).getLastmessage().getCompanion().getNumber());
-    }
 }
