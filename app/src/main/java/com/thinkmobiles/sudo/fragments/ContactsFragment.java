@@ -73,9 +73,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void findUI() {
-        mBTNAddFriend       = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
-        stickyList          = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
-
+        mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
+        stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
+    }
 
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
@@ -95,18 +95,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initList() {
-
-
-    private void initComponent() {
-        mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
-        stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
         mStickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(mStickyListAdapter);
-
-
     }
+
 
     public void reloadList(List<UserModel> contacts) {
 
