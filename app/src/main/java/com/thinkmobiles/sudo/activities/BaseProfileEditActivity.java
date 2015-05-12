@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -35,7 +34,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     private EditText etUserFirstName;
     private ImageView ivChangeAvatar;
-    private Button btnChangeAvatar, btnAddNumber;
+    private Button btnChangeAvatar ;
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter mAdapter;
 
@@ -68,7 +67,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     private void setOnClickListener() {
         btnChangeAvatar.setOnClickListener(this);
-        btnAddNumber.setOnClickListener(this);
+
 
     }
 
@@ -101,7 +100,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
         ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
         btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
-        btnAddNumber = (Button) findViewById(R.id.btnAddPhone_AVC);
+
 
         doneOnEditorActionListener = new DoneOnEditorActionListener();
         etUserFirstName.setOnEditorActionListener(doneOnEditorActionListener);
@@ -149,9 +148,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
                 updateNumberList();
                 etUserFirstName.onEditorAction(1);
-                updateUserModel();
 
-                if (profileChangesValidator()) {
+
+                if (isProfileChangesValid()) {
+                    updateUserModel();
                     returnEditedProfile();
                 }
 
@@ -161,7 +161,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean profileChangesValidator() {
+    private boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
         if (errorsInNumbers == null && checkNewName()) return true;
         else {
@@ -302,14 +302,12 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
-        if (view.getId() == R.id.btnAddPhone_AVC) {
-            addNewNumber();
-        }
+
     }
 
     protected void addNewNumber() {
         myNumberList = mAdapter.getNumbersList();
-        myNumberList.add(new NumberModel());
+        myNumberList.add(myNumberList.size(),new NumberModel());
         mAdapter.reloadList(myNumberList);
     }
 
