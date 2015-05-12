@@ -52,7 +52,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     private RelativeLayout rlImage;
     private ScrollView llMain;
     private String firstName, urlAvatar;
-    private List<NumberModel> myNumberList;
+    private List<NumberModel> mNumberList;
 
     public static final String EXTRA_IMAGE = "DetailActivity:image";
     private Target mTarget;
@@ -97,8 +97,8 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
             tvUserFirstName.setText(firstName);
         }
 
-        if (Utils.checkList(myNumberList)) {
-            profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, myNumberList);
+        if (Utils.checkList(mNumberList)) {
+            profileViewNumbersAdapter = new ProfileViewNumbersAdapter(this, mNumberList);
             lvNumbers.setAdapter(profileViewNumbersAdapter);
             lvNumbers.setOnItemClickListener(this);
         }
@@ -108,7 +108,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     private void loadContent() {
         firstName           = mUserModel.getCompanion();
         urlAvatar           = mUserModel.getAvatar();
-        myNumberList        = mUserModel.getNumbers();
+        mNumberList         = mUserModel.getNumbers();
     }
 
 
@@ -242,8 +242,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String companionNumber =myNumberList.get(i).getNumber();
-        String currentNumber = App.getCurrentMobile();
+        String companionNumber = mNumberList.get(i).getNumber();
         ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
     }
 

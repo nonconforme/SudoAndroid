@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -67,7 +68,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     private void setOnClickListener() {
         btnChangeAvatar.setOnClickListener(this);
-
 
     }
 
@@ -161,7 +161,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isProfileChangesValid() {
+    protected boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
         if (errorsInNumbers == null && checkNewName()) return true;
         else {
@@ -213,13 +213,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void updateUserModel() {
         updateNumberList();
-        ProgressDialogWorker.createDialog(this);
         if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
-
         firstName = etUserFirstName.getText().toString();
         mUserModel.setCompanion(firstName);
-
     }
 
 
@@ -229,32 +226,31 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("mediastore result ", String.valueOf(resultCode));
         if (resultCode != -1) return;
-
         if (requestCode == SELECT_PHOTO) {
-
             Uri avatarUri = data.getData();
-            if (avatarUri != null) {
-                try {
-                    final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
-                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
-                    ivChangeAvatar.setImageBitmap(selectedImage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
-            }
+            loadImage(avatarUri);
 
         }
 
     }
 
+    private void loadImage(final Uri _avatarUri){
+        if (_avatarUri != null) {
+            try {
+                final InputStream imageStream = getContentResolver().openInputStream(_avatarUri);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
+                ivChangeAvatar.setImageBitmap(selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     abstract protected void returnEditedProfile();
 
@@ -282,20 +278,17 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
             firstName = editText.getText().toString();
             if (firstName != null && !firstName.equalsIgnoreCase("")) {
 
-
                 switch (v.getId()) {
 
                     case R.id.etUserFirstName_AVC:
                         mUserModel.setCompanion(firstName);
                         break;
-
                 }
 
                 InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
             return true;
-
         }
     }
 

@@ -52,7 +52,6 @@ public class ChatsFragment extends Fragment {
 
         initComponent();
         iniGetChatsCB();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentUser().getAvatar());
 
         return v;
     }
@@ -69,6 +68,8 @@ public class ChatsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getLastChats();
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentUser().getAvatar());
+
     }
 
     private void iniGetChatsCB() {
@@ -82,7 +83,6 @@ public class ChatsFragment extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 Log.d("Retrofit chat Error", error.getMessage());
-
 
             }
         };
