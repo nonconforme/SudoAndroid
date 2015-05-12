@@ -161,7 +161,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isProfileChangesValid() {
+    protected boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
         if (errorsInNumbers == null && checkNewName()) return true;
         else {
@@ -215,10 +215,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         updateNumberList();
         if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
-
         firstName = etUserFirstName.getText().toString();
         mUserModel.setCompanion(firstName);
-
     }
 
 
@@ -227,7 +225,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -281,20 +278,17 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
             firstName = editText.getText().toString();
             if (firstName != null && !firstName.equalsIgnoreCase("")) {
 
-
                 switch (v.getId()) {
 
                     case R.id.etUserFirstName_AVC:
                         mUserModel.setCompanion(firstName);
                         break;
-
                 }
 
                 InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
             return true;
-
         }
     }
 

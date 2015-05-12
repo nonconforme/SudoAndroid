@@ -30,7 +30,6 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private View mView;
     private Activity mActivity;
     private EditText mETEmail, mETPassword, mETConfirmPass;
-    private ImageView mImage;
     private Button mBTNSignUp;
     private Callback<LoginResponse> mSignUpCB;
 

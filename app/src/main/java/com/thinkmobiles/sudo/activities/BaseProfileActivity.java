@@ -15,12 +15,9 @@ import com.thinkmobiles.sudo.R;
 
 public abstract class BaseProfileActivity extends ActionBarActivity {
 
-
     private Toolbar toolbar;
-
-
-    public static final String USER_MODEL = "user_model";
-    public static final String TAG = "profile view activity";
+    public static final String USER_MODEL       = "user_model";
+    public static final String TAG              = "profile view activity";
 
 
     @Override
@@ -32,14 +29,10 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
     }
 
 
     protected abstract int getLayoutResource();
-
 
     protected void setActionBarIcon(int iconRes) {
         toolbar.setNavigationIcon(iconRes);

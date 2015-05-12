@@ -53,7 +53,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     protected void returnEditedProfile() {
         try {
-            if (profileChangesValidator()){
+            if (isProfileChangesValid()){
                 updateProfile(oldName, mUserModel);
             }
         } catch (UnsupportedEncodingException e) {

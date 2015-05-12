@@ -52,12 +52,6 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
             onBackPressed();
     }
 
-    public static void launch(Activity activity) {
-        Intent intent = new Intent(activity, ProfileAddActivity.class);
-        activity.startActivityForResult(intent, START_EDIT_PROFILE_ACTIVITY_CODE);
-
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

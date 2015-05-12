@@ -18,6 +18,14 @@ import com.thinkmobiles.sudo.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +36,8 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
     private CharSequence Titles[] = {Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
-    private int mTabsCount = 2;
-    private int currentTab = 0;
+    private final int mTabsCount = 2;
+    private final int currentTab = 0;
     private ActionBarActivity mActivity;
 
 
@@ -77,12 +85,9 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-
     }
 
     public void initPagerListener() {
-
-
     }
 
     @Override
@@ -92,8 +97,6 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
 
     public int getCurrentTab() {
-
-
         return currentTab;
     }
 
