@@ -10,13 +10,19 @@ import java.util.List;
  * Created by njakawaii on 08.05.2015.
  */
 public abstract class ContactManager {
-    public  static String[] getNumbers(){
+   /* public  static String[] getNumbers(){
         String [] numbers = new String[App.getCurrentUser().getNumbers().size()];
         for ( int i = 0; i < App.getCurrentUser().getNumbers().size(); i++) {
             numbers[i] = App.getCurrentUser().getNumbers().get(i).getNumber();
         }
         return numbers;
+    }*/
+
+    public static List<NumberModel> getNumbers(){return App.getCurrentUser().getNumbers();
     }
+
+
+
     public static boolean isMyNumber(final String _number){
         boolean res = false;
         List<NumberModel> temp = App.getCurrentUser().getNumbers();

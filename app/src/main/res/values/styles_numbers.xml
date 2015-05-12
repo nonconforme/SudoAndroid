@@ -14,6 +14,8 @@
     <dimen name="sn_item_bg_get_btn_corner_radius">5dp</dimen>
     <dimen name="sn_item_bg_get_btn_stroke">1dp</dimen>
     <dimen name="sn_item_bg_get_btn_padding">8dp</dimen>
+    <dimen name="sn_drawer_country_icon_size">32dp</dimen>
+    <dimen name="sn_dawer_number_list_padding">2dp</dimen>
 
     <!-- end region -->
 
@@ -26,6 +28,8 @@
     <style name="SNivCountryStyle">
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_margin">@dimen/sn_margin</item>
+        <item name="android:layout_height">@dimen/sn_drawer_country_icon_size</item>
+        <item name="android:layout_width">@dimen/sn_drawer_country_icon_size</item>
     </style>
 
     <style name="SNtvCountryStyle">
@@ -61,8 +65,9 @@
     </style>
     <!-- end region -->
     <style name="SNllStyle">
-        <item name="android:padding">@dimen/sn_padding</item>
-        <item name="android:background">@drawable/bg_numbers_list_item</item>
+        <item name="android:padding">@dimen/sn_dawer_number_list_padding</item>
+
+
     </style>
 
 
