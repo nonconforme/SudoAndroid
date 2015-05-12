@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             style="@style/SNAvailableCreditsFR_Frame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" android:layout_alignParentEnd="true"  >
+
+<RelativeLayout
+               android:layout_width="wrap_content"
+              android:layout_height="32dp" android:gravity="center_horizontal"
+               android:layout_gravity="center_horizontal">
+
+    <TextView
+            style="@style/SNAvailableCreditsFR_CreditsTV"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 CREDITS"
+            android:id="@+id/tvCredits_CAF"
+            android:layout_alignParentTop="true"
+            />
+    <TextView
+            style="@style/SNAvailableCreditsFR_DetailesTV"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credits_available"
+            android:id="@+id/textView3" android:layout_gravity="right|bottom"
+            android:layout_alignParentTop="true" android:layout_toRightOf="@+id/tvCredits_CAF"
+            android:layout_toEndOf="@+id/tvCredits_CAF"/>
+
+</RelativeLayout>
+</FrameLayout>

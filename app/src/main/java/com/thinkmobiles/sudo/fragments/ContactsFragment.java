@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -56,6 +57,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private View mView;
 
 
+
     private Callback<List<UserModel>> mContactsCB;
 
     private StickyListHeadersListView stickyList;
@@ -76,6 +78,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentUser().getEmail());
         return mView;
     }
+
 
     private void initAddContactCB() {
         mAddContactCB = new Callback<DefaultResponseModel>() {
@@ -129,10 +132,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initComponent() {
-
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
-
-
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);

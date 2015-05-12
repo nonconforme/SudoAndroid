@@ -12,6 +12,7 @@ public class App extends Application {
     private static String currentMobile;
     private static String uId;
     private static UserModel currentUser;
+    private static String currentCredits;
 
     public static UserModel getCurrentUser() {
         return currentUser;
@@ -38,4 +39,12 @@ public class App extends Application {
         App.currentMobile = currentMobile;
     }
 
+
+    public static String getCurrentCredits() {
+        return currentCredits;
+    }
+
+    public static void setCurrentCredits(String currentCredits) {
+        App.currentCredits = currentCredits;
+    }
 }

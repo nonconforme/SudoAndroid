@@ -86,7 +86,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 getToolbarManager().setProgressBarVisible(false);
-
+                refreshFragmentAvailableCredistFragment();
                 Toast.makeText(mActivity, "Success!", Toast.LENGTH_LONG).show();
             }
 

@@ -13,6 +13,7 @@ public class UserModel  implements Serializable{
     private String companion;
     private List<NumberModel> numbers;
     private String avatar;
+    private String credits;
 
     private String email ;
     private ColorModel color;
@@ -70,4 +71,11 @@ public class UserModel  implements Serializable{
         this.avatar = avatar;
     }
 
+    public String getCredits() {
+        return credits;
+    }
+
+    public void setCredits(String credits) {
+        this.credits = credits;
+    }
 }

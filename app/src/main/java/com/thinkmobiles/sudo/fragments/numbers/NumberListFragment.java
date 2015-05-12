@@ -24,7 +24,7 @@ import retrofit.client.Response;
  */
 public class NumberListFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener {
 
-    private Activity mActivity;
+
     private NumbersAdapter mAdapter;
     private ListView mListView;
     private View mView;
@@ -93,7 +93,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+
         if (!getArguments().isEmpty()){
             mCountryIso = (String) getArguments().get(Constants.PATH_PARAM_COUNTRY_ISO);
         }

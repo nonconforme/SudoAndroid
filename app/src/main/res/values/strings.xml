@@ -113,4 +113,5 @@
     <string name="available_numbers">Available numbers</string>
     <string name="add_profile">Add Profile</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="credits_available">AVAILABLE</string>
 </resources>
