@@ -102,8 +102,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mActivity,view.getTag().toString(),Toast.LENGTH_SHORT).show();
-       openBuyNumberFragment(mAdapter.getItem(position).getNumber(), mCountryIso);
+        openBuyNumberFragment(mAdapter.getItem(position).getNumber(), mCountryIso);
     }
 
     private void getNumbers() {
