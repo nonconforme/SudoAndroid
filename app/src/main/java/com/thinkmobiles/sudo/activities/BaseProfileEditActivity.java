@@ -161,7 +161,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean profileChangesValidator() {
+    protected boolean profileChangesValidator() {
         boolean[] errorsInNumbers = validateNumbers();
         if (errorsInNumbers == null && checkNewName()) return true;
         else {
@@ -213,7 +213,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void updateUserModel() {
         updateNumberList();
-        ProgressDialogWorker.createDialog(this);
         if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
@@ -235,26 +234,26 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("mediastore result ", String.valueOf(resultCode));
         if (resultCode != -1) return;
-
         if (requestCode == SELECT_PHOTO) {
-
             Uri avatarUri = data.getData();
-            if (avatarUri != null) {
-                try {
-                    final InputStream imageStream = getContentResolver().openInputStream(avatarUri);
-                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
-                    ivChangeAvatar.setImageBitmap(selectedImage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //                Picasso.with(this).load(bitmap).resize(dimen, dimen).centerCrop().into(ivChangeAvatar);
-            }
+            loadImage(avatarUri);
 
         }
 
     }
 
+    private void loadImage(final Uri _avatarUri){
+        if (_avatarUri != null) {
+            try {
+                final InputStream imageStream = getContentResolver().openInputStream(_avatarUri);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                mCurrentPhoto = Bitmap.createScaledBitmap(selectedImage, 500, 500, true);
+                ivChangeAvatar.setImageBitmap(selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     abstract protected void returnEditedProfile();
 

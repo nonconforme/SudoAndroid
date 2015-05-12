@@ -34,8 +34,6 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         loadUserModel();
         loadContent();
         setDefaultColor();
@@ -52,19 +50,15 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         oldName = mUserModel.getCompanion();
     }
 
-
-
     @Override
     protected void returnEditedProfile() {
-
-
         try {
-            updateProfile(oldName, mUserModel);
+            if (profileChangesValidator()){
+                updateProfile(oldName, mUserModel);
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -81,16 +75,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
             @Override
             public void success(UpdateProfileModel updateProfileModel, Response response) {
                 mUserModel.setAvatar(updateProfileModel.getAvatar());
-                Intent intent = new Intent();
-                Bundle b = new Bundle();
-                if (mUserModel != null) {
-                    b.putSerializable(BaseProfileActivity.USER_MODEL, mUserModel);
-                    intent.putExtra(BaseProfileActivity.USER_MODEL, b);
-                }
-                setResult(RESULT_OK, intent);
-                finish();
-                overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
-                ProgressDialogWorker.dismissDialog();
+                sendResult(mUserModel);
             }
 
             @Override
@@ -101,7 +86,21 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         };
     }
 
+    private void sendResult(final UserModel profileModel){
+        Intent intent = new Intent();
+        Bundle b = new Bundle();
+        if (profileModel != null) {
+            b.putSerializable(BaseProfileActivity.USER_MODEL, profileModel);
+            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+        }
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
+        ProgressDialogWorker.dismissDialog();
+    }
+
     private void updateProfile(final String _oldName, final UserModel _userModel) throws UnsupportedEncodingException {
+        ProgressDialogWorker.createDialog(this);
         RetrofitAdapter.getInterface().updateContact(JsonHelper.makeJson(_userModel), _oldName, mUpdateContactCB);
 
     }

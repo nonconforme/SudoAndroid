@@ -243,7 +243,6 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String companionNumber =myNumberList.get(i).getNumber();
-        String currentNumber = App.getCurrentMobile();
         ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
     }
 

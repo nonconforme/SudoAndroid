@@ -225,7 +225,6 @@ public class ChatActivity extends ActionBarActivity {
 
     private void setSendMessageModel(String _mOwnerNumber, String _mCompanionNumber, String _message) {
         mSendMessageModel = new MessageModel();
-
         mSendMessageModel.setCompanion(createCompanion(_mCompanionNumber, mFirstMessageModel));
         mSendMessageModel.setOwner(createCompanion(_mOwnerNumber, mFirstMessageModel));
         mSendMessageModel.setPostedDate(Utils.getDateServerStyle());

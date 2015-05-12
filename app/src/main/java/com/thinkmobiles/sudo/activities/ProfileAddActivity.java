@@ -48,11 +48,8 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
 
     @Override
     protected void returnEditedProfile() {
-
             addProfile(mUserModel);
             onBackPressed();
-
-
     }
 
     public static void launch(Activity activity) {
