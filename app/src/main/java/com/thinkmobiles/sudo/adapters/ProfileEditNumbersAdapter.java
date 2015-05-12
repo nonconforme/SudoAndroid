@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFocusChangeListener {
+public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFocusChangeListener, View.OnClickListener {
 
     private Context mContext;
     private List<NumberModel> mListNumbers;
@@ -61,13 +62,15 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
             viewHolder.etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber_AVC);
             viewHolder.ivDeleteNumber = (ImageView) view.findViewById(R.id.ivRemoveNumber_AVC);
             viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
-            viewHolder.ivDeleteNumber.setOnClickListener(new MyOnClickListener(position));
+            viewHolder.ivDeleteNumber.setTag(position);
+            viewHolder.ivDeleteNumber.setOnClickListener(this);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
+        viewHolder.ivDeleteNumber.setTag(position);
         viewHolder.etPhoneNumber.setTag(position);
         if(errorsInNumbers != null){
             if (errorsInNumbers[position])
@@ -109,6 +112,28 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         }
     }
 
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == R.id.ivRemoveNumber_AVC) {
+           final int pos = (int) view.getTag();
+            AlertDialogCallback callback = new AlertDialogCallback() {
+                @Override
+                public void confirmDeletePhoneNumber() {
+/*
+                    Toast.makeText(mContext, String.valueOf(pos),Toast.LENGTH_SHORT).show();
+*/
+                    mListNumbers.remove(pos);
+                    if (mListNumbers.size() == 0) {
+                        mListNumbers.add(mListNumbers.size(), new NumberModel());
+
+                    }
+                    notifyDataSetChanged();
+                }
+            };
+            showConfirmationDialog(callback);
+        }
+    }
     static class ViewHolder {
         public EditText etPhoneNumber;
         public ImageView ivDeleteNumber;
@@ -141,51 +166,9 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
     }
 
 
-    private class MyOnClickListener implements View.OnClickListener {
-        private int pos;
 
-        public MyOnClickListener(int pos) {
-            this.pos = pos;
-        }
 
-        @Override
-        public void onClick(View view) {
-            AlertDialogCallback callback = new AlertDialogCallback() {
-                @Override
-                public void confirmDeletePhoneNumber() {
-                    mListNumbers.remove(pos);
-                    if (mListNumbers.size() == 0) {
-                        mListNumbers.add(new NumberModel());
 
-                    }
-                    notifyDataSetChanged();
-                }
-            };
-            showConfirmationDialog(callback);
 
-        }
-    }
-//
-//    private class DoneOnEditorActionListener implements TextView.OnEditorActionListener {
-//        int position;
-//        EditText editText;
-//
-//        public DoneOnEditorActionListener(int position) {
-//            this.position = position;
-//        }
-//
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//
-//            editText = (EditText) v;
-//
-//            String number = String.valueOf(editText.getText());
-//            if (number != null && !number.equalsIgnoreCase("")) mListNumbers.get(position).setNumber(number);
-//            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-//            return true;
-//
-//        }
-//    }
 
 }
