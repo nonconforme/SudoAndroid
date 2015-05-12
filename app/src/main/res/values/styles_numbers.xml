@@ -16,12 +16,14 @@
     <dimen name="sn_item_bg_get_btn_padding">8dp</dimen>
     <dimen name="sn_drawer_country_icon_size">32dp</dimen>
     <dimen name="sn_dawer_number_list_padding">2dp</dimen>
-
+    <dimen name="sn_available_fragment_text_size">18dp</dimen>
+    <dimen name="sn_available_fragment_margin_lr">8dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
     <color name="sn_list_devider_color">#dfdfdf</color>
     <color name="sn_item_bg_shadow_color">#d7d7d7</color>
+    <color name="sn_available_fragment_text_color">#e8cc4c</color>
     <!-- end region -->
 
     <!-- STYLES -->
@@ -77,5 +79,23 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:paddingLeft">@dimen/sn_list_padding_lr</item>
         <item name="android:paddingRight">@dimen/sn_list_padding_lr</item>
+    </style>
+
+    <style name="SNAvailableCreditsFR_Frame">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+    <style name="SNAvailableCreditsFR_DetailesTV">
+         <item name="android:layout_marginLeft">@dimen/sn_available_fragment_margin_lr</item>
+        <item name="android:layout_marginRight">@dimen/sn_available_fragment_margin_lr</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/sn_available_fragment_text_size</item>
+
+    </style>
+    <style name="SNAvailableCreditsFR_CreditsTV">
+        <item name="android:layout_marginLeft">@dimen/sn_available_fragment_margin_lr</item>
+        <item name="android:layout_marginRight">@dimen/sn_available_fragment_margin_lr</item>
+        <item name="android:textColor">@color/sn_available_fragment_text_color </item>
+        <item name="android:textSize">@dimen/sn_available_fragment_text_size</item>
+
     </style>
 </resources>

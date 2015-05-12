@@ -55,7 +55,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
 
     private String mTitle;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
     private MainToolbarManager sToolbarManager;

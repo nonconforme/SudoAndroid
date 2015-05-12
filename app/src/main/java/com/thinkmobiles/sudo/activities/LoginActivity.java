@@ -88,8 +88,11 @@ public class LoginActivity extends Activity {
         UserModel profileModel = new UserModel();
         profileModel.setEmail(_profile.getUser().getEmail());
         profileModel.setNumbers(_profile.getUser().getNumbers());
+        profileModel.setCredits(_profile.getUser().getCredits());
+
         App.setCurrentUser(profileModel);
         App.setCurrentMobile(_profile.getUser().getNumbers().get(0).getNumber());
+        App.setCurrentCredits(_profile.getUser().getCredits());
 
     }
 

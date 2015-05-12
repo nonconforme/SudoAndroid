@@ -14,12 +14,14 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.BuyNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
 
 import java.util.List;
 
+import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -31,7 +33,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
 
     private String mNumber;
     private String mCountryIso;
-    private Callback<DefaultResponseModel> mBuyNumberCB;
+    private Callback<BuyNumberResponce> mBuyNumberCB;
     private List<NumberPackages> mList;
 
 
@@ -82,21 +84,21 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
     }
 
     private void initBuyNumberCB() {
-        mBuyNumberCB = new Callback<DefaultResponseModel>() {
+        mBuyNumberCB = new Callback<BuyNumberResponce>() {
             @Override
-            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+            public void success(BuyNumberResponce buyNumberResponce, Response response) {
                 getToolbarManager().setProgressBarVisible(false);
-
+                App.setCurrentCredits(buyNumberResponce.getCredits());
+                refreshFragmentAvailableCredistFragment();
                 Toast.makeText(mActivity, "Success!", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                getToolbarManager().setProgressBarVisible(false);
-
                 Toast.makeText(mActivity, "Error!", Toast.LENGTH_LONG).show();
 
             }
+
         };
     }
 

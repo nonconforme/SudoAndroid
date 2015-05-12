@@ -6,24 +6,36 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-
+import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
+import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
+import com.thinkmobiles.sudo.activities.ProfileEditActivity;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
+import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
@@ -42,6 +54,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Activity mActivity;
     private FloatingActionButton mBTNAddFriend;
     private View mView;
+
     public List<UserModel>  mContactsList;
     private Callback<List<UserModel>> mContactsCB;
 
@@ -62,7 +75,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private void findUI() {
         mBTNAddFriend       = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
         stickyList          = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
-    }
+
 
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
@@ -84,10 +97,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private void initList() {
 
 
+    private void initComponent() {
+        mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
+        stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
         mStickyListAdapter = new ContactsListAdapter(mActivity);
         stickyList.setAdapter(mStickyListAdapter);
+
+
     }
 
     public void reloadList(List<UserModel> contacts) {

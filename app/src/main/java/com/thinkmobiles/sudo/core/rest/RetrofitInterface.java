@@ -16,6 +16,7 @@ import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
+import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 import com.thinkmobiles.sudo.utils.TypedJsonString;
 
@@ -57,7 +58,7 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST(APIConstants.URL_NUMBER + APIConstants.API_BAY_NUMBER)
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
-                    Callback<DefaultResponseModel> callback);
+                    Callback<BuyNumberResponce> callback);
 //    @FormUrlEncoded
 
     @PUT(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.PATH_PARAM_ID + "}" )
