@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.numbers.NumberObject;
 
 import java.util.ArrayList;
@@ -18,25 +19,26 @@ import java.util.List;
 public class NumbersAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<NumberObject> mListNumberObject;
+    private List<NumberModel> mListMyNumbers;
+    private List<NumberObject> mListAvailableNumbers;
     private LayoutInflater inflater;
 
 
     public NumbersAdapter(Context _context) {
         mContext = _context;
-        mListNumberObject = new ArrayList<>();
+        mListAvailableNumbers = new ArrayList<>();
         inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mListNumberObject.size();
+        return mListAvailableNumbers.size();
     }
 
     @Override
     public NumberObject getItem(int _position) {
-        return mListNumberObject.get(_position);
+        return mListAvailableNumbers.get(_position);
     }
 
 
@@ -62,16 +64,26 @@ public class NumbersAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        String  availableNumber = mListAvailableNumbers.get(position).getNumber();
 
-        viewHolder.tvNumber.setText(mListNumberObject.get(position).getNumber());
+        for(NumberModel myNumber : mListMyNumbers ){
+            if(myNumber.getNumber().equalsIgnoreCase("+"+availableNumber)){
+                viewHolder.tvNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+
+            }
+        }
+        viewHolder.tvNumber.setText(availableNumber);
+
         
 
 
         return view;
     }
 
-    public void reloadList(List<NumberObject> _listCountries) {
-        this.mListNumberObject = _listCountries;
+    public void reloadList(List<NumberObject> _listAvailableNumbers, List<NumberModel> _listMyNumbers) {
+        this.mListAvailableNumbers = _listAvailableNumbers;
+        this.mListMyNumbers = _listMyNumbers;
+
         notifyDataSetChanged();
     }
 

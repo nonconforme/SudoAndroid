@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.NumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 import retrofit.Callback;
@@ -64,7 +65,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
             @Override
             public void success(NumberListResponse _numberPackages, Response _response) {
                 getToolbarManager().setProgressBarVisible(false);
-                mAdapter.reloadList(_numberPackages.getObjects());
+                mAdapter.reloadList(_numberPackages.getObjects(), App.getCurrentUser().getNumbers());
 
             }
 
@@ -101,6 +102,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(mActivity,view.getTag().toString(),Toast.LENGTH_SHORT).show();
        openBuyNumberFragment(mAdapter.getItem(position).getNumber(), mCountryIso);
     }
 

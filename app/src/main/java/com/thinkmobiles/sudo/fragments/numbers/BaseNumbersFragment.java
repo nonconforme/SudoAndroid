@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
-import com.thinkmobiles.sudo.fragments.CreditsAvailableFragment;
+import com.thinkmobiles.sudo.fragments.AvailableCreditsFragment;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 /**
@@ -22,7 +22,7 @@ public abstract class BaseNumbersFragment extends Fragment {
     protected static FragmentManager mFragmentManager;
     protected static CountryModel mCountryModel;
     private MainToolbarManager mToolbarManager;
-    private CreditsAvailableFragment mCreditsAvailableFragment;
+    private AvailableCreditsFragment mCreditsAvailableFragment;
 
     @Override
     public void onAttach(Activity _activity) {
@@ -96,7 +96,7 @@ public abstract class BaseNumbersFragment extends Fragment {
     }
 
     private void initAvailableCredistFragment() {
-        mCreditsAvailableFragment = new CreditsAvailableFragment();
+        mCreditsAvailableFragment = new AvailableCreditsFragment();
         mActivity.getSupportFragmentManager().beginTransaction().add(R.id.container_credits, mCreditsAvailableFragment).commit();
     }
     public void refreshFragmentAvailableCredistFragment() {

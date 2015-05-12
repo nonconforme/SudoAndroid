@@ -13,7 +13,7 @@ import com.thinkmobiles.sudo.global.App;
 /**
  * Created by omar on 12.05.15.
  */
-public class CreditsAvailableFragment extends Fragment {
+public class AvailableCreditsFragment extends Fragment {
     TextView tvCredits;
     View mView;
     @Nullable
