@@ -55,6 +55,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
 
     private String mTitle;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
     private MainToolbarManager sToolbarManager;
@@ -67,7 +68,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private TextView tvName;
     private Spinner spNubers;
     private View mHeader;
-    DrawerHeaderAdapter drawerHeaderAdapter;
+    private DrawerHeaderAdapter drawerHeaderAdapter;
 
     private UserModel selectedContact;
     private boolean showDrawer;
@@ -370,13 +371,14 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
-        App.setCurrentMobile(ContactManager.getNumbers().get(i).getNumber());
+
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+        App.setCurrentMobile(ContactManager.getNumbers().get(i).getNumber());
+        setDrawerCountry(ContactManager.getNumbers().get(i).getCountryIso());
     }
 
     @Override
@@ -384,5 +386,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     }
 
+    private void setDrawerCountry(String countryISO){
+        ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
+    }
 
 }
