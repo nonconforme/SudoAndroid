@@ -9,8 +9,8 @@
 
 <RelativeLayout
                android:layout_width="wrap_content"
-              android:layout_height="32dp" android:gravity="center_horizontal"
-               android:layout_gravity="center_horizontal">
+              android:layout_height="wrap_content" android:gravity="center_horizontal"
+               android:layout_gravity="center_horizontal" android:layout_marginBottom="4dp">
 
     <TextView
             style="@style/SNAvailableCreditsFR_CreditsTV"
