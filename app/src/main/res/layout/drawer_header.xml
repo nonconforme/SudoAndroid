@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/spPhone_DH"
+
             android:phoneNumber="true" android:layout_below="@+id/tvProfileName_Drawer"
             android:layout_alignLeft="@+id/tvProfileName_Drawer" android:layout_alignStart="@+id/tvProfileName_Drawer"
             />
