@@ -72,7 +72,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         setDefaultColor();
         setContent();
         initTarget();
-        setImages();
+        /*setImages();*/
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
     }
 

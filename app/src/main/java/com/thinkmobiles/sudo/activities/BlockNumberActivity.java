@@ -99,6 +99,8 @@ public class BlockNumberActivity extends ActionBarActivity {
     private void initList() {
         stickyList.setDivider(null);
         stickyList.setDividerHeight(0);
+
+
         mStickyListAdapter = new BlockNumberAdapter(this);
         stickyList.setAdapter(mStickyListAdapter);
     }
