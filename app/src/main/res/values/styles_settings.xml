@@ -89,9 +89,12 @@
     <style name="SDSetNewPassStyle">
         <item name="android:padding">@dimen/sds_padding</item>
         <item name="android:hint">@string/ss_et_dialog_new_pass_hint</item>
-        <item name="android:textStyle">normal</item>
+
         <item name="android:textSize">14dp</item>
         <item name="android:inputType">textPassword</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textColor">@color/ss_changes_color</item>
+        <item name="android:textColorHint">@color/ss_changes_color</item>
         <item name="android:layout_marginBottom">@dimen/sds_margin_top_bottom</item>
         <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
         <item name="android:layout_marginLeft">@dimen/sds_margin_left_righ</item>
@@ -99,18 +102,7 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="SDSetConfirmStyle">
-        <item name="android:padding">@dimen/sds_padding</item>
-        <item name="android:hint">@string/ss_et_dialog_confirm_hint</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:inputType">textPassword</item>
-        <item name="android:layout_marginBottom">@dimen/sds_margin_top_bottom</item>
-        <item name="android:layout_marginTop">@dimen/sds_margin_top_bottom</item>
-        <item name="android:layout_marginLeft">@dimen/sds_margin_left_righ</item>
-        <item name="android:layout_marginRight">@dimen/sds_margin_left_righ</item>
-        <item name="android:background">@android:color/white</item>
-    </style>
+
 
     <style name="SDSbtnCancelStyle">
         <item name="android:text">@string/ss_btn_dialog_cancel</item>
@@ -123,8 +115,7 @@
         <item name="android:textSize">@dimen/sds_btn_text_size</item>
         <item name="android:text">@string/ss_btn_dialog_submit</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:layout_marginRight">25dp</item>
-        <item name="android:textColor">@color/ss_tv_changes_color</item>
+         <item name="android:textColor">@color/ss_tv_changes_color</item>
         <item name="android:background">@drawable/selector_btn_dialog_submit</item>
     </style>
 
