@@ -429,8 +429,13 @@ private void setHeaderContent(){
             view.setBackgroundColor(Color.LTGRAY);
             mDrawer.closeDrawer();
         } else {
-            App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
-            setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+            if (pos > 0){
+                App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
+                setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+            } else {
+                App.setCurrentMobile(ContactManager.getNumbers().get(0).getNumber());
+                setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());
+            }
             sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
             setBaseTitle();
             onClick(new View(this));

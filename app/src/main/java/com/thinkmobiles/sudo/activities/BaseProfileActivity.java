@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.view.Window;
 
 import com.thinkmobiles.sudo.R;
 
@@ -18,6 +20,7 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
     private Toolbar toolbar;
     public static final String USER_MODEL       = "user_model";
     public static final String TAG              = "profile view activity";
+
 
 
     @Override

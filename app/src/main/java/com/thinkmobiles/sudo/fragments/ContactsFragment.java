@@ -68,6 +68,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initList();
         setListener();
         initGetContactsCB();
+        makeGetUserRequest();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentUser().getEmail());
         return mView;
     }
@@ -84,7 +85,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        makeGetUserRequest();
 
     }
 

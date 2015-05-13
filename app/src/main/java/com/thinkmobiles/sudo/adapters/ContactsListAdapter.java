@@ -38,6 +38,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private LayoutInflater mInflater;
     private Activity mActivity;
     private int lastPosition = -1 ;
+    private Animation mUpAnimation;
+    private Animation mBottommAnimation;
 
     private static final int SUCCESS = 10;
 
@@ -45,6 +47,13 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         this.mActivity = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
+        initAnimations();
+    }
+
+    private void initAnimations() {
+         mUpAnimation       = AnimationUtils.loadAnimation(mActivity, R.anim.down_from_top);
+         mBottommAnimation  = AnimationUtils.loadAnimation(mActivity, R.anim.up_from_bottom);
+
     }
 
 
@@ -99,24 +108,16 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         }
             holder.ivAvatar.setTag(pos);
             setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
-//        }
-        holder.tvFirstName.setText(contacts.get(pos).getCompanion());
+            holder.tvFirstName.setText(contacts.get(pos).getCompanion());
 
         if (contacts.get(pos).getNumbers() != null && contacts.get(pos).getNumbers().size() > 0)
             holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
 
-        final ImageView transitionView = holder.ivAvatar;
         Animation animation = AnimationUtils.loadAnimation(mActivity, (pos > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         view.startAnimation(animation);
         lastPosition = pos;
-        holder.ivOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
 
-
-            }
-        });
 
 
         return view;

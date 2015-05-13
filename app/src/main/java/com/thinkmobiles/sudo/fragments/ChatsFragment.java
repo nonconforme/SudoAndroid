@@ -43,8 +43,6 @@ public class ChatsFragment extends Fragment {
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mLastChatsModel;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
@@ -60,9 +58,6 @@ public class ChatsFragment extends Fragment {
         lvChats = (ListView) _view.findViewById(R.id.lvChats_CF);
 
     }
-
- 
-
 
     @Override
     public void onResume() {

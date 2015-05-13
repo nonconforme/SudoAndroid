@@ -12,10 +12,12 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -59,13 +61,15 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     protected int getLayoutResource() {
+
         return R.layout.activity_view_profile;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().setEnterTransition( new Explode() );
+        getWindow().setExitTransition( new Explode() );
         loadUserModel();
         initComponent();
         loadContent();
@@ -172,7 +176,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     private void changeViewColor(final Bitmap _bitmap ) {
         Palette palette = Palette.generate(_bitmap);
-        final int initialColor      = getResources().getColor(R.color.colorWhite);
+        final int initialColor      = getResources().getColor(R.color.primary_material_dark);
         final int finalColor        = palette.getVibrantColor(getResources().getColor(R.color.colorPrimary));
         final int stausBarColor     = palette.getDarkVibrantColor(getResources().getColor(R.color.colorPrimaryDark));
         mUserModel.setColor(new ColorModel(finalColor, stausBarColor));
