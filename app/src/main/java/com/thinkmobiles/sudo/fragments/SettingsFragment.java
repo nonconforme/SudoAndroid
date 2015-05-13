@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.MainToolbarManager;
+import com.thinkmobiles.sudo.activities.BlockNumberActivity;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{
 
@@ -100,6 +102,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 if (isValidateParam(mETNewPass) && isValidateParam(mETConfirmPass)) //TODO result OK
                 break;
             case R.id.btnBlockNumber_FS:
+                Intent intent = new Intent(mActivity,BlockNumberActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnChangePassword_FS:
                 changePasswordDialog();
