@@ -89,17 +89,19 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         super.onCreate(savedInstanceState);
         enableSearchView(false);
         setContentView(R.layout.activity_main);
-        setBaseTitle();
+
         initToolbar();
         initProgressBar();
         openHomeFragment();
         initDrawer();
         findHeaderUI();
-        setDrawerHeaderContent();
+        setHeaderContent();
         initSignOutCB();
 
     }
-
+private void setHeaderContent(){
+    setBaseTitle();
+    setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());}
 
     @Override
     protected void onResume() {
@@ -244,11 +246,9 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
     private void setBaseTitle() {
-        if (App.getCurrentMobile() == null) {
-            mTitle = App.getCurrentUser().getEmail();
-        } else {
+
             mTitle = App.getCurrentMobile();
-        }
+            tvName.setText(mTitle);
     }
 
     private void initDrawerMenuList() {
@@ -292,8 +292,6 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
 
     private void initDefaultDrawer() {
         drawerListView.setAdapter(mDrawerMenuAdapter);
-
-
         mDrawerMenuAdapter.reloadList(mDrawerMenuList);
     }
 
@@ -396,11 +394,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
 
-    private void setDrawerHeaderContent() {
-        tvName.setText(App.getCurrentUser().getEmail());
-        setDrawerCountry("");
 
-    }
 
     private void setDrawerCountry(String countryISO) {
         ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
@@ -433,12 +427,15 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
 
             // change the background color of the selected element
             view.setBackgroundColor(Color.LTGRAY);
-
+            mDrawer.closeDrawer();
         } else {
-            App.setCurrentMobile(ContactManager.getNumbers().get(pos).getNumber());
-            setDrawerCountry(ContactManager.getNumbers().get(pos).getCountryIso());
+            App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
+            setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
             sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+            setBaseTitle();
+            onClick(new View(this));
+
         }
-        mDrawer.closeDrawer();
+
     }
 }
