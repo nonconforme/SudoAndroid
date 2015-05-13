@@ -12,12 +12,10 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
-import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -73,9 +71,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         loadUserModel();
         initComponent();
         loadContent();
+        setDefaultColor();
         setContent();
         initTarget();
-        setDefaultColor();
         setImages();
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
     }

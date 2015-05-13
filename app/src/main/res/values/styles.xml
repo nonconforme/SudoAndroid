@@ -57,7 +57,10 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
 
+    <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.Switch">
 
+         <item name="android:color">@drawable/bg_checkbox</item>
+     </style>
 
 
 

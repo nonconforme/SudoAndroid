@@ -29,6 +29,10 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.Switch">
+
+        <item name="android:color">@drawable/bg_checkbox</item>
+    </style>
 
 
 </resources>

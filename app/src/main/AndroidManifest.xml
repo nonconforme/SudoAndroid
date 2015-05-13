@@ -83,6 +83,15 @@
                 android:theme="@style/NoTitleTheme">
 
         </activity>
+        <activity
+
+                android:name=".activities.BlockNumberActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:windowSoftInputMode="stateHidden"
+                android:screenOrientation="portrait"
+                android:theme="@style/NoTitleTheme">
+
+        </activity>
 
         <service
             android:name=".core.MainService"
