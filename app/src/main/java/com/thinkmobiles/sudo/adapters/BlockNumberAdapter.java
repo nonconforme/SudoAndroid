@@ -97,6 +97,13 @@ public class BlockNumberAdapter extends BaseAdapter implements StickyListHeaders
         holder.checkBox.setTag(pos);
 
         holder.checkBox.setOnCheckedChangeListener(this);
+        for (NumberModel number : contacts.get(pos).getNumbers()){
+            if(number.isBlocked()){
+                holder.checkBox.setChecked(true);
+                onCheckedChanged(holder.checkBox, true);
+            }
+        }
+
 
 
         return view;
