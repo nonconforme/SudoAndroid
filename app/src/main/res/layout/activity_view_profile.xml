@@ -102,7 +102,7 @@
                 android:gravity="center"
                 android:id="@+id/rlImageProfile_AVP">
             <ImageView
-                    android:id="@+id/icon"
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     />

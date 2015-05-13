@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
+    private int lastPosition = -1 ;
 
     private static final int SUCCESS = 10;
 
@@ -103,7 +106,9 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
 
         final ImageView transitionView = holder.ivAvatar;
-
+        Animation animation = AnimationUtils.loadAnimation(mActivity, (pos > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        view.startAnimation(animation);
+        lastPosition = pos;
         holder.ivOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -69,9 +69,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         loadUserModel();
         initComponent();
         loadContent();
-        setDefaultColor();
         setContent();
         initTarget();
+        setDefaultColor();
         setImages();
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
     }
