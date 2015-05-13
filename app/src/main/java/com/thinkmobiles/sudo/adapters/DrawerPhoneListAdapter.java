@@ -19,14 +19,14 @@ import java.util.List;
 /**
  * Created by Pavilion on 14.04.2015.
  */
-public class DrawerHeaderAdapter extends BaseAdapter {
+public class DrawerPhoneListAdapter extends BaseAdapter {
 
     private boolean isCountryHidden = false;
     private Context mContext;
     private List<NumberModel> mListNumbers;
     private LayoutInflater inflater;
 
-    public DrawerHeaderAdapter(Context _context) {
+    public DrawerPhoneListAdapter(Context _context) {
         mContext = _context;
         mListNumbers = new ArrayList<>();
         inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

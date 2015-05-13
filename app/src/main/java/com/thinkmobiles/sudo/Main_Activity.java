@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -16,13 +17,10 @@ import android.widget.*;
 
 
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.activities.LoginActivity;
-import com.thinkmobiles.sudo.adapters.DrawerHeaderAdapter;
+import com.thinkmobiles.sudo.adapters.DrawerMenuAdapter;
+import com.thinkmobiles.sudo.adapters.DrawerPhoneListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.HomeFragment;
@@ -31,15 +29,18 @@ import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.thinkmobiles.sudo.global.DrawerConstants.CREDITS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.GET_NUMBER_FRAGMENT;
@@ -48,8 +49,8 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerItemSelectedListener,
-        Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener, ContactsFragmentCallback, AdapterView.OnItemSelectedListener{
+public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawerListener , ContactsFragmentCallback,
+        AdapterView.OnItemClickListener, View.OnClickListener {
 
     // Declaring Your View and Variables
 
@@ -64,16 +65,20 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
     private SearchManager searchManager;
     private SearchView searchView;
 
-    private ImageView ivAvatarDrawer;
+    private ImageView ivAvatarDrawer, ivSpinner_Drawer;
     private TextView tvName;
-    private Spinner spNubers;
-    private View mHeader;
-    private DrawerHeaderAdapter drawerHeaderAdapter;
 
+    private RelativeLayout rlSpinnerChanger;
+    private View mHeader;
+    private DrawerPhoneListAdapter mDrawerPhoneListAdapter;
+    private DrawerMenuAdapter mDrawerMenuAdapter;
+    ListView drawerListView;
     private UserModel selectedContact;
     private boolean showDrawer;
     private boolean showSearchView;
+    private boolean showListDrawer = false;
 
+    private List<DrawerMenuItemModel> mDrawerMenuList;
     private ProgressBar progressBar;
 
 
@@ -94,6 +99,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         initSignOutCB();
 
     }
+
 
     @Override
     protected void onResume() {
@@ -159,7 +165,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
             if (mDrawer.isDrawerOpen()) {
                 mDrawer.closeDrawer();
             } else {
-                mDrawer.openDrawer();
+                finish();
             }
         } else {
             BaseNumbersFragment.goBack();
@@ -193,11 +199,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l, IDrawerItem iDrawerItem) {
-        implementClick(pos);
-
-    }
 
     private void implementClick(int pos) {
         switch (pos) {
@@ -250,25 +251,62 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
         }
     }
 
-    private void initDrawer() {
-        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).
-                withHeader(R.layout.drawer_header).withOnDrawerListener(this).
-                withOnDrawerItemClickListener(this).
-                addDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(getResources().getDrawable(R
-                        .drawable.ic_contacts_chats)).withBadge(App.currentContacts).withIdentifier(1), new PrimaryDrawerItem()
-                        .withName(R.string.drawer_item_get_number).withIcon(getResources().getDrawable(R.drawable.ic_get_number)), new PrimaryDrawerItem()
-                        .withName(R.string.drawer_item_recharge_credits).withIcon(getResources().getDrawable(R.drawable
-                                .ic_recharge_credits)).withBadge(App.currentCredits).withIdentifier(2), new
-                        DividerDrawerItem(), new
-                        SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getResources().getDrawable(R.drawable.ic_settings)), new SecondaryDrawerItem().withName(R.string.drawer_item_sign_out).withIcon(getResources().getDrawable(R.drawable.ic_sign_out))).build();
+    private void initDrawerMenuList() {
+        mDrawerMenuList = new ArrayList<>();
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_home, App.currentContacts, R.drawable.ic_contacts_chats));
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_get_number, " ", R.drawable.ic_get_number));
+
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_recharge_credits, App.currentCredits, R.drawable.ic_recharge_credits));
+        mDrawerMenuList.add(new DrawerMenuItemModel(0, "",0));
+
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_settings, "", R.drawable.ic_settings));
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_sign_out, "", R.drawable.ic_sign_out));
+
     }
+
+
+
+
+    private void initDrawer() {
+        initDrawerMenuList();
+        mDrawerPhoneListAdapter = new DrawerPhoneListAdapter(this);
+        mDrawerMenuAdapter = new DrawerMenuAdapter(this);
+        drawerListView = new ListView(this);
+        drawerListView.setDivider(getResources().getDrawable(android.R.color.transparent));
+        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).
+                withHeader(R.layout.drawer_header).withListView(drawerListView).build();
+
+
+        drawerListView.setAdapter(mDrawerMenuAdapter);
+
+        drawerListView.setOnItemClickListener(this);
+        mDrawerMenuAdapter.reloadList(mDrawerMenuList);
+    }
+
+
+    private void initPhoneListDrawer() {
+
+        drawerListView.setAdapter(mDrawerPhoneListAdapter);
+        mDrawerPhoneListAdapter.reloadList(App.getCurrentUser().getNumbers());
+    }
+
+    private void initDefaultDrawer() {
+        drawerListView.setAdapter(mDrawerMenuAdapter);
+
+
+        mDrawerMenuAdapter.reloadList(mDrawerMenuList);
+    }
+
+
+
 
     private void findHeaderUI() {
 
         ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
         tvName = (TextView) findViewById(R.id.tvProfileName_Drawer);
-        spNubers = (Spinner) findViewById(R.id.spPhone_DH);
-
+        rlSpinnerChanger = (RelativeLayout) findViewById(R.id.rlDrawerSpinerChanger);
+        ivSpinner_Drawer = (ImageView) findViewById(R.id.ivSpinner_Drawer);
+        rlSpinnerChanger.setOnClickListener(this);
     }
 
     private void setAvatarContent(UserModel userModel) {
@@ -360,40 +398,47 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerI
 
     private void setDrawerHeaderContent() {
         tvName.setText(App.getCurrentUser().getEmail());
-/*
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ContactManager.getNumbers());
-*/
-        drawerHeaderAdapter = new DrawerHeaderAdapter(this);
-        spNubers.setAdapter(drawerHeaderAdapter);
-        drawerHeaderAdapter.reloadList(ContactManager.getNumbers());
-
-        if (ContactManager.getNumbers().size() > 0) {
-            spNubers.setSelection(0);
-        }
-        spNubers.setOnItemSelectedListener(this);
-
+        setDrawerCountry("");
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
-
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        App.setCurrentMobile(ContactManager.getNumbers().get(i).getNumber());
-        setDrawerCountry(ContactManager.getNumbers().get(i).getCountryIso());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-    private void setDrawerCountry(String countryISO){
+    private void setDrawerCountry(String countryISO) {
         ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
     }
 
+    @Override
+    public void onClick(View view) {
+
+        if (showListDrawer) {
+            showListDrawer = false;
+            ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner);
+            initDefaultDrawer();
+        } else {
+            showListDrawer = true;
+            ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner_rotate);
+            initPhoneListDrawer();
+        }
+
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+        if (!showListDrawer) {
+            view.setSelected(true);
+            implementClick(pos);
+            for (int j = 0; j < adapterView.getChildCount(); j++)
+                adapterView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+
+            // change the background color of the selected element
+            view.setBackgroundColor(Color.LTGRAY);
+
+        } else {
+            App.setCurrentMobile(ContactManager.getNumbers().get(pos).getNumber());
+            setDrawerCountry(ContactManager.getNumbers().get(pos).getCountryIso());
+            sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+        }
+        mDrawer.closeDrawer();
+    }
 }

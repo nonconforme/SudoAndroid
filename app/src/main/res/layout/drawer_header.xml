@@ -14,22 +14,27 @@
             style="@style/DrawerAvatar_IV"
 
             android:id="@+id/ivAvatar_Drawer"/>
-    <TextView
-            style="@style/DrawerProfileName_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:id="@+id/tvProfileName_Drawer" android:layout_below="@+id/ivAvatar_Drawer"
-            android:layout_alignLeft="@+id/ivAvatar_Drawer"
-            android:layout_alignStart="@+id/ivAvatar_Drawer"/>
-    <Spinner
-            style = "@style/DrawerProfilePhone_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/spPhone_DH"
+    <RelativeLayout
+             android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/rlDrawerSpinerChanger"
+             android:layout_below="@+id/ivAvatar_Drawer" android:layout_alignParentLeft="true"
+             android:layout_alignParentStart="true" android:clickable="true">
 
-            android:phoneNumber="true" android:layout_below="@+id/tvProfileName_Drawer"
-            android:layout_alignLeft="@+id/tvProfileName_Drawer" android:layout_alignStart="@+id/tvProfileName_Drawer"
-            />
+        <TextView
+                style="@style/DrawerProfileName_TV"
+                android:layout_width="332dp"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:id="@+id/tvProfileName_Drawer"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/ivSpinner_Drawer"
+                android:layout_toStartOf="@+id/ivSpinner_Drawer" android:layout_marginLeft="10dp"/>
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/ivSpinner_Drawer" android:layout_alignBottom="@+id/tvProfileName_Drawer"
+                android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_spinner" android:layout_marginRight="10dp" android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+
 </RelativeLayout>

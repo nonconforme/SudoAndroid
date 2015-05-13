@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="drawer_menu_item_text_size">14dp</dimen>
+    <dimen name="drawer_menu_item_padding">14dp</dimen>
+
+    <dimen name="drawer_menu_icon_size">16dp</dimen>
+    <dimen name="drawer_icon_size">24dp</dimen>
+
+
+    <style name="DrawerMenuItem">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/drawer_menu_item_text_size</item>
+        <item name="android:padding">@dimen/drawer_menu_item_padding</item>
+
+    </style>
+
+    <style name="DrawerMenuItemParam">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/drawer_menu_item_text_size</item>
+        <item name="android:padding">@dimen/drawer_menu_item_padding</item>
+
+    </style>
+    <style name="DrawerMenuIcon">
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:layout_height">@dimen/drawer_menu_icon_size</item>
+        <item name="android:layout_width">@dimen/drawer_menu_icon_size</item>
+    </style>
+    <style name="DrawerIcon">
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:layout_height">@dimen/drawer_icon_size</item>
+        <item name="android:layout_width">@dimen/drawer_icon_size</item>
+    </style>
+
+</resources>

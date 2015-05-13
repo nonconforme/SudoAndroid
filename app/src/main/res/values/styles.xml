@@ -52,6 +52,15 @@
         <item name="android:windowExitAnimation">@anim/anim_dialog_out</item>
     </style>
 
+    <style name="SpinnerButtonStyle" parent="android:Widget.Holo.Spinner">
+
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
 
 
- </resources>
+
+
+
+
+
+</resources>

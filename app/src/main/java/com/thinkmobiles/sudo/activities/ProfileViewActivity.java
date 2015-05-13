@@ -82,7 +82,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         rlImage.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
     private void setImages() {
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
 
         if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty()) {
             Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
