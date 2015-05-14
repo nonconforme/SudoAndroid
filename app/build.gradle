@@ -49,5 +49,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'se.emilsjolander:stickylistheaders:2.6.+'
 //    compile 'com.github.nkzawa:socket.io-client:0.5.0'
-    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
- }
+  }
