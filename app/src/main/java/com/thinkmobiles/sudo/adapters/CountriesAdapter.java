@@ -7,16 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-
+import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thinkmobiles.sudo.models.counties.CountryModel;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 /**
  * Created by Pavilion on 14.04.2015.
@@ -65,8 +62,7 @@ public class CountriesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
-        Picasso.with(mContext).load(R.drawable.ic_launcher).resize(100, 100).transform(new CropCircleTransformation()).into(viewHolder.ivCountry);
+        setCountryByIso(mContext, viewHolder.ivCountry, mListCountries.get(position).getCountryIso(), 100);
 
         viewHolder.tvCountry.setText(mListCountries.get(position).getName());
 

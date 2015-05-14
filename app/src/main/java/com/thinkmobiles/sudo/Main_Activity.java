@@ -34,6 +34,7 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
+import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -72,7 +73,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private View mHeader;
     private DrawerPhoneListAdapter mDrawerPhoneListAdapter;
     private DrawerMenuAdapter mDrawerMenuAdapter;
-    ListView drawerListView;
+    private ListView drawerListView;
     private UserModel selectedContact;
     private boolean showDrawer;
     private boolean showSearchView;
@@ -397,7 +398,10 @@ private void setHeaderContent(){
 
 
     private void setDrawerCountry(String countryISO) {
-        ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
+
+
+        setCountryByIso(this,  ivAvatarDrawer,  countryISO, 100);
+
     }
 
     @Override

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
-import com.thinkmobiles.sudo.models.counties.CountryModel;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class DrawerPhoneListAdapter extends BaseAdapter {
         else
             viewHolder.ivCountry.setVisibility(View.VISIBLE);
 
-        Picasso.with(mContext).load(R.drawable.ic_launcher).resize(100, 100).transform(new CropCircleTransformation()).into(viewHolder.ivCountry);
+        setCountryByIso(mContext, viewHolder.ivCountry, mListNumbers.get(position).getCountryIso());
 
         viewHolder.tvNumber.setText(mListNumbers.get(position).getNumber());
 
