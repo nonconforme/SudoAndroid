@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -17,7 +16,6 @@ import android.widget.*;
 
 
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.adapters.DrawerMenuAdapter;
 import com.thinkmobiles.sudo.adapters.DrawerPhoneListAdapter;
@@ -34,8 +32,10 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
+
 import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -50,8 +50,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SETTINGS_FRAGMENT;
 import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 
 
-public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawerListener , ContactsFragmentCallback,
-        AdapterView.OnItemClickListener, View.OnClickListener {
+public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerListener, ContactsFragmentCallback, AdapterView.OnItemClickListener, View.OnClickListener {
 
     // Declaring Your View and Variables
 
@@ -100,9 +99,13 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         initSignOutCB();
 
     }
-private void setHeaderContent(){
-    setBaseTitle();
-    setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());}
+
+    private void setHeaderContent() {
+        setBaseTitle();
+        setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+        App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+        sToolbarManager.setToolbarIcon(App.getCurrentISO());
+    }
 
     @Override
     protected void onResume() {
@@ -248,8 +251,8 @@ private void setHeaderContent(){
 
     private void setBaseTitle() {
 
-            mTitle = App.getCurrentMobile();
-            tvName.setText(mTitle);
+        mTitle = App.getCurrentMobile();
+        tvName.setText(mTitle);
     }
 
     private void initDrawerMenuList() {
@@ -258,14 +261,12 @@ private void setHeaderContent(){
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_get_number, " ", R.drawable.ic_get_number));
 
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_recharge_credits, App.currentCredits, R.drawable.ic_recharge_credits));
-        mDrawerMenuList.add(new DrawerMenuItemModel(0, "",0));
+        mDrawerMenuList.add(new DrawerMenuItemModel(0, "", 0));
 
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_settings, "", R.drawable.ic_settings));
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_sign_out, "", R.drawable.ic_sign_out));
 
     }
-
-
 
 
     private void initDrawer() {
@@ -295,8 +296,6 @@ private void setHeaderContent(){
         drawerListView.setAdapter(mDrawerMenuAdapter);
         mDrawerMenuAdapter.reloadList(mDrawerMenuList);
     }
-
-
 
 
     private void findHeaderUI() {
@@ -395,13 +394,15 @@ private void setHeaderContent(){
     }
 
 
+    private void setDrawerIcon(String countryISO) {
 
 
-    private void setDrawerCountry(String countryISO) {
+        setCountryByIso(this, ivAvatarDrawer, countryISO, 100);
 
+    }
 
-        setCountryByIso(this,  ivAvatarDrawer,  countryISO, 100);
-
+    private void setToolbarIcon() {
+        sToolbarManager.setToolbarIcon(App.getCurrentISO());
     }
 
     @Override
@@ -434,8 +435,10 @@ private void setHeaderContent(){
             mDrawer.closeDrawer();
         } else {
             App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
-            setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+            setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+            App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
             sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+            sToolbarManager.setToolbarIcon(App.getCurrentISO());
             setBaseTitle();
             onClick(new View(this));
 

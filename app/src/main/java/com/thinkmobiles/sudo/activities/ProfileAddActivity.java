@@ -1,20 +1,14 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
-import com.thinkmobiles.sudo.utils.TypedJsonString;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

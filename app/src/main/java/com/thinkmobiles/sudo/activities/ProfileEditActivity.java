@@ -1,11 +1,10 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
+import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;

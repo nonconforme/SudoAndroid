@@ -15,19 +15,19 @@ public class CountryHelper {
     static public void setCountryByIso(Context context, ImageView imageView, String iso) {
 
 
-        setCountry(context, imageView, getCountryByISO(iso));
+        setCountry(context, imageView, getCountryImageByISO(iso));
 
     }
 
     static public void setCountryByIso(Context context, ImageView imageView, String iso, int dimen) {
 
 
-        setCountry(context, imageView, getCountryByISO(iso), dimen);
+        setCountry(context, imageView, getCountryImageByISO(iso), dimen);
 
     }
 
 
-    private static int getCountryByISO(String iso) {
+    public static int getCountryImageByISO(String iso) {
         switch (iso) {
             case UNITED_STATES_ISO:
                 return R.drawable.ic_us_unitedstates;

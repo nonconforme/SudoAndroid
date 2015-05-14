@@ -1,4 +1,4 @@
-package com.thinkmobiles.sudo;
+package com.thinkmobiles.sudo.utils;
 
 
 import android.app.Activity;
@@ -8,9 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
 
@@ -84,12 +84,12 @@ public class ToolbarManager {
     }
 
 
-    public void changeToolbarTitleAndIcon(String title, String imageURL) {
+    public void changeToolbarTitleAndIcon(String title, String ISO) {
         mToolbar.setTitle(title);
-        if (imageURL == null || imageURL.equalsIgnoreCase("")) {
+        if (ISO == null || ISO.equalsIgnoreCase("")) {
             mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         } else {
-            setToolbarIcon(imageURL);
+            setToolbarIcon(ISO);
         }
     }
 
@@ -104,12 +104,14 @@ public class ToolbarManager {
 
     }
 
-    public void setToolbarIcon(String imageURL) {
+    public void setToolbarIcon(String ISO) {
 
-        initTarget();
-        Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageURL).transform(new CircleTransform()).into
-                (mTarget);
+        int image = CountryHelper.getCountryImageByISO(ISO);
+        if(image != 0) {
 
+            initTarget();
+            Picasso.with(mActivity).load(image).resize(50,50).transform(new CircleTransform()).into(mTarget);
+        }
 
     }
 
