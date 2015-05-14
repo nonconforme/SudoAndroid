@@ -404,7 +404,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private void setDrawerIcon(String countryISO) {
 
 
-        setCountryByIso(this, ivAvatarDrawer, countryISO, 100);
+//        setCountryByIso(this, ivAvatarDrawer, countryISO, 100);
 
     }
 
@@ -443,13 +443,13 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         } else {
             if (pos > 0){
                 App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
-                setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+//                setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
                 setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
                 App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
 
             } else {
                 App.setCurrentMobile(ContactManager.getNumbers().get(0).getNumber());
-                setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());
+//                setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());
                 setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
                 App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
             }

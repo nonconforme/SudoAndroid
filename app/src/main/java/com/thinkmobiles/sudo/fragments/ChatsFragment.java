@@ -9,11 +9,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
@@ -145,7 +147,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        mChatAdapter.setSelection(selectionMode,selectionArray);
+        mChatAdapter.setSelection(selectionMode, selectionArray);
         if (!selectionMode) {
             startChatActivity(mLastChatsModel.get(position));
             Log.d("TAG", "]clicked");
@@ -167,7 +169,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void startChatActivity(LastChatsModel chatModel) {
-        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
+//        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
     }
 
     private void startSelectionMode() {

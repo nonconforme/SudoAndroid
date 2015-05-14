@@ -12,12 +12,12 @@ import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.RevealBackgroundView;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
+import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.utils.Utils;
 
 
