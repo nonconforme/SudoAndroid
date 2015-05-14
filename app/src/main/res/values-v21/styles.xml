@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <style name="AppTheme"  parent="ThemeOverlay.AppCompat.Dark">
+    <style name="AppTheme"  parent="Theme.AppCompat.Light">
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
 
@@ -26,7 +26,13 @@
         <item name="android:windowFullscreen">false</item> <!-- Hides the status bar -->
 
     </style>
+    <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:minWidth">0dp</item>
+        <!--<item name="android:paddingTop">7dp</item>-->
+        <!--<item name="android:paddingRight">7dp</item>-->
 
+        <item name="android:scaleType">centerInside</item>
+    </style>
     <style name="AppTheme.TransparentActivity">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -39,6 +45,11 @@
     <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.Switch">
 
         <item name="android:color">@drawable/bg_checkbox</item>
+    </style>
+
+    <style name="SpinnerButtonStyle" parent="android:Widget.Holo.Spinner">
+
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
 
 

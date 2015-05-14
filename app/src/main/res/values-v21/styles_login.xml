@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- DIMENS -->
+    <dimen name="sl_text_padding">6dp</dimen>
+    <dimen name="sl_text_size">16dp</dimen>
+    <dimen name="sl_button_text_size">12dp</dimen>
+    <dimen name="sl_tv_margin_left_right">40dp</dimen>
+    <dimen name="sl_tv_margin_top">10dp</dimen>
+    <dimen name="sl_btn_margin_top">40dp</dimen>
+    <dimen name="sl_iv_margin_bottom">20dp</dimen>
+    <dimen name="sl_btn_height">38dp</dimen>
+    <!-- end region -->
+
+
+
+
+    <!-- COLORS -->
+    <color name="sl_text_view_bg">#fffdfdfe</color>
+    <color name="sl_text_color">#000000</color>
+    <color name="sl_btn_color">#00C853</color>
+    <color name="sl_btn_click_color">#00E676</color>
+    <color name="sl_btn_text_color">#ffffff</color>
+    <color name="sl_btn_transp_color">@android:color/transparent</color>
+    <color name="sl_btn_click_transp_color">#424242</color>
+    <color name="btn_signin_default_color">#99ffffff</color>
+    <color name="btn_signin_pressed_color">#33ffffff</color>
+    <!-- end region -->
+
+    <style name="ETLoginStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/loginPrimary</item>
+        <item name="android:textColorHint">@color/color_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- STYLES -->
+    <style name="SLetEmailStyle">
+        <item name="android:textColor">@color/sl_text_color</item>
+        <item name="android:padding">@dimen/sl_text_padding</item>
+        <item name="android:textSize">@dimen/sl_text_size</item>
+        <item name="android:background">@color/sl_text_view_bg</item>
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:hint">@string/sl_et_email_hint</item>
+    </style>
+
+    <style name="SLetPasswordStyle">
+        <item name="android:textColor">@color/sl_text_color</item>
+        <item name="android:padding">@dimen/sl_text_padding</item>
+        <item name="android:textSize">@dimen/sl_text_size</item>
+        <item name="android:background">@color/sl_text_view_bg</item>
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/sl_tv_margin_top</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:hint">@string/sl_et_password_hint</item>
+    </style>
+
+    <style name="SRetConfirmPasswordStyle">
+        <item name="android:textColor">@color/sl_text_color</item>
+        <item name="android:padding">@dimen/sl_text_padding</item>
+        <item name="android:textSize">@dimen/sl_text_size</item>
+        <item name="android:background">@color/sl_text_view_bg</item>
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/sl_tv_margin_top</item>
+        <item name="android:layout_height">@dimen/sl_btn_height</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:hint">@string/sr_et_confirm_password_hint</item>
+    </style>
+
+    <style name="SLbtnSignInStyle">
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/sl_tv_margin_top</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sl_text_size</item>
+        <item name="android:text">@string/sl_btn_sign_in_text</item>
+        <item name="android:layout_height">@dimen/base_btn_height</item>
+        <item name="android:background">@drawable/selector_btn_sign_in</item>
+    </style>
+
+    <style name="SLbtnSignUpStyle">
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/sl_tv_margin_top</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sl_text_size</item>
+        <item name="android:text">@string/sr_btn_sign_up_text</item>
+        <item name="android:layout_height">@dimen/base_btn_height</item>
+        <item name="android:background">@drawable/selector_btn_sign_in</item>
+    </style>
+
+    <style name="SLbtnGoRegistrationStyle">
+        <item name="android:layout_marginLeft">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/sl_tv_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/sl_btn_margin_top</item>
+        <item name="android:textColor">@color/sl_btn_text_color</item>
+        <item name="android:text">@string/sl_btn_sign_up_text</item>
+        <item name="android:layout_height">@dimen/sl_btn_height</item>
+        <item name="android:textSize">@dimen/sl_button_text_size</item>
+        <item name="android:background">@drawable/selector_btn_go_registration</item>
+    </style>
+
+    <style name="SLivImageStyle">
+        <item name="android:layout_marginBottom">@dimen/sl_iv_margin_bottom</item>
+    </style>
+    <!-- end region -->
+
+
+</resources>
