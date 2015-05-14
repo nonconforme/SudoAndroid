@@ -114,6 +114,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
 
     }
+
     public void reloadList(List<LastChatsModel> chatsModelList) {
         mChatAdapter.reloadList(chatsModelList);
     }
@@ -148,6 +149,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         mChatAdapter.setSelection(selectionMode, selectionArray);
+        checkSelectionNotEmpty();
         if (!selectionMode) {
             startChatActivity(mLastChatsModel.get(position));
             Log.d("TAG", "]clicked");
@@ -163,13 +165,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         Log.d("TAG", "long - clicked");
         startSelectionMode();
         controlSelection(i, (View) view.getParent());
-        mChatAdapter.setSelection(selectionMode,selectionArray);
+        mChatAdapter.setSelection(selectionMode, selectionArray);
 
         return false;
     }
 
     private void startChatActivity(LastChatsModel chatModel) {
-//        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
+/*     ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());*/
     }
 
     private void startSelectionMode() {
@@ -180,14 +182,17 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void stopSelectionMode() {
         selectionMode = false;
     }
-    private void checkSelectionNotEmpty(){
+
+    private void checkSelectionNotEmpty() {
         boolean containsSelection = false;
-        for(int i = 0; i<selectionArray.length; i++){
-            if(selectionArray[i]){
-                containsSelection = true;
+        if (selectionArray != null) {
+            for (int i = 0; i < selectionArray.length; i++) {
+                if (selectionArray[i]) {
+                    containsSelection = true;
+                }
             }
         }
-        if(!containsSelection){
+        if (!containsSelection) {
             stopSelectionMode();
         }
     }
