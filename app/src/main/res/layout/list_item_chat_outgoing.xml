@@ -6,7 +6,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 style="@style/SChatItemLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+  >
 
     <FrameLayout
             style="@style/SChatTextFrame"
@@ -41,6 +42,7 @@
             style="@style/SChatItemEVAvatar"
             android:id="@+id/ivAvatar"
             android:layout_alignParentTop="true" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:layout_marginTop="10dp" android:layout_marginRight="7dp"/>
+            android:layout_alignParentEnd="true" android:layout_marginTop="10dp" android:layout_marginRight="7dp"
+        android:src="@drawable/ic_man_chat" />
 </RelativeLayout>
     </FrameLayout>

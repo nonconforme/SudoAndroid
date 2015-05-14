@@ -76,7 +76,6 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         loadUserModel();
         initComponent();
         loadContent();
-//        setDefaultColor();
         setContent();
         initTarget();
         setImages();
@@ -94,8 +93,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty()) {
             Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
             Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).into(mTarget);
+        } else {
+            setDefaultColor();
+            Picasso.with(this).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(ivAvatar);
         }
-        else Picasso.with(this).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(ivAvatar);
+
 
     }
 

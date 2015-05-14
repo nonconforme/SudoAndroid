@@ -5,7 +5,7 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:background="@drawable/selector_chatlist"
+              android:background="@android:color/transparent"
 
         >
 
@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/avatar"
-            android:longClickable="true"/>
+            android:longClickable="true"
+        android:src="@drawable/ic_man_chat" />
 
 
     <LinearLayout

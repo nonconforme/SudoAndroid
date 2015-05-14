@@ -53,7 +53,7 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public MessageModel getItem(int position) {
         return mListMessages.get(position);
     }
 
@@ -113,7 +113,9 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setAvatar(ImageView iv, int position) {
         iv.setTag(position);
-
+        if (getItem(position).getCompanion().getAvatar() == null){
+//            iv.setImageBitmap();
+        }
 
     }
 
