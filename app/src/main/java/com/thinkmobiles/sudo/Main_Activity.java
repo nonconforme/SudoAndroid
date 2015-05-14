@@ -395,6 +395,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
 
+
     private void setDrawerIcon(String countryISO) {
 
 
