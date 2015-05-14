@@ -51,30 +51,7 @@ public class Utils {
 
     }
 
-    public static void setAvatar(final Context context, final ImageView imageView, String imageUrl, final int pos) {
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    if ((int) imageView.getTag() != pos) {
-                        Picasso.with(context).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-                    }
-                }
 
-                @Override
-                public void onError() {
-                    Picasso.with(context).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-
-                }
-            });
-
-
-        } else {
-            Picasso.with(context).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
-
-        }
-
-    }
     public static boolean stringContains(String source, String toCheck) {
 
         return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());

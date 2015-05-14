@@ -38,21 +38,17 @@ public class ChatsListAdapter extends BaseAdapter {
     private List<LastChatsModel> mLastChatModel;
     private LayoutInflater mInflater;
     private Activity mActivity;
-    private CustomOnClickListener mItemOptionListeners;
+
 
 
     public ChatsListAdapter(Activity mActivity) {
         this.mActivity = mActivity;
         this.mLastChatModel = new ArrayList<>();
         mInflater = LayoutInflater.from(mActivity);
-        mItemOptionListeners = new CustomOnClickListener();
+
 
     }
 
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
 
     public void reloadList(List<LastChatsModel> chats) {
         this.mLastChatModel = chats;
@@ -82,8 +78,7 @@ public class ChatsListAdapter extends BaseAdapter {
         if (view == null) {
             view = mInflater.inflate(R.layout.list_item_chats, viewGroup, false);
             holder = initViewHolder(view);
-            holder.ivOptions.setOnClickListener(mItemOptionListeners);
-            holder.tvViewDetails.setOnClickListener(mItemOptionListeners);
+
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -104,18 +99,13 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.tvReceiverNumber.setText("To " + thisChat.getLastmessage().getCompanion().getNumber());
                 holder.tvItemTimedate.setText(Utils.stringToDate(thisChat.getLastmessage().getPostedDate()));
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
-
                 holder.ivAvatar.setTag(position);
-                Utils.setAvatar(mActivity, holder.ivAvatar, thisChat.getLastmessage().getOwner().getAvatar(), position);
+                holder.tvCompanion.setText("");
 
             }
 
 
         }
-        holder.ivReply.setVisibility(View.INVISIBLE);
-        holder.ivOptions.setTag(position);
-        holder.tvViewDetails.setTag(position);
-
 
         return view;
     }
@@ -126,50 +116,21 @@ public class ChatsListAdapter extends BaseAdapter {
         holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
         holder.tvReceiverNumber = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
         holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
-        holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
-        holder.tvViewDetails = (TextView) view.findViewById(R.id.tvChatItemViewDetails);
+        holder.tvItemTimedate = (TextView)  view.findViewById(R.id.tvChatItemTimedate);
+        holder.tvCompanion = (TextView) view.findViewById(R.id.tvChatCompanion);
+
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
-        holder.ivReply = (ImageView) view.findViewById(R.id.ivChatItemReply);
-        holder.ivOptions = (ImageView) view.findViewById(R.id.ivChatItemOptions);
-        return holder;
+
+         return holder;
 
     }
 
-
-
-
-    private void startChatActivity(LastChatsModel chatModel) {
-        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(),  chatModel.getLastmessage().getCompanion().getNumber());
-    }
-
-    private class CustomOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            int position = (int) view.getTag();
-
-            switch (view.getId()) {
-                case R.id.ivChatItemOptions:
-
-                    break;
-                case R.id.tvChatItemViewDetails:
-
-                    startChatActivity(mLastChatModel.get(position));
-
-
-                    break;
-            }
-
-        }
-    }
 
     private class ViewHolder {
-        ImageView ivAvatar, ivReply, ivOptions;
-        TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvViewDetails;
+        ImageView ivAvatar;
+        TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvCompanion;
 
     }
-
-
 
 
 }

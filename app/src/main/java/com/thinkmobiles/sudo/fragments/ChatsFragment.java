@@ -5,15 +5,18 @@ package com.thinkmobiles.sudo.fragments;
  */
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -31,7 +34,7 @@ import retrofit.client.Response;
 /**
  * Created by hp1 on 21-01-2015.
  */
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
 
     private Activity mActivity;
@@ -117,9 +120,11 @@ public class ChatsFragment extends Fragment {
 
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
-        lvChats.setDivider(null);
-        lvChats.setDividerHeight(0);
+        lvChats.setDivider(getResources().getDrawable(R.color.colorLine));
+        lvChats.setDividerHeight(1);
         lvChats.setAdapter(mChatAdapter);
+        lvChats.setOnItemClickListener(this);
+        lvChats.setOnItemLongClickListener(this);
     }
 
 
@@ -133,4 +138,16 @@ public class ChatsFragment extends Fragment {
         getLastChats();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        startChatActivity(mLastChatsModel.get(position));
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        return false;
+    }
+    private void startChatActivity(LastChatsModel chatModel) {
+        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
+    }
 }

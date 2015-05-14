@@ -100,7 +100,6 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setAvatar(ImageView iv, int position) {
         iv.setTag(position);
-        Utils.setAvatar(context, iv, mListMessages.get(position).getOwner().getAvatar(), position);
 
 
     }
