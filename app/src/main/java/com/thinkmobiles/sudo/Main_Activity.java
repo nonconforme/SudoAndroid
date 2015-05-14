@@ -29,6 +29,7 @@ import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
@@ -52,8 +53,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.SIGN_OUT_ACTION;
 import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 
-public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawerListener , ContactsFragmentCallback,
-        AdapterView.OnItemClickListener, View.OnClickListener {
+public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerListener, ContactsFragmentCallback, AdapterView.OnItemClickListener, View.OnClickListener {
 
     // Declaring Your View and Variables
 
@@ -75,7 +75,8 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private View mHeader;
     private DrawerPhoneListAdapter mDrawerPhoneListAdapter;
     private DrawerMenuAdapter mDrawerMenuAdapter;
-    ListView drawerListView;
+    private ListView drawerListView;
+    private MenuItem menuItemDelete;
     private UserModel selectedContact;
     private boolean showDrawer;
     private boolean showSearchView;
@@ -155,15 +156,30 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (!showDrawer) onBackPressed();
-            else {
-                if (mDrawer.isDrawerOpen()) {
-                    mDrawer.closeDrawer();
-                } else {
-                    mDrawer.openDrawer();
+            if (showTrachView) {
+                Intent trashIntent = new Intent(Constants.TRASH_INTENT);
+                trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
+                sendBroadcast(trashIntent);
 
+
+            } else {
+                if (!showDrawer) onBackPressed();
+                else {
+                    if (mDrawer.isDrawerOpen()) {
+                        mDrawer.closeDrawer();
+                    } else {
+                        mDrawer.openDrawer();
+
+                    }
                 }
             }
+        }
+        if (item.getItemId() == R.id.action_detele) {
+
+            Intent trashIntent = new Intent(Constants.TRASH_INTENT);
+            trashIntent.putExtra(Constants.FLAG, Constants.ACCEPT);
+            sendBroadcast(trashIntent);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -273,8 +289,6 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
 
-
-
     private void initDrawer() {
         initDrawerMenuList();
         mDrawerPhoneListAdapter = new DrawerPhoneListAdapter(this);
@@ -304,8 +318,6 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     }
 
 
-
-
     private void findHeaderUI() {
 
         ivAvatarDrawer = (ImageView) findViewById(R.id.ivAvatar_Drawer);
@@ -323,7 +335,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private void initSearchBar(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
-
+        menuItemDelete = menu.findItem(R.id.action_detele);
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
         searchManager = (SearchManager) Main_Activity.this.getSystemService(Context.SEARCH_SERVICE);
@@ -394,15 +406,20 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         if (showSearchView) searchItem.setVisible(true);
         else searchItem.setVisible(false);
 
-        /*MenuItem delete = menu.findItem(R.id.action_delete);*/
+        if (showTrachView) {
+              menuItemDelete.setVisible(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_clear_mtrl_alpha);
 
+        } else{ menuItemDelete.setVisible(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);}
         return super.onPrepareOptionsPanel(view, menu);
     }
+
+
 
     public void enableSearchView(boolean show) {
         showSearchView = show;
     }
-
 
 
     private void setDrawerIcon(String countryISO) {
@@ -445,7 +462,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
             view.setBackgroundColor(Color.LTGRAY);
             mDrawer.closeDrawer();
         } else {
-            if (pos > 0){
+            if (pos > 0) {
                 App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
                 setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
                 App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
@@ -455,7 +472,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
                 setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
                 App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
             }
-           sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+            sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
             sToolbarManager.setToolbarIcon(App.getCurrentISO());
             setBaseTitle();
             onClick(new View(this));

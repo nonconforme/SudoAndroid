@@ -8,7 +8,7 @@
             app:actionViewClass="android.support.v7.widget.SearchView"
             android:title="@string/menu_search"/>
     <item android:id="@+id/action_detele"
-          android:icon="@drawable/ic_launcher"
+          android:icon="@drawable/ic_action_discard"
           android:title=""
           app:showAsAction="always"
             />

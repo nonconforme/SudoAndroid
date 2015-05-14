@@ -63,4 +63,7 @@ public class MainToolbarManager extends ToolbarManager {
             mMain_Activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
+    public void reloadOptionsMenu(){
+        mMain_Activity.invalidateOptionsMenu();
+    }
 }

@@ -151,6 +151,7 @@ public class ChatsListAdapter extends BaseAdapter {
         }
         else{
             imageView.setImageResource(R.drawable.ic_man_chat);
+            container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_default));
         }
 
     }

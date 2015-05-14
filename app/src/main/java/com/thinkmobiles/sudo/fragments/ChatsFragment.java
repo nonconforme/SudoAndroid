@@ -5,8 +5,14 @@ package com.thinkmobiles.sudo.fragments;
  */
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -17,8 +23,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -39,7 +47,8 @@ import retrofit.client.Response;
 public class ChatsFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
 
-    private Activity mActivity;
+    private Main_Activity mActivity;
+    private MainToolbarManager mainToolbarManager;
     private ListView lvChats;
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter mChatAdapter;
@@ -48,7 +57,33 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private AdapterView.OnItemSelectedListener selectItemsListener;
     private boolean selectionMode = false;
     private boolean[] selectionArray;
-    private boolean longCLickFlag = false;
+
+    private BroadcastReceiver trashBroadcastReciever = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String flag = intent.getStringExtra(Constants.FLAG);
+            if (flag.equalsIgnoreCase(Constants.ACCEPT)) {
+                deleteChats();
+            }
+            stopSelectionMode();
+
+        }
+
+
+    };
+
+    @Override
+    public void onPause() {
+        selectionMode = false;
+        try {
+            mActivity.unregisterReceiver(trashBroadcastReciever);
+        } catch (Exception e) {
+        }
+
+        super.onPause();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +129,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+        mActivity = (Main_Activity) activity;
 
     }
 
@@ -149,14 +184,15 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        mChatAdapter.setSelection(selectionMode, selectionArray);
-        checkSelectionNotEmpty();
+
         Log.d("TAG", "clicked");
         if (!selectionMode) {
             startChatActivity(mLastChatsModel.get(position), view);
 
         } else {
             controlSelection(position);
+            mChatAdapter.setSelection(selectionMode, selectionArray);
+            checkSelectionNotEmpty();
         }
 
 
@@ -181,10 +217,24 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void startSelectionMode() {
         selectionArray = new boolean[mLastChatsModel.size()];
         selectionMode = true;
+        mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
+        mainToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
+        mainToolbarManager.enableSearchView(false);
+        mainToolbarManager.enableTrachView(true);
+        mainToolbarManager.reloadOptionsMenu();
     }
 
     private void stopSelectionMode() {
         selectionMode = false;
+        try {
+            mActivity.unregisterReceiver(trashBroadcastReciever);
+        } catch (Exception e) {
+        }
+        mainToolbarManager.enableSearchView(true);
+        mainToolbarManager.enableTrachView(false);
+        mainToolbarManager.reloadOptionsMenu();
+        mChatAdapter.setSelection(selectionMode, selectionArray);
+        mChatAdapter.notifyDataSetChanged();
     }
 
     private void checkSelectionNotEmpty() {
