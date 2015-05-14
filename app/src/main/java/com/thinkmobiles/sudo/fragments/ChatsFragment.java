@@ -149,7 +149,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         mChatAdapter.setSelection(selectionMode, selectionArray);
         if (!selectionMode) {
-            startChatActivity(mLastChatsModel.get(position));
+            startChatActivity(mLastChatsModel.get(position), view);
             Log.d("TAG", "]clicked");
         } else {
             controlSelection(position, view);
@@ -168,8 +168,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         return false;
     }
 
-    private void startChatActivity(LastChatsModel chatModel) {
-//        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
+    private void startChatActivity(LastChatsModel chatModel, final View view) {
+        int[] startingLocation = new int[2];
+        view.getLocationOnScreen(startingLocation);
+        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber(), startingLocation);
     }
 
     private void startSelectionMode() {

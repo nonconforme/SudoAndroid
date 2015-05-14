@@ -173,20 +173,20 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
                 @Override
                 public void onSuccess() {
                   if ( (int)imageView.getTag() != pos){
-                      Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+                      Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
                   }
                 }
 
                 @Override
                 public void onError() {
-                    Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+                    Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
 
                 }
             });
 
 
         } else {
-            Picasso.with(mActivity).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+            Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
 
         }
 

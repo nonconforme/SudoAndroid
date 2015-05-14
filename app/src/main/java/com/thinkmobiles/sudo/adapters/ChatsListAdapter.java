@@ -151,14 +151,14 @@ public class ChatsListAdapter extends BaseAdapter {
                 imageView.setImageResource(R.drawable.ic_ua_ukraine);
             }
             else{
-                imageView.setImageResource(R.drawable.ic_launcher);
+                imageView.setImageResource(R.drawable.ic_man_chat);
 
             }
 
 
         }
         else{
-            imageView.setImageResource(R.drawable.ic_launcher);
+            imageView.setImageResource(R.drawable.ic_man_chat);
         }
         notifyDataSetChanged();
     }

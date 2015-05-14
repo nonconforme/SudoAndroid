@@ -57,7 +57,6 @@
 
 
     <style name="SChatItemEVAvatar">
-        <item name="android:background">@drawable/ic_launcher</item>
         <item name="android:layout_width">@dimen/schats_avatar_size</item>
         <item name="android:layout_height">@dimen/schats_avatar_size</item>
 
