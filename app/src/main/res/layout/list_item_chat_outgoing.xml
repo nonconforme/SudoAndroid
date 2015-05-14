@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rlChatMain_LICO"
+    android:layout_height="wrap_content">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 style="@style/SChatItemLayout"
                 android:layout_width="wrap_content"
@@ -39,3 +43,4 @@
             android:layout_alignParentTop="true" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:layout_marginTop="10dp" android:layout_marginRight="7dp"/>
 </RelativeLayout>
+    </FrameLayout>

@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
@@ -138,8 +139,11 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
 
-    private void startChatActivity(LastChatsModel chatModel) {
-        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(),  chatModel.getLastmessage().getCompanion().getNumber());
+    private void startChatActivity(LastChatsModel chatModel, View view) {
+        int[] startingLocation = new int[2];
+        view.getLocationOnScreen(startingLocation);
+        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(),  chatModel.getLastmessage().getCompanion().getNumber(), startingLocation);
+
     }
 
     private class CustomOnClickListener implements View.OnClickListener {
@@ -153,10 +157,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
                     break;
                 case R.id.tvChatItemViewDetails:
-
-                    startChatActivity(mLastChatModel.get(position));
-
-
+                    startChatActivity(mLastChatModel.get(position), view);
                     break;
             }
 

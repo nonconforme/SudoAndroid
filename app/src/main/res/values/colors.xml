@@ -5,7 +5,9 @@
     <color name="colorPrimaryDark">#ff0a8145</color>
     <color name="tabsScrollColor">#ff0f7e46</color>
 
-    <color name="colorBtnAddFriend">#FFAB00</color>
+    <color name="colorAddFriend">#FFAB00</color>
+    <color name="colorAddFriendAlpha">#FFECB3</color>
+    <color name="colorAddFriendDark">#F57C00</color>
     <color name="colorAddFriendPressed">#FFD600</color>
     <color name="colorWhite">#fafafa</color>
     <color name="color_hint">#d2c0cfc2</color>

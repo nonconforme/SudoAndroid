@@ -1,17 +1,20 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,12 +69,14 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setEnterTransition( new Explode() );
-        getWindow().setExitTransition( new Explode() );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setEnterTransition(new Explode());
+            getWindow().setExitTransition(new Explode());
+        }
         loadUserModel();
         initComponent();
         loadContent();
-        setDefaultColor();
+//        setDefaultColor();
         setContent();
         initTarget();
         setImages();
@@ -174,7 +179,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     private void changeViewColor(final Bitmap _bitmap ) {
         Palette palette = Palette.generate(_bitmap);
-        final int initialColor      = getResources().getColor(R.color.primary_material_dark);
+        final int initialColor      = getResources().getColor(R.color.colorWhite);
         final int finalColor        = palette.getVibrantColor(getResources().getColor(R.color.colorPrimary));
         final int stausBarColor     = palette.getDarkVibrantColor(getResources().getColor(R.color.colorPrimaryDark));
         mUserModel.setColor(new ColorModel(finalColor, stausBarColor));
@@ -189,12 +194,12 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
                 // Use animation position to blend colors.
                 float position = animation.getAnimatedFraction();
                 int ImageBlended = blendColors(initialColor, finalColor, position);
-                int mainBlended = blendColors(initialColor, finalColor, position);
+//                int mainBlended = blendColors(initialColor, finalColor, position);
 
                 // Apply blended color to the view.
                 rlImage.setBackgroundColor(ImageBlended);
-                llMain.setBackgroundColor(mainBlended);
-                llMain.getBackground().setAlpha(60);
+//                llMain.setBackgroundColor(mainBlended);
+//                llMain.getBackground().setAlpha(60);
             }
         });
 
@@ -245,7 +250,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String companionNumber = mNumberList.get(i).getNumber();
-        ChatActivity.launch(this, App.getCurrentMobile(),companionNumber);
+        int[] startingLocation = new int[2];
+        view.getLocationOnScreen(startingLocation);
+        ChatActivity.launch(this, App.getCurrentMobile(),companionNumber,  startingLocation);
     }
 
     @Override

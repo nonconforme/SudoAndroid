@@ -1,9 +1,12 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -34,10 +37,11 @@ import java.util.List;
 abstract public class BaseProfileEditActivity extends BaseProfileActivity implements View.OnClickListener {
 
     private EditText etUserFirstName;
-    private ImageView ivChangeAvatar;
+    protected ImageView ivChangeAvatar;
     private Button btnChangeAvatar ;
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter mAdapter;
+    protected View rootView;
 
     private Bitmap mCurrentPhoto;
 
@@ -54,14 +58,17 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     @Override
     protected int getLayoutResource() {
+
         return R.layout.activity_edit_profile;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initComponent();
+        rootView  = getLayoutInflater().inflate(getLayoutResource(), null);
+        setContentView(rootView);
 
+        initComponent();
         setOnClickListener();
 
     }
@@ -71,6 +78,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     }
 
+
     protected void setContent() {
         if (Utils.checkString(firstName)) {
             etUserFirstName.setText(firstName);
@@ -78,7 +86,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         if (mUserModel.getColor() != null) {
             setStatusBarColor(mUserModel.getColor().getDarkColor());
-            getToolbar().setBackgroundDrawable(new ColorDrawable(mUserModel.getColor().getMainColor()));
+            String  color = "#" + Integer.toHexString( mUserModel.getColor().getMainColor()).substring(2);
+            getToolbar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         }
         if (Utils.checkList(myNumberList)) {
             mAdapter.reloadList(myNumberList);
@@ -304,5 +313,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         mAdapter.reloadList(myNumberList);
     }
 
+
+   protected void setNullAnim(){
+
+    }
 }
 

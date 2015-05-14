@@ -1,16 +1,23 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -43,11 +50,13 @@ import retrofit.client.Response;
  * Created by omar on 28.04.15.
  */
 public class ChatActivity extends ActionBarActivity {
+    public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView lvChatList;
     private EditText etMessage;
     private Button btnSend;
     private String message;
+    private RelativeLayout contentRoot, rlAddComment;
     private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
@@ -57,6 +66,8 @@ public class ChatActivity extends ActionBarActivity {
     private String mOwnerNumber;
     private String mCompanionNumber;
     private Socket mSocket;
+    private int drawingStartLocation;
+
 
     {
         try {
@@ -84,8 +95,21 @@ public class ChatActivity extends ActionBarActivity {
         initSendMessageCB();
         getMessages();
         initSocked();
-        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
+//        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
+
+
+        drawingStartLocation = getIntent().getIntExtra(ARG_DRAWING_START_LOCATION, 0);
+        if (savedInstanceState == null) {
+            contentRoot.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    contentRoot.getViewTreeObserver().removeOnPreDrawListener(this);
+                    startIntroAnimation();
+                    return true;
+                }
+            });
+        }
 
         mSocket.connect();
     }
@@ -161,6 +185,7 @@ public class ChatActivity extends ActionBarActivity {
                 if (messageModel.size() > 0) {
                     mFirstMessageModel = messageModel.get(0);
                     mListAdapter.reloadContent(messageModel, mOwnerNumber);
+                    animateContent();
 
                 }
 
@@ -175,14 +200,25 @@ public class ChatActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
+        contentRoot.animate()
+                .translationY(Utils.getScreenHeight(this))
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        finish();
+                        overridePendingTransition(0, 0);
+                    }
+                })
+                .start();
     }
 
 
     private void initComponents() {
         setContentView(R.layout.activity_chat);
         lvChatList = (ListView) findViewById(R.id.lvChatList);
+        contentRoot = (RelativeLayout) findViewById(R.id.rlMain_AC);
+        rlAddComment = (RelativeLayout) findViewById(R.id.rlAddComment_AC);
         lvChatList.setDivider(null);
         lvChatList.setDividerHeight(0);
         etMessage = (EditText) findViewById(R.id.etMessage);
@@ -202,7 +238,6 @@ public class ChatActivity extends ActionBarActivity {
     private void loadChat() {
         mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
         mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
-
     }
 
 
@@ -231,9 +266,9 @@ public class ChatActivity extends ActionBarActivity {
         mSendMessageModel.setBody(_message);
     }
 
-    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber) {
-
-        Intent intent = new Intent(activity, ChatActivity.class);
+    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber, int[] _startingLocation) {
+        final Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra(ChatActivity.ARG_DRAWING_START_LOCATION, _startingLocation[1]);
         Bundle b = new Bundle();
         if (ContactManager.isMyNumber(_ownerNumber)) {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
@@ -244,6 +279,7 @@ public class ChatActivity extends ActionBarActivity {
         }
         intent.putExtra(BUNDLE, b);
         activity.startActivity(intent);
+        activity.overridePendingTransition(0, 0);
 
     }
 
@@ -278,5 +314,30 @@ public class ChatActivity extends ActionBarActivity {
         return companionModel;
     }
 
+
+    private void startIntroAnimation() {
+        ViewCompat.setElevation(toolbar, 0);
+        contentRoot.setScaleY(0.1f);
+        contentRoot.setPivotY(drawingStartLocation);
+        rlAddComment.setTranslationY(200);
+
+        contentRoot.animate()
+                .scaleY(1)
+                .setDuration(200)
+                .setInterpolator(new AccelerateInterpolator())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
+                    }
+                })
+                .start();
+    }
+    private void animateContent() {
+        rlAddComment.animate().translationY(0)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(200)
+                .start();
+    }
 
 }

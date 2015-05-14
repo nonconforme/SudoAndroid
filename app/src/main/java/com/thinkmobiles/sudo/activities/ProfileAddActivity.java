@@ -1,28 +1,26 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.transition.Explode;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.custom_views.RevealBackgroundView;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
-import com.thinkmobiles.sudo.utils.TypedJsonString;
+import com.thinkmobiles.sudo.utils.Utils;
 
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -30,9 +28,11 @@ import retrofit.client.Response;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileAddActivity extends BaseProfileEditActivity {
+public class ProfileAddActivity extends BaseProfileEditActivity implements RevealBackgroundView.OnStateChangeListener {
+    public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
 
-
+    private RevealBackgroundView vRevealBackground;
+    private RelativeLayout rlMain;
     private Callback<DefaultResponseModel> mAddContactCB;
 
     @Override
@@ -43,45 +43,77 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setEnterTransition( new Explode() );
-        getWindow().setExitTransition( new Explode() );;
         mUserModel = new UserModel();
         initAddContactCB();
-        getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(R.string.add_profile, 0);
-        ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        findUI();
         addNewNumber();
-//        RevealFrameLayout myView = (RevealFrameLayout) findViewById(R.id.awesome_card);
-//
-//        // get the center for the clipping circle
-//        int cx = (myView.getLeft() + myView.getRight()) / 2;
-//        int cy = (myView.getTop() + myView.getBottom()) / 2;
-//
-//        // get the final radius for the clipping circle
-//        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-//
-//        SupportAnimator animator =
-//                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-//        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-//        animator.setDuration(1500);
-//        animator.start();
+        setupRevealBackground(savedInstanceState);
 
     }
 
+    public static void startCameraFromLocation(int[] startingLocation, Activity startingActivity) {
+        Intent intent = new Intent(startingActivity, ProfileAddActivity.class);
+        intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
+        startingActivity.startActivity(intent);
+    }
+
+    private void findUI(){
+        vRevealBackground = (RevealBackgroundView) findViewById(R.id.rlTest);
+        rlMain = (RelativeLayout) findViewById(R.id.rlMain);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void setupRevealBackground(Bundle savedInstanceState) {
+        vRevealBackground.setFillPaintColor(getResources().getColor(R.color.colorAddFriend));
+        vRevealBackground.setOnStateChangeListener(this);
+        if (savedInstanceState == null) {
+            final int[] startingLocation = getIntent().getIntArrayExtra(ARG_REVEAL_START_LOCATION);
+            vRevealBackground.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    vRevealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
+                    vRevealBackground.startFromLocation(startingLocation);
+                    return true;
+                }
+
+            });
+        } else {
+            vRevealBackground.setToFinishedFrame();
+        }
+    }
+
+
+
     @Override
     protected void returnEditedProfile() {
-            addProfile(mUserModel);
-            onBackPressed();
+        addProfile(mUserModel);
+        onBackPressed();
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        ViewCompat.setElevation(getToolbar(), 0);
+        rlMain.animate()
+                .translationY(Utils.getScreenHeight(this))
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        finish();
+                        overridePendingTransition(0, 0);
+                    }
+                })
+                .start();
+
     }
 
 
     private void addProfile(final UserModel _userModel) {
-
         RetrofitAdapter.getInterface().addContact(JsonHelper.makeJson(_userModel), mAddContactCB);
     }
 
@@ -97,5 +129,21 @@ public class ProfileAddActivity extends BaseProfileEditActivity {
         };
     }
 
+    @Override
+    public void onStateChange(int state) {
+        if (RevealBackgroundView.STATE_FINISHED == state) {
+            rlMain.setVisibility(View.VISIBLE);
+            rlMain.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+            initToolBar();
+        } else {
+            rlMain.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initToolBar(){
+        ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorAddFriend));
+        setStatusBarColor(getResources().getColor(R.color.colorAddFriendDark));
+        setTitle(getResources().getString(R.string.add_profile));
+    }
 }
 

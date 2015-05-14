@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -140,8 +143,21 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void addFriendActivity() {
-        Intent intent = new Intent(mActivity, ProfileAddActivity.class);
-        startActivity(intent);
+//        int[] startingLocation = new int[2];
+//        mBTNAddFriend.getLocationOnScreen(startingLocation);
+//        startingLocation[0] += mBTNAddFriend.getWidth() / 2;
+//        ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
+//        mActivity.overridePendingTransition(0, 0);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+                int[] startingLocation = new int[2];
+                mBTNAddFriend.getLocationOnScreen(startingLocation);
+                startingLocation[0] += mBTNAddFriend.getWidth() / 2;
+                ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
+                mActivity.overridePendingTransition(0, 0);
+//            }
+//        }, 200);
     }
 
     @Override

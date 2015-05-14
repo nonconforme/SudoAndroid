@@ -2,6 +2,8 @@ package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.thinkmobiles.sudo.R;
@@ -34,13 +36,13 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
         loadUserModel();
         loadContent();
         setDefaultColor();
         setContent();
         initUpdateContactCB();
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
-        ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
 
     }
 

@@ -4,6 +4,7 @@
     <style name="AppTheme"  parent="Theme.AppCompat.Light">
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
+
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:windowContentTransitions">true</item>
@@ -23,6 +24,11 @@
         <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
         <item name="android:windowFullscreen">false</item> <!-- Hides the status bar -->
 
+    </style>
+
+    <style name="AppTheme.TransparentActivity">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="TextAppearance.Sudo.FloatLabel" parent="android:TextAppearance.Small">
