@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.*;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import com.gc.materialdesign.views.Switch;
+ import com.gc.materialdesign.views.CheckBox;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
@@ -113,9 +112,16 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
             holder = (ChildViewHolder) view.getTag();
         }
 
-        holder.checkBox.setTag(new int[]{g, c});
+        /*holder.checkBox.setTag(new int[]{g, c});*/
+
         holder.checkBox.setChecked(contacts.get(g).getNumbers().get(c).isBlocked());
-        holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        holder.checkBox.setOncheckListener(new CheckBox.OnCheckListener() {
+            @Override
+            public void onCheck(boolean b) {
+                contacts.get(g).getNumbers().get(c).setBlocked(b);
+            }
+        });
+  /*      holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 int[] tag = (int[]) compoundButton.getTag();
@@ -126,7 +132,7 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
                     contacts.get(g).getNumbers().get(c).setBlocked(b);
                  }
             }
-        });
+        });*/
 
 
         holder.tvNumber.setText(contacts.get(g).getNumbers().get(c).getNumber());
@@ -180,6 +186,7 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
         }
 
     }
+
 
 
 }
