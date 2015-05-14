@@ -45,6 +45,10 @@ public class MainToolbarManager extends ToolbarManager {
 
     }
 
+    public void enableTrachView(boolean show){
+        mMain_Activity.enableTrashView(show);
+    }
+
 
     public void setProgressBarVisible(boolean _visible) {
         mMain_Activity.setProgressBarVisible(_visible);

@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
@@ -39,6 +38,8 @@ public class ChatsListAdapter extends BaseAdapter {
     private List<LastChatsModel> mLastChatModel;
     private LayoutInflater mInflater;
     private Activity mActivity;
+    private boolean selectionMode = false;
+    private boolean[] selectionArray;
  
 
 
@@ -103,7 +104,8 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
                 holder.tvCompanion.setText("");
-
+                holder.ivAvatar.setTag(position);
+                setAvatarSelectionState( holder.ivAvatar, position);
             }
 
 
@@ -123,6 +125,7 @@ public class ChatsListAdapter extends BaseAdapter {
 
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
 
+
          return holder;
 
     }
@@ -136,5 +139,27 @@ public class ChatsListAdapter extends BaseAdapter {
 
 
 
+    public void setSelection(boolean    selectionMode, boolean [] selectionArray){
+        this.selectionMode = selectionMode;
+        this.selectionArray = selectionArray;
+    }
 
+    public void setAvatarSelectionState(ImageView imageView, int position){
+        if(selectionMode == true){
+
+            if (selectionArray[position] && (int)imageView.getTag() == position) {
+                imageView.setImageResource(R.drawable.ic_ua_ukraine);
+            }
+            else{
+                imageView.setImageResource(R.drawable.ic_launcher);
+
+            }
+
+
+        }
+        else{
+            imageView.setImageResource(R.drawable.ic_launcher);
+        }
+        notifyDataSetChanged();
+    }
 }

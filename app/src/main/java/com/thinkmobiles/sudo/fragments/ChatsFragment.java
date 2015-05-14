@@ -43,6 +43,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mLastChatsModel;
 
+    private AdapterView.OnItemSelectedListener selectItemsListener;
+    private boolean selectionMode = false;
+    private boolean[] selectionArray;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
@@ -59,6 +63,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -73,7 +78,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
                 mLastChatsModel = lastChatsModel;
                 reloadList(mLastChatsModel);
-             }
+            }
 
             @Override
             public void failure(RetrofitError error) {
@@ -96,11 +101,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         List<LastChatsModel> tempContactsArrayList = new ArrayList<>();
         if (mLastChatsModel != null) {
             for (LastChatsModel tempModel : mLastChatsModel) {
-                if (Utils.stringContains(tempModel.getLastmessage().getCompanion().getNumber(), querry)) tempContactsArrayList
-                        .add(tempModel);
+                if (Utils.stringContains(tempModel.getLastmessage().getCompanion().getNumber(), querry))
+                    tempContactsArrayList.add(tempModel);
                 else if (Utils.stringContains(tempModel.getLastmessage().getOwner().getNumber(), querry))
-                tempContactsArrayList
-                        .add(tempModel);
+                    tempContactsArrayList.add(tempModel);
 
             }
             reloadList(tempContactsArrayList);
@@ -120,12 +124,18 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         lvChats.setAdapter(mChatAdapter);
         lvChats.setOnItemClickListener(this);
         lvChats.setOnItemLongClickListener(this);
+
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
     }
 
 
-
-
-    private void getLastChats(){
+    private void getLastChats() {
         RetrofitAdapter.getInterface().getLastChats(mLastChatsCB);
     }
 
@@ -135,14 +145,63 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        startChatActivity(mLastChatsModel.get(position));
+        mChatAdapter.setSelection(selectionMode,selectionArray);
+        if (!selectionMode) {
+            startChatActivity(mLastChatsModel.get(position));
+            Log.d("TAG", "]clicked");
+        } else {
+            controlSelection(position, view);
+        }
+
+
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d("TAG", "long - clicked");
+        startSelectionMode();
+        controlSelection(i, (View) view.getParent());
+        mChatAdapter.setSelection(selectionMode,selectionArray);
+
         return false;
     }
+
     private void startChatActivity(LastChatsModel chatModel) {
         ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber());
     }
+
+    private void startSelectionMode() {
+        selectionArray = new boolean[mLastChatsModel.size()];
+        selectionMode = true;
+    }
+
+    private void stopSelectionMode() {
+        selectionMode = false;
+    }
+    private void checkSelectionNotEmpty(){
+        boolean containsSelection = false;
+        for(int i = 0; i<selectionArray.length; i++){
+            if(selectionArray[i]){
+                containsSelection = true;
+            }
+        }
+        if(!containsSelection){
+            stopSelectionMode();
+        }
+    }
+
+    private void controlSelection(int position, View view) {
+        selectionArray[position] = !selectionArray[position];
+        if (selectionArray[position]) {
+            view.setBackgroundResource(R.drawable.bg_chats_item_long_pressed);
+        } else {
+            view.setBackgroundResource(R.drawable.bg_chats_item_default);
+
+        }
+    }
+
+    private void deleteChats() {
+        Toast.makeText(mActivity, "detele chats", Toast.LENGTH_SHORT).show();
+    }
+
 }

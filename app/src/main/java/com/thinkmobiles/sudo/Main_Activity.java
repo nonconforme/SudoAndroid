@@ -78,6 +78,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private UserModel selectedContact;
     private boolean showDrawer;
     private boolean showSearchView;
+    private boolean showTrachView = false;
     private boolean showListDrawer = false;
 
     private List<DrawerMenuItemModel> mDrawerMenuList;
@@ -459,5 +460,9 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
 
         }
 
+    }
+
+    public void enableTrashView(boolean show) {
+        showTrachView = show;
     }
 }
