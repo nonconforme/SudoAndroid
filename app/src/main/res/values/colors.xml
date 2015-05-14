@@ -4,6 +4,7 @@
     <color name="loginPrimary">#ff0d7e40</color>
     <color name="colorPrimaryDark">#ff0a8145</color>
     <color name="tabsScrollColor">#ff0f7e46</color>
+    <color name="ss">@color/abc_background_cache_hint_selector_material_light</color>
 
     <color name="colorAddFriend">#FFAB00</color>
     <color name="colorAddFriendAlpha">#FFECB3</color>

@@ -99,9 +99,13 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         initSignOutCB();
 
     }
-private void setHeaderContent(){
-    setBaseTitle();
-    setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());}
+
+    private void setHeaderContent() {
+        setBaseTitle();
+        setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+        App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+        sToolbarManager.setToolbarIcon(App.getCurrentISO());
+    }
 
     @Override
     protected void onResume() {
@@ -247,8 +251,8 @@ private void setHeaderContent(){
 
     private void setBaseTitle() {
 
-            mTitle = App.getCurrentMobile();
-            tvName.setText(mTitle);
+        mTitle = App.getCurrentMobile();
+        tvName.setText(mTitle);
     }
 
     private void initDrawerMenuList() {
@@ -257,7 +261,7 @@ private void setHeaderContent(){
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_get_number, " ", R.drawable.ic_get_number));
 
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_recharge_credits, App.currentCredits, R.drawable.ic_recharge_credits));
-        mDrawerMenuList.add(new DrawerMenuItemModel(0, "",0));
+        mDrawerMenuList.add(new DrawerMenuItemModel(0, "", 0));
 
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_settings, "", R.drawable.ic_settings));
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_sign_out, "", R.drawable.ic_sign_out));
@@ -394,10 +398,15 @@ private void setHeaderContent(){
     }
 
 
+    private void setDrawerIcon(String countryISO) {
 
 
-    private void setDrawerCountry(String countryISO) {
-        ivAvatarDrawer.setImageResource(R.drawable.ic_launcher);
+        setCountryByIso(this, ivAvatarDrawer, countryISO, 100);
+
+    }
+
+    private void setToolbarIcon() {
+        sToolbarManager.setToolbarIcon(App.getCurrentISO());
     }
 
     @Override
@@ -432,11 +441,17 @@ private void setHeaderContent(){
             if (pos > 0){
                 App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
                 setDrawerCountry(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+                setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+                App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+
             } else {
                 App.setCurrentMobile(ContactManager.getNumbers().get(0).getNumber());
                 setDrawerCountry(ContactManager.getNumbers().get(0).getCountryIso());
+                setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+                App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
             }
-            sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+           sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+            sToolbarManager.setToolbarIcon(App.getCurrentISO());
             setBaseTitle();
             onClick(new View(this));
 

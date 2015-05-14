@@ -15,7 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.MainToolbarManager;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.BlockNumberActivity;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{

@@ -9,7 +9,7 @@
             android:id="@+id/ivCountry_Drawer"
             style="@style/SNivCountryStyle"
             android:src="@drawable/ic_launcher"
-         />
+            android:layout_width="wrap_content" android:paddingLeft="20dp"  />
 
     <TextView
             android:id="@+id/tvNumber_Drawer"

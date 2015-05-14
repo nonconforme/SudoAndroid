@@ -1,10 +1,13 @@
 package com.thinkmobiles.sudo.adapters;
 
+import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
@@ -20,6 +23,7 @@ public class BuyNumbersAdapter extends BaseAdapter {
     private Context mContext;
     private List<NumberPackages> mListNumberPackages;
     private LayoutInflater inflater;
+    private String countryISO;
 
 
     public BuyNumbersAdapter(Context _context) {
@@ -54,12 +58,14 @@ public class BuyNumbersAdapter extends BaseAdapter {
 
             viewHolder = new ViewHolder();
             viewHolder.tvInfo = (TextView) view.findViewById(R.id.tvInfo_FN);
-
+            viewHolder.ivCountry = (ImageView) view.findViewById(R.id.ivCountry_FN);
 
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
+        setCountryByIso(mContext, viewHolder.ivCountry, countryISO, 100);
 
 
         viewHolder.tvInfo.setText(mListNumberPackages.get(position).getPackageName() + " - " + mListNumberPackages.get(position).getPrice() + " credits");
@@ -68,13 +74,16 @@ public class BuyNumbersAdapter extends BaseAdapter {
         return view;
     }
 
-    public void reloadList(List<NumberPackages> _listCountries) {
+    public void reloadList(List<NumberPackages> _listCountries, String countryISO) {
         this.mListNumberPackages = _listCountries;
+        this.countryISO = countryISO;
         notifyDataSetChanged();
     }
 
     static class ViewHolder {
         public TextView tvInfo;
+        public ImageView ivCountry;
+
 
 
     }

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.MainToolbarManager;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.fragments.AvailableCreditsFragment;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 

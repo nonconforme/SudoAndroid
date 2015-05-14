@@ -14,6 +14,7 @@ public class App extends Application {
     private static UserModel currentUser;
     public static String currentCredits;
     public static String currentContacts;
+    private static String currentISO;
 
     public static UserModel getCurrentUser() {
         return currentUser;
@@ -55,5 +56,13 @@ public class App extends Application {
 
     public static void setCurrentContacts(String currentContacts) {
         App.currentContacts = currentContacts;
+    }
+
+    public static String getCurrentISO() {
+        return currentISO;
+    }
+
+    public static void setCurrentISO(String currentISO) {
+        App.currentISO = currentISO;
     }
 }

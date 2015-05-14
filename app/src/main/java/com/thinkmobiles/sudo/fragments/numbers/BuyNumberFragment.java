@@ -16,7 +16,7 @@ import com.thinkmobiles.sudo.adapters.BuyNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.models.DefaultResponseModel;
+
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
 
 import java.util.List;
@@ -118,7 +118,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
     }
 
     private void setContent() {
-        mBuyNumbersAdapter.reloadList(mList);
+        mBuyNumbersAdapter.reloadList(mList, mCountryIso);
     }
 
 

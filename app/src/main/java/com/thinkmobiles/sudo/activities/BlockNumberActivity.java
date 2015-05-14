@@ -1,24 +1,24 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.ToolbarManager;
-import com.thinkmobiles.sudo.adapters.BlockNumberAdapter;
-import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
+import android.view.View;
+import android.widget.*;
+ import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.adapters.*;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.List;
 
@@ -26,12 +26,13 @@ import java.util.List;
  * Created by omar on 13.05.15.
  */
 public class BlockNumberActivity extends ActionBarActivity {
-    public List<UserModel>  mContactsList;
-    private BlockNumberAdapter mStickyListAdapter;
+    public List<UserModel> mContactsList;
 
     private Callback<List<UserModel>> mContactsCB;
-    private StickyListHeadersListView stickyList;
+    private BlockNumberExpandableAdapter adapter;
+    private ExpandableListView listView;
     private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +51,11 @@ public class BlockNumberActivity extends ActionBarActivity {
 
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -92,28 +94,44 @@ public class BlockNumberActivity extends ActionBarActivity {
         };
     }
 
-    private void setListener() {
 
-    }
 
     private void initList() {
-        stickyList.setDivider(null);
-        stickyList.setDividerHeight(0);
+        listView.setDivider(null);
+        listView.setDividerHeight(0);
 
 
-        mStickyListAdapter = new BlockNumberAdapter(this);
-        stickyList.setAdapter(mStickyListAdapter);
+        adapter = new BlockNumberExpandableAdapter(this);
+        listView.setAdapter(adapter);
+        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                return false;
+            }
+        });
+
+
     }
+
 
 
     private void findUI() {
-        stickyList = (StickyListHeadersListView)findViewById(R.id.slContacts_ABN);
+        listView = (ExpandableListView) findViewById(R.id.slContacts_ABN);
+
+
+
+
     }
+
     public void reloadList(List<UserModel> contacts) {
 
-        mStickyListAdapter.reloadList(contacts);
+        adapter.reloadList(contacts);
     }
+
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
     }
+
+
 }
