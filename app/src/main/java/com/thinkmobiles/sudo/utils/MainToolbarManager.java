@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.App;
 
 
 /**
@@ -45,7 +46,7 @@ public class MainToolbarManager extends ToolbarManager {
 
     }
 
-    public void enableTrachView(boolean show){
+    public void enableTrashView(boolean show){
         mMain_Activity.enableTrashView(show);
     }
 
@@ -65,5 +66,6 @@ public class MainToolbarManager extends ToolbarManager {
     }
     public void reloadOptionsMenu(){
         mMain_Activity.invalidateOptionsMenu();
+        setToolbarIcon(App.getCurrentISO());
     }
 }

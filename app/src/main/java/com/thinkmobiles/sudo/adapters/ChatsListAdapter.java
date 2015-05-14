@@ -141,7 +141,7 @@ public class ChatsListAdapter extends BaseAdapter {
         if(selectionMode == true){
 
             if (selectionArray[position] && (int)imageView.getTag() == position) {
-                imageView.setImageResource(R.drawable.ic_ua_ukraine);
+                imageView.setImageResource(R.drawable.selector_btn_accept);
                 container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
             }
             else{

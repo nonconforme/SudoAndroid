@@ -408,10 +408,10 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
         if (showTrachView) {
               menuItemDelete.setVisible(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_clear_mtrl_alpha);
 
-        } else{ menuItemDelete.setVisible(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);}
+        } else {
+            menuItemDelete.setVisible(false);
+         }
         return super.onPrepareOptionsPanel(view, menu);
     }
 

@@ -9,10 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -158,7 +155,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
-        lvChats.setDivider(getResources().getDrawable(R.color.colorLine));
         lvChats.setDividerHeight(1);
         lvChats.setAdapter(mChatAdapter);
         lvChats.setOnItemClickListener(this);
@@ -220,7 +216,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
         mainToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
         mainToolbarManager.enableSearchView(false);
-        mainToolbarManager.enableTrachView(true);
+        mainToolbarManager.enableTrashView(true);
         mainToolbarManager.reloadOptionsMenu();
     }
 
@@ -231,7 +227,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         } catch (Exception e) {
         }
         mainToolbarManager.enableSearchView(true);
-        mainToolbarManager.enableTrachView(false);
+        mainToolbarManager.enableTrashView(false);
         mainToolbarManager.reloadOptionsMenu();
         mChatAdapter.setSelection(selectionMode, selectionArray);
         mChatAdapter.notifyDataSetChanged();
@@ -240,7 +236,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void checkSelectionNotEmpty() {
         boolean containsSelection = false;
         if (selectionArray != null) {
-            for (int i = 0; i < selectionArray.length; i++) {
+            for (int i = 0; i < selectionArray.length -1; i++) {
                 if (selectionArray[i]) {
                     containsSelection = true;
                 }
@@ -257,7 +253,15 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void deleteChats() {
+
+        for (int i = 0; i < selectionArray.length -1; i++) {
+            if (selectionArray[i]) {
+                 mLastChatsModel.remove(i);
+            }
+        }
+        mChatAdapter.reloadList(mLastChatsModel);
         Toast.makeText(mActivity, "detele chats", Toast.LENGTH_SHORT).show();
+
     }
 
 }
