@@ -79,7 +79,6 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         setContent();
         initTarget();
         setImages();
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("", 0);
     }
 
 

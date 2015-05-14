@@ -128,7 +128,7 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
     private void initToolbar() {
         showDrawer = true;
         sToolbarManager = MainToolbarManager.getCustomInstance(this);
-        sToolbarManager.changeToolbarTitleAndIcon(mTitle, 0);
+
     }
 
 
@@ -393,6 +393,8 @@ public class Main_Activity extends ActionBarActivity implements  Drawer.OnDrawer
         MenuItem searchItem = menu.findItem(R.id.action_search);
         if (showSearchView) searchItem.setVisible(true);
         else searchItem.setVisible(false);
+
+        /*MenuItem delete = menu.findItem(R.id.action_delete);*/
 
         return super.onPrepareOptionsPanel(view, menu);
     }

@@ -5,7 +5,8 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:background="@android:color/transparent"
+              android:background="@drawable/bg_chats_item_default"
+              android:id="@+id/llChatItemContainer"
 
         >
 
@@ -16,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/avatar"
-            android:longClickable="true"
         android:src="@drawable/ic_man_chat" />
 
 

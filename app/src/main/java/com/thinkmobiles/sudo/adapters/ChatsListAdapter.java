@@ -2,31 +2,22 @@ package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
 
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ChatActivity;
-import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -105,7 +96,7 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.ivAvatar.setTag(position);
                 holder.tvCompanion.setText("");
                 holder.ivAvatar.setTag(position);
-                setAvatarSelectionState( holder.ivAvatar, position);
+                setSelectionState(holder.ivAvatar, holder.container, position);
             }
 
 
@@ -122,7 +113,7 @@ public class ChatsListAdapter extends BaseAdapter {
         holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
         holder.tvItemTimedate = (TextView)  view.findViewById(R.id.tvChatItemTimedate);
         holder.tvCompanion = (TextView) view.findViewById(R.id.tvChatCompanion);
-
+        holder.container = (LinearLayout) view.findViewById(R.id.llChatItemContainer);
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
 
 
@@ -134,6 +125,7 @@ public class ChatsListAdapter extends BaseAdapter {
     private class ViewHolder {
         ImageView ivAvatar;
         TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvCompanion;
+        LinearLayout container;
 
     }
 
@@ -142,24 +134,24 @@ public class ChatsListAdapter extends BaseAdapter {
     public void setSelection(boolean    selectionMode, boolean [] selectionArray){
         this.selectionMode = selectionMode;
         this.selectionArray = selectionArray;
+        notifyDataSetChanged();
     }
 
-    public void setAvatarSelectionState(ImageView imageView, int position){
+    public void setSelectionState(ImageView imageView, LinearLayout container, int position){
         if(selectionMode == true){
 
             if (selectionArray[position] && (int)imageView.getTag() == position) {
                 imageView.setImageResource(R.drawable.ic_ua_ukraine);
+                container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
             }
             else{
                 imageView.setImageResource(R.drawable.ic_man_chat);
-
+                container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_default));
             }
-
-
         }
         else{
             imageView.setImageResource(R.drawable.ic_man_chat);
         }
-        notifyDataSetChanged();
+
     }
 }

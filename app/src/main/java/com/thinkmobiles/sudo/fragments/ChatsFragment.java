@@ -48,6 +48,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private AdapterView.OnItemSelectedListener selectItemsListener;
     private boolean selectionMode = false;
     private boolean[] selectionArray;
+    private boolean longCLickFlag = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onResume() {
         super.onResume();
         getLastChats();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentUser().getAvatar());
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
 
     }
 
@@ -150,11 +151,12 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         mChatAdapter.setSelection(selectionMode, selectionArray);
         checkSelectionNotEmpty();
+        Log.d("TAG", "clicked");
         if (!selectionMode) {
             startChatActivity(mLastChatsModel.get(position), view);
-            Log.d("TAG", "]clicked");
+
         } else {
-            controlSelection(position, view);
+            controlSelection(position);
         }
 
 
@@ -164,10 +166,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.d("TAG", "long - clicked");
         startSelectionMode();
-        controlSelection(i, (View) view.getParent());
+        controlSelection(i);
         mChatAdapter.setSelection(selectionMode, selectionArray);
 
-        return false;
+        return true;
     }
 
     private void startChatActivity(LastChatsModel chatModel, final View view) {
@@ -199,14 +201,9 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         }
     }
 
-    private void controlSelection(int position, View view) {
+    private void controlSelection(int position) {
         selectionArray[position] = !selectionArray[position];
-        if (selectionArray[position]) {
-            view.setBackgroundResource(R.drawable.bg_chats_item_long_pressed);
-        } else {
-            view.setBackgroundResource(R.drawable.bg_chats_item_default);
 
-        }
     }
 
     private void deleteChats() {

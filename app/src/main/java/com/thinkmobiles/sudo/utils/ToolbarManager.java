@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 
 
@@ -79,9 +80,10 @@ public class ToolbarManager {
         if (image == 0) {
             mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         } else {
-            mActivity.getSupportActionBar().setIcon(mActivity.getResources().getDrawable(image));
-        }
+            setToolbarIcon(App.getCurrentISO());        }
     }
+
+
 
 
     public void changeToolbarTitleAndIcon(String title, String ISO) {
@@ -95,9 +97,7 @@ public class ToolbarManager {
 
 
 
-    public void changeToolbarTitle(int title) {
-        mToolbar.setTitle(title);
-    }
+
 
     public void changeToolbarTitle(String title) {
         mToolbar.setTitle(title);
