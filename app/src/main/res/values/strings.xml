@@ -80,7 +80,7 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_accept">Accept</string>
 
-    <string name="add_new_number_hint">Add new number</string>
+    <string name="add_new_number_hint">#########</string>
 
 
     <!--Alert Dialog delete phone number-->

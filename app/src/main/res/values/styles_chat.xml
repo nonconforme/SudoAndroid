@@ -142,7 +142,7 @@
     </style>
     <style name="CFNoChat_TV">
         <item name="android:textSize">16dp</item>
-        <item name="android:textColor">#88000000</item>
+        <item name="android:textColor">@color/textGrey</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_marginTop">40dp</item>

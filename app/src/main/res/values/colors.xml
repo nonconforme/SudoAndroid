@@ -18,4 +18,6 @@
     <color name="baseBG">#fff2f2f2</color>
     <color name="colorLine">#9E9E9E</color>
 
+    <color name="textGrey">#88000000</color>
+
 </resources>

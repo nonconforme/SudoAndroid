@@ -34,7 +34,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     private EditText etUserFirstName;
     protected ImageView ivChangeAvatar;
-    private Button btnChangeAvatar ;
+    private Button btnChangeAvatar;
     private NonScrollListView lvNumbers;
     private ProfileEditNumbersAdapter mAdapter;
     protected View rootView;
@@ -61,7 +61,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView  = getLayoutInflater().inflate(getLayoutResource(), null);
+        rootView = getLayoutInflater().inflate(getLayoutResource(), null);
         setContentView(rootView);
 
         initComponent();
@@ -82,7 +82,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         if (mUserModel.getColor() != null) {
             setStatusBarColor(mUserModel.getColor().getDarkColor());
-            String  color = "#" + Integer.toHexString( mUserModel.getColor().getMainColor()).substring(2);
+            String color = "#" + Integer.toHexString(mUserModel.getColor().getMainColor()).substring(2);
             getToolbarAB().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         }
         if (Utils.checkList(myNumberList)) {
@@ -189,7 +189,16 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         }
         for (int i = 0; i < tempNumbers.size(); i++) {
             CharSequence tempNumber = tempNumbers.get(i).getNumber();
-            if (tempNumber == null || tempNumber.length() < 11 || tempNumber.charAt(0) != '+') {
+            if (tempNumber == null) {
+                showNumbersError = true;
+                errors[i] = true;
+            } else if (tempNumber.charAt(0) != '+') {
+                String tempString = "+" + tempNumber.toString();
+                tempNumbers.get(i).setNumber(tempString);
+                myNumberList = tempNumbers;
+                mAdapter.reloadList(myNumberList);
+                errors[i] = false;
+            } else if (tempNumber.length() < 11) {
                 showNumbersError = true;
                 errors[i] = true;
             } else {
@@ -244,7 +253,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     }
 
-    private void loadImage(final Uri _avatarUri){
+    private void loadImage(final Uri _avatarUri) {
         if (_avatarUri != null) {
             try {
                 final InputStream imageStream = getContentResolver().openInputStream(_avatarUri);
@@ -305,13 +314,15 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void addNewNumber() {
         myNumberList = mAdapter.getNumbersList();
-        myNumberList.add(myNumberList.size(),new NumberModel());
+        myNumberList.add(myNumberList.size(), new NumberModel());
         mAdapter.reloadList(myNumberList);
     }
 
 
-   protected void setNullAnim(){
+    protected void setNullAnim() {
 
     }
+
+
 }
 
