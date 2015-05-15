@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
@@ -53,11 +54,13 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
         mBuyCreditsCB = new Callback<BuyNumberResponce>() {
             @Override
             public void success(BuyNumberResponce buyNumberResponce, Response response) {
-
+                App.setCurrentCredits(buyNumberResponce.getCredits());
+                refreshFragmentAvailableCredistFragment();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(mActivity,"Failure recharging credits", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -70,7 +73,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
     private void initComponent(){
         mListView = (ListView) mView.findViewById(R.id.lvCredits_FRC);
 
-        mListCredit = new ArrayList<Credits>();
+        mListCredit = new ArrayList<>();
         mListCredit.add(new Credits("10credits = 10$", "BUY"));
         mListCredit.add(new Credits("20credits = 20$", "BUY"));
         mListCredit.add(new Credits("30credits = 30$", "BUY"));

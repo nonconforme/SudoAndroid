@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.adapters;
 import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.models.ProfileResponse;
+import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +32,7 @@ public class BuyNumbersAdapter extends BaseAdapter {
     private List<NumberPackages> mListNumberPackages;
     private LayoutInflater inflater;
     private String countryISO;
+
 
 
     public BuyNumbersAdapter(Context _context) {
@@ -87,4 +96,8 @@ public class BuyNumbersAdapter extends BaseAdapter {
 
 
     }
+
+
+
+
 }

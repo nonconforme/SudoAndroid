@@ -106,7 +106,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     }
 
-    private void setHeaderContent() {
+    public void setHeaderContent() {
         setBaseTitle();
         if (!ContactManager.getNumbers().isEmpty()) {
             setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
