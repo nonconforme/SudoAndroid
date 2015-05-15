@@ -15,6 +15,7 @@ import android.widget.*;
  import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.*;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -133,5 +134,9 @@ public class BlockNumberActivity extends ActionBarActivity {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Network.isInternetConnectionAvailable(this);
+    }
 }

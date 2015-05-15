@@ -112,6 +112,10 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
             setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
             App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
             sToolbarManager.setToolbarIcon(App.getCurrentISO());
+            ivSpinner_Drawer.setVisibility(View.VISIBLE);
+
+        }else{
+            ivSpinner_Drawer.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -121,7 +125,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         Network.isInternetConnectionAvailable(this);
 
     }
-
 
     private void openLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -134,7 +137,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         sToolbarManager = MainToolbarManager.getCustomInstance(this);
 
     }
-
 
     private void initProgressBar() {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -303,7 +305,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
         drawerListView.setAdapter(mDrawerMenuAdapter);
-
         drawerListView.setOnItemClickListener(this);
         mDrawerMenuAdapter.reloadList(mDrawerMenuList);
     }
@@ -410,14 +411,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         else searchItem.setVisible(false);
 
         if (showTrachView) {
-              menuItemDelete.setVisible(true);
+            menuItemDelete.setVisible(true);
 
         } else {
             menuItemDelete.setVisible(false);
-         }
+        }
         return super.onPrepareOptionsPanel(view, menu);
     }
-
 
 
     public void enableSearchView(boolean show) {
@@ -438,17 +438,17 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     @Override
     public void onClick(View view) {
-
-        if (showListDrawer) {
-            showListDrawer = false;
-            ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner);
-            initDefaultDrawer();
-        } else {
-            showListDrawer = true;
-            ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner_rotate);
-            initPhoneListDrawer();
+        if (App.getCurrentUser().getNumbers() != null && App.getCurrentUser().getNumbers().size() > 0) {
+            if (showListDrawer) {
+                showListDrawer = false;
+                ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner);
+                initDefaultDrawer();
+            } else {
+                showListDrawer = true;
+                ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner_rotate);
+                initPhoneListDrawer();
+            }
         }
-
 
     }
 

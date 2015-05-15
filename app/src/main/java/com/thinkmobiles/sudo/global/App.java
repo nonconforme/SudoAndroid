@@ -34,7 +34,10 @@ public class App extends Application {
     }
 
     public static String getCurrentMobile() {
+        if(currentMobile != null && !currentMobile.equalsIgnoreCase(""))
         return currentMobile;
+        else
+            return "Buy a new number";
     }
 
     public static void setCurrentMobile(String currentMobile) {

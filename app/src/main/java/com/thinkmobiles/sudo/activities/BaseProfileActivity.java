@@ -13,6 +13,7 @@ import android.transition.Explode;
 import android.view.Window;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.Network;
 
 
 public abstract class BaseProfileActivity extends ActionBarActivity {
@@ -53,5 +54,11 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         getWindow().setStatusBarColor(_stausBarColor);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Network.isInternetConnectionAvailable(this);
     }
 }
