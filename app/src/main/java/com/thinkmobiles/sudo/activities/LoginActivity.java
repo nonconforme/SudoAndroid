@@ -94,7 +94,11 @@ public class LoginActivity extends Activity {
         profileModel.setCredits(_profile.getUser().getCredits());
 
         App.setCurrentUser(profileModel);
-        App.setCurrentMobile(_profile.getUser().getNumbers().get(0).getNumber());
+        if (!_profile.getUser().getNumbers().isEmpty()){
+            App.setCurrentMobile(_profile.getUser().getNumbers().get(0).getNumber());
+        } else {
+
+        }
         App.setCurrentCredits(_profile.getUser().getCredits());
 
     }

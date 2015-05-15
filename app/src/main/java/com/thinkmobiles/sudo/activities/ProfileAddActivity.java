@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -97,7 +96,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
 
     @Override
     public void onBackPressed() {
-//        ViewCompat.setElevation(getToolbar(), 0);
+        ViewCompat.setElevation(getToolbar(), 0);
         rlMain.animate()
                 .translationY(Utils.getScreenHeight(this))
                 .setDuration(200)

@@ -41,8 +41,11 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
         toolbar.setNavigationIcon(iconRes);
     }
 
-    protected ActionBar getToolbar(){
+    protected ActionBar getToolbarAB(){
         return getSupportActionBar();
+    }
+    protected Toolbar getToolbar(){
+        return toolbar;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

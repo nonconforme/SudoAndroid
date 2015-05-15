@@ -108,9 +108,11 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private void setHeaderContent() {
         setBaseTitle();
-        setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
-        App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
-        sToolbarManager.setToolbarIcon(App.getCurrentISO());
+        if (!ContactManager.getNumbers().isEmpty()) {
+            setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+            App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+            sToolbarManager.setToolbarIcon(App.getCurrentISO());
+        }
     }
 
     @Override
