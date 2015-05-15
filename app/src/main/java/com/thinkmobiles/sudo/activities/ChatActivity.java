@@ -96,7 +96,6 @@ public class ChatActivity extends ActionBarActivity {
         initSendMessageCB();
         getMessages();
         initSocked();
-//        this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
 
 
@@ -194,7 +193,6 @@ public class ChatActivity extends ActionBarActivity {
                 if (messageModel.size() > 0) {
                     mFirstMessageModel = messageModel.get(0);
                     mListAdapter.reloadContent(messageModel, mOwnerNumber);
-                    animateContent();
 
                 }
 
@@ -338,6 +336,8 @@ public class ChatActivity extends ActionBarActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
+                        animateContent();
+
                     }
                 })
                 .start();

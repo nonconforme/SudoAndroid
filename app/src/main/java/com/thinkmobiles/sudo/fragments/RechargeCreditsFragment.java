@@ -12,12 +12,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
 import com.thinkmobiles.sudo.models.Credits;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Pavilion on 16.04.2015.
@@ -29,6 +36,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
     private ListView mListView;
     private RechargeCreditsAdapter mAdapter;
     private List<Credits> mListCredit;
+    private Callback<BuyNumberResponce> mBuyCreditsCB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,8 +44,27 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
         mView = inflater.inflate(R.layout.fragment_recharge_credits, container, false);
         initComponent();
         setListener();
+        initBuyCreditsCB();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(R.string.credits, 0);
         return mView;
+    }
+
+    private void initBuyCreditsCB() {
+        mBuyCreditsCB = new Callback<BuyNumberResponce>() {
+            @Override
+            public void success(BuyNumberResponce buyNumberResponce, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
+    }
+
+    private void makeBuyCreditsRequest(){
+        RetrofitAdapter.getInterface().buyCredits("1000", Constants.PROVIDER_GOOGLE, mBuyCreditsCB);
     }
 
     private void initComponent(){
@@ -65,8 +92,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mActivity, "Click: pos: " + position + " "
-                + mAdapter.getItem(position).getCredits(), Toast.LENGTH_SHORT).show();
+        makeBuyCreditsRequest();
     }
 
     @Override
