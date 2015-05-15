@@ -19,11 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -44,7 +40,7 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileViewActivity extends BaseProfileActivity implements AdapterView.OnItemClickListener{
+public class ProfileViewActivity extends BaseProfileActivity implements AdapterView.OnItemClickListener {
 
     private TextView tvUserFirstName;
     private ImageView ivAvatar;
@@ -83,12 +79,13 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     }
 
 
-    protected  void setDefaultColor(){
+    protected void setDefaultColor() {
         setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         rlImage.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
+
     private void setImages() {
-         ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
 
         if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty()) {
             Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
@@ -115,18 +112,18 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     }
 
     private void loadContent() {
-        firstName           = mUserModel.getCompanion();
-        urlAvatar           = mUserModel.getAvatar();
-        mNumberList         = mUserModel.getNumbers();
+        firstName = mUserModel.getCompanion();
+        urlAvatar = mUserModel.getAvatar();
+        mNumberList = mUserModel.getNumbers();
     }
 
 
     private void initComponent() {
-        ivAvatar            = (ImageView) findViewById(R.id.image);
-        tvUserFirstName     = (TextView) findViewById(R.id.tvUserFirstName_AVC);
-        rlImage             = (RelativeLayout) findViewById(R.id.rlImageProfile_AVP);
-        llMain              = (ScrollView) findViewById(R.id.svData_AVP);
-        lvNumbers           = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
+        ivAvatar = (ImageView) findViewById(R.id.image);
+        tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
+        rlImage = (RelativeLayout) findViewById(R.id.rlImageProfile_AVP);
+        llMain = (ScrollView) findViewById(R.id.svData_AVP);
+        lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
 
     }
 
@@ -138,9 +135,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
 
     public static void launch(Activity activity, View transitionImage, UserModel userModel) {
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, Pair.create(transitionImage, EXTRA_IMAGE));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(transitionImage, EXTRA_IMAGE));
 
         Intent intent = new Intent(activity, ProfileViewActivity.class);
         intent.putExtra(EXTRA_IMAGE, userModel.getAvatar());
@@ -179,14 +174,14 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     }
 
-    private void changeViewColor(final Bitmap _bitmap ) {
+    private void changeViewColor(final Bitmap _bitmap) {
         Palette palette = Palette.generate(_bitmap);
-        final int initialColor      = getResources().getColor(R.color.colorWhite);
-        final int finalColor        = palette.getVibrantColor(getResources().getColor(R.color.colorPrimary));
-        final int stausBarColor     = palette.getDarkVibrantColor(getResources().getColor(R.color.colorPrimaryDark));
+        final int initialColor = getResources().getColor(R.color.colorWhite);
+        final int finalColor = palette.getVibrantColor(getResources().getColor(R.color.colorPrimary));
+        final int stausBarColor = palette.getDarkVibrantColor(getResources().getColor(R.color.colorPrimaryDark));
         mUserModel.setColor(new ColorModel(finalColor, stausBarColor));
 
-          setStatusBarColor(stausBarColor);
+        setStatusBarColor(stausBarColor);
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 
@@ -251,10 +246,16 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String companionNumber = mNumberList.get(i).getNumber();
-        int[] startingLocation = new int[2];
-        view.getLocationOnScreen(startingLocation);
-        ChatActivity.launch(this, App.getCurrentMobile(),companionNumber,  startingLocation);
+
+
+        if (App.getCurrentUser().getNumbers() != null && App.getCurrentUser().getNumbers().size() > 0) {
+            String companionNumber = mNumberList.get(i).getNumber();
+            int[] startingLocation = new int[2];
+            view.getLocationOnScreen(startingLocation);
+            ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, startingLocation);
+        }else{
+            Toast.makeText(this, "Buy a number to start a chat", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -262,11 +263,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(" activity result", String.valueOf(resultCode));
         if (resultCode == RESULT_OK) {
-        reloadUserModel(data);
-        loadContent();
-        setDefaultColor();
-        setContent();
-        setImages();
+            reloadUserModel(data);
+            loadContent();
+            setDefaultColor();
+            setContent();
+            setImages();
         }
     }
 
@@ -281,10 +282,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     }
 
     public void reloadUserModel(Intent intent) {
-        mUserModel = (UserModel) intent
-                .getExtras()
-                .getBundle(BaseProfileActivity.USER_MODEL)
-                .getSerializable(BaseProfileActivity.USER_MODEL);
+        mUserModel = (UserModel) intent.getExtras().getBundle(BaseProfileActivity.USER_MODEL).getSerializable(BaseProfileActivity.USER_MODEL);
 
     }
 

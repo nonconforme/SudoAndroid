@@ -25,6 +25,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
@@ -157,8 +158,16 @@ public class ChatActivity extends ActionBarActivity {
         @Override
         public void call(Object... args) {
 
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     Toast.makeText(getApplicationContext(),
                             "Connection problims ", Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+
 
         }
     };
@@ -340,4 +349,9 @@ public class ChatActivity extends ActionBarActivity {
                 .start();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Network.isInternetConnectionAvailable(this);
+    }
 }
