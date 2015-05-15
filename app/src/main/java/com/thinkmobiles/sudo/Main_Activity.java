@@ -31,6 +31,7 @@ import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
+import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -115,7 +116,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onResume() {
         super.onResume();
-
+        Network.isInternetConnectionAvailable(this);
 
     }
 

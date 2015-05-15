@@ -49,7 +49,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private ListView lvChats;
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter mChatAdapter;
-    private List<LastChatsModel> mLastChatsModel;
+    private List<LastChatsModel> mChatsList;
 
     private AdapterView.OnItemSelectedListener selectItemsListener;
     private boolean selectionMode = false;
@@ -73,10 +73,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onPause() {
         selectionMode = false;
-        try {
-            mActivity.unregisterReceiver(trashBroadcastReciever);
-        } catch (Exception e) {
-        }
+        unregisterSelectionReceiver();
 
         super.onPause();
     }
@@ -104,15 +101,15 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         super.onResume();
         getLastChats();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
-
+        registerSelectionReceiver();
     }
 
     private void iniGetChatsCB() {
         mLastChatsCB = new Callback<List<LastChatsModel>>() {
             @Override
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
-                mLastChatsModel = lastChatsModel;
-                reloadList(mLastChatsModel);
+                mChatsList = lastChatsModel;
+                reloadList(mChatsList);
             }
 
             @Override
@@ -134,8 +131,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void searchChatList(String querry) {
 
         List<LastChatsModel> tempContactsArrayList = new ArrayList<>();
-        if (mLastChatsModel != null) {
-            for (LastChatsModel tempModel : mLastChatsModel) {
+        if (mChatsList != null) {
+            for (LastChatsModel tempModel : mChatsList) {
                 if (Utils.stringContains(tempModel.getLastmessage().getCompanion().getNumber(), querry))
                     tempContactsArrayList.add(tempModel);
                 else if (Utils.stringContains(tempModel.getLastmessage().getOwner().getNumber(), querry))
@@ -183,7 +180,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
         Log.d("TAG", "clicked");
         if (!selectionMode) {
-            startChatActivity(mLastChatsModel.get(position), view);
+            startChatActivity(mChatsList.get(position), view);
 
         } else {
             controlSelection(position);
@@ -211,26 +208,36 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void startSelectionMode() {
-        selectionArray = new boolean[mLastChatsModel.size()];
+        selectionArray = new boolean[mChatsList.size()];
         selectionMode = true;
-        mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
+        registerSelectionReceiver();
         mainToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
         mainToolbarManager.enableSearchView(false);
         mainToolbarManager.enableTrashView(true);
         mainToolbarManager.reloadOptionsMenu();
     }
 
+
+
     private void stopSelectionMode() {
+        unregisterSelectionReceiver();
         selectionMode = false;
-        try {
-            mActivity.unregisterReceiver(trashBroadcastReciever);
-        } catch (Exception e) {
-        }
         mainToolbarManager.enableSearchView(true);
         mainToolbarManager.enableTrashView(false);
         mainToolbarManager.reloadOptionsMenu();
         mChatAdapter.setSelection(selectionMode, selectionArray);
         mChatAdapter.notifyDataSetChanged();
+    }
+    private void registerSelectionReceiver() {
+        if(selectionMode)
+            mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
+    }
+    private void unregisterSelectionReceiver() {
+        if(selectionMode)
+        try {
+            mActivity.unregisterReceiver(trashBroadcastReciever);
+        } catch (Exception e) {
+        }
     }
 
     private void checkSelectionNotEmpty() {
@@ -256,12 +263,11 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
         for (int i = 0; i < selectionArray.length -1; i++) {
             if (selectionArray[i]) {
-                 mLastChatsModel.remove(i);
+                 mChatsList.remove(i);
             }
         }
-        mChatAdapter.reloadList(mLastChatsModel);
+        mChatAdapter.reloadList(mChatsList);
         Toast.makeText(mActivity, "detele chats", Toast.LENGTH_SHORT).show();
 
     }
-
 }

@@ -20,6 +20,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static com.thinkmobiles.sudo.global.Network.isInternetConnectionAvailable;
+
 /**
  * Created by njakawaii on 09.04.2015.
  */
@@ -33,6 +35,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         openLoginFragment();
+        isInternetConnectionAvailable(this);
         overridePendingTransition(R.anim.flade_in, R.anim.flade_out);
         initGetUserCB();
     }

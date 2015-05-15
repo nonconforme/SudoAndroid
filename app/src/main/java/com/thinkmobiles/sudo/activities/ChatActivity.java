@@ -158,8 +158,16 @@ public class ChatActivity extends ActionBarActivity {
         @Override
         public void call(Object... args) {
 
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     Toast.makeText(getApplicationContext(),
                             "Connection problims ", Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+
 
         }
     };
