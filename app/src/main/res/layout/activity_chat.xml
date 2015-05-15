@@ -3,7 +3,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/rlMain_AC"
-                android:background="@color/background_floating_material_light">
+                android:background="@color/background_floating_material_light"
+    android:visibility="visible">
 
     <ListView
             android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:transcriptMode="normal" android:layout_below="@+id/toolbar"
 
             android:dividerHeight="1dp"
-            android:divider="@color/sn_list_devider_color"/>
+            android:divider="@color/sn_list_devider_color" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

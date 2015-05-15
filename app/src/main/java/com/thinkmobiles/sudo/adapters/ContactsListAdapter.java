@@ -40,6 +40,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private int lastPosition = -1 ;
     private Animation mUpAnimation;
     private Animation mBottommAnimation;
+    private boolean doAnimate = true;
 
     private static final int SUCCESS = 10;
 
@@ -60,6 +61,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     public void reloadList(List<UserModel> contacts) {
         this.contacts = contacts;
         notifyDataSetChanged();
+        doAnimate = false;
     }
 
 
@@ -112,14 +114,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
         if (contacts.get(pos).getNumbers() != null && contacts.get(pos).getNumbers().size() > 0)
             holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
-
-        Animation animation = AnimationUtils.loadAnimation(mActivity, (pos > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
-        view.startAnimation(animation);
+        if (doAnimate) {
+            Animation animation = AnimationUtils.loadAnimation(mActivity, (pos > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+            view.startAnimation(animation);
+        }
         lastPosition = pos;
-
-
-
-
         return view;
     }
 
