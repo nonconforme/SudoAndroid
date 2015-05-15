@@ -104,7 +104,12 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
             @Override
             public void failure(RetrofitError error) {
                 getToolbarManager().setProgressBarVisible(false);
-                Toast.makeText(mActivity, "Failure. Check your credits balance.", Toast.LENGTH_LONG).show();
+
+                if(App.currentCredits.equalsIgnoreCase("") || App.currentCredits.equalsIgnoreCase("0")){
+                Toast.makeText(mActivity, "Failure. Check your credits balance.", Toast.LENGTH_LONG).show();}
+                else{
+                    Toast.makeText(mActivity, "Failure. Check another number.", Toast.LENGTH_LONG).show();
+                }
 
             }
 
