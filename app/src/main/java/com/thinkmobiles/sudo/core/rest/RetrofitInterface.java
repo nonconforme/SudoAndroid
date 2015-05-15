@@ -51,6 +51,11 @@ public interface RetrofitInterface {
     void signUp(@Field(Constants.EMAIL) String email, @Field(Constants.PASSWORD) String password,
                 Callback<LoginResponse> callback);
 
+    @FormUrlEncoded
+    @POST(APIConstants.API_BAY_NUMBER)
+    void buyCredits(@Field(Constants.RECEIPT) String receipt, @Field(Constants.PROVIDER) String provider,
+                Callback<BuyNumberResponce> callback);
+
     @POST(APIConstants.URL_ADDRESSBOOK)
     void addContact(@Body TypedJsonString userModel,
                 Callback<DefaultResponseModel> callback);
