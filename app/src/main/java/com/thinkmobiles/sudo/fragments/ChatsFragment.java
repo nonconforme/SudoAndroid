@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thinkmobiles.sudo.Main_Activity;
@@ -50,6 +51,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mChatsList;
+    private TextView tvNoChats;
 
     private AdapterView.OnItemSelectedListener selectItemsListener;
     private boolean selectionMode = false;
@@ -92,6 +94,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void findUI(View _view) {
         lvChats = (ListView) _view.findViewById(R.id.lvChats_CF);
+        tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
+        tvNoChats.setVisibility(View.INVISIBLE);
 
     }
 
@@ -147,6 +151,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     public void reloadList(List<LastChatsModel> chatsModelList) {
         mChatAdapter.reloadList(chatsModelList);
+        if(chatsModelList.size() > 0 )
+            tvNoChats.setVisibility(View.INVISIBLE);
+        else
+            tvNoChats.setVisibility(View.VISIBLE);
     }
 
 

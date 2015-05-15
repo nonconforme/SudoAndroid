@@ -3,13 +3,16 @@
               android:orientation="vertical" android:layout_width="match_parent"
               android:layout_height="fill_parent"
               android:background="#fff">
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:text="@string/no_chats" android:id="@+id/tvNoChats"
+              style="@style/CFNoChat_TV"/>
     <ListView
             android:id="@+id/lvChats_CF"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-             android:padding="2dp"
-             android:divider="@android:color/black"
-             />
+            android:padding="2dp"
+            android:divider="@android:color/black"
+            />
 
 
 </LinearLayout>

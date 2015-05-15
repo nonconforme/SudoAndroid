@@ -114,4 +114,6 @@
     <string name="add_profile">Add Profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="credits_available">AVAILABLE</string>
+    <string name="no_chats">No Chats Yet</string>
+    <string name="no_contacts">No Contacts Yet</string>
 </resources>

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
@@ -43,6 +44,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Activity mActivity;
     private FloatingActionButton mBTNAddFriend;
     private View mView;
+    private TextView tvNoContacts;
 
     public List<UserModel>  mContactsList;
     private Callback<List<UserModel>> mContactsCB;
@@ -63,6 +65,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void findUI() {
+        tvNoContacts = (TextView) mView.findViewById(R.id.tvNoContacts_CF);
+        tvNoContacts.setVisibility(View.INVISIBLE);
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
     }
@@ -94,6 +98,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void reloadList(List<UserModel> contacts) {
 
         mStickyListAdapter.reloadList(contacts);
+
+
+        if(contacts != null && contacts.size() > 0){
+            tvNoContacts.setVisibility(View.INVISIBLE);
+        }else {
+            tvNoContacts.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setListener() {
