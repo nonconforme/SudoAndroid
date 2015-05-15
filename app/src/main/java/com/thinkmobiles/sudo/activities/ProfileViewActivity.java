@@ -79,6 +79,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         setContent();
         initTarget();
         setImages();
+        setTitle("");
     }
 
 

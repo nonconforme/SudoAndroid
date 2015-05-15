@@ -87,7 +87,11 @@ public class ToolbarManager {
 
 
     public void changeToolbarTitleAndIcon(String title, String ISO) {
-        mToolbar.setTitle(title);
+        if (title != null && !title.isEmpty()){
+            mToolbar.setTitle(title);
+        } else {
+            mToolbar.setTitle("Sudo");
+        }
         if (ISO == null || ISO.equalsIgnoreCase("")) {
             mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
         } else {

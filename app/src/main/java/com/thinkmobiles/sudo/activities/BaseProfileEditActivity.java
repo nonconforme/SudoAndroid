@@ -1,7 +1,5 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -19,7 +16,6 @@ import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.utils.ImageHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
@@ -87,7 +83,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         if (mUserModel.getColor() != null) {
             setStatusBarColor(mUserModel.getColor().getDarkColor());
             String  color = "#" + Integer.toHexString( mUserModel.getColor().getMainColor()).substring(2);
-            getToolbar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+            getToolbarAB().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         }
         if (Utils.checkList(myNumberList)) {
             mAdapter.reloadList(myNumberList);
@@ -136,7 +132,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void setDefaultColor() {
         setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        getToolbar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        getToolbarAB().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
     }
 
     @Override

@@ -92,10 +92,11 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private boolean isValidEmail(EditText et){
         String target = et.getText().toString();
         if (TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
-            return true;
-        } else {
             Toast.makeText(mActivity, "Not a valid e-mail", Toast.LENGTH_SHORT).show();
             return false;
+
+        } else {
+            return true;
         }
 
     }

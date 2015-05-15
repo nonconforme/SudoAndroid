@@ -95,7 +95,7 @@
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/ivCameraIcon_AVC"
                             android:layout_toRightOf="@+id/ivCameraIcon_AVC"
-                            android:src="@drawable/ic_person_big"/>
+                            android:src="@drawable/ic_man_chat"/>
 
                     <Button
                             android:id="@+id/btnChangeAvatar_AVC"

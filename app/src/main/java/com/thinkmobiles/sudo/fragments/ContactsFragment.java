@@ -57,7 +57,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initList();
         setListener();
         initGetContactsCB();
-        makeGetUserRequest();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(),
                 App.getCurrentISO());
         return mView;
@@ -75,7 +74,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-
+        makeGetUserRequest();
     }
 
     @Override
@@ -130,21 +129,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void addFriendActivity() {
-//        int[] startingLocation = new int[2];
-//        mBTNAddFriend.getLocationOnScreen(startingLocation);
-//        startingLocation[0] += mBTNAddFriend.getWidth() / 2;
-//        ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
-//        mActivity.overridePendingTransition(0, 0);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
                 int[] startingLocation = new int[2];
                 mBTNAddFriend.getLocationOnScreen(startingLocation);
                 startingLocation[0] += mBTNAddFriend.getWidth() / 2;
                 ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
                 mActivity.overridePendingTransition(0, 0);
-//            }
-//        }, 200);
     }
 
     @Override
