@@ -21,10 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:src="@drawable/selector_delete_phone_number"
+        android:src="@drawable/ic_cancle"
         android:id="@+id/ivRemoveNumber_AVC"
-        android:layout_alignBottom="@+id/etPhoneNumber_AVC"
+        android:imeOptions="actionDone"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/etPhoneNumber_AVC"
-        android:layout_toEndOf="@+id/etPhoneNumber_AVC"
-        android:imeOptions="actionDone"/>
+        android:layout_toEndOf="@+id/etPhoneNumber_AVC" />
 </RelativeLayout>

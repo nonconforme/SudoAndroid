@@ -3,14 +3,18 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+    android:padding="10dp"
               style="@style/SNllStyle">
 
     <ImageView
             android:id="@+id/ivCountry_FN"
             style="@style/SNivCountryStyle"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/ic_package"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
             android:id="@+id/tvInfo_FN"

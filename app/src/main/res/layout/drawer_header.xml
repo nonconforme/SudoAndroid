@@ -5,7 +5,7 @@
                 android:layout_height="fill_parent"
                 android:adjustViewBounds="true"
                 android:orientation="vertical"
-    android:background="@drawable/ic_drawe_header"
+                android:background="@drawable/bg_header_drawer"
                 android:scaleType="fitCenter"
                 android:id="@+id/llDrawerHeader">
 
