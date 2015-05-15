@@ -218,7 +218,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
 
-
     private void stopSelectionMode() {
         unregisterSelectionReceiver();
         selectionMode = false;
@@ -228,13 +227,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mChatAdapter.setSelection(selectionMode, selectionArray);
         mChatAdapter.notifyDataSetChanged();
     }
+
     private void registerSelectionReceiver() {
-        if(selectionMode)
-            mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
+        if (selectionMode) mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
     }
+
     private void unregisterSelectionReceiver() {
-        if(selectionMode)
-        try {
+        if (selectionMode) try {
             mActivity.unregisterReceiver(trashBroadcastReciever);
         } catch (Exception e) {
         }
@@ -243,7 +242,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void checkSelectionNotEmpty() {
         boolean containsSelection = false;
         if (selectionArray != null) {
-            for (int i = 0; i < selectionArray.length -1; i++) {
+            for (int i = 0; i < selectionArray.length - 1; i++) {
                 if (selectionArray[i]) {
                     containsSelection = true;
                 }
@@ -260,14 +259,19 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void deleteChats() {
+        if (selectionArray != null || selectionArray.length == mChatsList.size()) {
+            List<LastChatsModel> tempChatList = new ArrayList<>();
+            for (int i = 0; i < selectionArray.length - 1; i++) {
+                if (!selectionArray[i]) {
 
-        for (int i = 0; i < selectionArray.length -1; i++) {
-            if (selectionArray[i]) {
-                 mChatsList.remove(i);
+                    tempChatList.add(mChatsList.get(i));
+                }
             }
+            mChatsList = tempChatList;
+            selectionArray = new boolean[mChatsList.size()];
+            mChatAdapter.reloadList(mChatsList);
+            Toast.makeText(mActivity, "detele chats", Toast.LENGTH_SHORT).show();
         }
-        mChatAdapter.reloadList(mChatsList);
-        Toast.makeText(mActivity, "detele chats", Toast.LENGTH_SHORT).show();
 
     }
 }
