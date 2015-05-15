@@ -109,12 +109,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         doneOnEditorActionListener = new DoneOnEditorActionListener();
         etUserFirstName.setOnEditorActionListener(doneOnEditorActionListener);
-
-        mAdapter = new ProfileEditNumbersAdapter(this);
-        lvNumbers.setDivider(null);
-        lvNumbers.setDividerHeight(0);
-        lvNumbers.setAdapter(mAdapter);
-
         View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +116,13 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
                 mAdapter.addBlankNumberView();
             }
         });
+        mAdapter = new ProfileEditNumbersAdapter(this);
         lvNumbers.addFooterView(footerView);
+        lvNumbers.setDivider(null);
+        lvNumbers.setDividerHeight(0);
+        lvNumbers.setAdapter(mAdapter);
+
+
     }
 
     protected void loadUserModel() {
