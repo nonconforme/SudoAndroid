@@ -107,7 +107,10 @@ public class BlockNumberActivity extends ActionBarActivity {
         listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
+                BlockNumberExpandableAdapter.ParentViewHolder  holder  =  ( BlockNumberExpandableAdapter
+                        .ParentViewHolder ) v.getTag();
+                Log.d("TAG", v.getTag().toString());
+                holder.viewSeparator.setVisibility(View.VISIBLE);
                 return false;
             }
         });

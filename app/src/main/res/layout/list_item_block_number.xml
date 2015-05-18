@@ -6,11 +6,12 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:paddingTop="5dp"  android:paddingBottom="10dp"
                  android:background="@android:color/white">
-    <RelativeLayout android:background="#d3d3d3"
+    <RelativeLayout
                      android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" android:layout_gravity="right|top" android:layout_marginLeft="60dp"
-                    android:layout_marginRight="20dp">
+                    android:gravity="right" android:layout_gravity="right|top" android:layout_marginLeft="70dp"
+                    android:layout_marginRight="20dp" android:layout_marginBottom="20dp"
+                     android:layout_marginTop="20dp">
 
     <TextView
             android:id="@+id/tvContactNumber"
@@ -18,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/test_phone_number"
-            android:gravity="center_horizontal" android:layout_centerVertical="true"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/checkBox" android:layout_toStartOf="@+id/checkBox"/>
 
     <CheckBox
@@ -26,9 +27,10 @@
             android:theme="@style/AppTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/selector_block_checkbox"
             android:layout_marginRight="20dp" android:layout_alignTop="@+id/tvContactNumber"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
-        />
+            android:layout_marginTop="5dp" android:layout_marginBottom="5dp"/>
 
 
 </RelativeLayout>

@@ -87,6 +87,8 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
             view = mInflater.inflate(R.layout.list_item_block_number_profile, viewGroup, false);
             holder.ivAvatar = (ImageView) view.findViewById(R.id.ivContactsAvatar);
             holder.tvName = (TextView) view.findViewById(R.id.tvContacstFirstName);
+            holder.tvBlockNumber = (TextView) view.findViewById(R.id.tvBlockNumber);
+            holder.viewSeparator = view.findViewById(R.id.viewSeparator);
             view.setTag(holder);
         } else {
             holder = (ParentViewHolder) view.getTag();
@@ -94,6 +96,12 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
         holder.ivAvatar.setTag(pos);
         setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
         holder.tvName.setText(contacts.get(pos).getCompanion());
+
+        if(!contacts.get(pos).getNumbers().isEmpty()){
+        holder.tvBlockNumber.setText(contacts.get(pos).getNumbers().get(0).getNumber());}
+        holder.viewSeparator.setVisibility(View.INVISIBLE);
+
+        if(b)holder.viewSeparator.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -141,8 +149,9 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
 
     public class ParentViewHolder {
         ImageView ivAvatar;
-
+        TextView  tvBlockNumber;
         TextView tvName;
+      public  View viewSeparator;
 
 
     }

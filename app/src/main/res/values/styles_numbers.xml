@@ -18,6 +18,8 @@
     <dimen name="sn_dawer_number_list_padding">2dp</dimen>
     <dimen name="sn_available_fragment_text_size">16dp</dimen>
     <dimen name="sn_available_fragment_margin_lr">8dp</dimen>
+
+    <dimen name="block_item_container_padding">32dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
@@ -96,6 +98,12 @@
         <item name="android:layout_marginRight">@dimen/sn_available_fragment_margin_lr</item>
         <item name="android:textColor">@color/sn_available_fragment_text_color </item>
         <item name="android:textSize">@dimen/sn_available_fragment_text_size</item>
+
+    </style>
+
+    <style name="BlockNumberItemLLMainLayout">
+        <item name="android:background">@android:color/white</item>
+
 
     </style>
 </resources>
