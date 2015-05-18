@@ -9,16 +9,13 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -50,7 +47,7 @@ import retrofit.client.Response;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity {
+public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener{
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView lvChatList;
@@ -68,6 +65,8 @@ public class ChatActivity extends ActionBarActivity {
     private String mCompanionNumber;
     private Socket mSocket;
     private int drawingStartLocation;
+    private boolean selectMode = false;
+    private MenuItem menuItemDelete;
 
 
     {
@@ -81,6 +80,25 @@ public class ChatActivity extends ActionBarActivity {
 
     private MessageModel mSendMessageModel;
     private MessageModel mFirstMessageModel;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(!selectMode)
+            menuItemDelete.setVisible(false);
+
+
+
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);//Menu Resource, Menu
+        menuItemDelete = menu.findItem(R.id.action_detele);
+
+        return true;
+    }
 
 
     public static final String BUNDLE = "bundle";
@@ -113,6 +131,8 @@ public class ChatActivity extends ActionBarActivity {
 
         mSocket.connect();
     }
+
+
 
     private void initSocked() {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -200,7 +220,7 @@ public class ChatActivity extends ActionBarActivity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                    Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -291,13 +311,28 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+
+        if(!selectMode)
+            menuItemDelete.setVisible(false);
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
 
-                onBackPressed();
+            case android.R.id.home:
+                if(!selectMode){
+                onBackPressed();}
+                else{}
+
                 break;
+            case R.id.action_detele:
+
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -320,6 +355,7 @@ public class ChatActivity extends ActionBarActivity {
 
         return companionModel;
     }
+
 
 
     private void startIntroAnimation() {
@@ -353,5 +389,12 @@ public class ChatActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         Network.isInternetConnectionAvailable(this);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+        return false;
     }
 }

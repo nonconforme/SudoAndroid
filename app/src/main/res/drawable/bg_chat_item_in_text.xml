@@ -3,7 +3,7 @@
 
 
     <!-- background color -->
-    <item android:bottom="1dp">
+    <item  >
 
         <shape>
             <solid android:color="@color/schat_item_incoming_color"/>

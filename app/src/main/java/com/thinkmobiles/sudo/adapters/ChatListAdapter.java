@@ -63,16 +63,14 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         int position = getCount() - i - 1;
-        ViewHolder holder;
-        if (view == null) {
-            if (!isIncomingMessage(position))
-                view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
-            else view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
+
+        if (isIncomingMessage(position))
+
+        view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
+
+        else  view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
+
+        ViewHolder   holder = new ViewHolder(view);
         holder.setData(position);
         runEnterAnimation(view, i);
 
@@ -81,7 +79,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView ivAvatar;
-        TextView tvTimedate, tvMessage;
+        TextView tvTimedate, tvMessage, tvNumber;
 
         public ViewHolder(final View _view){
             initHolder(_view);
@@ -91,11 +89,13 @@ public class ChatListAdapter extends BaseAdapter {
         this.ivAvatar = (ImageView) _view.findViewById(R.id.ivAvatar);
         this.tvMessage = (TextView) _view.findViewById(R.id.tvChatText);
         this.tvTimedate = (TextView) _view.findViewById(R.id.tvTimeDate);
+        this.tvNumber = (TextView) _view.findViewById(R.id.tvCompanionNumber);
     }
     private void setData(final int _pos){
         setAvatar(this.ivAvatar, _pos);
         setMessage(this.tvMessage, _pos);
         setTimeDate(this.tvTimedate, _pos);
+        setNumber(this.tvNumber, _pos);
     }
 
     }
@@ -119,6 +119,10 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setMessage(TextView tv, int position) {
         tv.setText(mListMessages.get(position).getBody());
+
+    }
+    private void setNumber(TextView tv, int position) {
+        tv.setText(mListMessages.get(position).getCompanion().getNumber());
 
     }
 

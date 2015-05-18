@@ -41,7 +41,7 @@
     <color name="schat_item_text_shadow">#7f7f7f</color>
     <color name="schat_item_text_bg">#e7e7e7</color>
     <color name="schat_item_et">#e54b4b4b</color>
-    <color name="schat_item_incoming_color">#7f7f7f</color>
+    <color name="schat_item_incoming_color">#ccc</color>
 
     <!-- end region -->
 
