@@ -22,7 +22,7 @@
                    android:src="@drawable/triangle_outgoing"
                    android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/relativeLayout3"
                    android:layout_toEndOf="@+id/relativeLayout3"/>
-        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <RelativeLayout android:layout_width="@dimen/schat_item_width" android:layout_height="wrap_content"
                         android:background="@drawable/bg_chat_item_out_text"
                         android:id="@+id/relativeLayout3"
                         android:layout_alignParentTop="true" android:layout_toLeftOf="@+id/ivAvatar"

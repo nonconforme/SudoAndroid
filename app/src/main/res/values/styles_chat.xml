@@ -30,7 +30,7 @@
     <dimen name="schat_item_small_margin">8dp</dimen>
     <dimen name="schat_item_big_layout_margin">60dp</dimen>
     <dimen name="schat_item_image_offset_margin">50dp</dimen>
-
+    <dimen name="schat_item_width">250dp</dimen>
 
     <!-- end region -->
 
