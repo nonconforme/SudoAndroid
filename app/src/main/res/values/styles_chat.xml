@@ -5,6 +5,7 @@
     <!-- DIMENS -->
     <dimen name="schats_icons_margin">2dp</dimen>
     <dimen name="schats_avatar_size">48dp</dimen>
+    <dimen name="schat_avatar_size">64dp</dimen>
     <dimen name="schats_margin_top_bottom">12dp</dimen>
     <dimen name="schats_margin_left_right">12dp</dimen>
     <dimen name="schats_margin_view_details_left">40dp</dimen>
@@ -16,14 +17,19 @@
     <dimen name="schats_small_text_size">14dp</dimen>
     <dimen name="schats_item_icon_size">18dp</dimen>
 
-
+    <dimen name="schat_triangle_size">16dp</dimen>
     <dimen name="schat_text_size">14dp</dimen>
+    <dimen name="schat_item_text_size">12dp</dimen>
     <dimen name="schat_padding">8dp</dimen>
     <dimen name="schat_small_text_size">12dp</dimen>
     <dimen name="schat_margin_top_bottom">12dp</dimen>
     <dimen name="schat_send_btn_height">32dp</dimen>
     <dimen name="schat_margin_btn_send">4dp</dimen>
     <dimen name="schat_item_shadow_offset">4dp</dimen>
+    <dimen name="schat_item_margin">16dp</dimen>
+    <dimen name="schat_item_small_margin">8dp</dimen>
+    <dimen name="schat_item_big_layout_margin">60dp</dimen>
+    <dimen name="schat_item_image_offset_margin">50dp</dimen>
 
 
     <!-- end region -->
@@ -57,8 +63,8 @@
 
 
     <style name="SChatItemEVAvatar">
-        <item name="android:layout_width">@dimen/schats_avatar_size</item>
-        <item name="android:layout_height">@dimen/schats_avatar_size</item>
+        <item name="android:layout_width">@dimen/schat_avatar_size</item>
+        <item name="android:layout_height">@dimen/schat_avatar_size</item>
 
 
     </style>
@@ -111,13 +117,22 @@
     <style name="SChatItemText">
         <item name="android:textSize">@dimen/schat_text_size</item>
         <item name="android:padding">@dimen/schat_padding</item>
-        <item name="android:textColor">@color/chat_text_color</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="SChatItemTVTimedate">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/schats_small_text_size</item>
-        <item name="android:padding">@dimen/schat_padding</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/schat_item_text_size</item>
+        <item name="android:paddingTop">@dimen/schat_padding</item>
+        <item name="android:paddingLeft">4dp</item>
+
+    </style>
+    <style name="SChatItemTVNumber">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/schat_item_text_size</item>
+        <item name="android:paddingTop">@dimen/schat_padding</item>
+        <item name="android:paddingRight">4dp</item>
+
     </style>
 
     <style name="SChatItemLayout">
@@ -125,7 +140,7 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
     <style name="SChatTextFrame">
-        <item name="android:layout_marginBottom">@dimen/schat_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">0dp</item>
     </style>
 
     <style name="SChatBtnSend">

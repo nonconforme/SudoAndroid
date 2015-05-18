@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
@@ -67,7 +65,7 @@ public class ChatListAdapter extends BaseAdapter {
         int position = getCount() - i - 1;
         ViewHolder holder;
         if (view == null) {
-            if (isIncomingMessage(position))
+            if (!isIncomingMessage(position))
                 view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
             else view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
             holder = new ViewHolder(view);
