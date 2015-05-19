@@ -265,6 +265,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 message = String.valueOf(etMessage.getText());
                 if (Utils.checkString(message)) sendMessage(message);
                 etMessage.setText("");
+                stopSelectionMode();
             }
         });
         lvChatList.setOnItemLongClickListener(this);
@@ -411,8 +412,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         selectMode = true;
         selectionArray = new boolean[mListAdapter.getList().size()];
         invalidateOptionsMenu();
-        etMessage.setFocusable(false);
-        btnSend.setFocusable(false);
+
 
     }
 
@@ -421,8 +421,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         selectionArray = null;
         mListAdapter.setSelection(selectMode, selectionArray);
         invalidateOptionsMenu();
-        etMessage.setFocusable(true);
-        btnSend.setFocusable(true);
+
+
     }
 
     private void deleteChatItems() {

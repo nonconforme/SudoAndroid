@@ -10,7 +10,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
 
@@ -73,6 +77,10 @@ public class ChatListAdapter extends BaseAdapter {
         else view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
 
         ViewHolder holder = new ViewHolder(view);
+
+        if (isIncomingMessage(position)) holder.ivAvatar.setTag(0);
+        else holder.ivAvatar.setTag(1);
+
         holder.setData(position);
         runEnterAnimation(view, i);
 
@@ -115,13 +123,6 @@ public class ChatListAdapter extends BaseAdapter {
 
     }
 
-    private void setAvatar(ImageView iv, int position) {
-        iv.setTag(position);
-        if (getItem(position).getCompanion().getAvatar() == null) {
-            //            iv.setImageBitmap();
-        }
-
-    }
 
     private void setMessage(TextView tv, int position) {
         tv.setText(mListMessages.get(position).getBody());
@@ -198,5 +199,38 @@ public class ChatListAdapter extends BaseAdapter {
         this.selectionMode = selectionMode;
         this.selectionArray = selectionArray;
         notifyDataSetChanged();
+    }
+
+
+    private void setAvatar(final ImageView imageView, int position) {
+        int tag = (int) imageView.getTag();
+        if (tag == 1) {
+            String imageUrl = mListMessages.get(position).getOwner().getAvatar();
+            if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
+                Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                        Picasso.with(context).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(imageView);
+
+                    }
+                });
+
+
+            } else {
+                Picasso.with(context).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(imageView);
+
+            }
+        }
+        else{
+            Picasso.with(context).load(R.drawable.ic_me).transform(new CircleTransform()).into(imageView);
+        }
+
     }
 }
