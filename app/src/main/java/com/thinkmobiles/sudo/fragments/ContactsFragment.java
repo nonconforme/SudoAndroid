@@ -12,11 +12,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,16 +51,21 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-    public List<UserModel>  mContactsList;
-    private  Callback<List<UserModel>> mContactsCB;
+    public List<UserModel> mContactsList;
+    private Callback<List<UserModel>> mContactsCB;
 
-    private StickyListHeadersListView stickyList;
+    private StickyListHeadersListView mStickyList;
     private ContactsListAdapter mStickyListAdapter;
     private BroadcastReceiver mSearchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             searchContacts(intent.getStringExtra(Constants.QUERRY));
-            Log.d("search", "querry = " + intent.getStringExtra(Constants.QUERRY ));
+         }
+    };
+    private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            makeGetUserRequest();
         }
     };
     private IntentFilter mSearchFilter = new IntentFilter(Constants.QUERRY);
@@ -70,9 +77,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initList();
         setListener();
         initGetContactsCB();
-        setSwipeRefrechLayoutListenerAndColor();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(),
-                App.getCurrentISO());
+        setSwipeRefrechLayoutColor();
+        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
         makeGetUserRequest();
         return mView;
     }
@@ -83,16 +89,19 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         tvNoContacts = (TextView) mView.findViewById(R.id.tvNoContacts_CF);
         tvNoContacts.setVisibility(View.INVISIBLE);
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
-        stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
+        mStickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
 
     }
-    private void setSwipeRefrechLayoutListenerAndColor(){ mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
+    private void setSwipeRefrechLayoutColor() {
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 makeGetUserRequest();
             }
-        });}
+        });
+    }
 
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
@@ -117,28 +126,51 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initList() {
-        stickyList.setDivider(null);
-        stickyList.setDividerHeight(0);
+        mStickyList.setDivider(null);
+        mStickyList.setDividerHeight(0);
         mStickyListAdapter = new ContactsListAdapter(mActivity);
-        stickyList.setAdapter(mStickyListAdapter);
+        mStickyList.setAdapter(mStickyListAdapter);
+        mStickyList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if (canScrollUp(mStickyList)) {
+                    mSwipeRefreshLayout.setEnabled(false);
+
+                } else {
+                    mSwipeRefreshLayout.setEnabled(true);
+                }
+
+            }
+        });
     }
 
+    public boolean canScrollUp(View view) {
+
+        return ViewCompat.canScrollVertically(view, -1);
+
+    }
 
     public void reloadList(List<UserModel> contacts) {
 
         mStickyListAdapter.reloadList(contacts);
 
 
-        if(contacts != null && contacts.size() > 0){
+        if (contacts != null && contacts.size() > 0) {
             tvNoContacts.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             tvNoContacts.setVisibility(View.VISIBLE);
         }
     }
 
     private void setListener() {
         mBTNAddFriend.setOnClickListener(this);
-        stickyList.setOnItemClickListener(this);
+        mStickyList.setOnItemClickListener(this);
     }
 
     private void initGetContactsCB() {
@@ -169,12 +201,18 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
     private void addFriendActivity() {
-                int[] startingLocation = new int[2];
-                mBTNAddFriend.getLocationOnScreen(startingLocation);
-                startingLocation[0] += mBTNAddFriend.getWidth() / 2;
-                ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
-                mActivity.overridePendingTransition(0, 0);
+        int[] startingLocation = new int[2];
+        mBTNAddFriend.getLocationOnScreen(startingLocation);
+        startingLocation[0] += mBTNAddFriend.getWidth() / 2;
+        ProfileAddActivity.startCameraFromLocation(startingLocation, mActivity);
+        mActivity.overridePendingTransition(0, 0);
     }
 
     @Override
@@ -185,10 +223,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-
-
     public void reloadCurrentList() {
-        if (mContactsList  != null) reloadList(mContactsList );
+        if (mContactsList != null) reloadList(mContactsList);
     }
 
     private void startProfileViewActivity(UserModel userModel, View view) {
@@ -198,7 +234,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void searchContacts(String query) {
-        RetrofitAdapter.getInterface().searchContacts(query, mContactsCB );
+        RetrofitAdapter.getInterface().searchContacts(query, mContactsCB);
 
     }
+
+
 }
