@@ -128,4 +128,9 @@ public interface RetrofitInterface {
     @GET(APIConstants.URL_ADDRESSBOOK )
     void searchContacts(@Query(Constants.QUERRY) String querry, Callback<List<UserModel>> callback);
 
+    @GET(APIConstants.URL_MESSAGE + APIConstants.API_CONVERSATION + "/{" + Constants.FROM_NUMBER + "}" + "/{" + Constants.TO_NUMBER + "}")
+    void getConversationPages(@Path(Constants.FROM_NUMBER) String src, @Path(Constants.TO_NUMBER) String dst,
+            @Query(Constants.PAGE) int page,             @Query(Constants.LENGTH) int length,
+            Callback<List<MessageModel>> callback);
+
 }
