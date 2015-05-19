@@ -13,10 +13,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.BlockNumberActivity;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener,  CompoundButton.OnCheckedChangeListener{
 
@@ -26,7 +33,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private TextView mPin, mNotification;
     private Switch mSwPin, mSwNotification;
     private Button mBlockNumber, mChangePassword, mBTNCancel, mBTNSubmit;
-    private EditText mETNewPass, mETConfirmPass;
+    private EditText mETNewPass, mETConfirmPass, etCurrentPass;
+    private Callback<DefaultResponseModel> mChangePassCB;
 
 
     @Override
@@ -35,7 +43,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         initComponent();
         setListeners();
-
+        initChangePassCB();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(R.string.settings, 0);
 
         return mView;
@@ -67,6 +75,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private void initDialogComponent(){
         mETNewPass      = (EditText) mView.findViewById(R.id.etDialogNewPassFS);
         mETConfirmPass  = (EditText) mView.findViewById(R.id.etDialogConfirmPassFS);
+        etCurrentPass   = (EditText) mView.findViewById(R.id.etDialogPassFS);
         mBTNCancel      = (Button) mView.findViewById(R.id.btnDialogCancelFS);
         mBTNSubmit      = (Button) mView.findViewById(R.id.btnDialogSubmitFS);
     }
@@ -99,7 +108,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 mDialog.dismiss();
                 break;
             case R.id.btnDialogSubmitFS:
-                if (isValidateParam(mETNewPass) && isValidateParam(mETConfirmPass)) //TODO result OK
+                if (isValidateParam(mETNewPass) && isValidateParam(mETConfirmPass) &&
+                        mETNewPass.getText().toString().equals(mETConfirmPass.getText().toString()) )
+                {
+                    changePassRequest();
+                } else     Toast.makeText(mActivity, "Please enter valid data", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btnBlockNumber_FS:
                 Intent intent = new Intent(mActivity,BlockNumberActivity.class);
@@ -110,6 +124,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 setChangePasswordDialogListeners();
                 break;
         }
+    }
+
+    private void changePassRequest() {
+        RetrofitAdapter.getInterface().changePassword(mETNewPass.getText().toString(),
+                mETConfirmPass.getText().toString(), etCurrentPass.getText().toString(), mChangePassCB);
+    }
+
+    private void initChangePassCB(){
+        mChangePassCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                mDialog.dismiss();
+                Toast.makeText(mActivity, defaultResponseModel.getSuccess(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                mDialog.dismiss();
+                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        };
     }
 
     @Override

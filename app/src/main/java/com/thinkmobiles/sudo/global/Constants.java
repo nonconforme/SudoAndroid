@@ -30,7 +30,6 @@ public abstract class Constants {
     public static final String PATH_PARAM_ID                = "id";
     public static final String PATH_PARAM_COUNTRY_ISO       = "countryIso";
     public static final String PATH_PARAM_USER_ID           = "uId";
-    public static final String PASSWORD                     = "password";
     public static final String USER                         = "user";
     public static final String ADDRESS_BOOK                 = "addressBook";
     public static final String USER_ID                      = "uID";
@@ -42,6 +41,9 @@ public abstract class Constants {
     public static final String COMPANION                    = "companion";
     public static final String NUMBERS                      = "numbers";
     public static final String RECEIPT                      = "receipt";
+    public static final String NEW_PASSWORD                 = "newpassword";
+    public static final String CONFIRM_PASSWORD             = "confirmnewpass";
+    public static final String PASSWORD                     = "password";
     public static final String PROVIDER                     = "provider";
     public static final String AVATAR                       = "avatar";
     public static final String PARAM_NUMBER                 = "number";

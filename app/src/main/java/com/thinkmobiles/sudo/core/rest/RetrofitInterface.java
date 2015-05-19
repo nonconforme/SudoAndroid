@@ -61,6 +61,13 @@ public interface RetrofitInterface {
                 Callback<DefaultResponseModel> callback);
 
     @FormUrlEncoded
+    @POST(APIConstants.URL_USER+ APIConstants.URL_CHANGE_PASS)
+    void changePassword(@Field(Constants.NEW_PASSWORD) String newPassword, @Field(Constants.CONFIRM_PASSWORD) String confirmPass,
+                        @Field(Constants.PASSWORD) String password,
+                    Callback<DefaultResponseModel> callback);
+
+
+    @FormUrlEncoded
     @POST(APIConstants.URL_NUMBER + APIConstants.API_BAY_NUMBER)
     void buyNumber(@Field(Constants.PARAM_NUMBER) String number, @Field(Constants.COUNTRY_CODE) String countryIso, @Field(Constants.PARAM_PACKAGE_NAME) String packageName,
                     Callback<BuyNumberResponce> callback);

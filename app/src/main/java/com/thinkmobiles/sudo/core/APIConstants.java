@@ -31,6 +31,7 @@ public abstract class APIConstants {
     public static final String API_COUNTRIES                    = "/countries";
     public static final String API_SEARCH                       = "/search";
     public static final String URL_MESSAGE                      = "/message";
+    public static final String URL_CHANGE_PASS                  = "/changepass";
     public static final String API_LAST_CONVERSATION            = "/lastConversations";
     public static final String API_CONVERSATION                 = "/conversations";
     public static final String API_SEND                         = "/send";
