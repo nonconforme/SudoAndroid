@@ -14,7 +14,7 @@
 
 
         <ImageView style="@style/SChatItemEVAvatar" android:id="@+id/ivAvatar"
-                   android:src="@drawable/ic_man_chat"
+                   android:src="@drawable/ic_me"
 
                    android:layout_centerVertical="true" android:layout_alignParentRight="true"
                    android:layout_alignParentEnd="true" android:layout_marginRight="@dimen/schat_item_small_margin"
