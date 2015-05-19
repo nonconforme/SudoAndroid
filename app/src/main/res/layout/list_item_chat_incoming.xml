@@ -3,7 +3,8 @@
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/container">
     <RelativeLayout
             android:layout_width="match_parent"
             android:id="@+id/rlChatMain_LICO"
@@ -20,8 +21,8 @@
                    android:layout_marginRight="@dimen/schat_item_small_margin"/>
         <ImageView android:layout_width="16dp" android:layout_height="@dimen/schat_triangle_size" android:id="@+id/imageView3"
                    android:src="@drawable/triangle_incoming"
-                   android:layout_marginBottom="163dp" android:layout_alignParentBottom="true"
-                   android:layout_toLeftOf="@+id/relativeLayout3" android:layout_toStartOf="@+id/relativeLayout3"/>
+                   android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/relativeLayout3"
+                   android:layout_toStartOf="@+id/relativeLayout3"/>
         <RelativeLayout android:layout_width="@dimen/schat_item_width" android:layout_height="wrap_content"
                         android:background="@drawable/bg_chat_item_in_text"
                         android:id="@+id/relativeLayout3"

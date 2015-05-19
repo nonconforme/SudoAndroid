@@ -47,7 +47,7 @@ import retrofit.client.Response;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener{
+public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView lvChatList;
@@ -67,6 +67,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private int drawingStartLocation;
     private boolean selectMode = false;
     private MenuItem menuItemDelete;
+    private boolean[] selectionArray;
 
 
     {
@@ -83,10 +84,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(!selectMode)
-            menuItemDelete.setVisible(false);
-
-
+        if (!selectMode) menuItemDelete.setVisible(false);
 
 
         return super.onPrepareOptionsMenu(menu);
@@ -131,7 +129,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
         mSocket.connect();
     }
-
 
 
     private void initSocked() {
@@ -181,12 +178,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Connection problims ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connection problims ", Toast.LENGTH_LONG).show();
                 }
             });
-
-
 
 
         }
@@ -220,24 +214,20 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
             @Override
             public void failure(RetrofitError error) {
-                    Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
             }
         };
     }
 
     @Override
     public void onBackPressed() {
-        contentRoot.animate()
-                .translationY(Utils.getScreenHeight(this))
-                .setDuration(200)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        finish();
-                        overridePendingTransition(0, 0);
-                    }
-                })
-                .start();
+        contentRoot.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        }).start();
     }
 
 
@@ -277,6 +267,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 etMessage.setText("");
             }
         });
+        lvChatList.setOnItemLongClickListener(this);
+        lvChatList.setOnItemClickListener(this);
 
     }
 
@@ -301,7 +293,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
         } else {
-            b.putString(Constants.FROM_NUMBER, _companionNumber  );
+            b.putString(Constants.FROM_NUMBER, _companionNumber);
             b.putString(Constants.TO_NUMBER, _ownerNumber);
         }
         intent.putExtra(BUNDLE, b);
@@ -313,8 +305,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-        if(!selectMode)
-            menuItemDelete.setVisible(false);
+        if (!selectMode) menuItemDelete.setVisible(false);
         return super.onPrepareOptionsPanel(view, menu);
     }
 
@@ -324,13 +315,15 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         switch (id) {
 
             case android.R.id.home:
-                if(!selectMode){
-                onBackPressed();}
-                else{}
+                if (!selectMode) {
+                    onBackPressed();
+                } else {
+                    stopSelectionMode();
+                }
 
                 break;
             case R.id.action_detele:
-
+                deleteChatItems();
                 break;
 
         }
@@ -357,32 +350,24 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
 
-
     private void startIntroAnimation() {
         ViewCompat.setElevation(toolbar, 0);
         contentRoot.setScaleY(0.1f);
         contentRoot.setPivotY(drawingStartLocation);
         rlAddComment.setTranslationY(200);
 
-        contentRoot.animate()
-                .scaleY(1)
-                .setDuration(200)
-                .setInterpolator(new AccelerateInterpolator())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
-                        animateContent();
+        contentRoot.animate().scaleY(1).setDuration(200).setInterpolator(new AccelerateInterpolator()).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
+                animateContent();
 
-                    }
-                })
-                .start();
+            }
+        }).start();
     }
+
     private void animateContent() {
-        rlAddComment.animate().translationY(0)
-                .setInterpolator(new DecelerateInterpolator())
-                .setDuration(200)
-                .start();
+        rlAddComment.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).setDuration(200).start();
     }
 
     @Override
@@ -392,9 +377,75 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        startSelectionMode();
+        controlSelection(selectionArray.length -1 - position);
+
+        return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        if (selectMode) {
+
+            controlSelection(selectionArray.length -1 - position);
 
 
-        return false;
+        }
+    }
+
+    private void controlSelection(int position) {
+
+        selectionArray[position] = !selectionArray[position];
+
+        if (isEmptySelection()) {
+            stopSelectionMode();
+            return;
+        }
+
+        mListAdapter.setSelection(selectMode, selectionArray);
+
+    }
+
+    private void startSelectionMode() {
+        selectMode = true;
+        selectionArray = new boolean[mListAdapter.getList().size()];
+        invalidateOptionsMenu();
+        etMessage.setFocusable(false);
+        btnSend.setFocusable(false);
+
+    }
+
+    private void stopSelectionMode() {
+        selectMode = false;
+        selectionArray = null;
+        mListAdapter.setSelection(selectMode, selectionArray);
+        invalidateOptionsMenu();
+        etMessage.setFocusable(true);
+        btnSend.setFocusable(true);
+    }
+
+    private void deleteChatItems() {
+
+        if (!isEmptySelection()) {
+            List<MessageModel> mListMessages = mListAdapter.getList();
+            for (int i = 0; i < selectionArray.length - 1; i++) {
+                if (selectionArray[i]) mListMessages.remove(i);
+            }
+            mListAdapter.reloadContent(mListMessages, mOwnerNumber);
+
+        }
+
+        stopSelectionMode();
+    }
+
+    private boolean isEmptySelection() {
+        if (selectionArray == null || selectionArray.length == 0) return true;
+
+        for (int i = 0; i < selectionArray.length - 1; i++) {
+            if (selectionArray[i]) return false;
+        }
+
+        return true;
     }
 }
