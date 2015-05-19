@@ -48,6 +48,7 @@ public abstract class Constants {
     public static final String AVATAR                       = "avatar";
     public static final String PARAM_NUMBER                 = "number";
     public static final String PARAM_PACKAGE_NAME           = "packageName";
+    public static final String QUERRY                       = "q";
 
 
     public static final String PARAM_DEVICE_ID              = "device_ID";

@@ -23,11 +23,9 @@ import com.thinkmobiles.sudo.adapters.DrawerMenuAdapter;
 import com.thinkmobiles.sudo.adapters.DrawerPhoneListAdapter;
 import com.thinkmobiles.sudo.callbacks.ContactsFragmentCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.fragments.HomeFragment;
+import com.thinkmobiles.sudo.fragments.*;
 import com.thinkmobiles.sudo.fragments.numbers.BaseNumbersFragment;
 import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
-import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
-import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.gcm.GcmHelper;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
@@ -110,7 +108,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     }
 
-    private void registerGCM(){
+    private void registerGCM() {
         gcmHelper = new GcmHelper(this);
         gcmHelper.registerDevice();
     }
@@ -124,7 +122,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
             sToolbarManager.setToolbarIcon(App.getCurrentISO());
             ivSpinner_Drawer.setVisibility(View.VISIBLE);
 
-        }else{
+        } else {
             ivSpinner_Drawer.setVisibility(View.INVISIBLE);
         }
     }
@@ -132,7 +130,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onResume() {
         super.onResume();
-        if (Network.isInternetConnectionAvailable(this)){
+        if (Network.isInternetConnectionAvailable(this)) {
             if (gcmHelper != null) gcmHelper.checkPlayServices();
         }
 
@@ -402,14 +400,15 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
             String query = intent.getStringExtra(SearchManager.QUERY);
 
 
-            if (getCurrentTab() == 0) {
-                homeFragment.getAdapter().getContactsFragment().searchContactsList(query);
-            } else {
-                homeFragment.getAdapter().getChatFragment().searchChatList(query);
-            }
+            searchContacts(query);
 
 
         }
+    }
+
+    private void searchContacts(String query) {
+         RetrofitAdapter.getInterface().searchContacts(query, ContactsFragment.getCallBack());
+
     }
 
     private int getCurrentTab() {

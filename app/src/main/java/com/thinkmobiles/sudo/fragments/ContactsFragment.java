@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private TextView tvNoContacts;
 
     public List<UserModel>  mContactsList;
-    private Callback<List<UserModel>> mContactsCB;
+    private static Callback<List<UserModel>> mContactsCB;
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter mStickyListAdapter;
@@ -61,7 +62,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initGetContactsCB();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(),
                 App.getCurrentISO());
+        makeGetUserRequest();
         return mView;
+    }
+    public static Callback<List<UserModel>> getCallBack(){
+        return mContactsCB;
     }
 
     private void findUI() {
@@ -78,7 +83,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        makeGetUserRequest();
+
     }
 
     @Override
@@ -155,15 +160,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-    public void searchContactsList(String querry) {
-        List<UserModel> tempContactsArrayList = new ArrayList<>();
-        if (mContactsList != null) {
-            for (UserModel userModel : mContactsList ) {
-                if (Utils.stringContains(userModel.getCompanion(), querry)) tempContactsArrayList.add(userModel);
-            }
-            reloadList(tempContactsArrayList);
-        }
-    }
+
 
     public void reloadCurrentList() {
         if (mContactsList  != null) reloadList(mContactsList );

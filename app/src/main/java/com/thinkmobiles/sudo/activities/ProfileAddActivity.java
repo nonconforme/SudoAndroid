@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.RevealBackgroundView;
+import com.thinkmobiles.sudo.fragments.ContactsFragment;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
@@ -120,6 +121,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
         mAddContactCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                reloadContactList();
             }
 
             @Override
@@ -143,6 +145,10 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
         ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorAddFriend));
         setStatusBarColor(getResources().getColor(R.color.colorAddFriendDark));
         setTitle(getResources().getString(R.string.add_profile));
+    }
+
+    private void reloadContactList(){
+        RetrofitAdapter.getInterface().getContacts(ContactsFragment.getCallBack());
     }
 }
 

@@ -133,6 +133,7 @@ public interface RetrofitInterface {
     @PUT(APIConstants.URL_ADDRESSBOOK + APIConstants.URL_NUMBERS+APIConstants.API_BLOCK_NUMBERS)
     void blockNumebers( @Body TypedJsonString blockedNumbers, Callback<DefaultResponseModel> callback);
 
-
+    @GET(APIConstants.URL_ADDRESSBOOK)
+    void searchContacts(@Path(Constants.QUERRY) String querry, Callback<List<UserModel>> callback);
 
 }
