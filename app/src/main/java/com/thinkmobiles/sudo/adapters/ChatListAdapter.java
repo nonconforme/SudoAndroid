@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
@@ -28,11 +26,13 @@ public class ChatListAdapter extends BaseAdapter {
     private List<MessageModel> mListMessages;
     private LayoutInflater mInflater;
     private Context context;
-    private   String mOwnerNumber;
+    private String mOwnerNumber;
     private int lastAnimatedPosition = -1;
 
     private boolean animationsLocked = false;
     private boolean delayEnterAnimation = true;
+    private boolean selectionMode = false;
+    private boolean[] selectionArray;
 
     public ChatListAdapter(Context context) {
         this.context = context;
@@ -65,16 +65,14 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         int position = getCount() - i - 1;
-        ViewHolder holder;
-        if (view == null) {
-            if (isIncomingMessage(position))
-                view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
-            else view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
+
+        if (isIncomingMessage(position))
+
+            view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
+
+        else view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
+
+        ViewHolder holder = new ViewHolder(view);
         holder.setData(position);
         runEnterAnimation(view, i);
 
@@ -83,22 +81,28 @@ public class ChatListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView ivAvatar;
-        TextView tvTimedate, tvMessage;
+        TextView tvTimedate, tvMessage, tvNumber;
+        View container;
 
-        public ViewHolder(final View _view){
+        public ViewHolder(final View _view) {
             initHolder(_view);
         }
 
-    private void initHolder(View _view){
-        this.ivAvatar = (ImageView) _view.findViewById(R.id.ivAvatar);
-        this.tvMessage = (TextView) _view.findViewById(R.id.tvChatText);
-        this.tvTimedate = (TextView) _view.findViewById(R.id.tvTimeDate);
-    }
-    private void setData(final int _pos){
-        setAvatar(this.ivAvatar, _pos);
-        setMessage(this.tvMessage, _pos);
-        setTimeDate(this.tvTimedate, _pos);
-    }
+        private void initHolder(View _view) {
+            this.ivAvatar = (ImageView) _view.findViewById(R.id.ivAvatar);
+            this.tvMessage = (TextView) _view.findViewById(R.id.tvChatText);
+            this.tvTimedate = (TextView) _view.findViewById(R.id.tvTimeDate);
+            this.tvNumber = (TextView) _view.findViewById(R.id.tvCompanionNumber);
+            this.container = _view.findViewById(R.id.container);
+        }
+
+        private void setData(final int _pos) {
+            setAvatar(this.ivAvatar, _pos);
+            setMessage(this.tvMessage, _pos);
+            setTimeDate(this.tvTimedate, _pos);
+            setNumber(this.tvNumber, _pos);
+            setSelectionBG(this.container, _pos);
+        }
 
     }
 
@@ -113,8 +117,8 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setAvatar(ImageView iv, int position) {
         iv.setTag(position);
-        if (getItem(position).getCompanion().getAvatar() == null){
-//            iv.setImageBitmap();
+        if (getItem(position).getCompanion().getAvatar() == null) {
+            //            iv.setImageBitmap();
         }
 
     }
@@ -124,20 +128,39 @@ public class ChatListAdapter extends BaseAdapter {
 
     }
 
+    private void setNumber(TextView tv, int position) {
+        tv.setText(mListMessages.get(position).getCompanion().getNumber());
+
+    }
+
+    private void setSelectionBG(View view, int position) {
+        if (selectionMode && selectionArray != null && selectionArray[position])
+
+            view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
+
+
+        else view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_default));
+
+
+    }
+
     private void setTimeDate(TextView tv, int position) {
         String timeDate = Utils.stringToDate(mListMessages.get(position).getPostedDate());
         tv.setText(timeDate);
     }
+
     public void updateItems() {
 
         notifyDataSetChanged();
     }
+
     public void addNewMessage(MessageModel newMessage) {
 
-        mListMessages.add(0,newMessage);
+        mListMessages.add(0, newMessage);
 
         notifyDataSetChanged();
     }
+
     public void setAnimationsLocked(boolean animationsLocked) {
         this.animationsLocked = animationsLocked;
     }
@@ -145,6 +168,7 @@ public class ChatListAdapter extends BaseAdapter {
     public void setDelayEnterAnimation(boolean delayEnterAnimation) {
         this.delayEnterAnimation = delayEnterAnimation;
     }
+
     private void runEnterAnimation(View view, int position) {
         if (animationsLocked) return;
 
@@ -152,18 +176,27 @@ public class ChatListAdapter extends BaseAdapter {
             lastAnimatedPosition = position;
             view.setTranslationY(100);
             view.setAlpha(0.f);
-            view.animate()
-                    .translationY(0).alpha(1.f)
-                    .setStartDelay(delayEnterAnimation ? 20 * (position) : 0)
-                    .setInterpolator(new DecelerateInterpolator(2.f))
-                    .setDuration(300)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            animationsLocked = true;
-                        }
-                    })
-                    .start();
+            view.animate().translationY(0).alpha(1.f).setStartDelay(delayEnterAnimation ? 20 * (position) : 0).setInterpolator(new DecelerateInterpolator(2.f)).setDuration(300).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animationsLocked = true;
+                }
+            }).start();
         }
+    }
+
+    public List<MessageModel> getList() {
+        return mListMessages;
+    }
+
+    public void setSelection(boolean selectionMode, boolean[] selectionArray) {
+        if (selectionArray == null || selectionArray.length < 1) {
+            this.selectionMode = false;
+            notifyDataSetChanged();
+            return;
+        }
+        this.selectionMode = selectionMode;
+        this.selectionArray = selectionArray;
+        notifyDataSetChanged();
     }
 }

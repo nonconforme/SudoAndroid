@@ -9,16 +9,13 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -50,7 +47,7 @@ import retrofit.client.Response;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity {
+public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView lvChatList;
@@ -68,6 +65,9 @@ public class ChatActivity extends ActionBarActivity {
     private String mCompanionNumber;
     private Socket mSocket;
     private int drawingStartLocation;
+    private boolean selectMode = false;
+    private MenuItem menuItemDelete;
+    private boolean[] selectionArray;
 
 
     {
@@ -81,6 +81,22 @@ public class ChatActivity extends ActionBarActivity {
 
     private MessageModel mSendMessageModel;
     private MessageModel mFirstMessageModel;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (!selectMode) menuItemDelete.setVisible(false);
+
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);//Menu Resource, Menu
+        menuItemDelete = menu.findItem(R.id.action_detele);
+
+        return true;
+    }
 
 
     public static final String BUNDLE = "bundle";
@@ -113,6 +129,7 @@ public class ChatActivity extends ActionBarActivity {
 
         mSocket.connect();
     }
+
 
     private void initSocked() {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -161,12 +178,9 @@ public class ChatActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Connection problims ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connection problims ", Toast.LENGTH_LONG).show();
                 }
             });
-
-
 
 
         }
@@ -200,24 +214,20 @@ public class ChatActivity extends ActionBarActivity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
             }
         };
     }
 
     @Override
     public void onBackPressed() {
-        contentRoot.animate()
-                .translationY(Utils.getScreenHeight(this))
-                .setDuration(200)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        finish();
-                        overridePendingTransition(0, 0);
-                    }
-                })
-                .start();
+        contentRoot.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        }).start();
     }
 
 
@@ -257,6 +267,8 @@ public class ChatActivity extends ActionBarActivity {
                 etMessage.setText("");
             }
         });
+        lvChatList.setOnItemLongClickListener(this);
+        lvChatList.setOnItemClickListener(this);
 
     }
 
@@ -281,7 +293,7 @@ public class ChatActivity extends ActionBarActivity {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
         } else {
-            b.putString(Constants.FROM_NUMBER, _companionNumber  );
+            b.putString(Constants.FROM_NUMBER, _companionNumber);
             b.putString(Constants.TO_NUMBER, _ownerNumber);
         }
         intent.putExtra(BUNDLE, b);
@@ -291,13 +303,29 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+
+        if (!selectMode) menuItemDelete.setVisible(false);
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
 
-                onBackPressed();
+            case android.R.id.home:
+                if (!selectMode) {
+                    onBackPressed();
+                } else {
+                    stopSelectionMode();
+                }
+
                 break;
+            case R.id.action_detele:
+                deleteChatItems();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -328,30 +356,96 @@ public class ChatActivity extends ActionBarActivity {
         contentRoot.setPivotY(drawingStartLocation);
         rlAddComment.setTranslationY(200);
 
-        contentRoot.animate()
-                .scaleY(1)
-                .setDuration(200)
-                .setInterpolator(new AccelerateInterpolator())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
-                        animateContent();
+        contentRoot.animate().scaleY(1).setDuration(200).setInterpolator(new AccelerateInterpolator()).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ViewCompat.setElevation(toolbar, Utils.dpToPx(8));
+                animateContent();
 
-                    }
-                })
-                .start();
+            }
+        }).start();
     }
+
     private void animateContent() {
-        rlAddComment.animate().translationY(0)
-                .setInterpolator(new DecelerateInterpolator())
-                .setDuration(200)
-                .start();
+        rlAddComment.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).setDuration(200).start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Network.isInternetConnectionAvailable(this);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        startSelectionMode();
+        controlSelection(selectionArray.length -1 - position);
+
+        return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        if (selectMode) {
+
+            controlSelection(selectionArray.length -1 - position);
+
+
+        }
+    }
+
+    private void controlSelection(int position) {
+
+        selectionArray[position] = !selectionArray[position];
+
+        if (isEmptySelection()) {
+            stopSelectionMode();
+            return;
+        }
+
+        mListAdapter.setSelection(selectMode, selectionArray);
+
+    }
+
+    private void startSelectionMode() {
+        selectMode = true;
+        selectionArray = new boolean[mListAdapter.getList().size()];
+        invalidateOptionsMenu();
+        etMessage.setFocusable(false);
+        btnSend.setFocusable(false);
+
+    }
+
+    private void stopSelectionMode() {
+        selectMode = false;
+        selectionArray = null;
+        mListAdapter.setSelection(selectMode, selectionArray);
+        invalidateOptionsMenu();
+        etMessage.setFocusable(true);
+        btnSend.setFocusable(true);
+    }
+
+    private void deleteChatItems() {
+
+        if (!isEmptySelection()) {
+            List<MessageModel> mListMessages = mListAdapter.getList();
+            for (int i = 0; i < selectionArray.length - 1; i++) {
+                if (selectionArray[i]) mListMessages.remove(i);
+            }
+            mListAdapter.reloadContent(mListMessages, mOwnerNumber);
+
+        }
+
+        stopSelectionMode();
+    }
+
+    private boolean isEmptySelection() {
+        if (selectionArray == null || selectionArray.length == 0) return true;
+
+        for (int i = 0; i < selectionArray.length - 1; i++) {
+            if (selectionArray[i]) return false;
+        }
+
+        return true;
     }
 }
