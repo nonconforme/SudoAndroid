@@ -12,11 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
- import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.*;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.Network;
+import com.thinkmobiles.sudo.models.BlockNumber;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.JsonHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -29,7 +32,9 @@ import java.util.List;
 public class BlockNumberActivity extends ActionBarActivity {
     public List<UserModel> mContactsList;
 
+
     private Callback<List<UserModel>> mContactsCB;
+    private Callback<DefaultResponseModel> mBlockedNumbersCB;
     private BlockNumberExpandableAdapter adapter;
     private ExpandableListView listView;
     private Toolbar toolbar;
@@ -41,6 +46,7 @@ public class BlockNumberActivity extends ActionBarActivity {
         findUI();
         initList();
         initGetContactsCB();
+        initPutBlockedNumbersCB();
         makeGetUserRequest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,6 +80,7 @@ public class BlockNumberActivity extends ActionBarActivity {
                 onBackPressed();
                 break;
             case R.id.action_accept:
+                sendBlockedNumbers(adapter.getBlockedNumbers());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -95,7 +102,22 @@ public class BlockNumberActivity extends ActionBarActivity {
         };
     }
 
+    private void initPutBlockedNumbersCB() {
+        mBlockedNumbersCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                Toast.makeText(BlockNumberActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(BlockNumberActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+    }
 
     private void initList() {
         listView.setDivider(null);
@@ -116,11 +138,8 @@ public class BlockNumberActivity extends ActionBarActivity {
     }
 
 
-
     private void findUI() {
         listView = (ExpandableListView) findViewById(R.id.slContacts_ABN);
-
-
 
 
     }
@@ -139,4 +158,12 @@ public class BlockNumberActivity extends ActionBarActivity {
         super.onResume();
         Network.isInternetConnectionAvailable(this);
     }
+
+    public void sendBlockedNumbers(List<BlockNumber> blockedNumbers) {
+        RetrofitAdapter.getInterface().blockNumebers(JsonHelper.makeJsonBlockedNumbers(blockedNumbers), mBlockedNumbersCB);
+
+
+    }
+
+
 }

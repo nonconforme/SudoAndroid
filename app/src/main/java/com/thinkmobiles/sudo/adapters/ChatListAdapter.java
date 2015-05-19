@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.adapters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,10 +204,12 @@ public class ChatListAdapter extends BaseAdapter {
 
 
     private void setAvatar(final ImageView imageView, int position) {
-        int tag = (int) imageView.getTag();
+         int tag = (int) imageView.getTag();
         if (tag == 1) {
             String imageUrl = mListMessages.get(position).getOwner().getAvatar();
+
             if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
+
                 Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {

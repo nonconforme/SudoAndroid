@@ -128,4 +128,11 @@ public interface RetrofitInterface {
 //    @PUT(APIConstants.URL_USER + "/{" + Constants.PATH_PARAM_ID + "}")
 //    void addToAddressBook(@Body AddressBookRequest addressBook, @Path(Constants.PATH_PARAM_ID) String id,
 //                          Callback<DefaultResponseModel> callback);
+
+
+    @PUT(APIConstants.URL_ADDRESSBOOK + APIConstants.URL_NUMBERS+APIConstants.API_BLOCK_NUMBERS)
+    void blockNumebers( @Body TypedJsonString blockedNumbers, Callback<DefaultResponseModel> callback);
+
+
+
 }

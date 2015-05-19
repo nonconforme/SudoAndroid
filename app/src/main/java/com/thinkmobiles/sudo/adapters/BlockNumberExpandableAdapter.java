@@ -1,6 +1,7 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.models.BlockNumber;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
@@ -190,5 +192,37 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
 
     }
 
+    public List<BlockNumber> getBlockedNumbers(){
+        List<BlockNumber> mListBlockNumbers = new ArrayList<>();
+        for(UserModel contact : contacts){
+            List <NumberModel> mListNumbers= contact.getNumbers();
+            for(NumberModel number : mListNumbers){
+                if(number.isBlocked()){
+
+                    BlockNumber blockedNumber = new BlockNumber(number.getNumber(), number.isBlocked());
+                    mListBlockNumbers.add(blockedNumber);
+                }
+            }
+
+
+        }
+
+
+
+        return mListBlockNumbers;
+    }
+
+    public void getBlockNumbersAsync(){
+
+        AsyncTask<Void,Void,List<BlockNumber>> getBlockedNumebrs = new AsyncTask<Void, Void, List<BlockNumber>>() {
+            List<BlockNumber> mListBlockNumbers = new ArrayList<>();
+            @Override
+            protected List<BlockNumber> doInBackground(Void... voids) {
+                mListBlockNumbers = getBlockedNumbers();
+                return mListBlockNumbers;
+            }
+        };
+        getBlockedNumebrs.execute();
+    }
 
 }
