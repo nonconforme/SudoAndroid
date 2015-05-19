@@ -25,15 +25,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Headers;
-import retrofit.http.POST;
-import retrofit.http.PUT;
-import retrofit.http.Path;
+import retrofit.http.*;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedString;
 
@@ -133,7 +125,7 @@ public interface RetrofitInterface {
     @PUT(APIConstants.URL_ADDRESSBOOK + APIConstants.URL_NUMBERS+APIConstants.API_BLOCK_NUMBERS)
     void blockNumebers( @Body TypedJsonString blockedNumbers, Callback<DefaultResponseModel> callback);
 
-    @GET(APIConstants.URL_ADDRESSBOOK)
-    void searchContacts(@Path(Constants.QUERRY) String querry, Callback<List<UserModel>> callback);
+    @GET(APIConstants.URL_ADDRESSBOOK )
+    void searchContacts(@Query(Constants.QUERRY) String querry, Callback<List<UserModel>> callback);
 
 }

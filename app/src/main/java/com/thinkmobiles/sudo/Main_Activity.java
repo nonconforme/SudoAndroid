@@ -108,6 +108,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     }
 
+
     private void registerGCM() {
         gcmHelper = new GcmHelper(this);
         gcmHelper.registerDevice();
@@ -358,12 +359,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(Main_Activity.this.getComponentName()));
         searchView.setActivated(true);
+
+
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
 
-                if (getCurrentTab() == 0) homeFragment.getAdapter().getContactsFragment().reloadCurrentList();
-                else homeFragment.getAdapter().getChatFragment().reloadCurrentList();
+                sendSearchBroadcastQuery("");
 
                 return false;
             }
@@ -399,16 +401,16 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
             // handles a search query
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-
-            searchContacts(query);
+            sendSearchBroadcastQuery(query);
 
 
         }
     }
 
-    private void searchContacts(String query) {
-         RetrofitAdapter.getInterface().searchContacts(query, ContactsFragment.getCallBack());
-
+    private void sendSearchBroadcastQuery(String query) {
+        Intent broadcastIntent = new Intent(Constants.QUERRY);
+        broadcastIntent.putExtra(Constants.QUERRY, query);
+        sendBroadcast(broadcastIntent);
     }
 
     private int getCurrentTab() {

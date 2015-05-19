@@ -14,6 +14,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.RevealBackgroundView;
 import com.thinkmobiles.sudo.fragments.ContactsFragment;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
@@ -148,7 +149,14 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
     }
 
     private void reloadContactList(){
-        RetrofitAdapter.getInterface().getContacts(ContactsFragment.getCallBack());
+        sendSearchBroadcastQuery("");
+    }
+
+    private void sendSearchBroadcastQuery(String query) {
+        Intent broadcastIntent = new Intent(Constants.QUERRY);
+
+        broadcastIntent.putExtra(Constants.QUERRY, query);
+        sendBroadcast(broadcastIntent);
     }
 }
 

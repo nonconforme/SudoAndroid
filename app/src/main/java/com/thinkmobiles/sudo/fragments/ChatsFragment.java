@@ -88,7 +88,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
         initComponent();
         iniGetChatsCB();
-
+        getLastChats();
         return v;
     }
 
@@ -103,7 +103,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
-        getLastChats();
+
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
         registerSelectionReceiver();
     }

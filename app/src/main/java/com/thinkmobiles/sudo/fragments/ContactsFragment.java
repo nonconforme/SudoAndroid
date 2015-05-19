@@ -5,7 +5,10 @@ package com.thinkmobiles.sudo.fragments;
  */
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -21,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
@@ -48,10 +52,18 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private TextView tvNoContacts;
 
     public List<UserModel>  mContactsList;
-    private static Callback<List<UserModel>> mContactsCB;
+    private  Callback<List<UserModel>> mContactsCB;
 
     private StickyListHeadersListView stickyList;
     private ContactsListAdapter mStickyListAdapter;
+    private BroadcastReceiver mSearchBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            searchContacts(intent.getStringExtra(Constants.QUERRY));
+            Log.d("search", "querry = " + intent.getStringExtra(Constants.QUERRY ));
+        }
+    };
+    private IntentFilter mSearchFilter = new IntentFilter(Constants.QUERRY);
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,9 +77,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         makeGetUserRequest();
         return mView;
     }
-    public static Callback<List<UserModel>> getCallBack(){
-        return mContactsCB;
-    }
+
 
     private void findUI() {
         tvNoContacts = (TextView) mView.findViewById(R.id.tvNoContacts_CF);
@@ -83,7 +93,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
+        mActivity.registerReceiver(mSearchBroadcastReceiver, mSearchFilter);
+    }
 
+    @Override
+    public void onDestroy() {
+        mActivity.unregisterReceiver(mSearchBroadcastReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -171,4 +187,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+
+    private void searchContacts(String query) {
+        RetrofitAdapter.getInterface().searchContacts(query, mContactsCB );
+
+    }
 }
