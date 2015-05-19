@@ -48,9 +48,10 @@ public abstract class Constants {
     public static final String PARAM_PACKAGE_NAME           = "packageName";
 
 
-
-    public static final String PROPERTY_APP_VERSION         = "appVersion";
-
+    public static final String PARAM_DEVICE_ID              = "device_ID";
+    public static final String PARAM_REG_ID                 = "regId";
+    public static final String PROPERTY_APP_VERSION         = "app_version";
+    public static final String SENDER_ID                    = "134798194901";
 
     /**
      * Authorization
@@ -67,4 +68,8 @@ public abstract class Constants {
 
     public static final String  API_KEY                     = "api_key";
     public static final String SET_COOKIE_KEY               = "Set-Cookie" ;
+
+
+    public final static int PLAY_SERVICES_RESOLUTION_REQUEST    = 9000;
+
 }

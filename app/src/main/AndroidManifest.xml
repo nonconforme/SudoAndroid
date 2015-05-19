@@ -6,7 +6,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <permission
+        android:name="com.thinkmobiles.sudo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.moriser.moriser.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".global.App"
         android:allowBackup="true"
@@ -101,6 +110,27 @@
             android:exported="false">
 
         </service>
+        <receiver
+            android:name=".gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.thinkmobiles.sudo" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="com.thinkmobiles.sudo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".gcm.GcmIntentService"
+            android:enabled="true" />
 
     </application>
 

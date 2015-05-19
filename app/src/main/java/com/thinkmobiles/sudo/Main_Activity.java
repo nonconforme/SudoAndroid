@@ -28,6 +28,7 @@ import com.thinkmobiles.sudo.fragments.numbers.BaseNumbersFragment;
 import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
+import com.thinkmobiles.sudo.gcm.GcmHelper;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.global.FragmentReplacer;
@@ -86,6 +87,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private List<DrawerMenuItemModel> mDrawerMenuList;
     private ProgressBar progressBar;
+    private GcmHelper gcmHelper;
 
 
     @Override
@@ -103,8 +105,16 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         findHeaderUI();
         setHeaderContent();
         initSignOutCB();
+        registerGCM();
+
 
     }
+
+    private void registerGCM(){
+        gcmHelper = new GcmHelper(this);
+        gcmHelper.registerDevice();
+    }
+
 
     public void setHeaderContent() {
         setBaseTitle();
@@ -122,7 +132,9 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onResume() {
         super.onResume();
-        Network.isInternetConnectionAvailable(this);
+        if (Network.isInternetConnectionAvailable(this)){
+            if (gcmHelper != null) gcmHelper.checkPlayServices();
+        }
 
     }
 

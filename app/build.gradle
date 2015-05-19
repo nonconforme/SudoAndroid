@@ -36,6 +36,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'jp.wasabeef:picasso-transformations:1.0.2@aar'
     compile 'com.getbase:floatingactionbutton:1.9.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
 
     compile 'com.android.support:palette-v7:22.0.0'
     // OKHttp

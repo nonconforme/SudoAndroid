@@ -17,15 +17,16 @@ public abstract class Network {
      * @param _context
      * @return
      */
-    public static final void isInternetConnectionAvailable(final Context _context) {
+    public static final boolean isInternetConnectionAvailable(final Context _context) {
         final ConnectivityManager connectivityManager   = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetworkInfo             = connectivityManager.getActiveNetworkInfo();
 
           if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
               noInternetConnectionDialog(_context);
+              return false;
         }
 
-
+return true;
     }
 
 
