@@ -10,11 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,13 +30,11 @@ import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +46,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private FloatingActionButton mBTNAddFriend;
     private View mView;
     private TextView tvNoContacts;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     public List<UserModel>  mContactsList;
     private  Callback<List<UserModel>> mContactsCB;
@@ -67,11 +65,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.contacts, container, false);
+        mView = inflater.inflate(R.layout.fragment_contacts, container, false);
         findUI();
         initList();
         setListener();
         initGetContactsCB();
+        setSwipeRefrechLayoutListenerAndColor();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(),
                 App.getCurrentISO());
         makeGetUserRequest();
@@ -80,11 +79,20 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void findUI() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefreshLayout_CF);
         tvNoContacts = (TextView) mView.findViewById(R.id.tvNoContacts_CF);
         tvNoContacts.setVisibility(View.INVISIBLE);
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);
         stickyList = (StickyListHeadersListView) mView.findViewById(R.id.lwContactsList);
+
     }
+    private void setSwipeRefrechLayoutListenerAndColor(){ mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                makeGetUserRequest();
+            }
+        });}
 
     private void makeGetUserRequest() {
         RetrofitAdapter.getInterface().getContacts(mContactsCB);
@@ -141,11 +149,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
                 App.setCurrentContacts(String.valueOf(mContactsList.size()));
 
                 reloadList(userModels);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         };
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 
@@ -411,6 +412,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         Intent broadcastIntent = new Intent(Constants.QUERRY);
         broadcastIntent.putExtra(Constants.QUERRY, query);
         sendBroadcast(broadcastIntent);
+        searchView.setQuery(query, false);
     }
 
     private int getCurrentTab() {
