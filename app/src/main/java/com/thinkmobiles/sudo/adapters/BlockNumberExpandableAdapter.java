@@ -21,7 +21,9 @@ import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -32,11 +34,13 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
+    private HashMap<int[], NumberModel> blockInteractions;
 
     public BlockNumberExpandableAdapter(Activity context) {
         this.mActivity = context;
         this.contacts = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
+        blockInteractions = new HashMap<>();
     }
 
 
@@ -134,6 +138,7 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
                 }
                 else {
                     contacts.get(g).getNumbers().get(c).setBlocked(b);
+                    blockInteractions.put(tag ,contacts.get(g).getNumbers().get(c));
                  }
             }
         });
@@ -194,17 +199,11 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
 
     public List<BlockNumber> getBlockedNumbers(){
         List<BlockNumber> mListBlockNumbers = new ArrayList<>();
-        for(UserModel contact : contacts){
-            List <NumberModel> mListNumbers= contact.getNumbers();
-            for(NumberModel number : mListNumbers){
-                if(number.isBlocked()){
-
-                    BlockNumber blockedNumber = new BlockNumber(number.getNumber(), number.isBlocked());
-                    mListBlockNumbers.add(blockedNumber);
-                }
-            }
-
-
+        for(Map.Entry<int[], NumberModel> entry : blockInteractions.entrySet()){
+            String number = entry.getValue().getNumber();
+            boolean isBlocked = entry.getValue().isBlocked();
+            BlockNumber blockNumber  = new BlockNumber(number,isBlocked);
+            mListBlockNumbers.add(blockNumber);
         }
 
 
@@ -212,17 +211,6 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
         return mListBlockNumbers;
     }
 
-    public void getBlockNumbersAsync(){
 
-        AsyncTask<Void,Void,List<BlockNumber>> getBlockedNumebrs = new AsyncTask<Void, Void, List<BlockNumber>>() {
-            List<BlockNumber> mListBlockNumbers = new ArrayList<>();
-            @Override
-            protected List<BlockNumber> doInBackground(Void... voids) {
-                mListBlockNumbers = getBlockedNumbers();
-                return mListBlockNumbers;
-            }
-        };
-        getBlockedNumebrs.execute();
-    }
 
 }
