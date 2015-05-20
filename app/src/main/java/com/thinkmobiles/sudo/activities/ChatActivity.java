@@ -74,7 +74,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private boolean[] selectionArray;
     private int mPageCount = 0;
     private int mLength = 6;
-    private int mFocusView = 0;
 
 
     {
@@ -83,11 +82,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void setFocusView() {
-        if (mListAdapter.getCount() > 1) mFocusView = mListAdapter.getCount() - 1;
-
     }
 
 
@@ -223,7 +217,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     }
                     mMessageModelList.addAll(messageModel);
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
-
+                    mChatList.setSelection(messageModel.size());
 
 
                 }
@@ -249,16 +243,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }).start();
     }
 
-    private void scrollListViewToPosition(final int newListSize) {
-        /*mFocusView += newListSize;*/
-        mChatList.post(new Runnable() {
-            @Override
-            public void run() {
-                // Select the last row so it will scroll into view...
-                mChatList.setSelection( mFocusView);
-             }
-        });
-    }
 
     private void initComponents() {
         setContentView(R.layout.activity_chat);
@@ -490,7 +474,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                setFocusView();
+
                 getMessagesPages();
                 stopSelectionMode();
             }
@@ -519,5 +503,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+    }
 }

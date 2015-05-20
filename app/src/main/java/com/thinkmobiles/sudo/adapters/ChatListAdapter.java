@@ -46,9 +46,10 @@ public class ChatListAdapter extends BaseAdapter {
 
     }
 
-    public void reloadContent(List<MessageModel> mListMessages, String mOwnerNumber) {
-        this.mListMessages = mListMessages;
-        this.mOwnerNumber = mOwnerNumber;
+    public void reloadContent(List<MessageModel> _mListMessages, String _mOwnerNumber) {
+         mListMessages.clear();
+         mListMessages.addAll(_mListMessages) ;
+        mOwnerNumber = _mOwnerNumber;
         notifyDataSetChanged();
     }
 

@@ -3,53 +3,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/rlMain_AC"
-                android:background="@color/background_floating_material_light"
-    android:visibility="visible">
-     <android.support.v4.widget.SwipeRefreshLayout
+                android:background="@android:color/white"
+                android:visibility="visible">
+    <android.support.v4.widget.SwipeRefreshLayout
 
-                                                  android:id="@+id/swipeRefreshLayout_AC"
-                                                  android:layout_width="match_parent"
-                                                  android:layout_height="match_parent"
-                                                  android:layout_below="@+id/toolbar"
-                                                  android:layout_above="@+id/rlAddComment_AC">
-    <ListView
+            android:id="@+id/swipeRefreshLayout_AC"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/lvChatList"
-            android:layout_gravity="center_horizontal"
-            android:layout_above="@+id/rlAddComment_AC"
-            android:choiceMode="none"
-            android:stackFromBottom="true"
-            android:transcriptMode="normal" android:layout_below="@+id/toolbar"
-
-            android:dividerHeight="1dp"
-            android:divider="@color/sn_list_devider_color" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/rlAddComment_AC">
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/lvChatList"
+                android:layout_gravity="center_horizontal"
+                android:layout_above="@+id/rlAddComment_AC"
+                android:choiceMode="singleChoice"
+                android:stackFromBottom="true"
+                 android:layout_below="@+id/toolbar"
+                 android:dividerHeight="1dp"
+                android:divider="@color/sn_list_devider_color"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/rlAddComment_AC"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" android:background="@color/schats_phone_number_color">
-    <EditText
-            style="@style/SChatItemET"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/compose_message_hint"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/rlAddComment_AC"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:background="@color/schats_phone_number_color">
+        <EditText
+                style="@style/SChatItemET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/compose_message_hint"
 
-            android:id="@+id/etMessage"
-            android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/btnSend"
-            android:layout_toStartOf="@+id/btnSend"/>
-    <Button
-            style="@style/SChatBtnSend"
-            android:layout_width="wrap_content"
-            android:text="@string/message_send"
-            android:id="@+id/btnSend"
-            android:background="@drawable/selector_btn_send"
-            android:layout_centerVertical="true" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+                android:id="@+id/etMessage"
+                android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/btnSend"
+                android:layout_toStartOf="@+id/btnSend"/>
+        <Button
+                style="@style/SChatBtnSend"
+                android:layout_width="wrap_content"
+                android:text="@string/message_send"
+                android:id="@+id/btnSend"
+                android:background="@drawable/selector_btn_send"
+                android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
     </RelativeLayout>
     <include
             android:id="@+id/toolbar"
