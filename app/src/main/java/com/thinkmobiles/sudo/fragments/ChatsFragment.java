@@ -106,7 +106,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void findUI(View _view) {
-        mListView = (ListView) _view.findViewById(R.id.lvChats_CF);
+        footerView  = _view.findViewById(R.id.progressLayout);
+                mListView = (ListView) _view.findViewById(R.id.lvChats_CF);
         tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
         tvNoChats.setVisibility(View.INVISIBLE);
 
@@ -199,9 +200,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
         mChatsList = new ArrayList<>();
-        footerView  =
-                mActivity.getLayoutInflater().inflate(R.layout.loading_footer, null);
-        mListView.addFooterView(footerView);
+
+
         mListView.setAdapter(mChatAdapter);
         mListView.setOnItemClickListener(this);
         mListView.setOnItemLongClickListener(this);
@@ -380,7 +380,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
         }
 
-    private void hideProgressBar(){  /* new Thread(new Runnable() {
+    private void hideProgressBar(){
+/*        new Thread(new Runnable() {
         @Override
         public void run() {
             try {
@@ -399,9 +400,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             });
 
         }
-    }).start();
-*/
+    }).start();*/
+
         footerView.setVisibility(View.GONE);
+
 
 
     }
