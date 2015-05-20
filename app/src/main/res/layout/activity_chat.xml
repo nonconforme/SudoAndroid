@@ -11,7 +11,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
-            android:layout_above="@+id/rlAddComment_AC">
+            android:layout_above="@+id/rlAddComment_AC"
+            android:background="@android:color/transparent"
+            >
         <ListView
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
@@ -21,7 +23,9 @@
                 android:choiceMode="singleChoice"
                 android:stackFromBottom="true"
                  android:layout_below="@+id/toolbar"
+                android:background="@android:color/transparent"
                  android:dividerHeight="1dp"
+
                 android:divider="@color/sn_list_devider_color"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <RelativeLayout
