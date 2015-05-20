@@ -4,6 +4,8 @@ package com.thinkmobiles.sudo.fragments;
  * Created by njakawaii on 14.04.2015.
  */
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,7 +52,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mChatsList;
     private TextView tvNoChats;
-    private ProgressBar progressBar;
+    private LinearLayout progressBar;
 
 
     private boolean selectionMode = false;
@@ -109,8 +111,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         lvChats = (ListView) _view.findViewById(R.id.lvChats_CF);
         tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
         tvNoChats.setVisibility(View.INVISIBLE);
-        progressBar = (ProgressBar) _view.findViewById(R.id.progressBar_CF);
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar = (LinearLayout) _view.findViewById(R.id.progressLayout);
+        hideProgressBar();
     }
 
 
@@ -142,7 +144,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             @Override
             public void failure(RetrofitError error) {
                 mEndOfList = true;
-                progressBar.setVisibility(View.INVISIBLE);
+
                 Log.d("Retrofit chat Error", error.getMessage());
 
             }
@@ -217,7 +219,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void getLastChats() {
         if (!mLoadWatcher.contains(mPageCount)) {
-            progressBar.setVisibility(View.VISIBLE);
+            showProgressBar();
             RetrofitAdapter.getInterface().getLastChatsPages(mPageCount, mLength, mLastChatsCB);
             mLoadWatcher.add(mPageCount);
         }
@@ -369,8 +371,15 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
+    private void showProgressBar(){
+
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setAlpha(1.0f);}
+
     private void hideProgressBar(){
-        Thread t = new Thread(new Runnable() {
+       new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -382,13 +391,28 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        /*progressBar.setVisibility(View.INVISIBLE);*/
+
+                        progressBar.animate().alpha(0.0f)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+
+
+
+
+
+
                     }
                 });
 
             }
-        });
-        t.start();
+        }).start();
+
     }
 
 
