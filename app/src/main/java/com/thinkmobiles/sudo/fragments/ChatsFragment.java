@@ -4,8 +4,6 @@ package com.thinkmobiles.sudo.fragments;
  * Created by njakawaii on 14.04.2015.
  */
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,12 +45,12 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private Main_Activity mActivity;
     private MainToolbarManager mainToolbarManager;
-    private ListView lvChats;
+    private ListView mListView;
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mChatsList;
     private TextView tvNoChats;
-    private LinearLayout progressBar;
+     private   View footerView;
 
 
     private boolean selectionMode = false;
@@ -108,11 +106,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void findUI(View _view) {
-        lvChats = (ListView) _view.findViewById(R.id.lvChats_CF);
+        mListView = (ListView) _view.findViewById(R.id.lvChats_CF);
         tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
         tvNoChats.setVisibility(View.INVISIBLE);
-        progressBar = (LinearLayout) _view.findViewById(R.id.progressLayout);
-        hideProgressBar();
+         hideProgressBar();
     }
 
 
@@ -202,10 +199,12 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
         mChatsList = new ArrayList<>();
-        lvChats.setAdapter(mChatAdapter);
-        lvChats.setOnItemClickListener(this);
-        lvChats.setOnItemLongClickListener(this);
-        lvChats.setOnScrollListener(this);
+        mListView.setAdapter(mChatAdapter);
+        mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(this);
+        mListView.setOnScrollListener(this);
+          footerView  =
+                mActivity.getLayoutInflater().inflate(R.layout.loading_footer, null);
 
 
     }
@@ -375,31 +374,33 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
 
 
-        progressBar.setVisibility(View.VISIBLE);
+        mListView.addFooterView(footerView);
 
         }
 
-    private void hideProgressBar(){
-       new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                         progressBar.setVisibility(View.INVISIBLE);
-
-
-                    }
-                });
-
+    private void hideProgressBar(){  /* new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }).start();
+
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    footerView.setVisibility(View.GONE);
+
+
+                }
+            });
+
+        }
+    }).start();
+*/
+
+        mListView.removeFooterView(footerView);
 
     }
 
