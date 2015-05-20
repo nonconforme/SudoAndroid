@@ -376,7 +376,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
 
         progressBar.setVisibility(View.VISIBLE);
-        progressBar.setAlpha(1.0f);}
+
+        }
 
     private void hideProgressBar(){
        new Thread(new Runnable() {
@@ -391,20 +392,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        /*progressBar.setVisibility(View.INVISIBLE);*/
-
-                        progressBar.animate().alpha(0.0f)
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                    }
-                                });
-
-
-
-
+                         progressBar.setVisibility(View.INVISIBLE);
 
 
                     }
