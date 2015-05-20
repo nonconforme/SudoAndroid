@@ -1,7 +1,6 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +23,7 @@ import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.ToolbarManager;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
@@ -252,6 +251,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
             String companionNumber = mNumberList.get(i).getNumber();
             int[] startingLocation = new int[2];
             view.getLocationOnScreen(startingLocation);
+            sendBroadcast(new Intent(Constants.UPDATE_CHAT_LIST));
             ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, startingLocation);
         }else{
             Toast.makeText(this, "Buy a number to start a chat", Toast.LENGTH_SHORT).show();

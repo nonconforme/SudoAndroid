@@ -164,9 +164,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 @Override
                 public void run() {
                     mListAdapter.addNewMessage(message);
-                    mMessageModelList.add(0,mSendMessageModel);
+                    mMessageModelList.add(0, mSendMessageModel);
                     /*mChatList.setSelection(mListAdapter.getCount()-1);*/
-                    mChatList.smoothScrollToPosition(mListAdapter.getCount()-1);
+                    mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
                 }
             });
 
@@ -187,7 +187,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Connection problims ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connection problems ", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -199,16 +199,21 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mSendMessageCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                if (mListAdapter.getCount() == 0) {
+                    mOwnerNumber = App.getCurrentMobile();
+                    mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
+                }
+
                 mListAdapter.addNewMessage(mSendMessageModel);
 
-                mMessageModelList.add(0,mSendMessageModel);
-                mChatList.smoothScrollToPosition(mListAdapter.getCount()-1);
+                mMessageModelList.add(0, mSendMessageModel);
+                mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
                 /*mChatList.setSelection(mListAdapter.getCount()-1);*/
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Toast.makeText(ChatActivity.this, "Failure. Check contact's phone number.", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -225,10 +230,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     mMessageModelList.addAll(messageModel);
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
                     mChatList.setSelection(messageModel.size());
-                    if(messageModel.size() >0)
-                    mChatList.smoothScrollToPosition(messageModel.size()-1);
-
-
+                    if (messageModel.size() > 0) mChatList.smoothScrollToPosition(messageModel.size() - 1);
 
 
                 }

@@ -77,4 +77,5 @@ public abstract class Constants {
 
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST    = 9000;
 
+    public static final String UPDATE_CHAT_LIST = "chat";
 }

@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:inputType="textEmailAddress"
                     android:layout_height="wrap_content"
-                android:text="q@mail.ru" />
+                android:text="e@mail.com" />
         </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
         <com.thinkmobiles.sudo.custom_views.FloatLabelLayout
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     android:inputType="textPassword"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                android:text="qqqqqq" />
+                android:text="111111" />
         </com.thinkmobiles.sudo.custom_views.FloatLabelLayout>
         <Button
                 android:id="@+id/btnSignIn_FSI"

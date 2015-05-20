@@ -16,10 +16,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
@@ -31,10 +28,11 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import com.thinkmobiles.sudo.utils.Utils;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -42,7 +40,7 @@ import retrofit.client.Response;
 /**
  * Created by hp1 on 21-01-2015.
  */
-public class ChatsFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class ChatsFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, AbsListView.OnScrollListener {
 
 
     private Main_Activity mActivity;
@@ -52,12 +50,19 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private ChatsListAdapter mChatAdapter;
     private List<LastChatsModel> mChatsList;
     private TextView tvNoChats;
+    private ProgressBar progressBar;
 
-    private AdapterView.OnItemSelectedListener selectItemsListener;
+
     private boolean selectionMode = false;
     private boolean[] selectionArray;
+    private int mPageCount = 1;
+    private int mLength = 10;
 
-    private BroadcastReceiver trashBroadcastReciever = new BroadcastReceiver() {
+    private boolean mEndOfList = false;
+
+    private HashSet<Integer> mLoadWatcher = new HashSet<>();
+
+    private BroadcastReceiver mTrashReciever = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -70,6 +75,14 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
 
+    };
+
+    private BroadcastReceiver mChatStartedReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            reloadList();
+        }
     };
 
     @Override
@@ -96,7 +109,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         lvChats = (ListView) _view.findViewById(R.id.lvChats_CF);
         tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
         tvNoChats.setVisibility(View.INVISIBLE);
-
+        progressBar = (ProgressBar) _view.findViewById(R.id.progressBar_CF);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -106,23 +120,50 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
         registerSelectionReceiver();
+        registerNewChatReceiver();
+
     }
 
     private void iniGetChatsCB() {
         mLastChatsCB = new Callback<List<LastChatsModel>>() {
             @Override
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
-                mChatsList = lastChatsModel;
-                reloadList(mChatsList);
+                hideProgressBar();
+                if (lastChatsModel.isEmpty()) mEndOfList = true;
+                else {
+                    mPageCount++;
+                    mChatsList.addAll(lastChatsModel);
+                    Toast.makeText(mActivity, String.valueOf(mChatsList.size()), Toast.LENGTH_SHORT);
+                    updateList(mChatsList);
+                    if (selectionMode) reloadSeletcion(lastChatsModel.size());
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                mEndOfList = true;
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.d("Retrofit chat Error", error.getMessage());
 
             }
         };
     }
+
+    public void reloadSeletcion(int grow) {
+        boolean[] tempSelectionArray = new boolean[grow];
+        selectionArray = concat(selectionArray, tempSelectionArray);
+
+    }
+
+    public boolean[] concat(boolean[] a, boolean[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+        boolean[] c = new boolean[aLen + bLen];
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+        return c;
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -143,27 +184,26 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                     tempContactsArrayList.add(tempModel);
 
             }
-            reloadList(tempContactsArrayList);
+            updateList(tempContactsArrayList);
         }
 
 
     }
 
-    public void reloadList(List<LastChatsModel> chatsModelList) {
+    public void updateList(List<LastChatsModel> chatsModelList) {
         mChatAdapter.reloadList(chatsModelList);
-        if(chatsModelList.size() > 0 )
-            tvNoChats.setVisibility(View.INVISIBLE);
-        else
-            tvNoChats.setVisibility(View.VISIBLE);
+        if (chatsModelList.size() > 0) tvNoChats.setVisibility(View.INVISIBLE);
+        else tvNoChats.setVisibility(View.VISIBLE);
     }
 
 
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
-
+        mChatsList = new ArrayList<>();
         lvChats.setAdapter(mChatAdapter);
         lvChats.setOnItemClickListener(this);
         lvChats.setOnItemLongClickListener(this);
+        lvChats.setOnScrollListener(this);
 
 
     }
@@ -176,12 +216,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
 
     private void getLastChats() {
-        RetrofitAdapter.getInterface().getLastChats(mLastChatsCB);
+        if (!mLoadWatcher.contains(mPageCount)) {
+            progressBar.setVisibility(View.VISIBLE);
+            RetrofitAdapter.getInterface().getLastChatsPages(mPageCount, mLength, mLastChatsCB);
+            mLoadWatcher.add(mPageCount);
+        }
     }
 
-    public void reloadCurrentList() {
-        getLastChats();
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -236,13 +277,20 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mChatAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onDestroy() {
+        unRegisterNewChatReceiver();
+        super.onDestroy();
+
+    }
+
     private void registerSelectionReceiver() {
-        if (selectionMode) mActivity.registerReceiver(trashBroadcastReciever, new IntentFilter(Constants.TRASH_INTENT));
+        if (selectionMode) mActivity.registerReceiver(mTrashReciever, new IntentFilter(Constants.TRASH_INTENT));
     }
 
     private void unregisterSelectionReceiver() {
         if (selectionMode) try {
-            mActivity.unregisterReceiver(trashBroadcastReciever);
+            mActivity.unregisterReceiver(mTrashReciever);
         } catch (Exception e) {
         }
     }
@@ -282,4 +330,66 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
     }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+    }
+
+    public void onScroll(AbsListView view, int firstVisible, int visibleCount, int totalCount) {
+
+        boolean loadMore = /* maybe add a padding */
+                firstVisible + visibleCount >= totalCount;
+
+        if (loadMore && mPageCount > 1 && !mEndOfList) {
+            getLastChats();
+        }
+
+
+    }
+
+    private void reloadList() {
+        mPageCount = 1;
+        mEndOfList = false;
+        mLoadWatcher = new HashSet<>();
+        if (selectionMode) {
+            stopSelectionMode();
+        }
+        getLastChats();
+    }
+
+    private void registerNewChatReceiver() {
+        mActivity.registerReceiver(mChatStartedReceiver, new IntentFilter(Constants.UPDATE_CHAT_LIST));
+    }
+
+    private void unRegisterNewChatReceiver() {
+        try {
+            mActivity.unregisterReceiver(mChatStartedReceiver);
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void hideProgressBar(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+            }
+        });
+        t.start();
+    }
+
+
 }

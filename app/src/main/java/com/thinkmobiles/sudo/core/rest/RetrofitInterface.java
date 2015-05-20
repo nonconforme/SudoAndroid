@@ -133,4 +133,9 @@ public interface RetrofitInterface {
             @Query(Constants.PAGE) int page,             @Query(Constants.LENGTH) int length,
             Callback<List<MessageModel>> callback);
 
+    @GET(APIConstants.URL_MESSAGE + APIConstants.URL_LAST_CHATS)
+    void getLastChatsPages(@Query(Constants.PAGE) int page,             @Query(Constants.LENGTH) int length,
+            Callback<List<LastChatsModel>> callback);
+
+
 }
