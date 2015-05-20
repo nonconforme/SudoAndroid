@@ -160,7 +160,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
-        lvChats.setDividerHeight(1);
+
         lvChats.setAdapter(mChatAdapter);
         lvChats.setOnItemClickListener(this);
         lvChats.setOnItemLongClickListener(this);

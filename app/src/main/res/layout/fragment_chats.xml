@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:layout_width="match_parent"
-              android:layout_height="fill_parent"
-              android:background="#fff">
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/baseBG"
+        >
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content" android:text="@string/no_chats" android:id="@+id/tvNoChats"
               style="@style/CFNoChat_TV"/>
@@ -10,8 +11,7 @@
             android:id="@+id/lvChats_CF"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:padding="2dp"
-            android:divider="@android:color/black"
+            android:background="@android:color/transparent"
             />
 
 
