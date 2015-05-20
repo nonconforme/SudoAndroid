@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +84,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void findUI() {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefreshLayout_CF);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefreshLayout_AC);
         tvNoContacts = (TextView) mView.findViewById(R.id.tvNoContacts_CF);
         tvNoContacts.setVisibility(View.INVISIBLE);
         mBTNAddFriend = (FloatingActionButton) mView.findViewById(R.id.btnAddFriend_CF);

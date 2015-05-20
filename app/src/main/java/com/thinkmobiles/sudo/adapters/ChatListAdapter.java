@@ -83,7 +83,7 @@ public class ChatListAdapter extends BaseAdapter {
         else holder.ivAvatar.setTag(1);
 
         holder.setData(position);
-        runEnterAnimation(view, i);
+        /*runEnterAnimation(view, i);*/
 
         return view;
     }

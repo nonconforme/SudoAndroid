@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,6 +37,7 @@ import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.Utils;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -47,10 +49,10 @@ import retrofit.client.Response;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
-    private ListView lvChatList;
+    private ListView mChatList;
     private EditText etMessage;
     private Button btnSend;
     private String message;
@@ -58,16 +60,21 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Toolbar toolbar;
 
     private String mOwnerNumber;
     private String mCompanionNumber;
+    private List<MessageModel> mMessageModelList;
     private Socket mSocket;
     private int drawingStartLocation;
     private boolean selectMode = false;
     private MenuItem menuItemDelete;
     private boolean[] selectionArray;
+    private int mPageCount = 0;
+    private int mLength = 6;
+    private int mFocusView = 0;
 
 
     {
@@ -76,6 +83,11 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void setFocusView() {
+        if (mListAdapter.getCount() > 1) mFocusView = mListAdapter.getCount() - 1;
+
     }
 
 
@@ -107,10 +119,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initComponents();
         loadContent();
         initListeners();
-
+        setSwipeRefrechLayoutListenerAndColor();
         initGetMessageCB();
         initSendMessageCB();
-        getMessages();
+        getMessagesPages();
         initSocked();
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
 
@@ -204,9 +216,15 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mMessagesCB = new Callback<List<MessageModel>>() {
             @Override
             public void success(List<MessageModel> messageModel, Response response) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (messageModel.size() > 0) {
-                    mFirstMessageModel = messageModel.get(0);
-                    mListAdapter.reloadContent(messageModel, mOwnerNumber);
+                    if (mPageCount < 2) {
+                        mFirstMessageModel = messageModel.get(0);
+                    }
+                    mMessageModelList.addAll(messageModel);
+                    mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
+
+
 
                 }
 
@@ -214,6 +232,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
             @Override
             public void failure(RetrofitError error) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
             }
         };
@@ -230,19 +249,31 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }).start();
     }
 
+    private void scrollListViewToPosition(final int newListSize) {
+        /*mFocusView += newListSize;*/
+        mChatList.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                mChatList.setSelection( mFocusView);
+             }
+        });
+    }
 
     private void initComponents() {
         setContentView(R.layout.activity_chat);
-        lvChatList = (ListView) findViewById(R.id.lvChatList);
+        mChatList = (ListView) findViewById(R.id.lvChatList);
         contentRoot = (RelativeLayout) findViewById(R.id.rlMain_AC);
         rlAddComment = (RelativeLayout) findViewById(R.id.rlAddComment_AC);
-        lvChatList.setDivider(null);
-        lvChatList.setDividerHeight(0);
+        mChatList.setDivider(null);
+        mChatList.setDividerHeight(0);
+
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
         mListAdapter = new ChatListAdapter(this);
-        lvChatList.setAdapter(mListAdapter);
+        mChatList.setAdapter(mListAdapter);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout_AC);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -255,6 +286,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private void loadChat() {
         mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
         mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
+        mMessageModelList = new ArrayList<>();
     }
 
 
@@ -268,8 +300,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 stopSelectionMode();
             }
         });
-        lvChatList.setOnItemLongClickListener(this);
-        lvChatList.setOnItemClickListener(this);
+        mChatList.setOnItemLongClickListener(this);
+        mChatList.setOnItemClickListener(this);
+        mChatList.setOnScrollListener(this);
 
     }
 
@@ -331,8 +364,11 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         return super.onOptionsItemSelected(item);
     }
 
-    private void getMessages() {
-        RetrofitAdapter.getInterface().getConversation(mOwnerNumber, mCompanionNumber, mMessagesCB);
+
+    private void getMessagesPages() {
+        mPageCount++;
+
+        RetrofitAdapter.getInterface().getConversationPages(mOwnerNumber, mCompanionNumber, mPageCount, mLength, mMessagesCB);
     }
 
     private CompanionModel createCompanion(String number, MessageModel messageModel) {
@@ -380,7 +416,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         startSelectionMode();
-        controlSelection(selectionArray.length -1 - position);
+        controlSelection(selectionArray.length - 1 - position);
 
         return true;
     }
@@ -389,7 +425,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (selectMode) {
 
-            controlSelection(selectionArray.length -1 - position);
+            controlSelection(selectionArray.length - 1 - position);
 
 
         }
@@ -448,4 +484,40 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
         return true;
     }
+
+    private void setSwipeRefrechLayoutListenerAndColor() {
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setFocusView();
+                getMessagesPages();
+                stopSelectionMode();
+            }
+        });
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        if (canScrollUp(mChatList)) {
+            mSwipeRefreshLayout.setEnabled(false);
+
+        } else {
+            mSwipeRefreshLayout.setEnabled(true);
+        }
+
+    }
+
+    public boolean canScrollUp(View view) {
+
+        return ViewCompat.canScrollVertically(view, -1);
+
+    }
+
+
 }
