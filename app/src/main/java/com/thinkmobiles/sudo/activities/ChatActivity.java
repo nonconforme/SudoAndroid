@@ -225,6 +225,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     mMessageModelList.addAll(messageModel);
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
                     mChatList.setSelection(messageModel.size());
+                    if(messageModel.size() >0)
+                    mChatList.smoothScrollToPosition(messageModel.size()-1);
+
+
 
 
                 }
