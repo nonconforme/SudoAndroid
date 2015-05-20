@@ -197,6 +197,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 mListAdapter.addNewMessage(mSendMessageModel);
+
+                mMessageModelList.add(0,mSendMessageModel);
+                mChatList.setSelection(mListAdapter.getCount()-1);
             }
 
             @Override
