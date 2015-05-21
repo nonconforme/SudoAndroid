@@ -17,6 +17,8 @@ public abstract class ImageHelper {
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
+
+
         return imageEncoded;
     }
 
