@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
@@ -23,6 +24,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.custom_views.SendCommentButton;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
@@ -49,12 +51,12 @@ import retrofit.client.Response;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView mChatList;
     private EditText etMessage;
-    private Button btnSend;
+    private SendCommentButton btnSend;
     private String message;
     private RelativeLayout contentRoot, rlAddComment;
     private ChatListAdapter mListAdapter;
@@ -227,6 +229,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
                 mMessageModelList.add(0, mSendMessageModel);
                 mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
+
+                btnSend.setCurrentState(SendCommentButton.STATE_DONE);
+
                 /*mChatList.setSelection(mListAdapter.getCount()-1);*/
             }
 
@@ -285,7 +290,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mChatList.setDividerHeight(0);
 
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btnSend = (Button) findViewById(R.id.btnSend);
+        btnSend = (SendCommentButton) findViewById(R.id.btnSendComment);
         mListAdapter = new ChatListAdapter(this, mAvatarUrl);
         mChatList.setAdapter(mListAdapter);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -308,15 +313,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
 
     private void initListeners() {
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                message = String.valueOf(etMessage.getText());
-                if (Utils.checkString(message)) sendMessage(message);
-                etMessage.setText("");
-                stopSelectionMode();
-            }
-        });
+        btnSend.setOnSendClickListener(this);
+        btnSend.setOnSendClickListener(this);
         mChatList.setOnItemLongClickListener(this);
         mChatList.setOnItemClickListener(this);
         mChatList.setOnScrollListener(this);
@@ -551,5 +549,18 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     protected void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    public void onSendClickListener(View v) {
+        message = String.valueOf(etMessage.getText());
+        if (Utils.checkString(message)) {
+            sendMessage(message);
+        } else {
+            btnSend.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_error));
+
+        }
+        etMessage.setText("");
+        stopSelectionMode();
     }
 }
