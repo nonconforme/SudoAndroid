@@ -3,6 +3,7 @@ package com.thinkmobiles.sudo.adapters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
 
@@ -73,7 +75,7 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             }  ;
 
-            Picasso.with(context).load(APIConstants.SERVER_URL + "/" +mAvatarUrl). into(tartet);
+            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + mAvatarUrl). into(tartet);
 
 
         }
@@ -86,6 +88,7 @@ public class ChatListAdapter extends BaseAdapter {
         mListMessages.addAll(_mListMessages);
         mOwnerNumber = _mOwnerNumber;
         notifyDataSetChanged();
+
     }
 
     @Override
