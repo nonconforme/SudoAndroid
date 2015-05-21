@@ -37,7 +37,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
-    private int lastPosition = -1 ;
+    private int lastPosition = -1;
     private Animation mUpAnimation;
     private Animation mBottommAnimation;
     private boolean doAnimate = true;
@@ -52,8 +52,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
     private void initAnimations() {
-         mUpAnimation       = AnimationUtils.loadAnimation(mActivity, R.anim.down_from_top);
-         mBottommAnimation  = AnimationUtils.loadAnimation(mActivity, R.anim.up_from_bottom);
+        mUpAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.down_from_top);
+        mBottommAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.up_from_bottom);
 
     }
 
@@ -108,9 +108,9 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-            holder.ivAvatar.setTag(pos);
-            setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
-            holder.tvFirstName.setText(contacts.get(pos).getCompanion());
+        holder.ivAvatar.setTag(pos);
+        setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
+        holder.tvFirstName.setText(contacts.get(pos).getCompanion());
 
         if (contacts.get(pos).getNumbers() != null && contacts.get(pos).getNumbers().size() > 0)
             holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
@@ -167,27 +167,23 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
 
     private void setAvatar(final ImageView imageView, String imageUrl, final int pos) {
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
-            Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                  if ( (int)imageView.getTag() != pos){
-                      Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
-                  }
-                }
+        if (imageUrl != null && !imageUrl.equalsIgnoreCase("") && (int) imageView.getTag() == pos ) {
 
-                @Override
-                public void onError() {
-                    Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
+                Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
 
-                }
-            });
+                    }
+
+                    @Override
+                    public void onError() {
+                        Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
+
+                    }
+                });
 
 
-        } else {
-            Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
-
-        }
+            }
 
     }
 

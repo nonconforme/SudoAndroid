@@ -14,7 +14,6 @@
     <ImageView
             android:id="@+id/ivChatAvatar"
             style="@style/SChatsItemEVAvatar"
-            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/avatar"
         android:src="@drawable/ic_man_chat" />

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
-import com.thinkmobiles.sudo.utils.ChatsNameHelper;
+import com.thinkmobiles.sudo.utils.ChatsNameAndAvatarHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 
 
@@ -32,12 +32,13 @@ public class ChatsListAdapter extends BaseAdapter {
     private Activity mActivity;
     private boolean selectionMode = false;
     private boolean[] selectionArray;
-
+    private ChatsNameAndAvatarHelper mChatsNameAndAvatarHelper;
 
     public ChatsListAdapter(Activity mActivity) {
         this.mActivity = mActivity;
         this.mLastChatModel = new ArrayList<>();
         mInflater = LayoutInflater.from(mActivity);
+        mChatsNameAndAvatarHelper =  new ChatsNameAndAvatarHelper(mActivity);
 
 
     }
@@ -93,8 +94,11 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.tvItemTimedate.setText(Utils.stringToDate(thisChat.getLastmessage().getPostedDate()));
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
-                ChatsNameHelper.getInstance().setCompanionName(holder.tvCompanion, lastMessage);
                 holder.ivAvatar.setTag(position);
+
+                mChatsNameAndAvatarHelper.setCompanionNameAndAvatar(holder.tvCompanion, holder.ivAvatar, lastMessage,
+                        position);
+
                 setSelectionState(holder.ivAvatar, holder.container, position);
             }
 
