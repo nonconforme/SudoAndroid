@@ -7,13 +7,7 @@ import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.global.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,8 +19,7 @@ import java.util.List;
  */
 public class Utils {
 
-    public static final String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'";
-    public static final String CLIENT_DATE_FORMAT = "MMM-dd, hh:mm";
+
     private static int screenWidth = 0;
     private static int screenHeight = 0;
     public static boolean checkString(String s) {
@@ -52,35 +45,28 @@ public class Utils {
             display.getSize(size);
             screenHeight = size.y;
         }
-
         return screenHeight;
     }
 
     public static String stringToDate(String aDate) {
-
         Date date = null;
-
-        SimpleDateFormat format = new SimpleDateFormat(SERVER_DATE_FORMAT);
-
+        SimpleDateFormat format = new SimpleDateFormat(Constants.SERVER_DATE_FORMAT);
         try {
             date = format.parse(aDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         if (date == null) return null;
-
-        return DateFormat.format(CLIENT_DATE_FORMAT, date).toString();
-
+        return DateFormat.format(Constants.CLIENT_DATE_FORMAT, date).toString();
     }
 
 
     public static boolean stringContains(String source, String toCheck) {
-
         return source.toLowerCase().contains(toCheck.toLowerCase()) || source.toUpperCase().contains(toCheck.toUpperCase());
     }
 
     public static String getDateServerStyle() {
-        SimpleDateFormat sdf = new SimpleDateFormat(Utils.SERVER_DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.SERVER_DATE_FORMAT);
         return sdf.format(new Date());
     }
 }

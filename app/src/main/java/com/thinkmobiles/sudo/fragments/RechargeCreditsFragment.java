@@ -1,8 +1,8 @@
 package com.thinkmobiles.sudo.fragments;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,34 +10,38 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.Credits;
 import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
-import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
-import com.thinkmobiles.sudo.models.Credits;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pavilion on 16.04.2015.
  */
 public class RechargeCreditsFragment extends Fragment implements AdapterView.OnItemClickListener{
+
     private AvailableCreditsFragment mCreditsAvailableFragment;
-    private View mView;
     private ActionBarActivity mActivity;
+
+
+    private View mView;
     private ListView mListView;
+
     private RechargeCreditsAdapter mAdapter;
-    private List<Credits> mListCredit;
     private Callback<BuyNumberResponce> mBuyCreditsCB;
+
+    private List<Credits> mListCredit;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +64,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(mActivity,"Failure recharging credits", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity,mActivity.getString(R.string.failure_recharging_credits), Toast.LENGTH_SHORT).show();
 
             }
         };

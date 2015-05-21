@@ -3,15 +3,13 @@ package com.thinkmobiles.sudo.activities;
 /**
  * Created by njakawaii on 23.04.2015.
  */
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.view.Window;
-
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.global.Network;
 
@@ -38,9 +36,6 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
 
     protected abstract int getLayoutResource();
 
-    protected void setActionBarIcon(int iconRes) {
-        toolbar.setNavigationIcon(iconRes);
-    }
 
     protected ActionBar getToolbarAB(){
         return getSupportActionBar();
@@ -50,9 +45,9 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    protected void setStatusBarColor(final int _stausBarColor){
+    protected void setStatusBarColor(final int _statusBarColor){
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        getWindow().setStatusBarColor(_stausBarColor);
+        getWindow().setStatusBarColor(_statusBarColor);
 
     }
 

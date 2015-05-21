@@ -10,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.utils.ColorHelper;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -27,10 +24,12 @@ import retrofit.client.Response;
  * Created by Pavilion on 09.04.2015.
  */
 public class RegistrationFragment extends Fragment implements View.OnClickListener {
-    private View mView;
     private Activity mActivity;
+
+    private View mView;
     private EditText mETEmail, mETPassword, mETConfirmPass;
     private Button mBTNSignUp;
+
     private Callback<LoginResponse> mSignUpCB;
 
     @Override
@@ -59,7 +58,6 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         mETPassword = (EditText) mView.findViewById(R.id.etPassword_FSU);
         mETConfirmPass = (EditText) mView.findViewById(R.id.etConfirmPassword_FSU);
         mBTNSignUp = (Button) mView.findViewById(R.id.btnSignUp_FSU);
-
     }
 
 
@@ -67,19 +65,19 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         String p1 = _et1.getText().toString();
         String p2 = _et2.getText().toString();
         if (p1.isEmpty() || p2.isEmpty()) {
-            Toast.makeText(mActivity, "Password cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.password_cannot_be_empty), Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!p1.equals(p2)) {
-            Toast.makeText(mActivity, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show();
             return false;
         }
         if (p1.length() < 6) {
-            Toast.makeText(mActivity, "Password must be at least 6 symbols long", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.password_must_be_six_simbols_long), Toast.LENGTH_SHORT).show();
             return false;
         }
        if(! p2.matches("\\w+")){
-           Toast.makeText(mActivity, "Password can only contain numbers and English letters", Toast.LENGTH_SHORT)
+           Toast.makeText(mActivity, mActivity.getString(R.string.password_should_have_only_az_09), Toast.LENGTH_SHORT)
                    .show();
            return false;
 
@@ -92,7 +90,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private boolean isValidEmail(EditText et){
         String target = et.getText().toString();
         if (TextUtils.isEmpty(target) || !android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
-            Toast.makeText(mActivity, "Not a valid e-mail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.not_an_email), Toast.LENGTH_SHORT).show();
             return false;
 
         } else {

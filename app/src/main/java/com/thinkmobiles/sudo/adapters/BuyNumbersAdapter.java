@@ -1,9 +1,6 @@
 package com.thinkmobiles.sudo.adapters;
 
-import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.models.ProfileResponse;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 /**
  * Created by Pavilion on 14.04.2015.
@@ -64,22 +56,16 @@ public class BuyNumbersAdapter extends BaseAdapter {
 
         if (view == null) {
             view = inflater.inflate(R.layout.list_item_buy, parent, false);
-
             viewHolder = new ViewHolder();
             viewHolder.tvInfo = (TextView) view.findViewById(R.id.tvInfo_FN);
             viewHolder.ivCountry = (ImageView) view.findViewById(R.id.ivCountry_FN);
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
         setCountryByIso(mContext, viewHolder.ivCountry, countryISO, 100);
-
-
-        viewHolder.tvInfo.setText(mListNumberPackages.get(position).getPackageName() + " - " + mListNumberPackages.get(position).getPrice() + " credits");
-
-
+        viewHolder.tvInfo.setText(mListNumberPackages.get(position).getPackageName() + " - " + mListNumberPackages.get(position).getPrice() + mContext.getString(R.string._credits));
         return view;
     }
 

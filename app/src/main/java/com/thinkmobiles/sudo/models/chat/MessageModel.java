@@ -1,7 +1,5 @@
 package com.thinkmobiles.sudo.models.chat;
 
-import com.thinkmobiles.sudo.models.chat.CompanionModel;
-
 import java.io.Serializable;
 
 /**

@@ -18,9 +18,15 @@ android {
     }
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+            debug {
+                shrinkResources true
+            }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

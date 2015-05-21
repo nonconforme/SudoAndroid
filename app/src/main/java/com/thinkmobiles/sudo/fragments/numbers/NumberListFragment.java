@@ -50,7 +50,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         mView = inflater.inflate(R.layout.fragment_number_list, container, false);
         initComponent();
         initGetNumbersCB();
@@ -72,7 +72,7 @@ public class NumberListFragment extends BaseNumbersFragment implements AdapterVi
             @Override
             public void failure(RetrofitError error) {
                 getToolbarManager().setProgressBarVisible(false);
-                Toast.makeText(mActivity, "Error! Pleasy try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.try_again), Toast.LENGTH_LONG).show();
 
             }
         };

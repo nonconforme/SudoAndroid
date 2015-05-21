@@ -1,15 +1,11 @@
 package com.thinkmobiles.sudo.global;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-
-import java.util.concurrent.TimeUnit;
+import com.thinkmobiles.sudo.R;
 
 public abstract class Network {
     /**
@@ -34,7 +30,10 @@ return true;
 
         new AlertDialog.Builder(context)
 
-                .setTitle("Network Problem").setMessage("No Internet Connection").setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                .setTitle(context.getString(R.string.network_problem))
+                .setMessage(context.getString(R.string.no_internet_connection))
+                .setPositiveButton(context.getString(R.string.retry), new DialogInterface.OnClickListener()
+                {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 isInternetConnectionAvailable(context);

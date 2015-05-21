@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
-
 import com.thinkmobiles.sudo.Main_Activity;
 
 /**
@@ -25,31 +24,12 @@ public abstract class SharedPreferencesManager {
         final SharedPreferences prefs = _context.getSharedPreferences(
                 Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
         int appVersion = getAppVersion(_context);
-        Log.i(TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constants.PARAM_REG_ID, _regId);
         editor.putInt(Constants.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
     }
 
-    /**
-     * Stores the mobile ID and app versionCode in the application's
-     * {@code SharedPreferences}.
-     *
-     * @param _context application's context.
-     * @param _deviceId  registration ID
-     */
-
-    public static void storeMobileId(final Context _context, final String _deviceId) {
-        final SharedPreferences prefs = _context.getSharedPreferences(
-                Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
-        int appVersion = getAppVersion(_context);
-        Log.i(TAG, "Saving mobileId on app version " + appVersion);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.PARAM_DEVICE_ID, _deviceId);
-        editor.putInt(Constants.PROPERTY_APP_VERSION, appVersion);
-        editor.commit();
-    }
 
 
 

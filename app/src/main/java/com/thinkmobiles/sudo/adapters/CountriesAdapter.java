@@ -21,8 +21,10 @@ import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 public class CountriesAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<CountryModel> mListCountries;
     private LayoutInflater inflater;
+
+    private List<CountryModel> mListCountries;
+
 
     public CountriesAdapter(Context _context) {
         mContext = _context;
@@ -50,22 +52,18 @@ public class CountriesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-
         if (view == null) {
             view = inflater.inflate(R.layout.list_item_country, parent, false);
-
             viewHolder = new ViewHolder();
             viewHolder.ivCountry = (ImageView) view.findViewById(R.id.ivCountry_FN);
             viewHolder.tvCountry = (TextView) view.findViewById(R.id.tvCountry_FN);
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
         setCountryByIso(mContext, viewHolder.ivCountry, mListCountries.get(position).getCountryIso());
         viewHolder.tvCountry.setText(mListCountries.get(position).getName());
-
-
         return view;
     }
 

@@ -1,19 +1,14 @@
 package com.thinkmobiles.sudo.activities;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.*;
+import android.widget.ExpandableListView;
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.adapters.*;
+import com.thinkmobiles.sudo.adapters.BlockNumberExpandableAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.BlockNumber;
@@ -50,7 +45,7 @@ public class BlockNumberActivity extends ActionBarActivity {
         makeGetUserRequest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Block Number");
+        toolbar.setTitle(getString(R.string.block_number));
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,13 +101,13 @@ public class BlockNumberActivity extends ActionBarActivity {
         mBlockedNumbersCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-                Toast.makeText(BlockNumberActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BlockNumberActivity.this, getString(R.string.Success), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(BlockNumberActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BlockNumberActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -123,24 +118,14 @@ public class BlockNumberActivity extends ActionBarActivity {
         listView.setDivider(null);
         listView.setDividerHeight(0);
 
-
         adapter = new BlockNumberExpandableAdapter(this);
         listView.setAdapter(adapter);
-        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
-                return false;
-            }
-        });
-
 
     }
 
 
     private void findUI() {
         listView = (ExpandableListView) findViewById(R.id.slContacts_ABN);
-
 
     }
 
@@ -162,8 +147,6 @@ public class BlockNumberActivity extends ActionBarActivity {
     public void sendBlockedNumbers(List<BlockNumber> blockedNumbers) {
         RetrofitAdapter.getInterface().blockNumebers(JsonHelper.makeJsonBlockedNumbers(blockedNumbers), mBlockedNumbersCB);
 
-
     }
-
 
 }

@@ -1,32 +1,28 @@
 package com.thinkmobiles.sudo.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
-
-import java.io.UnsupportedEncodingException;
-
+import com.thinkmobiles.sudo.utils.ToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by omar on 23.04.15.
  */
 public class ProfileEditActivity extends BaseProfileEditActivity {
 
-
     private Callback<UpdateProfileModel> mUpdateContactCB;
     private String oldName;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_edit_profile;
@@ -35,12 +31,14 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
+
         loadUserModel();
         loadContent();
         setDefaultColor();
         setContent();
         initUpdateContactCB();
+        ToolbarManager.getInstance(this).changeToolbarTitle(oldName);
+
         this.overridePendingTransition(R.anim.anim_edit_profile_slide_in, R.anim.anim_view_profile_slide_out);
 
     }

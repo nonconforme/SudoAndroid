@@ -4,12 +4,18 @@ package com.thinkmobiles.sudo.models;
  * Created by omar on 12.05.15.
  */
 public class DrawerMenuItemModel {
-  public  DrawerMenuItemModel(int name,String param, int icon){
-      this.name = name;
-      this.param = param;
-      this.icon = icon;
+    private int name;
+    private int icon;
+    private String param;
 
-  }
+
+    public DrawerMenuItemModel(int name, String param, int icon) {
+        this.name = name;
+        this.param = param;
+        this.icon = icon;
+
+    }
+
     public int getName() {
         return name;
     }
@@ -34,7 +40,5 @@ public class DrawerMenuItemModel {
         this.param = param;
     }
 
-    int name;
-    int icon;
-    String param;
+
 }

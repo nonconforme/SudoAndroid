@@ -1,8 +1,8 @@
 package com.thinkmobiles.sudo.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +26,7 @@ public class AvailableCreditsFragment extends Fragment {
     }
 
     public  void setCredits(){
-        tvCredits.setText(App.getCurrentCredits() + " CREDITS");
+        tvCredits.setText(App.getCurrentCredits() + getActivity().getString(R.string.CREDITS));
     }
 
 }

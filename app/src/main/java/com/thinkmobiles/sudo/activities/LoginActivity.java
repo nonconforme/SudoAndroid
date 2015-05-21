@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
 import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.models.ProfileModel;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -73,7 +70,6 @@ public class LoginActivity extends Activity {
         mUserCB = new Callback<ProfileResponse>() {
             @Override
             public void success(ProfileResponse profileResponse, Response response) {
-                Log.d("user", profileResponse.getSuccess());
                 setProfile(profileResponse);
                 openMainActivity();
 
@@ -81,7 +77,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("user", error.getMessage());
+
 
             }
         };

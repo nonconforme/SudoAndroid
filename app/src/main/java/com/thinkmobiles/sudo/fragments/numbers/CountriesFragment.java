@@ -8,19 +8,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
-
-import java.util.List;
-
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.List;
 
 /**
  * Created by Pavilion on 14.04.2015.
@@ -30,7 +28,6 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
     private View mView;
     private Main_Activity mActivity;
     private CountriesAdapter mAdapter;
-
     private ListView mListView;
     private Callback<List<CountryModel>> mContries;
 
@@ -63,7 +60,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
             @Override
             public void failure(RetrofitError error) {
                 getToolbarManager().setProgressBarVisible(false);
-                Toast.makeText(mActivity, "Error! Pleasy try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.try_again), Toast.LENGTH_LONG).show();
 
             }
         };
@@ -91,7 +88,6 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         openNumbersFragment(mAdapter.getItem(position).getCountryIso());
         setmCountryModel(mAdapter.getItem(position));
     }

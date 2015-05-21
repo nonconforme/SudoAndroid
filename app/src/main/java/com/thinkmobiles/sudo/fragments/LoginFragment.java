@@ -11,14 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.utils.ColorHelper;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -28,8 +26,8 @@ import retrofit.client.Response;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
     private Activity mActivity;
+
     private View mView;
-    private ImageView mImage;
     private EditText mETEmail, mETPassword;
     private Button mBTNSignIn, mBTNRegister;
 
@@ -94,7 +92,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mSignInCB = new Callback<LoginResponse>() {
             @Override
             public void success(LoginResponse loginResponse, Response response) {
-                Log.d("signIn", loginResponse.getSuccess());
                 Toast.makeText(mActivity, loginResponse.getSuccess(), Toast.LENGTH_SHORT).show();
                 App.setuId(loginResponse.getuId());
                 ((LoginActivity) mActivity).getUserRequest();
@@ -102,7 +99,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("signIn", error.getMessage());
                 Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }

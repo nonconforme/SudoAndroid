@@ -15,13 +15,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.utils.ImageHelper;
-import com.thinkmobiles.sudo.utils.Utils;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
+import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.ImageHelper;
+import com.thinkmobiles.sudo.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,16 +41,14 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     private Bitmap mCurrentPhoto;
 
-
     protected UserModel mUserModel;
-    private String firstName, urlAvatar, filepathAvatar;
+    private String firstName, urlAvatar;
     private List<NumberModel> myNumberList;
     private DoneOnEditorActionListener doneOnEditorActionListener;
 
 
-    public static final String EXTRA_IMAGE = "DetailActivity:image";
     private static final int SELECT_PHOTO = 1;
-    public static final int START_EDIT_PROFILE_ACTIVITY_CODE = 231;
+
 
     @Override
     protected int getLayoutResource() {
@@ -101,7 +99,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void initComponent() {
         etUserFirstName = (EditText) findViewById(R.id.etUserFirstName_AVC);
-
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
         ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
         btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
@@ -109,6 +106,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         doneOnEditorActionListener = new DoneOnEditorActionListener();
         etUserFirstName.setOnEditorActionListener(doneOnEditorActionListener);
+
         View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_add_phone_number_item, null, false);
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,7 +183,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         boolean showNumbersError = false;
         boolean[] errors = new boolean[tempNumbers.size()];
         if (tempNumbers.size() < 1) {
-            Toast.makeText(this, "Phone numbers cannot be empty", Toast.LENGTH_SHORT);
+            Toast.makeText(this, getString(R.string.number_cannot_be_empty), Toast.LENGTH_SHORT);
         }
         for (int i = 0; i < tempNumbers.size(); i++) {
             CharSequence tempNumber = tempNumbers.get(i).getNumber();
@@ -208,7 +206,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         }
 
         if (showNumbersError) {
-            Toast.makeText(this, "Phone numbers contain errors", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
             return errors;
         }
         return null;
@@ -236,14 +234,14 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void loadAvatarFromGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
+        photoPickerIntent.setType(getString(R.string.image_type));
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("mediastore result ", String.valueOf(resultCode));
+
         if (resultCode != -1) return;
         if (requestCode == SELECT_PHOTO) {
             Uri avatarUri = data.getData();
@@ -270,8 +268,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected boolean checkNewName() {
 
-        if (firstName == null || firstName.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+        if (firstName == null || firstName.isEmpty()) {
+            Toast.makeText(this, getString(R.string.name_cannot_be_empty), Toast.LENGTH_SHORT).show();
             etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
             return false;
         } else {
@@ -290,7 +288,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             editText = (EditText) v;
             firstName = editText.getText().toString();
-            if (firstName != null && !firstName.equalsIgnoreCase("")) {
+            if (firstName != null && !firstName.isEmpty()) {
 
                 switch (v.getId()) {
 
@@ -319,9 +317,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     }
 
 
-    protected void setNullAnim() {
-
-    }
 
 
 }

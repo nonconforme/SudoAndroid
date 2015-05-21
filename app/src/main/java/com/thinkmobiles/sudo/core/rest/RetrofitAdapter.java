@@ -3,7 +3,7 @@ package com.thinkmobiles.sudo.core.rest;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.thinkmobiles.sudo.core.APIConstants;
-
+import com.thinkmobiles.sudo.global.Constants;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -14,7 +14,7 @@ import retrofit.client.OkClient;
 public abstract class RetrofitAdapter {
     private static String cookies;
     private  static  CustomCookieManager cookieManager;
-    private static final String SESSION_KEY = "testCall";
+
     public static String getCookies() {
         return cookies;
     }
@@ -30,7 +30,7 @@ public abstract class RetrofitAdapter {
         @Override
         public void intercept(RequestFacade request) {
             if (null != cookies && cookies.length() > 0) {
-                request.addHeader("Set-Cookie", SESSION_KEY + "=" + cookies);
+                request.addHeader("Set-Cookie", Constants.SESSION_NAME + "=" + cookies);
             }
         }
     };

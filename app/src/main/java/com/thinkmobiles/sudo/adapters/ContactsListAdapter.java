@@ -1,29 +1,23 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.internal.view.menu.MenuBuilder;
-import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
-import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
 /**
@@ -31,13 +25,15 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  */
 public class ContactsListAdapter extends BaseAdapter implements StickyListHeadersAdapter, View.OnClickListener {
 
-
-    private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
-    private int lastPosition = -1;
+
     private Animation mUpAnimation;
     private Animation mBottommAnimation;
+
+    private List<UserModel> contacts;
+
+    private int lastPosition = -1;
     private boolean doAnimate = true;
 
 
@@ -80,8 +76,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
     @Override
     public long getHeaderId(int i) {
-
-
         if (contacts.size() > 0) {
             if (contacts.get(i).getCompanion() != null && contacts.get(i).getCompanion().length() > 0) {
                 return contacts.get(i).getCompanion().subSequence(0, 1).charAt(0);
@@ -130,15 +124,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             holder = new HeaderViewHolder();
             convertView = mInflater.inflate(R.layout.contacts_header, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.tvContactsHeader);
-
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-
-
-        String headerText;
-        headerText = "";
+           String headerText = "";
 
 
         if (contacts.size() > 0)
@@ -170,7 +160,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     public class ViewHolder {
         ImageView ivAvatar, ivOptions;
         TextView tvFirstName, tvNumber;
-
         public ImageView getAvatarIV() {
             return ivAvatar;
         }
@@ -178,13 +167,12 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
     private class HeaderViewHolder {
-
         TextView text;
     }
 
 
     private void setAvatar(final ImageView imageView, String imageUrl, final int pos) {
-        if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -192,7 +180,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
                         Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
                     }
                 }
-
                 @Override
                 public void onError() {
                     Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);

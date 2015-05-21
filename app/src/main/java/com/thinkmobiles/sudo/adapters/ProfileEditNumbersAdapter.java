@@ -3,15 +3,12 @@ package com.thinkmobiles.sudo.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -24,8 +21,9 @@ import java.util.List;
 public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFocusChangeListener, View.OnClickListener {
 
     private Context mContext;
-    private List<NumberModel> mListNumbers;
     private LayoutInflater inflater;
+
+    private List<NumberModel> mListNumbers;
     private boolean errorsInNumbers [];
 
 
@@ -55,7 +53,6 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-
         if (view == null) {
             view = inflater.inflate(R.layout.list_item_phone_number_edit, parent, false);
             viewHolder = new ViewHolder();
@@ -68,10 +65,10 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
         viewHolder.etPhoneNumber.setText(mListNumbers.get(position).getNumber());
         viewHolder.ivDeleteNumber.setTag(position);
         viewHolder.etPhoneNumber.setTag(position);
+
         if(errorsInNumbers != null){
             if (errorsInNumbers[position])
                 viewHolder.etPhoneNumber.setBackgroundResource(android.R.color.holo_red_dark);
@@ -120,13 +117,8 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
             AlertDialogCallback callback = new AlertDialogCallback() {
                 @Override
                 public void confirmDeletePhoneNumber() {
-/*
-                    Toast.makeText(mContext, String.valueOf(pos),Toast.LENGTH_SHORT).show();
-*/
-                    mListNumbers.remove(pos);
                     if (mListNumbers.size() == 0) {
                         mListNumbers.add(mListNumbers.size(), new NumberModel());
-
                     }
                     notifyDataSetChanged();
                 }
@@ -149,7 +141,6 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         final AlertDialogCallback callback = alertDialogCallback;
 
         new AlertDialog.Builder(mContext)
-
                 .setTitle(mContext.getString(R.string.alert_delete_pn_title)).setMessage(mContext.getString(R.string.alert_delete_pn_message)).setPositiveButton(mContext.getString(R.string.alert_delete_pn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

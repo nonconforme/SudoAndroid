@@ -1,15 +1,11 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
@@ -18,7 +14,6 @@ import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.BlockNumber;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,11 +98,12 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
         setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
         holder.tvName.setText(contacts.get(pos).getCompanion());
 
-        if(!contacts.get(pos).getNumbers().isEmpty()){
-        holder.tvBlockNumber.setText(contacts.get(pos).getNumbers().get(0).getNumber());}
+        if (!contacts.get(pos).getNumbers().isEmpty()) {
+            holder.tvBlockNumber.setText(contacts.get(pos).getNumbers().get(0).getNumber());
+        }
         holder.viewSeparator.setVisibility(View.INVISIBLE);
 
-        if(b)holder.viewSeparator.setVisibility(View.VISIBLE);
+        if (b) holder.viewSeparator.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -115,8 +111,6 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int g, final int c, boolean b, View view, ViewGroup viewGroup) {
         ChildViewHolder holder;
         if (view == null) {
-
-
             holder = new ChildViewHolder();
             view = mInflater.inflate(R.layout.list_item_block_number, viewGroup, false);
             holder.tvNumber = (TextView) view.findViewById(R.id.tvContactNumber);
@@ -126,7 +120,6 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) view.getTag();
         }
-
         holder.checkBox.setTag(new int[]{g, c});
         holder.checkBox.setChecked(contacts.get(g).getNumbers().get(c).isBlocked());
         holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -135,11 +128,10 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
                 int[] tag = (int[]) compoundButton.getTag();
                 if (tag == null || tag[0] != g || tag[1] != c) {
 
-                }
-                else {
+                } else {
                     contacts.get(g).getNumbers().get(c).setBlocked(b);
-                    blockInteractions.put(tag ,contacts.get(g).getNumbers().get(c));
-                 }
+                    blockInteractions.put(tag, contacts.get(g).getNumbers().get(c));
+                }
             }
         });
 
@@ -156,19 +148,14 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
 
     public class ParentViewHolder {
         ImageView ivAvatar;
-        TextView  tvBlockNumber;
+        TextView tvBlockNumber;
         TextView tvName;
-      public  View viewSeparator;
-
-
+        public View viewSeparator;
     }
 
     public class ChildViewHolder {
-
-
         TextView tvNumber;
         CheckBox checkBox;
-
     }
 
 
@@ -197,20 +184,18 @@ public class BlockNumberExpandableAdapter extends BaseExpandableListAdapter {
 
     }
 
-    public List<BlockNumber> getBlockedNumbers(){
+    public List<BlockNumber> getBlockedNumbers() {
         List<BlockNumber> mListBlockNumbers = new ArrayList<>();
-        for(Map.Entry<int[], NumberModel> entry : blockInteractions.entrySet()){
+        for (Map.Entry<int[], NumberModel> entry : blockInteractions.entrySet()) {
             String number = entry.getValue().getNumber();
             boolean isBlocked = entry.getValue().isBlocked();
-            BlockNumber blockNumber  = new BlockNumber(number,isBlocked);
+            BlockNumber blockNumber = new BlockNumber(number, isBlocked);
             mListBlockNumbers.add(blockNumber);
         }
 
 
-
         return mListBlockNumbers;
     }
-
 
 
 }

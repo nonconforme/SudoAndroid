@@ -18,21 +18,20 @@ import android.view.animation.Interpolator;
  * Created by Miroslaw Stanek on 18.01.15.
  */
 public class RevealBackgroundView extends View {
+    private Paint fillPaint;
+    private  ObjectAnimator revealAnimator;
+    private static final Interpolator INTERPOLATOR = new AccelerateInterpolator();
+
+
+    private int state = STATE_NOT_STARTED;
+    private int startLocationX;
+    private int startLocationY;
+    private int currentRadius;
+
     public static final int STATE_NOT_STARTED = 0;
     public static final int STATE_FILL_STARTED = 1;
     public static final int STATE_FINISHED = 2;
-
-    private static final Interpolator INTERPOLATOR = new AccelerateInterpolator();
     private static final int FILL_TIME = 400;
-
-    private int state = STATE_NOT_STARTED;
-
-    private Paint fillPaint;
-    private int currentRadius;
-    ObjectAnimator revealAnimator;
-
-    private int startLocationX;
-    private int startLocationY;
 
 
     private OnStateChangeListener onStateChangeListener;

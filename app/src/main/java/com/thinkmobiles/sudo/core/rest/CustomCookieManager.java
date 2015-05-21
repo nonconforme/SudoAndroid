@@ -16,12 +16,6 @@ import java.util.Map;
  */
 public class CustomCookieManager extends CookieManager {
 
-    // The cookie key we're interested in.
-    private final String SESSION_KEY = "SessionName";
-
-    /**
-     * Creates a new instance of this cookie manager accepting all cookies.
-     */
     public CustomCookieManager() {
         super.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
     }
@@ -43,7 +37,8 @@ public class CustomCookieManager extends CookieManager {
 
                 for (String possibleSessionCookie : possibleSessionCookieValues.split(";")) {
 
-                    if (possibleSessionCookie.startsWith(SESSION_KEY) && possibleSessionCookie.contains("=")) {
+                    if (possibleSessionCookie.startsWith(Constants.SESSION_NAME) && possibleSessionCookie.contains
+                            ("=")) {
 
                         // We can safely get the index 1 of the array: we know it contains
                         // a '=' meaning it has at least 2 values after splitting.

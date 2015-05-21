@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
 
@@ -68,12 +67,6 @@ public class ToolbarManager {
         }
     }
 
-    public void changeToolbarTitleAndIcon(int title, String image) {
-        mToolbar.setTitle(title);
-        if (image == null) {
-            mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
-        }
-    }
 
     public void changeToolbarTitleAndIcon(String title, int image) {
         mToolbar.setTitle(title);
@@ -83,14 +76,11 @@ public class ToolbarManager {
             setToolbarIcon(App.getCurrentISO());        }
     }
 
-
-
-
     public void changeToolbarTitleAndIcon(String title, String ISO) {
         if (title != null && !title.isEmpty()){
             mToolbar.setTitle(title);
         } else {
-            mToolbar.setTitle("Sudo");
+            mToolbar.setTitle(mActivity.getString(R.string.app_name));
         }
         if (ISO == null || ISO.equalsIgnoreCase("")) {
             mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
@@ -98,10 +88,6 @@ public class ToolbarManager {
             setToolbarIcon(ISO);
         }
     }
-
-
-
-
 
     public void changeToolbarTitle(String title) {
         mToolbar.setTitle(title);
@@ -130,14 +116,10 @@ public class ToolbarManager {
                 Drawable image = imageView.getDrawable();
                 mActivity.getSupportActionBar().setIcon(image);
             }
-
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
                 mActivity.getSupportActionBar().setIcon(new ColorDrawable(mActivity.getResources().getColor(android.R.color.transparent)));
-
-
             }
-
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
 

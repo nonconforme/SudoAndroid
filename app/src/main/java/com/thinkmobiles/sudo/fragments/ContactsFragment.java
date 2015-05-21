@@ -23,14 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -44,34 +44,48 @@ import java.util.List;
 public class ContactsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private Activity mActivity;
+    private ContactsListAdapter mStickyListAdapter;
+
     private FloatingActionButton mBTNAddFriend;
     private View mView;
     private TextView tvNoContacts;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private StickyListHeadersListView mStickyList;
 
 
     public List<UserModel> mContactsList;
     private Callback<List<UserModel>> mContactsCB;
 
-    private StickyListHeadersListView mStickyList;
-    private ContactsListAdapter mStickyListAdapter;
-    private BroadcastReceiver mSearchBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            searchContacts(intent.getStringExtra(Constants.QUERRY));
-         }
-    };
-    private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            makeGetUserRequest();
-        }
-    };
-    private IntentFilter mSearchFilter = new IntentFilter(Constants.QUERRY);
+
+    private BroadcastReceiver mSearchBroadcastReceiver;
+    private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener;
+    private IntentFilter mSearchFilter;
+
+    private void createSwipeRefreshListener() {
+        mSearchFilter = new IntentFilter(Constants.QUERRY);
+        mSwipeRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                makeGetUserRequest();
+            }
+        };
+    }
+
+
+    private void createSearchViewBroadcastReseiver() {
+        mSearchBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                searchContacts(intent.getStringExtra(Constants.QUERRY));
+            }
+        };
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        createSwipeRefreshListener();
+        createSearchViewBroadcastReseiver();
         findUI();
         initList();
         setListener();
@@ -125,7 +139,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initList() {
-         mStickyList.setDivider(null);
+        mStickyList.setDivider(null);
         mStickyList.setDividerHeight(0);
         mStickyListAdapter = new ContactsListAdapter(mActivity);
         mStickyList.setAdapter(mStickyListAdapter);
@@ -150,16 +164,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     public boolean canScrollUp(View view) {
-
         return ViewCompat.canScrollVertically(view, -1);
-
     }
 
     public void reloadList(List<UserModel> contacts) {
-
         mStickyListAdapter.reloadList(contacts);
-
-
         if (contacts != null && contacts.size() > 0) {
             tvNoContacts.setVisibility(View.INVISIBLE);
         } else {
@@ -178,7 +187,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             public void success(List<UserModel> userModels, Response response) {
                 mContactsList = userModels;
                 App.setCurrentContacts(String.valueOf(mContactsList.size()));
-                App.setContactsList (userModels);
+                App.setContactsList(userModels);
                 reloadList(userModels);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -196,7 +205,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             case R.id.btnAddFriend_CF:
                 addFriendActivity();
                 break;
-
         }
     }
 
@@ -222,10 +230,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-    public void reloadCurrentList() {
-        if (mContactsList != null) reloadList(mContactsList);
-    }
-
     private void startProfileViewActivity(UserModel userModel, View view) {
         ProfileViewActivity.launch(mActivity, view, userModel);
 
@@ -234,8 +238,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private void searchContacts(String query) {
         RetrofitAdapter.getInterface().searchContacts(query, mContactsCB);
-
     }
-
 
 }

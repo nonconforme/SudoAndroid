@@ -1,7 +1,6 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.ChatsNameAndAvatarHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 
-
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,13 +23,16 @@ import java.util.List;
  * Created by omar on 19.04.15.
  */
 public class ChatsListAdapter extends BaseAdapter {
-    private static HashMap<Integer, String> mAvatarUrlMap;
-    private List<LastChatsModel> mLastChatModel;
-    private LayoutInflater mInflater;
     private Activity mActivity;
+    private ChatsNameAndAvatarHelper mChatsNameAndAvatarHelper;
+    private LayoutInflater mInflater;
+
+    private List<LastChatsModel> mLastChatModel;
+    private static HashMap<Integer, String> mAvatarUrlMap;
+
     private boolean selectionMode = false;
     private boolean[] selectionArray;
-    private ChatsNameAndAvatarHelper mChatsNameAndAvatarHelper;
+
 
     public ChatsListAdapter(Activity mActivity) {
         this.mActivity = mActivity;
@@ -73,21 +72,17 @@ public class ChatsListAdapter extends BaseAdapter {
         if (view == null) {
             view = mInflater.inflate(R.layout.list_item_chats, viewGroup, false);
             holder = initViewHolder(view);
-
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
-
         LastChatsModel thisChat = null;
         MessageModel lastMessage;
-
 
         if (mLastChatModel != null && mLastChatModel.size() > 0) thisChat = mLastChatModel.get(position);
         if (thisChat != null) {
             lastMessage = thisChat.getLastmessage();
-
 
             if (lastMessage != null) {
                 holder.tvSenderNumber.setText(thisChat.getLastmessage().getOwner().getNumber());
@@ -96,16 +91,11 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
                 holder.ivAvatar.setTag(position);
-
                 mChatsNameAndAvatarHelper.setCompanionNameAndAvatar(holder.tvCompanion, holder.ivAvatar, lastMessage,
                         position, mAvatarUrlMap);
-
                 setSelectionState(holder.ivAvatar, holder.container, position);
             }
-
-
         }
-
         return view;
     }
 
@@ -119,10 +109,7 @@ public class ChatsListAdapter extends BaseAdapter {
         holder.tvCompanion = (TextView) view.findViewById(R.id.tvChatCompanion);
         holder.container = (LinearLayout) view.findViewById(R.id.llChatItemContainer);
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
-
-
         return holder;
-
     }
 
 
@@ -142,7 +129,6 @@ public class ChatsListAdapter extends BaseAdapter {
 
     public void setSelectionState(ImageView imageView, LinearLayout container, int position) {
         if (selectionMode == true) {
-
             if (selectionArray[position] && (int) imageView.getTag() == position) {
                 imageView.setImageResource(R.drawable.selector_btn_accept);
                 container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));

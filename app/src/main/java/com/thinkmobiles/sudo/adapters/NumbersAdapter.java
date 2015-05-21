@@ -19,10 +19,10 @@ import java.util.List;
 public class NumbersAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<NumberModel> mListMyNumbers;
-    private List<NumberObject> mListAvailableNumbers;
     private LayoutInflater inflater;
 
+    private List<NumberModel> mListMyNumbers;
+    private List<NumberObject> mListAvailableNumbers;
 
     public NumbersAdapter(Context _context) {
         mContext = _context;
@@ -41,7 +41,6 @@ public class NumbersAdapter extends BaseAdapter{
         return mListAvailableNumbers.get(_position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return 0;
@@ -51,14 +50,10 @@ public class NumbersAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-
         if (view == null) {
             view = inflater.inflate(R.layout.list_item_number, parent, false);
-
             viewHolder = new ViewHolder();
             viewHolder.tvNumber = (TextView) view.findViewById(R.id.tvNumber_FN);
-
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -69,27 +64,19 @@ public class NumbersAdapter extends BaseAdapter{
         for(NumberModel myNumber : mListMyNumbers ){
             if(myNumber.getNumber().equalsIgnoreCase("+"+availableNumber)){
                 viewHolder.tvNumber.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-
             }
         }
         viewHolder.tvNumber.setText(availableNumber);
-
-        
-
-
         return view;
     }
 
     public void reloadList(List<NumberObject> _listAvailableNumbers, List<NumberModel> _listMyNumbers) {
         this.mListAvailableNumbers = _listAvailableNumbers;
         this.mListMyNumbers = _listMyNumbers;
-
         notifyDataSetChanged();
     }
 
     static class ViewHolder {
         public TextView tvNumber;
-
-
     }
 }

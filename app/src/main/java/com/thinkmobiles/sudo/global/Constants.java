@@ -17,13 +17,14 @@ public abstract class Constants {
     public final static String FLAG = "FLAG";
 
     public final static String PROVIDER_GOOGLE = "GOOGLE";
-
+    public static final String EXTRA_IMAGE = "DetailActivity:image";
 
 
     public static final String TITLE_CHATS                  = "Chats";
     public static final String TITLE_CONTACTS               = "Contacts";
 
 
+    public static  final String SESSION_NAME                 = "SessionName";
 
     public static final String PHONE_NUMBER                 = "number";
     public static final String EMAIL                        = "email";
@@ -51,17 +52,26 @@ public abstract class Constants {
     public static final String QUERRY                       = "q";
     public static final String PAGE                         = "p";
     public static final String LENGTH                       = "l";
-
+    public static final String BUNDLE                       = "bundle";
 
     public static final String PARAM_DEVICE_ID              = "device_ID";
     public static final String PARAM_REG_ID                 = "regId";
     public static final String PROPERTY_APP_VERSION         = "app_version";
     public static final String SENDER_ID                    = "134798194901";
-    public static final String MESSAGE_ID                  = "_id";
+    public static final String MESSAGE_ID                   = "_id";
     public static final String USER_NUMBER                  = "user_number";
     public static final String COMPANION_NUMBER                  = "companion_number";
 
+    public static final String SOCKET_RECEIVE_MESSAGE       = "receiveMessage";
+    public static final String UID                          = "uId";
+    public static final String AUTHORIZE                    = "authorize";
 
+    public static final String SMS                          = "sms";
+    public static final String SESSION_KEY                  = "testCall";
+
+
+    public static final String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'";
+    public static final String CLIENT_DATE_FORMAT = "MMM-dd, hh:mm";
     /**
      * Authorization
      */

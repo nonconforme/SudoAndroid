@@ -1,7 +1,5 @@
 package com.thinkmobiles.sudo.models;
 
-import com.thinkmobiles.sudo.models.DefaultResponseModel;
-
 import java.util.List;
 
 /**

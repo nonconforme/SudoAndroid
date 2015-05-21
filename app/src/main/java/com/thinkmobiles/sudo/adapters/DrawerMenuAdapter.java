@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class DrawerMenuAdapter extends BaseAdapter {
 
-
     private Context mContext;
-    private List<DrawerMenuItemModel> mListMenus;
     private LayoutInflater inflater;
+
+    private List<DrawerMenuItemModel> mListMenus;
 
     public DrawerMenuAdapter(Context _context) {
         mContext = _context;
@@ -50,20 +50,17 @@ public class DrawerMenuAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-
         if (view == null) {
             view = inflater.inflate(R.layout.drawer_menu_item, parent, false);
-
             viewHolder = new ViewHolder();
             viewHolder.ivIcon = (ImageView) view.findViewById(R.id.ivIcon_Drawer);
             viewHolder.tvName = (TextView) view.findViewById(R.id.tvName_Drawer);
             viewHolder.tvParam = (TextView) view.findViewById(R.id.tvParam_Drawer);
-            viewHolder.backLineDrawer = (View) view.findViewById(R.id.blackLineDrawer);
+            viewHolder.backLineDrawer = view.findViewById(R.id.blackLineDrawer);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
         if (mListMenus.get(position).getName() == 0) {
             viewHolder.rlDrawerMenuItem = (RelativeLayout) view.findViewById(R.id.rlDrawerMenuItem);
             viewHolder.ivIcon.setVisibility(View.INVISIBLE);

@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.global;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import com.thinkmobiles.sudo.R;
 
 /**
  * Created by Виталий on 31/07/2014.
@@ -33,8 +34,7 @@ public abstract class ProgressDialogWorker {
         try {
             mProgressDialog = new ProgressDialog(_context);
             mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage("Loading...");
-
+            mProgressDialog.setMessage(_context.getString(R.string.loading));
             mProgressDialog.show();
         } catch (Exception e) {
             e.printStackTrace();

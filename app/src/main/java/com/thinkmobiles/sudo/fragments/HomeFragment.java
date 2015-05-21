@@ -9,25 +9,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer  {
 
+    private ActionBarActivity mActivity;
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
     private CharSequence Titles[] = {Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
     private final int mTabsCount = 2;
     private final int currentTab = 0;
-    private ActionBarActivity mActivity;
+
 
 
     @Override
@@ -41,10 +41,8 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         findUI(view);
         initAdapter();
-        initPagerListener();
         initTabs();
         pager.setCurrentItem(0, true);
-
         return view;
     }
 
@@ -55,42 +53,27 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     }
 
     private void initAdapter() {
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(mActivity.getSupportFragmentManager(), Titles, mTabsCount);
-
-        // Assigning ViewPager View and setting the adapter
         pager.setAdapter(adapter);
 
     }
 
 
     private void initTabs() {
-        // Assiging the Sliding Tab Layout View
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
         tabs.setCustomTabColorizer(this);
-
-        // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
     }
 
-    public void initPagerListener() {
-    }
 
     @Override
     public int getIndicatorColor(int position) {
         return getResources().getColor(R.color.tabsScrollColor);
     }
 
-
     public int getCurrentTab() {
         return currentTab;
-    }
-
-    public ViewPagerAdapter getAdapter() {
-        return adapter;
     }
 
     @Override
@@ -99,7 +82,6 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         MainToolbarManager.getCustomInstance(mActivity).enableSearchView(true);
         super.onResume();
 
-
     }
 
 
@@ -107,9 +89,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     public void onPause() {
 
         MainToolbarManager.getCustomInstance(mActivity).enableSearchView(false);
-
         super.onPause();
-
 
     }
 

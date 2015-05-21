@@ -18,35 +18,33 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
-
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.custom_views.SendCommentButton;
-import com.thinkmobiles.sudo.global.Network;
-import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.custom_views.SendCommentButton;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
+import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.utils.Utils;
-
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by omar on 28.04.15.
@@ -64,58 +62,50 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private Callback<DefaultResponseModel> mSendMessageCB;
     private Callback<DefaultResponseModel> mDeleteMessageCB;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private MenuItem menuItemDelete;
     private Toolbar toolbar;
-
-    private String mOwnerNumber;
-    private String mCompanionNumber;
-    private String mAvatarUrl;
-    private List<MessageModel> mMessageModelList;
     private Socket mSocket;
+
+    private List<MessageModel> mMessageModelList;
+    private MessageModel mSendMessageModel;
+    private MessageModel mFirstMessageModel;
+
     private int drawingStartLocation;
     private boolean selectMode = false;
-    private MenuItem menuItemDelete;
     private boolean[] selectionArray;
     private int mPageCount = 0;
     private int mLength = 6;
+    private String mOwnerNumber;
+    private String mCompanionNumber;
+    private String mAvatarUrl;
 
 
-
-    {
+    private void createSocket() {
         try {
             mSocket = IO.socket(APIConstants.SERVER_URL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+
     }
-
-
-    private MessageModel mSendMessageModel;
-    private MessageModel mFirstMessageModel;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (!selectMode) menuItemDelete.setVisible(false);
-
-
         return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);//Menu Resource, Menu
         menuItemDelete = menu.findItem(R.id.action_detele);
-
         return true;
     }
 
 
-    public static final String BUNDLE = "bundle";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        createSocket();
         loadContent();
         initComponents();
         initListeners();
@@ -125,10 +115,14 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initDeleteMessageCB();
         getMessagesPages();
         initSocked();
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
+        initDrawingStartLockation();
+        initContentObserver(savedInstanceState);
 
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title), 0);
 
-        drawingStartLocation = getIntent().getIntExtra(ARG_DRAWING_START_LOCATION, 0);
+    }
+
+    private void initContentObserver(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             contentRoot.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -139,10 +133,12 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 }
             });
         }
-
-        mSocket.connect();
     }
 
+
+    private void initDrawingStartLockation(){
+        drawingStartLocation = getIntent().getIntExtra(ARG_DRAWING_START_LOCATION, 0);
+    }
     private void initDeleteMessageCB() {
         mDeleteMessageCB = new Callback<DefaultResponseModel>() {
             @Override
@@ -158,19 +154,21 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
 
+
     private void initSocked() {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("receiveMessage", onReceive);
+        mSocket.on(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("uId", App.getuId());
-            mSocket.emit("authorize", jsonObject);
+            jsonObject.put(Constants.UID, App.getuId());
+            mSocket.emit(Constants.AUTHORIZE, jsonObject);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        mSocket.connect();
     }
 
     private Emitter.Listener onReceive = new Emitter.Listener() {
@@ -179,14 +177,14 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             JSONObject data = (JSONObject) args[0];
             Gson gson = new Gson();
             final MessageModel message = gson.fromJson(data.toString(), MessageModel.class);
-            Log.d("socket", "received");
+
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mListAdapter.addNewMessage(message);
                     mMessageModelList.add(0, mSendMessageModel);
-                    /*mChatList.setSelection(mListAdapter.getCount()-1);*/
+
                     mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
                 }
             });
@@ -194,10 +192,11 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }
     };
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.off("receiveMessage", onReceive);
+        mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
         mSocket.disconnect();
     }
 
@@ -208,7 +207,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Connection problems ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.connetcion_problems), Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -232,12 +231,12 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
                 btnSend.setCurrentState(SendCommentButton.STATE_DONE);
 
-                /*mChatList.setSelection(mListAdapter.getCount()-1);*/
+
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(ChatActivity.this, "Failure. Check contact's phone number.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, getString(R.string.check_contact_phone), Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -264,7 +263,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             @Override
             public void failure(RetrofitError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(ChatActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, getString(R.string.error_sending_message), Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -288,7 +287,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         rlAddComment = (RelativeLayout) findViewById(R.id.rlAddComment_AC);
         mChatList.setDivider(null);
         mChatList.setDividerHeight(0);
-
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (SendCommentButton) findViewById(R.id.btnSendComment);
         mListAdapter = new ChatListAdapter(this, mAvatarUrl);
@@ -305,9 +303,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     private void loadChat() {
-        mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
-        mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
-        mAvatarUrl = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.AVATAR);
+        mOwnerNumber = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.FROM_NUMBER);
+        mCompanionNumber = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.TO_NUMBER);
+        mAvatarUrl = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.AVATAR);
         mMessageModelList = new ArrayList<>();
     }
 
@@ -321,8 +319,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+
     private void sendMessage(final String _message) {
-        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, "sms", mSendMessageCB);
+        RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, Constants.SMS, mSendMessageCB);
         setSendMessageModel(mOwnerNumber, mCompanionNumber, _message);
     }
 
@@ -334,22 +333,21 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mSendMessageModel.setBody(_message);
     }
 
-    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber,
-             final String companionAvatar, int [] _startingLocation) {
+    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber, final String companionAvatar, int[] _startingLocation) {
         final Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra(ChatActivity.ARG_DRAWING_START_LOCATION, _startingLocation[1]);
         Bundle b = new Bundle();
         if (ContactManager.isMyNumber(_ownerNumber)) {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
-            b.putString (Constants.AVATAR, companionAvatar);
+            b.putString(Constants.AVATAR, companionAvatar);
 
         } else {
             b.putString(Constants.FROM_NUMBER, _companionNumber);
             b.putString(Constants.TO_NUMBER, _ownerNumber);
-            b.putString (Constants.AVATAR, companionAvatar);
+            b.putString(Constants.AVATAR, companionAvatar);
         }
-        intent.putExtra(BUNDLE, b);
+        intent.putExtra(Constants.BUNDLE, b);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
 
@@ -386,7 +384,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     private void getMessagesPages() {
         mPageCount++;
-
         RetrofitAdapter.getInterface().getConversationPages(mOwnerNumber, mCompanionNumber, mPageCount, mLength, mMessagesCB);
     }
 
@@ -443,22 +440,16 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (selectMode) {
-
             controlSelection(selectionArray.length - 1 - position);
-
-
         }
     }
 
     private void controlSelection(int position) {
-
         selectionArray[position] = !selectionArray[position];
-
         if (isEmptySelection()) {
             stopSelectionMode();
             return;
         }
-
         mListAdapter.setSelection(selectMode, selectionArray);
 
     }
@@ -486,11 +477,11 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         if (!isEmptySelection()) {
             List<MessageModel> mListMessages = mListAdapter.getList();
             for (int i = 0; i < selectionArray.length - 1; i++) {
-                if (selectionArray[i]){
+                if (selectionArray[i]) {
                     ids.add(mListMessages.get(i).get_id());
 
 
-                            mListMessages.remove(i);
+                    mListMessages.remove(i);
                 }
             }
             mListAdapter.reloadContent(mListMessages, mOwnerNumber);
@@ -498,7 +489,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }
 
         stopSelectionMode();
-        /*RetrofitAdapter.getInterface().deleteMessages((String [])ids.toArray(),mDeleteMessageCB);*/
+
     }
 
     private boolean isEmptySelection() {

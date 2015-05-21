@@ -1,7 +1,5 @@
 package com.thinkmobiles.sudo.models.chat;
 
-import java.util.List;
-
 /**
  * Created by njakawaii on 07.05.2015.
  */

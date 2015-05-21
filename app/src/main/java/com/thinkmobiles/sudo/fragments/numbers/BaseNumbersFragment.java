@@ -4,25 +4,25 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.fragments.AvailableCreditsFragment;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 
 /**
  * Created by njakawaii on 29.04.2015.
  */
 public abstract class BaseNumbersFragment extends Fragment {
     protected Main_Activity mActivity;
-    protected static FragmentManager mFragmentManager;
-    protected static CountryModel mCountryModel;
     private MainToolbarManager mToolbarManager;
     private AvailableCreditsFragment mCreditsAvailableFragment;
+
+    protected static FragmentManager mFragmentManager;
+    protected static CountryModel mCountryModel;
 
     @Override
     public void onAttach(Activity _activity) {

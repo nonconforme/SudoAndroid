@@ -3,7 +3,6 @@ package com.thinkmobiles.sudo.global;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.thinkmobiles.sudo.Main_Activity;
 
 

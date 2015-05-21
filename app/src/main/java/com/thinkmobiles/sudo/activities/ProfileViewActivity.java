@@ -19,16 +19,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.ColorModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -48,11 +47,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     private UserModel mUserModel;
     private RelativeLayout rlImage;
-    private ScrollView llMain;
-    private String firstName, urlAvatar;
+
+    private String firstName;
     private List<NumberModel> mNumberList;
 
-    public static final String EXTRA_IMAGE = "DetailActivity:image";
+
     private Target mTarget;
 
     @Override
@@ -84,7 +83,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
     }
 
     private void setImages() {
-        ViewCompat.setTransitionName(ivAvatar, EXTRA_IMAGE);
+        ViewCompat.setTransitionName(ivAvatar, Constants.EXTRA_IMAGE);
 
         if (mUserModel.getAvatar() != null && !mUserModel.getAvatar().isEmpty()) {
             Picasso.with(this).load(APIConstants.SERVER_URL + "/" + mUserModel.getAvatar()).transform(new CircleTransform()).into(ivAvatar);
@@ -112,7 +111,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
     private void loadContent() {
         firstName = mUserModel.getCompanion();
-        urlAvatar = mUserModel.getAvatar();
+
         mNumberList = mUserModel.getNumbers();
     }
 
@@ -121,7 +120,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         ivAvatar = (ImageView) findViewById(R.id.image);
         tvUserFirstName = (TextView) findViewById(R.id.tvUserFirstName_AVC);
         rlImage = (RelativeLayout) findViewById(R.id.rlImageProfile_AVP);
-        llMain = (ScrollView) findViewById(R.id.svData_AVP);
+
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
 
     }
@@ -134,10 +133,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
 
     public static void launch(Activity activity, View transitionImage, UserModel userModel) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(transitionImage, EXTRA_IMAGE));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create
+                (transitionImage, Constants.EXTRA_IMAGE));
 
         Intent intent = new Intent(activity, ProfileViewActivity.class);
-        intent.putExtra(EXTRA_IMAGE, userModel.getAvatar());
+        intent.putExtra(Constants.EXTRA_IMAGE, userModel.getAvatar());
 
         Bundle b = new Bundle();
         b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
@@ -187,15 +187,9 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                // Use animation position to blend colors.
                 float position = animation.getAnimatedFraction();
                 int ImageBlended = blendColors(initialColor, finalColor, position);
-//                int mainBlended = blendColors(initialColor, finalColor, position);
-
-                // Apply blended color to the view.
-                rlImage.setBackgroundColor(ImageBlended);
-//                llMain.setBackgroundColor(mainBlended);
-//                llMain.getBackground().setAlpha(60);
+                 rlImage.setBackgroundColor(ImageBlended);
             }
         });
 
@@ -255,14 +249,14 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
             ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, companionAvatar ,startingLocation);
         }else{
-            Toast.makeText(this, "Buy a number to start a chat", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.buy_number_to_start), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(" activity result", String.valueOf(resultCode));
+
         if (resultCode == RESULT_OK) {
             reloadUserModel(data);
             loadContent();

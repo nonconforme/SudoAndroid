@@ -3,24 +3,17 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.BlockNumberActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
-import com.thinkmobiles.sudo.activities.BlockNumberActivity;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -112,7 +105,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                         mETNewPass.getText().toString().equals(mETConfirmPass.getText().toString()) )
                 {
                     changePassRequest();
-                } else     Toast.makeText(mActivity, "Please enter valid data", Toast.LENGTH_SHORT).show();
+                } else     Toast.makeText(mActivity, mActivity.getString(R.string.enter_valid_data), Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.btnBlockNumber_FS:

@@ -17,26 +17,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
-import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.models.DefaultResponseModel;
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
-
-import java.util.*;
-
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.utils.Utils;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -46,54 +45,68 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private Main_Activity mActivity;
     private MainToolbarManager mainToolbarManager;
-    private ListView mListView;
+
     private Callback<List<LastChatsModel>> mLastChatsCB;
     private Callback<DefaultResponseModel> mDeleteChatCB;
+
     private ChatsListAdapter mChatAdapter;
-    private List<LastChatsModel> mChatsList;
+    private ListView mListView;
     private TextView tvNoChats;
     private View footerView;
 
+    private BroadcastReceiver mTrashReciever;
+    private BroadcastReceiver mChatStartedReceiver;
+
+    private List<LastChatsModel> mChatsList;
+    private List<LastChatsModel> mDeleteChatModelList;
+    private List<LastChatsModel> tempChatList;
+
+    private HashSet<Integer> mLoadWatcher = new HashSet<>();
 
     private boolean selectionMode = false;
     private boolean[] selectionArray;
     private int mPageCount = 1;
     private int mLength = 10;
-
-
     private boolean mEndOfList = false;
 
-    private HashSet<Integer> mLoadWatcher = new HashSet<>();
-    private List<LastChatsModel> mDeleteChatModelList;
-    private List<LastChatsModel> tempChatList;
-    private BroadcastReceiver mTrashReciever = new BroadcastReceiver() {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String flag = intent.getStringExtra(Constants.FLAG);
-            if (flag.equalsIgnoreCase(Constants.ACCEPT)) {
-                deleteChats();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initTrashBroadcastReceiver();
+        initRefreshListBroadcastReceiver();
+    }
+
+    private void initTrashBroadcastReceiver() {
+        mTrashReciever = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String flag = intent.getStringExtra(Constants.FLAG);
+                if (flag.equalsIgnoreCase(Constants.ACCEPT)) {
+                    deleteChats();
+                }
+                stopSelectionMode();
             }
-            stopSelectionMode();
 
-        }
+        };
+    }
 
+    private void initRefreshListBroadcastReceiver() {
+        mChatStartedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                reloadList();
+            }
+        };
 
-    };
+    }
 
-    private BroadcastReceiver mChatStartedReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            reloadList();
-        }
-    };
 
     @Override
     public void onPause() {
         selectionMode = false;
         unregisterSelectionReceiver();
-
         super.onPause();
     }
 
@@ -102,8 +115,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chats, container, false);
         findUI(v);
-
         initComponent();
+        initListeners();
         iniGetChatsCB();
         initDeleteChatCB();
         reloadList();
@@ -115,22 +128,18 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 mDeleteChatModelList.remove(mDeleteChatModelList.size() - 1);
-
                 if (mDeleteChatModelList.size() > 0) {
                     deleteSingleChat();
                 } else {
                     hideProgressBar();
-
                     reloadList();
                 }
-
-
             }
 
             @Override
             public void failure(RetrofitError error) {
                 hideProgressBar();
-                Toast.makeText(mActivity, "Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.failed), Toast.LENGTH_SHORT).show();
                 tempChatList = null;
                 mDeleteChatModelList = null;
             }
@@ -142,14 +151,12 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mListView = (ListView) _view.findViewById(R.id.lvChats_CF);
         tvNoChats = (TextView) _view.findViewById(R.id.tvNoChats);
         tvNoChats.setVisibility(View.INVISIBLE);
-
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
         registerSelectionReceiver();
         registerNewChatReceiver();
@@ -174,9 +181,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             @Override
             public void failure(RetrofitError error) {
                 mEndOfList = true;
-
-                Log.d("Retrofit chat Error", error.getMessage());
-
             }
         };
     }
@@ -196,7 +200,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         for (int i = 0; i < oldArray.length; i++) {
             newArray[i] = oldArray[i];
         }
-
         return newArray;
     }
 
@@ -205,7 +208,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (Main_Activity) activity;
-
     }
 
 
@@ -229,6 +231,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void updateList(List<LastChatsModel> chatsModelList) {
         mChatAdapter.setSelection(selectionMode, selectionArray);
         mChatAdapter.reloadList(chatsModelList);
+
         if (chatsModelList.size() > 0) tvNoChats.setVisibility(View.INVISIBLE);
         else tvNoChats.setVisibility(View.VISIBLE);
     }
@@ -237,22 +240,17 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void initComponent() {
         mChatAdapter = new ChatsListAdapter(mActivity);
         mChatsList = new ArrayList<>();
-
-
         mListView.setAdapter(mChatAdapter);
+        footerView.setVisibility(View.GONE);
+    }
+
+
+    private void initListeners(){
         mListView.setOnItemClickListener(this);
         mListView.setOnItemLongClickListener(this);
         mListView.setOnScrollListener(this);
-        footerView.setVisibility(View.GONE);
-
-
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-    }
 
 
     private void getLastChats() {
@@ -267,7 +265,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-        Log.d("TAG", "clicked");
         if (!selectionMode) {
             String avatarUrl = mChatAdapter.getCompanionAvatar(position);
             startChatActivity(mChatsList.get(position), view, avatarUrl);
@@ -286,15 +283,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         startSelectionMode();
         controlSelection(i);
         mChatAdapter.setSelection(selectionMode, selectionArray);
-
         return true;
     }
 
     private void startChatActivity(LastChatsModel chatModel, final View view, String avatarUrl) {
         int[] startingLocation = new int[2];
         view.getLocationOnScreen(startingLocation);
-        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage()
-                .getCompanion().getNumber(), avatarUrl, startingLocation);
+        ChatActivity.launch(mActivity, chatModel.getLastmessage().getOwner().getNumber(), chatModel.getLastmessage().getCompanion().getNumber(), avatarUrl, startingLocation);
     }
 
     private void startSelectionMode() {
@@ -322,7 +317,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onDestroy() {
         unRegisterNewChatReceiver();
         super.onDestroy();
-
     }
 
     private void registerSelectionReceiver() {
@@ -368,7 +362,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                     mDeleteChatModelList.add(mChatsList.get(i));
                 }
             }
-
             if (mDeleteChatModelList.size() > 0) {
                 showProgressBar();
                 deleteSingleChat();
@@ -381,21 +374,21 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void deleteSingleChat() {
         if (mDeleteChatModelList.size() > 0) {
-            LastChatsModel chatModel = mDeleteChatModelList.get(mDeleteChatModelList.size()-1);
+            LastChatsModel chatModel = mDeleteChatModelList.get(mDeleteChatModelList.size() - 1);
 
             String[] numbers = getUserNumber(chatModel);
 
-            if(numbers[0] != null && numbers[1] != null){
-            RetrofitAdapter.getInterface().deleteChat(numbers[0], numbers[1], mDeleteChatCB);}
-            else{hideProgressBar();}
+            if (numbers[0] != null && numbers[1] != null) {
+                RetrofitAdapter.getInterface().deleteChat(numbers[0], numbers[1], mDeleteChatCB);
+            } else {
+                hideProgressBar();
+            }
         }
     }
 
 
     private String[] getUserNumber(LastChatsModel chatModel) {
-
         String[] numbers = new String[2];
-
         for (NumberModel numberModel : App.getCurrentUser().getNumbers()) {
             if (numberModel.getNumber().equalsIgnoreCase(chatModel.getLastmessage().getCompanion().getNumber())) {
                 numbers[0] = chatModel.getLastmessage().getCompanion().getNumber();
@@ -410,12 +403,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 return numbers;
             }
         }
-
         numbers[0] = App.getCurrentMobile();
-        if(!App.getCurrentMobile().equalsIgnoreCase(chatModel.getLastmessage().getCompanion().getNumber())){
+        if (!App.getCurrentMobile().equalsIgnoreCase(chatModel.getLastmessage().getCompanion().getNumber())) {
             numbers[1] = chatModel.getLastmessage().getCompanion().getNumber();
-        }
-        else{
+        } else {
             numbers[1] = chatModel.getLastmessage().getOwner().getNumber();
         }
         return numbers;
@@ -469,16 +460,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void showProgressBar() {
         footerView.setVisibility(View.VISIBLE);
-
-
     }
 
     private void hideProgressBar() {
-
-
         footerView.setVisibility(View.GONE);
-
-
     }
 
 

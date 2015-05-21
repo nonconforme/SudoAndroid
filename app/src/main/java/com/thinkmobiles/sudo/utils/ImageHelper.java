@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
-
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -18,7 +17,6 @@ public abstract class ImageHelper {
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.i("image", imageEncoded);
         return imageEncoded;
     }
 

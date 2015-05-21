@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo.utils;
 
 
 import android.app.Activity;
-
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import com.thinkmobiles.sudo.Main_Activity;
@@ -16,9 +15,7 @@ import com.thinkmobiles.sudo.global.App;
 public class MainToolbarManager extends ToolbarManager {
 
     private static Main_Activity mMain_Activity;
-
     private static MainToolbarManager sMainToolbarManager;
-
 
     public static MainToolbarManager getCustomInstance(Activity _main_Activity) {
         if (sMainToolbarManager == null) {
@@ -36,14 +33,10 @@ public class MainToolbarManager extends ToolbarManager {
 
     public void enableDrawer(boolean show) {
         mMain_Activity.enableDrawer(show);
-
-
     }
 
     public void enableSearchView(boolean show) {
         mMain_Activity.enableSearchView(show);
-
-
     }
 
     public void enableTrashView(boolean show){

@@ -14,8 +14,7 @@ import java.util.List;
 public abstract class JsonHelper {
 
     public static TypedJsonString makeJson(UserModel _userModel) {
-          Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
         String temp = gson.toJson(_userModel);
         TypedJsonString request = new TypedJsonString(temp);
         return request;
@@ -23,8 +22,7 @@ public abstract class JsonHelper {
 
 
     public static TypedJsonString makeJsonBlockedNumbers(List<BlockNumber> blockNumberList) {
-        Gson gson = new GsonBuilder()
-                .create();
+        Gson gson = new GsonBuilder().create();
         String temp = gson.toJson(blockNumberList);
         TypedJsonString request = new TypedJsonString(temp);
         return request;

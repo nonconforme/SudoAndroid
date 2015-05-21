@@ -33,7 +33,6 @@ import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.thinkmobiles.sudo.R;
 
 /**
@@ -46,7 +45,6 @@ import com.thinkmobiles.sudo.R;
 public class FloatLabelLayout extends LinearLayout {
 
     private static final long ANIMATION_DURATION = 150;
-
     private static final float DEFAULT_LABEL_PADDING_LEFT = 3f;
     private static final float DEFAULT_LABEL_PADDING_TOP = 4f;
     private static final float DEFAULT_LABEL_PADDING_RIGHT = 3f;

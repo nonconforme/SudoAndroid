@@ -1,7 +1,6 @@
 package com.thinkmobiles.sudo.models.numbers;
 
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
-import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
 import java.util.List;
 

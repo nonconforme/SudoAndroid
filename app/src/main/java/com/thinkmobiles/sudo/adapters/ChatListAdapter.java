@@ -3,7 +3,6 @@ package com.thinkmobiles.sudo.adapters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
 
@@ -55,7 +53,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void loadAvatar() {
         if (mAvatarUrl != null && !mAvatarUrl.equalsIgnoreCase("")  ) {
-            Target tartet = new Target() {
+            Target target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     mBitmapAvatar = bitmap;
@@ -75,9 +73,7 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             }  ;
 
-            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + mAvatarUrl). into(tartet);
-
-
+            Picasso.with(context).load(APIConstants.SERVER_URL + "/" + mAvatarUrl). into(target);
         }
 
     }
@@ -109,11 +105,8 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         int position = getCount() - i - 1;
-
         if (isIncomingMessage(position))
-
             view = mInflater.inflate(R.layout.list_item_chat_outgoing, viewGroup, false);
-
         else view = mInflater.inflate(R.layout.list_item_chat_incoming, viewGroup, false);
 
         ViewHolder holder = new ViewHolder(view);
@@ -135,7 +128,6 @@ public class ChatListAdapter extends BaseAdapter {
         public ViewHolder(final View _view) {
             initHolder(_view);
         }
-
         private void initHolder(View _view) {
             this.ivAvatar = (ImageView) _view.findViewById(R.id.ivAvatar);
             this.tvMessage = (TextView) _view.findViewById(R.id.tvChatText);
@@ -143,7 +135,6 @@ public class ChatListAdapter extends BaseAdapter {
             this.tvNumber = (TextView) _view.findViewById(R.id.tvCompanionNumber);
             this.container = _view.findViewById(R.id.container);
         }
-
         private void setData(final int _pos) {
             setAvatar(this.ivAvatar);
             setMessage(this.tvMessage, _pos);
@@ -156,13 +147,10 @@ public class ChatListAdapter extends BaseAdapter {
 
     private boolean isIncomingMessage(int position) {
 
-
         if (mListMessages.get(position).getOwner().getNumber().equals(mOwnerNumber)) return true;
 
         return false;
-
     }
-
 
     private void setMessage(TextView tv, int position) {
         tv.setText(mListMessages.get(position).getBody());
@@ -171,17 +159,13 @@ public class ChatListAdapter extends BaseAdapter {
 
     private void setNumber(TextView tv, int position) {
         tv.setText(mListMessages.get(position).getCompanion().getNumber());
-
     }
 
     private void setSelectionBG(View view, int position) {
         if (selectionMode && selectionArray != null && selectionArray[position])
-
             view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
 
-
         else view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_default));
-
 
     }
 
@@ -190,24 +174,12 @@ public class ChatListAdapter extends BaseAdapter {
         tv.setText(timeDate);
     }
 
-    public void updateItems() {
 
-        notifyDataSetChanged();
-    }
 
     public void addNewMessage(MessageModel newMessage) {
 
         mListMessages.add(0, newMessage);
-
         notifyDataSetChanged();
-    }
-
-    public void setAnimationsLocked(boolean animationsLocked) {
-        this.animationsLocked = animationsLocked;
-    }
-
-    public void setDelayEnterAnimation(boolean delayEnterAnimation) {
-        this.delayEnterAnimation = delayEnterAnimation;
     }
 
     private void runEnterAnimation(View view, int position) {

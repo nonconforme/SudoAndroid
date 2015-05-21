@@ -1,8 +1,6 @@
 package com.thinkmobiles.sudo.global;
 
 import android.app.Application;
-
-import com.thinkmobiles.sudo.models.ProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.List;
@@ -11,15 +9,17 @@ import java.util.List;
  * Created by Sasha on 12.02.2015.
  */
 public class App extends Application {
-    private static String currentMobile;
-    private static String uId;
-    private static UserModel currentUser;
-    public static String currentCredits;
-    public static String currentContacts;
-    private static String currentISO;
-
 
     private static List<UserModel> contactsList;
+
+    private static UserModel currentUser;
+
+    public static String currentCredits;
+    public static String currentContacts;
+
+    private static String currentMobile;
+    private static String uId;
+    private static String currentISO;
 
     public static UserModel getCurrentUser() {
         return currentUser;
@@ -39,10 +39,8 @@ public class App extends Application {
     }
 
     public static String getCurrentMobile() {
-        if(currentMobile != null && !currentMobile.equalsIgnoreCase(""))
-        return currentMobile;
-        else
-            return "Buy a new number";
+        if (currentMobile != null && !currentMobile.equalsIgnoreCase("")) return currentMobile;
+        else return "Buy a new number";
     }
 
     public static List<UserModel> getContactsList() {
@@ -52,6 +50,7 @@ public class App extends Application {
     public static void setContactsList(List<UserModel> contactsList) {
         App.contactsList = contactsList;
     }
+
     public static void setCurrentMobile(String currentMobile) {
         App.currentMobile = currentMobile;
     }

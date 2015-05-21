@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -18,8 +17,9 @@ import java.util.List;
 public class ProfileViewNumbersAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<NumberModel> mListNumbers;
     private LayoutInflater inflater;
+
+    private List<NumberModel> mListNumbers;
 
     public ProfileViewNumbersAdapter(Context _context, List<NumberModel> _list) {
         mContext = _context;
@@ -47,20 +47,16 @@ public class ProfileViewNumbersAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-
         if (view == null) {
             view = inflater.inflate(R.layout.list_item_phone_number, parent, false);
-
             viewHolder = new ViewHolder();
             viewHolder. tvPhoneNumber = (TextView) view.findViewById(R.id.tvPhoneNumber_AVC);
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
         viewHolder. tvPhoneNumber.setText(mListNumbers.get(position).getNumber());
-
         return view;
     }
 

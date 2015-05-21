@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-
 import android.widget.ListView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.Main_Activity;
@@ -18,34 +17,33 @@ import com.thinkmobiles.sudo.adapters.BuyNumbersAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
-
 import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.counties.NumberPackages;
-
-import java.util.List;
-
 import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BuyNumberFragment extends BaseNumbersFragment implements AdapterView.OnItemClickListener {
 
-    private String mNumber;
-    private String mCountryIso;
-    private Callback<BuyNumberResponce> mBuyNumberCB;
-    private List<NumberPackages> mList;
-    private Callback<ProfileResponse> mUserCB;
-
-
     private View mView;
     private BuyNumbersAdapter mBuyNumbersAdapter;
     private ListView mListView;
     private Main_Activity mActivity;
+
+    private Callback<ProfileResponse> mUserCB;
+    private Callback<BuyNumberResponce> mBuyNumberCB;
+
+    private List<NumberPackages> mList;
+
+    private String mNumber;
+    private String mCountryIso;
 
 
     public BuyNumberFragment() {
@@ -73,7 +71,6 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_buy_number, container, false);
         mList = getCountryModel().getBuyNumberPackages();
         initComponent();
@@ -81,7 +78,6 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         initBuyNumberCB();
         initGetUserCB();
         setContent();
-
         changeToolbarTitleAndImage(R.string.buy_a_number);
 
         return mView;
@@ -96,7 +92,7 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
 
                 App.setCurrentCredits(buyNumberResponce.getCredits());
                 refreshFragmentAvailableCredistFragment();
-                Toast.makeText(mActivity, "Success!", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.success), Toast.LENGTH_LONG).show();
 
                 getUserRequest();
             }
@@ -105,12 +101,11 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
             public void failure(RetrofitError error) {
                 getToolbarManager().setProgressBarVisible(false);
 
-                if(App.currentCredits.equalsIgnoreCase("") || App.currentCredits.equalsIgnoreCase("0")){
-                Toast.makeText(mActivity, "Failure. Check your credits balance.", Toast.LENGTH_LONG).show();}
-                else{
-                    Toast.makeText(mActivity, "Failure. Check another number.", Toast.LENGTH_LONG).show();
+                if (App.currentCredits.equalsIgnoreCase("") || App.currentCredits.equalsIgnoreCase("0")) {
+                    Toast.makeText(mActivity, mActivity.getString(R.string.check_credits_balance), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(mActivity, mActivity.getString(R.string.check_another_number), Toast.LENGTH_LONG).show();
                 }
-
             }
 
         };
@@ -139,7 +134,6 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         getToolbarManager().setProgressBarVisible(true);
-
         buyNumber(position);
     }
 
@@ -147,13 +141,11 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         mUserCB = new Callback<ProfileResponse>() {
             @Override
             public void success(ProfileResponse profileResponse, Response response) {
-                Log.d("user", profileResponse.getSuccess());
-                boolean needToRefreshDrawerAndToolbar = false;
 
+                boolean needToRefreshDrawerAndToolbar = false;
                 if (App.getCurrentUser().getNumbers().isEmpty()) {
                     needToRefreshDrawerAndToolbar = true;
                 }
-
                 setProfile(profileResponse);
                 if (needToRefreshDrawerAndToolbar) {
                     refreshDrawerAndToolbar();
@@ -163,17 +155,14 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("user", error.getMessage());
 
             }
         };
     }
 
     private void refreshDrawerAndToolbar() {
-
-    mActivity.setHeaderContent();
+        mActivity.setHeaderContent();
     }
-
 
 
     private void setProfile(final ProfileResponse _profile) {
