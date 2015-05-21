@@ -60,6 +60,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
+    private Callback<DefaultResponseModel> mDeleteMessageCB;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Toolbar toolbar;
@@ -74,6 +75,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private boolean[] selectionArray;
     private int mPageCount = 0;
     private int mLength = 6;
+
 
 
     {
@@ -116,6 +118,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         setSwipeRefrechLayoutListenerAndColor();
         initGetMessageCB();
         initSendMessageCB();
+        initDeleteMessageCB();
         getMessagesPages();
         initSocked();
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon("Chat", 0);
@@ -134,6 +137,20 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }
 
         mSocket.connect();
+    }
+
+    private void initDeleteMessageCB() {
+        mDeleteMessageCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
     }
 
 
@@ -459,17 +476,24 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     private void deleteChatItems() {
+        ArrayList<String> ids = new ArrayList<>();
 
         if (!isEmptySelection()) {
             List<MessageModel> mListMessages = mListAdapter.getList();
             for (int i = 0; i < selectionArray.length - 1; i++) {
-                if (selectionArray[i]) mListMessages.remove(i);
+                if (selectionArray[i]){
+                    ids.add(mListMessages.get(i).get_id());
+
+
+                            mListMessages.remove(i);
+                }
             }
             mListAdapter.reloadContent(mListMessages, mOwnerNumber);
 
         }
 
         stopSelectionMode();
+        /*RetrofitAdapter.getInterface().deleteMessages((String [])ids.toArray(),mDeleteMessageCB);*/
     }
 
     private boolean isEmptySelection() {

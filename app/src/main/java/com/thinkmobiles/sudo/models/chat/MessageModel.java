@@ -12,6 +12,17 @@ public class MessageModel implements Serializable{
     private String postedDate;
     private CompanionModel companion;
     private CompanionModel owner;
+    private String _id;
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+
 
     public String getBody() {
         return body;

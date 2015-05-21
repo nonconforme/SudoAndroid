@@ -251,7 +251,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
             String companionNumber = mNumberList.get(i).getNumber();
             int[] startingLocation = new int[2];
             view.getLocationOnScreen(startingLocation);
-            sendBroadcast(new Intent(Constants.UPDATE_CHAT_LIST));
+
             ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, startingLocation);
         }else{
             Toast.makeText(this, "Buy a number to start a chat", Toast.LENGTH_SHORT).show();

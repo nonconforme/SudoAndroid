@@ -57,6 +57,10 @@ public abstract class Constants {
     public static final String PARAM_REG_ID                 = "regId";
     public static final String PROPERTY_APP_VERSION         = "app_version";
     public static final String SENDER_ID                    = "134798194901";
+    public static final String MESSAGE_ID                  = "_id";
+    public static final String USER_NUMBER                  = "user_number";
+    public static final String COMPANION_NUMBER                  = "companion_number";
+
 
     /**
      * Authorization
