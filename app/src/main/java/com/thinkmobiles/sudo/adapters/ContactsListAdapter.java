@@ -32,28 +32,32 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 /**
  * Created by omar on 19.04.15.
  */
-public class ContactsListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class ContactsListAdapter extends BaseAdapter implements StickyListHeadersAdapter, View.OnClickListener {
+
+
+
 
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
-    private int lastPosition = -1 ;
+    private int lastPosition = -1;
     private Animation mUpAnimation;
     private Animation mBottommAnimation;
     private boolean doAnimate = true;
 
     private static final int SUCCESS = 10;
 
-    public ContactsListAdapter(Activity context) {
-        this.mActivity = context;
+    public ContactsListAdapter(Activity activity) {
+        this.mActivity = activity;
         this.contacts = new ArrayList<>();
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(activity);
         initAnimations();
+
     }
 
     private void initAnimations() {
-         mUpAnimation       = AnimationUtils.loadAnimation(mActivity, R.anim.down_from_top);
-         mBottommAnimation  = AnimationUtils.loadAnimation(mActivity, R.anim.up_from_bottom);
+        mUpAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.down_from_top);
+        mBottommAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.up_from_bottom);
 
     }
 
@@ -108,9 +112,11 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         } else {
             holder = (ViewHolder) view.getTag();
         }
-            holder.ivAvatar.setTag(pos);
-            setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
-            holder.tvFirstName.setText(contacts.get(pos).getCompanion());
+        holder.ivAvatar.setTag(pos);
+        holder.ivOptions.setTag(pos);
+        holder.ivOptions.setOnClickListener(this);
+        setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
+        holder.tvFirstName.setText(contacts.get(pos).getCompanion());
 
         if (contacts.get(pos).getNumbers() != null && contacts.get(pos).getNumbers().size() > 0)
             holder.tvNumber.setText(contacts.get(pos).getNumbers().get(contacts.get(pos).getNumbers().size() - 1).getNumber());
@@ -149,6 +155,12 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         return convertView;
     }
 
+    @Override
+    public void onClick(View view) {
+        int pos = (int) view.getTag();
+
+    }
+
 
     public class ViewHolder {
         ImageView ivAvatar, ivOptions;
@@ -171,9 +183,9 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
             Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
-                  if ( (int)imageView.getTag() != pos){
-                      Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
-                  }
+                    if ((int) imageView.getTag() != pos) {
+                        Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);
+                    }
                 }
 
                 @Override
@@ -198,6 +210,8 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         ProfileViewActivity.launch(mActivity, view, userModel);
 
     }
+
+
 
 
 }

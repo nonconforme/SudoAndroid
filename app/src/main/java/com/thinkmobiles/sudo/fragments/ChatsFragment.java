@@ -106,7 +106,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         initComponent();
         iniGetChatsCB();
         initDeleteChatCB();
-
+        reloadList();
         return v;
     }
 
@@ -153,7 +153,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentMobile(), App.getCurrentISO());
         registerSelectionReceiver();
         registerNewChatReceiver();
-        reloadList();
+
 
     }
 
