@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.utils.ChatsNameHelper;
 import com.thinkmobiles.sudo.utils.Utils;
 
 
@@ -31,8 +32,6 @@ public class ChatsListAdapter extends BaseAdapter {
     private Activity mActivity;
     private boolean selectionMode = false;
     private boolean[] selectionArray;
- 
-
 
 
     public ChatsListAdapter(Activity mActivity) {
@@ -94,7 +93,7 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.tvItemTimedate.setText(Utils.stringToDate(thisChat.getLastmessage().getPostedDate()));
                 holder.tvMessagePreview.setText(thisChat.getLastmessage().getBody());
                 holder.ivAvatar.setTag(position);
-                holder.tvCompanion.setText("");
+                ChatsNameHelper.getInstance().setCompanionName(holder.tvCompanion, lastMessage);
                 holder.ivAvatar.setTag(position);
                 setSelectionState(holder.ivAvatar, holder.container, position);
             }
@@ -111,13 +110,13 @@ public class ChatsListAdapter extends BaseAdapter {
         holder.tvSenderNumber = (TextView) view.findViewById(R.id.tvChatItemSenderNumber);
         holder.tvReceiverNumber = (TextView) view.findViewById(R.id.tvChatItemReceiverDetails);
         holder.tvMessagePreview = (TextView) view.findViewById(R.id.tvChatItemMessagePreview);
-        holder.tvItemTimedate = (TextView)  view.findViewById(R.id.tvChatItemTimedate);
+        holder.tvItemTimedate = (TextView) view.findViewById(R.id.tvChatItemTimedate);
         holder.tvCompanion = (TextView) view.findViewById(R.id.tvChatCompanion);
         holder.container = (LinearLayout) view.findViewById(R.id.llChatItemContainer);
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
 
 
-         return holder;
+        return holder;
 
     }
 
@@ -130,26 +129,23 @@ public class ChatsListAdapter extends BaseAdapter {
     }
 
 
-
-    public void setSelection(boolean    selectionMode, boolean [] selectionArray){
+    public void setSelection(boolean selectionMode, boolean[] selectionArray) {
         this.selectionMode = selectionMode;
         this.selectionArray = selectionArray;
         notifyDataSetChanged();
     }
 
-    public void setSelectionState(ImageView imageView, LinearLayout container, int position){
-        if(selectionMode == true){
+    public void setSelectionState(ImageView imageView, LinearLayout container, int position) {
+        if (selectionMode == true) {
 
-            if (selectionArray[position] && (int)imageView.getTag() == position) {
+            if (selectionArray[position] && (int) imageView.getTag() == position) {
                 imageView.setImageResource(R.drawable.selector_btn_accept);
                 container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
-            }
-            else{
+            } else {
                 imageView.setImageResource(R.drawable.ic_man_chat);
                 container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_default));
             }
-        }
-        else{
+        } else {
             imageView.setImageResource(R.drawable.ic_man_chat);
             container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_default));
         }

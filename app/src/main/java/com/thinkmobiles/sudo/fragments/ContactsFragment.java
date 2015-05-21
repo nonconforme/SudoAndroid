@@ -178,7 +178,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             public void success(List<UserModel> userModels, Response response) {
                 mContactsList = userModels;
                 App.setCurrentContacts(String.valueOf(mContactsList.size()));
-
+                App.setContactsList (userModels);
                 reloadList(userModels);
                 mSwipeRefreshLayout.setRefreshing(false);
             }

@@ -5,6 +5,8 @@ import android.app.Application;
 import com.thinkmobiles.sudo.models.ProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
+import java.util.List;
+
 /**
  * Created by Sasha on 12.02.2015.
  */
@@ -15,6 +17,9 @@ public class App extends Application {
     public static String currentCredits;
     public static String currentContacts;
     private static String currentISO;
+
+
+    private static List<UserModel> contactsList;
 
     public static UserModel getCurrentUser() {
         return currentUser;
@@ -40,6 +45,13 @@ public class App extends Application {
             return "Buy a new number";
     }
 
+    public static List<UserModel> getContactsList() {
+        return contactsList;
+    }
+
+    public static void setContactsList(List<UserModel> contactsList) {
+        App.contactsList = contactsList;
+    }
     public static void setCurrentMobile(String currentMobile) {
         App.currentMobile = currentMobile;
     }
