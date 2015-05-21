@@ -41,9 +41,9 @@
         style="@style/SCCItemIcons"
         android:clickable="true"
         android:contentDescription="@string/options_icon"
-        android:cropToPadding="true"
-        android:src="@drawable/ic_action_overflow"
+         android:src="@drawable/ic_action_overflow"
         android:layout_weight="1"
-   />
+
+        android:layout_height="wrap_content" android:padding="15dp"/>
 
 </LinearLayout>

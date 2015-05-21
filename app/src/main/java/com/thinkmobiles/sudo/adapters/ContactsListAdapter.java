@@ -3,15 +3,12 @@ package com.thinkmobiles.sudo.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.internal.view.menu.MenuBuilder;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -35,8 +32,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ContactsListAdapter extends BaseAdapter implements StickyListHeadersAdapter, View.OnClickListener {
 
 
-
-
     private List<UserModel> contacts;
     private LayoutInflater mInflater;
     private Activity mActivity;
@@ -45,7 +40,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     private Animation mBottommAnimation;
     private boolean doAnimate = true;
 
-    private static final int SUCCESS = 10;
 
     public ContactsListAdapter(Activity activity) {
         this.mActivity = activity;
@@ -115,6 +109,7 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         holder.ivAvatar.setTag(pos);
         holder.ivOptions.setTag(pos);
         holder.ivOptions.setOnClickListener(this);
+
         setAvatar(holder.ivAvatar, contacts.get(pos).getAvatar(), pos);
         holder.tvFirstName.setText(contacts.get(pos).getCompanion());
 
@@ -156,10 +151,20 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
     }
 
     @Override
-    public void onClick(View view) {
-        int pos = (int) view.getTag();
-
+    public void onClick(final View view) {
+        PopupMenu popupMenu = new PopupMenu(mActivity, view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Toast.makeText(mActivity, "item  " + contacts.get((int) view.getTag()).getCompanion(), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        popupMenu.show();
     }
+
+
 
 
     public class ViewHolder {
@@ -202,16 +207,6 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         }
 
     }
-
-    private void startProfileViewActivity(UserModel userModel, View view) {
-
-        Log.d("start profile activity", "starting");
-
-        ProfileViewActivity.launch(mActivity, view, userModel);
-
-    }
-
-
 
 
 }

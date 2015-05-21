@@ -125,7 +125,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initList() {
-        mStickyList.setDivider(null);
+         mStickyList.setDivider(null);
         mStickyList.setDividerHeight(0);
         mStickyListAdapter = new ContactsListAdapter(mActivity);
         mStickyList.setAdapter(mStickyListAdapter);

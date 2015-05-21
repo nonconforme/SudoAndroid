@@ -117,4 +117,6 @@
     <string name="no_chats">NO CHATS YET</string>
     <string name="no_contacts">NO CONTACTS YET</string>
     <string name="buy_credits_dialog_title">Buy Credits</string>
+    <string name="edit_contact">Edit contact</string>
+    <string name="remove_contact">Remove contact</string>
 </resources>
