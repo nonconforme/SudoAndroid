@@ -21,4 +21,8 @@
     <color name="divider_color">#ccc</color>
     <color name="textGrey">#88000000</color>
 
+    <color name="btn_send_normal">#ff169d5a</color>
+    <color name="btn_send_pressed">#ff0a8145</color>
+    <color name="fab_color_shadow">#44000000</color>
+
 </resources>

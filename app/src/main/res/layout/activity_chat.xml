@@ -30,11 +30,11 @@
     </android.support.v4.widget.SwipeRefreshLayout>
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:id="@+id/rlAddComment_AC"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:background="@color/schats_phone_number_color">
+            android:layout_alignParentStart="true" android:background="@color/colorWhite">
         <EditText
                 style="@style/SChatItemET"
                 android:layout_width="wrap_content"
@@ -43,16 +43,20 @@
 
                 android:id="@+id/etMessage"
                 android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/btnSend"
-                android:layout_toStartOf="@+id/btnSend"/>
-        <Button
-                style="@style/SChatBtnSend"
-                android:layout_width="wrap_content"
-                android:text="@string/message_send"
-                android:id="@+id/btnSend"
-                android:background="@drawable/selector_btn_send"
-                android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/btnSendComment"
+                android:layout_toStartOf="@+id/btnSendComment"/>
+
+        <com.thinkmobiles.sudo.custom_views.SendCommentButton
+            android:id="@+id/btnSendComment"
+            android:layout_width="72dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/btn_send_comment"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:layout_centerVertical="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
     <include
             android:id="@+id/toolbar"
