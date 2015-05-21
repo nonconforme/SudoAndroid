@@ -249,10 +249,11 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
 
         if (App.getCurrentUser().getNumbers() != null && App.getCurrentUser().getNumbers().size() > 0) {
             String companionNumber = mNumberList.get(i).getNumber();
+            String companionAvatar = mUserModel.getAvatar();
             int[] startingLocation = new int[2];
             view.getLocationOnScreen(startingLocation);
 
-            ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, startingLocation);
+            ChatActivity.launch(this, App.getCurrentMobile(), companionNumber, companionAvatar ,startingLocation);
         }else{
             Toast.makeText(this, "Buy a number to start a chat", Toast.LENGTH_SHORT).show();
         }

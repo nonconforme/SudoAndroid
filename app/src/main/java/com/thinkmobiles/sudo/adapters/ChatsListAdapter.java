@@ -19,6 +19,7 @@ import com.thinkmobiles.sudo.utils.Utils;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by omar on 19.04.15.
  */
 public class ChatsListAdapter extends BaseAdapter {
-
+    private static HashMap<Integer, String> mAvatarUrlMap;
     private List<LastChatsModel> mLastChatModel;
     private LayoutInflater mInflater;
     private Activity mActivity;
@@ -39,7 +40,7 @@ public class ChatsListAdapter extends BaseAdapter {
         this.mLastChatModel = new ArrayList<>();
         mInflater = LayoutInflater.from(mActivity);
         mChatsNameAndAvatarHelper =  new ChatsNameAndAvatarHelper(mActivity);
-
+        mAvatarUrlMap = new HashMap<>();
 
     }
 
@@ -97,7 +98,7 @@ public class ChatsListAdapter extends BaseAdapter {
                 holder.ivAvatar.setTag(position);
 
                 mChatsNameAndAvatarHelper.setCompanionNameAndAvatar(holder.tvCompanion, holder.ivAvatar, lastMessage,
-                        position);
+                        position, mAvatarUrlMap);
 
                 setSelectionState(holder.ivAvatar, holder.container, position);
             }
@@ -154,5 +155,11 @@ public class ChatsListAdapter extends BaseAdapter {
             container.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_chats_item_default));
         }
 
+    }
+    public String getCompanionAvatar(int pos){
+        if(mAvatarUrlMap.containsKey(pos)){
+            return mAvatarUrlMap.get(pos);
+        }
+        return null;
     }
 }

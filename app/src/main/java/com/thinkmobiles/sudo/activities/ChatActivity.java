@@ -67,6 +67,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     private String mOwnerNumber;
     private String mCompanionNumber;
+    private String mAvatarUrl;
     private List<MessageModel> mMessageModelList;
     private Socket mSocket;
     private int drawingStartLocation;
@@ -112,8 +113,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initComponents();
+
         loadContent();
+        initComponents();
         initListeners();
         setSwipeRefrechLayoutListenerAndColor();
         initGetMessageCB();
@@ -284,7 +286,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (Button) findViewById(R.id.btnSend);
-        mListAdapter = new ChatListAdapter(this);
+        mListAdapter = new ChatListAdapter(this, mAvatarUrl);
         mChatList.setAdapter(mListAdapter);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout_AC);
@@ -300,6 +302,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private void loadChat() {
         mOwnerNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.FROM_NUMBER);
         mCompanionNumber = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.TO_NUMBER);
+        mAvatarUrl = getIntent().getExtras().getBundle(BUNDLE).getString(Constants.AVATAR);
         mMessageModelList = new ArrayList<>();
     }
 
@@ -333,16 +336,20 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         mSendMessageModel.setBody(_message);
     }
 
-    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber, int[] _startingLocation) {
+    public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber,
+             final String companionAvatar, int [] _startingLocation) {
         final Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra(ChatActivity.ARG_DRAWING_START_LOCATION, _startingLocation[1]);
         Bundle b = new Bundle();
         if (ContactManager.isMyNumber(_ownerNumber)) {
             b.putString(Constants.FROM_NUMBER, _ownerNumber);
             b.putString(Constants.TO_NUMBER, _companionNumber);
+            b.putString (Constants.AVATAR, companionAvatar);
+
         } else {
             b.putString(Constants.FROM_NUMBER, _companionNumber);
             b.putString(Constants.TO_NUMBER, _ownerNumber);
+            b.putString (Constants.AVATAR, companionAvatar);
         }
         intent.putExtra(BUNDLE, b);
         activity.startActivity(intent);

@@ -55,21 +55,17 @@ public class CountryHelper {
 
 
     private static void setCountry(Context context, final ImageView imageView, int id) {
-        if (id == 0) {
-            Picasso.with(context).load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imageView);
+        if (id != 0) {
 
-        } else {
+
             Picasso.with(context).load(id).transform(new CircleTransform()).into(imageView);
 
         }
 
     }
     private static void setCountry(Context context, final ImageView imageView,  int id, int dimen) {
-        if (id == 0) {
-            Picasso.with(context).load(R.drawable.ic_launcher).resize(dimen,dimen).transform(new CircleTransform())
-                    .into(imageView);
+        if (id != 0) {
 
-        } else {
             Picasso.with(context).load(id).resize(dimen,dimen).transform(new CircleTransform()).into(imageView);
 
         }

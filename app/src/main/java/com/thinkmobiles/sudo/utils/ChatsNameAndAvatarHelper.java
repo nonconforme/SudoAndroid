@@ -14,6 +14,8 @@ import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
+import java.util.HashMap;
+
 /**
  * Created by omar on 21.05.15.
  */
@@ -26,9 +28,9 @@ public class ChatsNameAndAvatarHelper {
     }
 
 
-    public void setCompanionNameAndAvatar(TextView textView, ImageView imageView, MessageModel messageModel, int position) {
+    public void setCompanionNameAndAvatar(TextView textView, ImageView imageView, MessageModel messageModel, int position, HashMap<Integer, String> mAvatarUrlMap) {
 
-        MyAsyncTask myAsyncTask = new MyAsyncTask(context, textView, imageView, messageModel, position);
+        MyAsyncTask myAsyncTask = new MyAsyncTask(context, textView, imageView, messageModel, position, mAvatarUrlMap);
 
         myAsyncTask.execute();
     }
@@ -83,15 +85,16 @@ public class ChatsNameAndAvatarHelper {
         ImageView imageView;
         TextView textView;
         MessageModel messageModel;
+        HashMap<Integer, String> mAvatarUrlMap;
         int pos;
 
-        public MyAsyncTask(Context context, TextView textView, ImageView imageView, MessageModel messageModel, int pos) {
-
+        public MyAsyncTask(Context context, TextView textView, ImageView imageView, MessageModel messageModel, int pos, HashMap<Integer, String> mAvatarUrlMap) {
             this.context = context;
             this.imageView = imageView;
             this.textView = textView;
             this.messageModel = messageModel;
             this.pos = pos;
+            this.mAvatarUrlMap = mAvatarUrlMap;
         }
 
         @Override
@@ -105,7 +108,12 @@ public class ChatsNameAndAvatarHelper {
         protected void onPostExecute(UserModel companion) {
 
             textView.setText(getCompanionName(companion));
-            setAvatar(context, imageView, companion, pos);
+
+            if (companion != null && !companion.getAvatar().equalsIgnoreCase("") && (int) imageView.getTag() == pos) {
+                setAvatar(context, imageView, companion, pos);
+                mAvatarUrlMap.put(pos, companion.getAvatar());
+            }
+
         }
     }
 
@@ -116,7 +124,7 @@ public class ChatsNameAndAvatarHelper {
 
 
     private void setAvatar(final Context mActivity, final ImageView imageView, UserModel companion, final int pos) {
-        if (companion != null && !companion.getAvatar().equalsIgnoreCase("") && (int) imageView.getTag() == pos) {
+
 
 
             Picasso.with(mActivity).load(APIConstants.SERVER_URL + "/" + companion.getAvatar()).transform(new CircleTransform()).into(imageView, new Callback() {
@@ -134,7 +142,6 @@ public class ChatsNameAndAvatarHelper {
             });
 
 
-        }
 
 
     }

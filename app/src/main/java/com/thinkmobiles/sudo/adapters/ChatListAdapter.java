@@ -3,7 +3,8 @@ package com.thinkmobiles.sudo.adapters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.utils.Utils;
 
@@ -38,17 +38,52 @@ public class ChatListAdapter extends BaseAdapter {
     private boolean delayEnterAnimation = true;
     private boolean selectionMode = false;
     private boolean[] selectionArray;
+    private String mAvatarUrl;
+    private Bitmap mBitmapAvatar;
+    private ArrayList<ImageView> mIncomingAvatarArray;
 
-    public ChatListAdapter(Context context) {
+    public ChatListAdapter(Context context, String mAvatarUrl) {
         this.context = context;
+        this.mAvatarUrl = mAvatarUrl;
         mListMessages = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
+        mIncomingAvatarArray = new ArrayList<>();
 
     }
 
+    private void loadAvatar() {
+        if (mAvatarUrl != null && !mAvatarUrl.equalsIgnoreCase("")  ) {
+            Target tartet = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    mBitmapAvatar = bitmap;
+                    for(ImageView imageView : mIncomingAvatarArray){
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    mBitmapAvatar = null;
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            }  ;
+
+            Picasso.with(context).load(APIConstants.SERVER_URL + "/" +mAvatarUrl). into(tartet);
+
+
+        }
+
+    }
+
+
     public void reloadContent(List<MessageModel> _mListMessages, String _mOwnerNumber) {
-         mListMessages.clear();
-         mListMessages.addAll(_mListMessages) ;
+        mListMessages.clear();
+        mListMessages.addAll(_mListMessages);
         mOwnerNumber = _mOwnerNumber;
         notifyDataSetChanged();
     }
@@ -80,7 +115,7 @@ public class ChatListAdapter extends BaseAdapter {
 
         ViewHolder holder = new ViewHolder(view);
 
-        if (isIncomingMessage(position)) holder.ivAvatar.setTag(0);
+        if (!isIncomingMessage(position)) holder.ivAvatar.setTag(0);
         else holder.ivAvatar.setTag(1);
 
         holder.setData(position);
@@ -107,7 +142,7 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         private void setData(final int _pos) {
-            setAvatar(this.ivAvatar, _pos);
+            setAvatar(this.ivAvatar);
             setMessage(this.tvMessage, _pos);
             setTimeDate(this.tvTimedate, _pos);
             setNumber(this.tvNumber, _pos);
@@ -204,36 +239,16 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
 
-    private void setAvatar(final ImageView imageView, int position) {
-         int tag = (int) imageView.getTag();
-        if (tag == 1) {
-            String imageUrl = mListMessages.get(position).getOwner().getAvatar();
+    private void setAvatar(final ImageView imageView) {
 
-            if (imageUrl != null && !imageUrl.equalsIgnoreCase("")) {
+        int tag = (int) imageView.getTag();
+        if (tag == 0) {
+            loadAvatar();
+            mIncomingAvatarArray.add(imageView);
 
-                Picasso.with(context).load(APIConstants.SERVER_URL + "/" + imageUrl).transform(new CircleTransform()).into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
+            if(mBitmapAvatar != null)
+                imageView.setImageBitmap(mBitmapAvatar);
 
-
-                    }
-
-                    @Override
-                    public void onError() {
-
-                        Picasso.with(context).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(imageView);
-
-                    }
-                });
-
-
-            } else {
-                Picasso.with(context).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(imageView);
-
-            }
-        }
-        else{
-            Picasso.with(context).load(R.drawable.ic_me).transform(new CircleTransform()).into(imageView);
         }
 
     }
