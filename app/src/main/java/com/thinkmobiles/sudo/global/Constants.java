@@ -8,7 +8,7 @@ public abstract class Constants {
     public final static String CANADA_ISO = "CA";
     public final static String PAKISTAN_ISO = "PK";
     public final static String SWEDEN_ISO = "SE";
-    public final static String UNITED_KINGDOM_ISO = "UK";
+    public final static String UNITED_KINGDOM_ISO = "GB";
     public final static String AUSTRALIA_ISO = "AU";
 
     public final static String TRASH_INTENT = "trash";

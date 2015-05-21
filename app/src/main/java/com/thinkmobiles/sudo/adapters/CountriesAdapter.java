@@ -26,7 +26,7 @@ public class CountriesAdapter extends BaseAdapter {
 
     public CountriesAdapter(Context _context) {
         mContext = _context;
-        mListCountries = new ArrayList<CountryModel>();
+        mListCountries = new ArrayList<>();
         inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -62,8 +62,7 @@ public class CountriesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        setCountryByIso(mContext, viewHolder.ivCountry, mListCountries.get(position).getCountryIso(), 100);
-
+        setCountryByIso(mContext, viewHolder.ivCountry, mListCountries.get(position).getCountryIso());
         viewHolder.tvCountry.setText(mListCountries.get(position).getName());
 
 
