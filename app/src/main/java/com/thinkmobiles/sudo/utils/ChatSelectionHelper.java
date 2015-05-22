@@ -86,4 +86,20 @@ abstract public class ChatSelectionHelper extends BaseSelectionHelper {
     public List<MessageModel> getRemainList() {
         return remainList;
     }
+
+    public void addNewMessage(MessageModel message) {
+        mainList.add(0, message);
+        growSelectioOffset();
+    }
+
+
+    private void growSelectioOffset() {
+        boolean[] temp = new boolean[selection.length + 1];
+        if (temp.length > 1) {
+            temp[0] = false;
+            for (int i = 0; i < selection.length; i++) {
+                temp[i + 1] = selection[i];
+            }
+        }
+    }
 }

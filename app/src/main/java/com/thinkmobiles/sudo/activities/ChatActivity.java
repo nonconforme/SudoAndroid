@@ -196,8 +196,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 @Override
                 public void run() {
                     mListAdapter.addNewMessage(message);
+                    mSelectionHelper.addNewMessage(message);
                     mMessageModelList.add(0, mSendMessageModel);
-
                     mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
                 }
             });
