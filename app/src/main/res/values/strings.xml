@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">Pseudo</string>
 
-    <string name="hello_world">Hello world!</string>
-
+     <string name="unknown">Unknown</string>
+    <string name="image_type">image/*</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash_screen">Splash</string>
-
 
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_get_number">Get Number</string>
@@ -83,63 +82,37 @@
     <string name="add_new_number_hint">Enter number</string>
 
 
-    <!--Alert Dialog delete phone number-->
+    <!--Alert Dialog deleteList phone number-->
     <string name="alert_delete_pn_title">Delete phone number</string>
-    <string name="alert_delete_pn_message">Do you wish to delete this phone number?</string>
+    <string name="alert_delete_pn_message">Do you wish to deleteList this phone number?</string>
     <string name="alert_delete_pn_ok">OK</string>
     <string name="alert_delete_pn_cancel">Cancel</string>
     <string name="add_number">add new number</string>
-    <string name="some_random_chat_text">
-        In addition to the previous post if you DID require it
-        to be a primary you could shrink sda2 down and add in up to
-        2 more primary partitions in the space after sda2.
-        edit: It doesn\'t matter really if it\'s primary or logical,
-        logical partitions are just a trick to allow more than 4 partitions on a msdos partition table.
-    </string>
-    <string name="some_timedate">Jul 19, 18:63</string>
-    <string name="compose_message_hint">Compose message</string>
+
+     <string name="compose_message_hint">Compose message</string>
     <string name="message_send">Send</string>
     <string name="date_format">MMM dd HH:mm</string>
     <string name="get_number">GET</string>
     <string name="buy_number">Buy</string>
     <string name="number_price">Price</string>
     <string name="buy">BUY</string>
-    <string name="info">info</string>
-    <string name="settings">Settings</string>
-    <string name="credits">Credits</string>
-    <string name="numbers">Numbers</string>
-    <string name="buy_a_number">Buy number</string>
-    <string name="countries">Countries</string>
-    <string name="available_numbers">Available numbers</string>
-    <string name="add_profile">Add Profile</string>
-    <string name="edit_profile">Edit Profile</string>
-    <string name="credits_available">AVAILABLE</string>
-    <string name="no_chats">NO CHATS YET</string>
-    <string name="no_contacts">NO CONTACTS YET</string>
-    <string name="buy_credits_dialog_title">Buy Credits</string>
-    <string name="edit_contact">Edit contact</string>
-    <string name="remove_contact">Remove contact</string>
+
+
+    <!--TOAST MESSAGES-->
     <string name="number_cannot_be_empty">Phone numbers cannot be empty</string>
     <string name="number_containes_errors">Phone numbers contain errors</string>
-    <string name="image_type">image/*</string>
-    <string name="block_number">Block Number</string>
-    <string name="Success">Success</string>
-    <string name="failed">Failed</string>
     <string name="name_cannot_be_empty">Name cannot be empty</string>
-    <string name="chat_title">Chat</string>
     <string name="connetcion_problems">"Connection problems "</string>
     <string name="check_contact_phone">Failure. Check contact\'s phone number.</string>
     <string name="error_sending_message">Error sending message</string>
     <string name="buy_number_to_start">Buy a number to start a chat</string>
-    <string name="_credits">" credits"</string>
     <string name="network_problem">Network Problem</string>
     <string name="no_internet_connection">No Internet Connection</string>
-    <string name="retry">Retry</string>
-    <string name="loading">Loading...</string>
     <string name="success">Success!</string>
     <string name="check_credits_balance">Failure. Check your credits balance.</string>
     <string name="check_another_number">Failure. Check another number.</string>
     <string name="try_again">Error! Pleasy try again.</string>
+    <string name="retry">Retry</string>
     <string name="CREDITS">" CREDITS"</string>
     <string name="failure_recharging_credits">Failure recharging credits</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
@@ -148,6 +121,33 @@
     <string name="password_should_have_only_az_09">Password can only contain numbers and English letters</string>
     <string name="not_an_email">Not a valid e-mail</string>
     <string name="enter_valid_data">Please enter valid data</string>
-    <string name="unknown">Unknown</string>
-    <string name="app_title">Sudo</string>
-</resources>
+
+    <!--TITLES-->
+    <string name="settings">Settings</string>
+    <string name="credits">Credits</string>
+    <string name="numbers">Numbers</string>
+    <string name="buy_a_number">Buy number</string>
+    <string name="countries">Countries</string>
+    <string name="available_numbers">Available numbers</string>
+    <string name="add_profile">Add Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <string name="credits_available">AVAILABLE</string>
+    <string name="no_chats">NO CHATS</string>
+    <string name="no_contacts">NO CONTACTS</string>
+    <string name="buy_credits_dialog_title">Buy Credits</string>
+    <string name="edit_contact">Edit contact</string>
+    <string name="remove_contact">Remove contact</string>
+
+
+
+    <string name="block_number">Block Number</string>
+    <string name="Success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="chat_title">Chat</string>
+    <string name="_credits">" credits"</string>
+    <string name="loading">Loading...</string>
+
+
+
+ </resources>
