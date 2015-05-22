@@ -236,15 +236,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     mOwnerNumber = App.getCurrentMobile();
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
                 }
-
                 mListAdapter.addNewMessage(mSendMessageModel);
-
                 mMessageModelList.add(0, mSendMessageModel);
                 mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
-
                 btnSend.setCurrentState(SendCommentButton.STATE_DONE);
-
-
             }
 
             @Override
@@ -253,6 +248,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         };
     }
+
 
     private void initGetMessageCB() {
         mMessagesCB = new Callback<List<MessageModel>>() {
@@ -268,7 +264,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
                     mChatList.setSelection(messageModel.size());
                     if (messageModel.size() > 0) mChatList.smoothScrollToPosition(messageModel.size() - 1);
-
 
                 }
 
@@ -293,20 +288,28 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         }).start();
     }
 
+    private void initList() {
+        mChatList = (ListView) findViewById(R.id.lvChatList);
+        mChatList.setDivider(null);
+        mChatList.setDividerHeight(0);
+        mListAdapter = new ChatListAdapter(this, mAvatarUrl);
+        mChatList.setAdapter(mListAdapter);
+    }
+
 
     private void initComponents() {
         setContentView(R.layout.activity_chat);
-        mChatList = (ListView) findViewById(R.id.lvChatList);
+
+        initList();
+
         contentRoot = (RelativeLayout) findViewById(R.id.rlMain_AC);
         rlAddComment = (RelativeLayout) findViewById(R.id.rlAddComment_AC);
-        mChatList.setDivider(null);
-        mChatList.setDividerHeight(0);
         etMessage = (EditText) findViewById(R.id.etMessage);
         btnSend = (SendCommentButton) findViewById(R.id.btnSendComment);
-        mListAdapter = new ChatListAdapter(this, mAvatarUrl);
-        mChatList.setAdapter(mListAdapter);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout_AC);
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -442,7 +445,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         startSelectionMode();
         mSelectionHelper.addToSelection(position);
-        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(),mSelectionHelper.getSelection());
+        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
 
 
         return true;
@@ -454,7 +457,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             mSelectionHelper.addToSelection(position);
             mSelectionHelper.checkSelectionNotEmpty();
         }
-        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(),mSelectionHelper.getSelection());
+        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
     }
 
 
@@ -481,7 +484,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         stopSelectionMode();
 
     }
-
 
 
     private void setSwipeRefrechLayoutListenerAndColor() {
