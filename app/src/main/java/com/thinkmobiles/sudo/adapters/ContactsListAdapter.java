@@ -1,6 +1,8 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.*;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.BaseProfileActivity;
+import com.thinkmobiles.sudo.activities.ProfileEditActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -147,7 +151,14 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Toast.makeText(mActivity, "item  " + contacts.get((int) view.getTag()).getCompanion(), Toast.LENGTH_SHORT).show();
+
+                if(menuItem.getItemId() == R.id.contacts_popup_edit)
+                    launchEditActivity(contacts.get((int) view.getTag()));
+
+
+
+
+
                 return false;
             }
         });
@@ -194,6 +205,14 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         }
 
     }
-
+    public void launchEditActivity(UserModel userModel) {
+        Intent intent = new Intent(mActivity, ProfileEditActivity.class);
+        Bundle b = new Bundle();
+        if (userModel != null) {
+            b.putSerializable(BaseProfileActivity.USER_MODEL, userModel);
+            intent.putExtra(BaseProfileActivity.USER_MODEL, b);
+        }
+        mActivity.startActivity(intent);
+    }
 
 }

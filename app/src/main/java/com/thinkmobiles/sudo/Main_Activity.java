@@ -360,7 +360,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         searchView.setQuery(query, false);
     }
 
-
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
