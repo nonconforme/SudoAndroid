@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,7 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
-import com.thinkmobiles.sudo.utils.Utils;
+import com.thinkmobiles.sudo.utils.ChatsSelectionHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -58,21 +56,31 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private BroadcastReceiver mChatStartedReceiver;
 
     private List<LastChatsModel> mChatsList;
-    private List<LastChatsModel> mDeleteChatModelList;
-    private List<LastChatsModel> tempChatList;
+
 
     private HashSet<Integer> mLoadWatcher = new HashSet<>();
 
-    private boolean selectionMode = false;
-    private boolean[] selectionArray;
+
     private int mPageCount = 1;
     private int mLength = 10;
     private boolean mEndOfList = false;
 
+    private ChatsSelectionHelper mSelectionHelper;
+
+
+    private void ininSelectionHelper() {
+        mSelectionHelper = new ChatsSelectionHelper() {
+            @Override
+            public void stopParentSelectionMode() {
+                stopSelectionMode();
+            }
+        };
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ininSelectionHelper();
         initTrashBroadcastReceiver();
         initRefreshListBroadcastReceiver();
     }
@@ -105,7 +113,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onPause() {
-        selectionMode = false;
+        mSelectionHelper.stopSelectionMode();
         unregisterSelectionReceiver();
         super.onPause();
     }
@@ -127,8 +135,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mDeleteChatCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-                mDeleteChatModelList.remove(mDeleteChatModelList.size() - 1);
-                if (mDeleteChatModelList.size() > 0) {
+
+                if (mSelectionHelper.removeDeletedItem()) {
                     deleteSingleChat();
                 } else {
                     hideProgressBar();
@@ -140,8 +148,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             public void failure(RetrofitError error) {
                 hideProgressBar();
                 Toast.makeText(mActivity, mActivity.getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                tempChatList = null;
-                mDeleteChatModelList = null;
+                mSelectionHelper.stopSelectionMode();
             }
         };
     }
@@ -171,7 +178,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 hideProgressBar();
                 if (lastChatsModel.isEmpty()) mEndOfList = true;
                 else {
-                    if (selectionMode) reloadSeletcion(lastChatsModel.size());
+                    if (mSelectionHelper.isSelectionMode()) mSelectionHelper.growSelecction(lastChatsModel.size());
                     mPageCount++;
                     mChatsList.addAll(lastChatsModel);
                     updateList(mChatsList);
@@ -185,24 +192,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         };
     }
 
-    public void reloadSeletcion(int grow) {
-
-        boolean[] temp = growArray(selectionArray, grow);
-        selectionArray = null;
-        selectionArray = temp;
-
-    }
-
-
-    public boolean[] growArray(boolean[] oldArray, int grow) {
-        int newLength = oldArray.length + grow;
-        boolean[] newArray = new boolean[newLength];
-        for (int i = 0; i < oldArray.length; i++) {
-            newArray[i] = oldArray[i];
-        }
-        return newArray;
-    }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -211,25 +200,9 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
 
-    public void searchChatList(String querry) {
-
-        List<LastChatsModel> tempContactsArrayList = new ArrayList<>();
-        if (mChatsList != null) {
-            for (LastChatsModel tempModel : mChatsList) {
-                if (Utils.stringContains(tempModel.getLastmessage().getCompanion().getNumber(), querry))
-                    tempContactsArrayList.add(tempModel);
-                else if (Utils.stringContains(tempModel.getLastmessage().getOwner().getNumber(), querry))
-                    tempContactsArrayList.add(tempModel);
-
-            }
-            updateList(tempContactsArrayList);
-        }
-
-
-    }
 
     public void updateList(List<LastChatsModel> chatsModelList) {
-        mChatAdapter.setSelection(selectionMode, selectionArray);
+        mChatAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
         mChatAdapter.reloadList(chatsModelList);
 
         if (chatsModelList.size() > 0) tvNoChats.setVisibility(View.INVISIBLE);
@@ -245,12 +218,11 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
 
-    private void initListeners(){
+    private void initListeners() {
         mListView.setOnItemClickListener(this);
         mListView.setOnItemLongClickListener(this);
         mListView.setOnScrollListener(this);
     }
-
 
 
     private void getLastChats() {
@@ -265,14 +237,14 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-        if (!selectionMode) {
+        if (!mSelectionHelper.isSelectionMode()) {
             String avatarUrl = mChatAdapter.getCompanionAvatar(position);
             startChatActivity(mChatsList.get(position), view, avatarUrl);
 
         } else {
-            controlSelection(position);
-            mChatAdapter.setSelection(selectionMode, selectionArray);
-            checkSelectionNotEmpty();
+            mSelectionHelper.addToSelection(position);
+            mChatAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
+            mSelectionHelper.checkSelectionNotEmpty();
         }
 
 
@@ -281,8 +253,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         startSelectionMode();
-        controlSelection(i);
-        mChatAdapter.setSelection(selectionMode, selectionArray);
+        mSelectionHelper.addToSelection(i);
+        mChatAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
         return true;
     }
 
@@ -293,8 +265,9 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void startSelectionMode() {
-        selectionArray = new boolean[mChatAdapter.getCount()];
-        selectionMode = true;
+
+        mSelectionHelper.startSelectionMode(mChatsList);
+
         registerSelectionReceiver();
         mainToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
         mainToolbarManager.enableSearchView(false);
@@ -305,11 +278,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void stopSelectionMode() {
         unregisterSelectionReceiver();
-        selectionMode = false;
+
         mainToolbarManager.enableSearchView(true);
         mainToolbarManager.enableTrashView(false);
         mainToolbarManager.reloadOptionsMenu();
-        mChatAdapter.setSelection(selectionMode, selectionArray);
+
+        mSelectionHelper.stopSelectionMode();
+        mChatAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
         mChatAdapter.notifyDataSetChanged();
     }
 
@@ -320,49 +295,25 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void registerSelectionReceiver() {
-        if (selectionMode) mActivity.registerReceiver(mTrashReciever, new IntentFilter(Constants.TRASH_INTENT));
+        if (mSelectionHelper.isSelectionMode())
+            mActivity.registerReceiver(mTrashReciever, new IntentFilter(Constants.TRASH_INTENT));
     }
 
     private void unregisterSelectionReceiver() {
-        if (selectionMode) try {
+        if (mSelectionHelper.isSelectionMode()) try {
             mActivity.unregisterReceiver(mTrashReciever);
         } catch (Exception e) {
         }
     }
 
-    private void checkSelectionNotEmpty() {
-        boolean containsSelection = false;
-        if (selectionArray != null) {
-            for (int i = 0; i < selectionArray.length - 1; i++) {
-                if (selectionArray[i]) {
-                    containsSelection = true;
-                }
-            }
-        }
-        if (!containsSelection) {
-            stopSelectionMode();
-        }
-    }
-
-    private void controlSelection(int position) {
-        selectionArray[position] = !selectionArray[position];
-
-    }
 
     private void deleteChats() {
-        if (selectionArray != null || selectionArray.length == mChatsList.size()) {
-            mChatAdapter.setSelection(selectionMode, selectionArray);
-            tempChatList = new ArrayList<>();
-            mDeleteChatModelList = new ArrayList<>();
-            for (int i = 0; i < selectionArray.length; i++) {
-                if (!selectionArray[i]) {
+        if (mSelectionHelper.isSelectionMode()) {
+            mChatAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
 
-                    tempChatList.add(mChatsList.get(i));
-                } else {
-                    mDeleteChatModelList.add(mChatsList.get(i));
-                }
-            }
-            if (mDeleteChatModelList.size() > 0) {
+            mSelectionHelper.splitList();
+
+            if (mSelectionHelper.getDeleteList().size() > 0) {
                 showProgressBar();
                 deleteSingleChat();
             }
@@ -373,9 +324,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
 
     private void deleteSingleChat() {
-        if (mDeleteChatModelList.size() > 0) {
-            LastChatsModel chatModel = mDeleteChatModelList.get(mDeleteChatModelList.size() - 1);
 
+            LastChatsModel chatModel = mSelectionHelper.getLastDeleteItem();
             String[] numbers = getUserNumber(chatModel);
 
             if (numbers[0] != null && numbers[1] != null) {
@@ -383,7 +333,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             } else {
                 hideProgressBar();
             }
-        }
     }
 
 
@@ -430,18 +379,16 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void reloadList() {
-        tempChatList = null;
-        mDeleteChatModelList = null;
+
         mChatsList = new ArrayList<>();
         mPageCount = 1;
         mEndOfList = false;
         mLoadWatcher = new HashSet<>();
         mChatAdapter = new ChatsListAdapter(mActivity);
         mListView.setAdapter(mChatAdapter);
-        if (selectionMode) {
+        if (mSelectionHelper.isSelectionMode()) {
             stopSelectionMode();
-            tempChatList = null;
-            mDeleteChatModelList = null;
+
         }
         getLastChats();
     }
