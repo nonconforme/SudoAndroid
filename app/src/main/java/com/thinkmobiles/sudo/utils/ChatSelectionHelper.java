@@ -1,6 +1,7 @@
 package com.thinkmobiles.sudo.utils;
 
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
+import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,17 +9,22 @@ import java.util.List;
 /**
  * Created by omar on 21.05.15.
  */
-abstract public class ChatsSelectionHelper extends BaseSelectionHelper {
+abstract public class ChatSelectionHelper extends BaseSelectionHelper {
 
-    private List<LastChatsModel> mainList;
-    private List<LastChatsModel> remainList;
-    private List<LastChatsModel> deleteList;
+    private List<MessageModel> mainList;
+    private List<MessageModel> remainList;
+    private List<MessageModel> deleteList;
 
     @Override
     abstract public void StopParentSelectionMode();
 
 
-    public ChatsSelectionHelper() {
+    @Override
+    public <T> void addToMainList(List<T> list) {
+        mainList.addAll((List<MessageModel>) list);
+    }
+
+    public ChatSelectionHelper() {
         super();
         mainList = new ArrayList<>();
         remainList = new ArrayList<>();
@@ -40,7 +46,7 @@ abstract public class ChatsSelectionHelper extends BaseSelectionHelper {
     public <T> void startSelectionMode(List<T> mainList) {
         selection = new boolean[mainList.size()];
         selectionMode = true;
-        this.mainList = (List<LastChatsModel>) mainList;
+        this.mainList = (List<MessageModel>) mainList;
 
     }
 
@@ -72,12 +78,12 @@ abstract public class ChatsSelectionHelper extends BaseSelectionHelper {
     }
 
     @Override
-    public <T> void addToMainList(List<T> list) {
-    mainList.addAll((List<LastChatsModel>)list);
+    public void addToSelection(int position) {
+        selection[selection.length - 1 - position] = !selection[selection.length - 1 - position];
     }
 
     @Override
-    public List<?> getRemainList() {
-        return null;
+    public List<MessageModel> getRemainList() {
+        return remainList;
     }
 }

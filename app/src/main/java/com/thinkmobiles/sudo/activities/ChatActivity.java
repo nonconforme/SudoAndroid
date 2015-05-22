@@ -9,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +32,7 @@ import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.utils.ChatSelectionHelper;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.ToolbarManager;
 import com.thinkmobiles.sudo.utils.Utils;
@@ -69,16 +69,28 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private List<MessageModel> mMessageModelList;
     private MessageModel mSendMessageModel;
     private MessageModel mFirstMessageModel;
+    private ChatSelectionHelper mSelectionHelper;
 
     private int drawingStartLocation;
-    private boolean selectMode = false;
-    private boolean[] selectionArray;
+    /*  private boolean selectMode = false;
+      private boolean[] selectionArray;*/
     private int mPageCount = 0;
     private int mLength = 6;
     private String mOwnerNumber;
     private String mCompanionNumber;
     private String mAvatarUrl;
 
+
+    private void initSelectionHelper() {
+        mSelectionHelper = new ChatSelectionHelper() {
+
+
+            @Override
+            public void StopParentSelectionMode() {
+                stopSelectionMode();
+            }
+        };
+    }
 
     private void createSocket() {
         try {
@@ -91,7 +103,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!selectMode) menuItemDelete.setVisible(false);
+        if (!mSelectionHelper.isSelectionMode()) menuItemDelete.setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -105,6 +117,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initSelectionHelper();
         createSocket();
         loadContent();
         initComponents();
@@ -136,9 +149,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
 
-    private void initDrawingStartLockation(){
+    private void initDrawingStartLockation() {
         drawingStartLocation = getIntent().getIntExtra(ARG_DRAWING_START_LOCATION, 0);
     }
+
     private void initDeleteMessageCB() {
         mDeleteMessageCB = new Callback<DefaultResponseModel>() {
             @Override
@@ -152,7 +166,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         };
     }
-
 
 
     private void initSocked() {
@@ -252,6 +265,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     }
                     mMessageModelList.addAll(messageModel);
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
+
                     mChatList.setSelection(messageModel.size());
                     if (messageModel.size() > 0) mChatList.smoothScrollToPosition(messageModel.size() - 1);
 
@@ -356,7 +370,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-        if (!selectMode) menuItemDelete.setVisible(false);
+        if (!mSelectionHelper.isSelectionMode()) menuItemDelete.setVisible(false);
         return super.onPrepareOptionsPanel(view, menu);
     }
 
@@ -364,19 +378,16 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-
             case android.R.id.home:
-                if (!selectMode) {
+                if (!mSelectionHelper.isSelectionMode()) {
                     onBackPressed();
                 } else {
                     stopSelectionMode();
                 }
-
                 break;
             case R.id.action_detele:
                 deleteChatItems();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -388,10 +399,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     private CompanionModel createCompanion(String number, MessageModel messageModel) {
-
         CompanionModel companionModel = new CompanionModel();
         companionModel.setNumber(number);
-
         if (messageModel != null) {
 
             if (number.equalsIgnoreCase(messageModel.getCompanion().getNumber()))
@@ -432,82 +441,54 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         startSelectionMode();
-        controlSelection(selectionArray.length - 1 - position);
+        mSelectionHelper.addToSelection(position);
+        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(),mSelectionHelper.getSelection());
+
 
         return true;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (selectMode) {
-            controlSelection(selectionArray.length - 1 - position);
+        if (mSelectionHelper.isSelectionMode()) {
+            mSelectionHelper.addToSelection(position);
+            mSelectionHelper.checkSelectionNotEmpty();
         }
+        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(),mSelectionHelper.getSelection());
     }
 
-    private void controlSelection(int position) {
-        selectionArray[position] = !selectionArray[position];
-        if (isEmptySelection()) {
-            stopSelectionMode();
-            return;
-        }
-        mListAdapter.setSelection(selectMode, selectionArray);
-
-    }
 
     private void startSelectionMode() {
-        selectMode = true;
-        selectionArray = new boolean[mListAdapter.getList().size()];
+        mSelectionHelper.startSelectionMode(mMessageModelList);
         invalidateOptionsMenu();
 
 
     }
 
     private void stopSelectionMode() {
-        selectMode = false;
-        selectionArray = null;
-        mListAdapter.setSelection(selectMode, selectionArray);
+        mSelectionHelper.stopSelectionMode();
+        mListAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
         invalidateOptionsMenu();
 
 
     }
 
     private void deleteChatItems() {
-        ArrayList<String> ids = new ArrayList<>();
-
-        if (!isEmptySelection()) {
-            List<MessageModel> mListMessages = mListAdapter.getList();
-            for (int i = 0; i < selectionArray.length - 1; i++) {
-                if (selectionArray[i]) {
-                    ids.add(mListMessages.get(i).get_id());
-
-
-                    mListMessages.remove(i);
-                }
-            }
-            mListAdapter.reloadContent(mListMessages, mOwnerNumber);
-
+        if (!mSelectionHelper.isSelectionMode()) {
+            mSelectionHelper.splitList();
+            mListAdapter.reloadContent(mSelectionHelper.getRemainList(), mOwnerNumber);
         }
-
         stopSelectionMode();
 
     }
 
-    private boolean isEmptySelection() {
-        if (selectionArray == null || selectionArray.length == 0) return true;
 
-        for (int i = 0; i < selectionArray.length - 1; i++) {
-            if (selectionArray[i]) return false;
-        }
-
-        return true;
-    }
 
     private void setSwipeRefrechLayoutListenerAndColor() {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 getMessagesPages();
                 stopSelectionMode();
             }
@@ -516,14 +497,12 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     public void onScrollStateChanged(AbsListView absListView, int i) {
-
     }
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
         if (canScrollUp(mChatList)) {
             mSwipeRefreshLayout.setEnabled(false);
-
         } else {
             mSwipeRefreshLayout.setEnabled(true);
         }
@@ -531,15 +510,12 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     public boolean canScrollUp(View view) {
-
         return ViewCompat.canScrollVertically(view, -1);
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -549,7 +525,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             sendMessage(message);
         } else {
             btnSend.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_error));
-
         }
         etMessage.setText("");
         stopSelectionMode();

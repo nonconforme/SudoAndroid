@@ -25,8 +25,8 @@ import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.utils.ChatsSelectionHelper;
+import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -70,10 +70,14 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void ininSelectionHelper() {
         mSelectionHelper = new ChatsSelectionHelper() {
+
+
+
             @Override
-            public void stopParentSelectionMode() {
+            public void StopParentSelectionMode() {
                 stopSelectionMode();
             }
+
         };
     }
 
@@ -178,7 +182,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 hideProgressBar();
                 if (lastChatsModel.isEmpty()) mEndOfList = true;
                 else {
-                    if (mSelectionHelper.isSelectionMode()) mSelectionHelper.growSelecction(lastChatsModel.size());
+                    if (mSelectionHelper.isSelectionMode()) mSelectionHelper.growSelecction(lastChatsModel);
                     mPageCount++;
                     mChatsList.addAll(lastChatsModel);
                     updateList(mChatsList);
