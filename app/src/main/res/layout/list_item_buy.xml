@@ -19,7 +19,7 @@
     <TextView
             android:id="@+id/tvInfo_FN"
             style="@style/SNtvBuyStyle"
-            android:text="@string/info"
+            android:text="@string/unknown"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"

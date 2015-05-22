@@ -23,7 +23,7 @@
             style="@style/SCContactsItemTVName"
             android:ellipsize="none"
             android:scrollHorizontally="false"
-            android:text="@string/cf_first_name"
+            android:text="@string/unknown"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -31,7 +31,7 @@
             style="@style/SCContactsNumber"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@string/test_phone_number"
+            android:text="@string/unknown"
             android:layout_weight="1" />
     </LinearLayout>
 

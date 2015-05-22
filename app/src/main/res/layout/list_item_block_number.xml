@@ -18,7 +18,7 @@
             style="@style/BlockNumberTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/test_phone_number"
+            android:text="@string/unknown"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/checkBox" android:layout_toStartOf="@+id/checkBox"/>
 

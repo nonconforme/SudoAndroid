@@ -4,4 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/AVC_Detailes_TV"
-          android:textAlignment="center" android:text="zXxzcZ"/>
+          android:textAlignment="center" android:text="@string/unknown"/>

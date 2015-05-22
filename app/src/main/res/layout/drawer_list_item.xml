@@ -14,7 +14,7 @@
     <TextView
             android:id="@+id/tvNumber_Drawer"
             style="@style/SNtvCountryStyle"
-            android:text="+380671321215"
+            android:text="@string/unknown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

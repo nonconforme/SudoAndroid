@@ -37,14 +37,14 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name"
+                    android:text="@string/unknown"
                     android:id="@+id/tvChatCompanion" style="@style/SChatsItemTVName" android:layout_weight="1"/>
             <TextView
                     android:id="@+id/tvChatItemTimedate"
                     style="@style/SChatsItemTVTimedate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_timedate"/>
+                    android:text="@string/unknown"/>
 
         </LinearLayout>
 
@@ -53,20 +53,20 @@
                 style="@style/SChatsItemTVNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_phone_number"/>
+                android:text="@string/unknown"/>
         <TextView
                 android:id="@+id/tvChatItemReceiverDetails"
                 style="@style/SChatsItemTVNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_receiver_details"/>
+                android:text="@string/unknown"/>
 
         <TextView
                 android:id="@+id/tvChatItemMessagePreview"
                 style="@style/SChatsItemTVMessagePreview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/some_random_chat_text"/>
+                android:text="@string/unknown"/>
 
         <LinearLayout
                 style="@style/SChatsItemLL"
