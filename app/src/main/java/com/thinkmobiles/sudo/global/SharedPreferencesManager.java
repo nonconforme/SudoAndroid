@@ -13,13 +13,7 @@ import com.thinkmobiles.sudo.Main_Activity;
 public abstract class SharedPreferencesManager {
 
     private static final String TAG = "GCMDemoShared";
-    /**
-     * Stores the registration ID and app versionCode in the application's
-     * {@code SharedPreferences}.
-     *
-     * @param _context application's context.
-     * @param _regId  registration ID
-     */
+
     public static void storeRegistrationId(final Context _context, final String _regId) {
         final SharedPreferences prefs = _context.getSharedPreferences(
                 Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
@@ -30,12 +24,6 @@ public abstract class SharedPreferencesManager {
         editor.commit();
     }
 
-
-
-
-    /**
-     * @return Application's version code from the {@code PackageManager}.
-     */
     public static int getAppVersion(Context context) {
         try {
             PackageInfo packageInfo = context.getPackageManager()

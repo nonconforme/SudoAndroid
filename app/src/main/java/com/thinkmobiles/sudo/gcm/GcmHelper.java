@@ -39,25 +39,9 @@ public class GcmHelper {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
 
-        if (checkPlayServices()) {
-            Log.i(TAG, "Play Service Exist");
-            mGcm    = GoogleCloudMessaging.getInstance(mContext);
-            regId   = DeviceManager.loadRegistrationId(mContext);
-            if (regId.isEmpty()) {
-                registerInBackground();
-            } else {
-                Log.i(TAG, "From Shared Pref " + regId);
-            }
-        } else {
-            Log.i(TAG, "No valid Google Play Services APK found.");
-        }
     }
 
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
+
     public boolean checkPlayServices() {
         int resultCode  = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mContext);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -73,19 +57,12 @@ public class GcmHelper {
         return true;
     }
 
-    /**
-     * Registers the application with GCM servers asynchronously.
-     * <p/>
-     * Stores the registration ID and app versionCode in the application's
-     * shared preferences.
-     */
 
     private void registerInBackground() {
 
         new AsyncTask<Void, Void, String>() {
             protected void onPostExecute(String msg) {
                 Log.d(TAG, msg);
-//                Variables.setPush_id(regId);
                 SharedPreferencesManager.storeRegistrationId(mContext, regId);
             }
             @Override

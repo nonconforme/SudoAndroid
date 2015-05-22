@@ -16,7 +16,6 @@ public class App extends Application {
 
     public static String currentCredits;
     public static String currentContacts;
-
     private static String currentMobile;
     private static String uId;
     private static String currentISO;

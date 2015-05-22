@@ -13,15 +13,6 @@ import com.thinkmobiles.sudo.global.SharedPreferencesManager;
 public abstract class DeviceManager {
     private static final String TAG = "DeviceManager";
 
-    /**
-     * Gets the current registration ID for application on GCM service.
-     * <p/>
-     * If result is empty, the app needs to register.
-     *
-     * @return registration ID, or empty string if there is no existing
-     * registration ID.
-     */
-
     public static String loadRegistrationId(final Context _context) {
         final SharedPreferences prefs = _context.getSharedPreferences(Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
         String registrationId = prefs.getString(Constants.PARAM_REG_ID, "");

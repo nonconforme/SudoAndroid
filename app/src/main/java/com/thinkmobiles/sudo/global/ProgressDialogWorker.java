@@ -11,12 +11,6 @@ public abstract class ProgressDialogWorker {
 
     private static ProgressDialog mProgressDialog;
 
-    /**
-     * Shows ProgressDialog if it is
-     * not showing already
-     *
-     * @param _context application context
-     */
     public static void createDialog(final Context _context) {
         if (mProgressDialog == null) {
             showDialog(_context);
@@ -25,11 +19,6 @@ public abstract class ProgressDialogWorker {
         }
     }
 
-    /**
-     * Shows ProgressDialog
-     *
-     * @param _context application context
-     */
     private static void showDialog(final Context _context) {
         try {
             mProgressDialog = new ProgressDialog(_context);
@@ -41,9 +30,6 @@ public abstract class ProgressDialogWorker {
         }
     }
 
-    /**
-     * Dismiss ProgressDialog if it is showing
-     */
     public static void dismissDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.dismiss();

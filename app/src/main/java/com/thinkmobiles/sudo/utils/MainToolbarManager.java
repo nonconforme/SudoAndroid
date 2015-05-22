@@ -16,6 +16,19 @@ public class MainToolbarManager extends ToolbarManager {
 
     private static Main_Activity mMain_Activity;
     private static MainToolbarManager sMainToolbarManager;
+    private boolean showSearchView = false;
+    private boolean showTrachView = false;
+    private boolean showListDrawer = false;
+    private boolean showDrawer = true;
+
+    public boolean isShowDrawer() {
+        return showDrawer;
+    }
+
+    public void setShowDrawer(boolean showDrawer) {
+        this.showDrawer = showDrawer;
+    }
+
 
     public static MainToolbarManager getCustomInstance(Activity _main_Activity) {
         if (sMainToolbarManager == null) {
@@ -31,18 +44,33 @@ public class MainToolbarManager extends ToolbarManager {
     }
 
 
+    public boolean isShowSearchView() {
+        return showSearchView;
+    }
+
+    public boolean isShowTrachView() {
+        return showTrachView;
+    }
+
+    public boolean isShowListDrawer() {
+        return showListDrawer;
+    }
+
+    public void setShowListDrawer(boolean showListDrawer) {
+        this.showListDrawer = showListDrawer;
+    }
+
     public void enableDrawer(boolean show) {
         mMain_Activity.enableDrawer(show);
     }
 
     public void enableSearchView(boolean show) {
-        mMain_Activity.enableSearchView(show);
+        showSearchView = show;
     }
 
-    public void enableTrashView(boolean show){
-        mMain_Activity.enableTrashView(show);
+    public void enableTrashView(boolean show) {
+        showTrachView = show;
     }
-
 
     public void setProgressBarVisible(boolean _visible) {
         mMain_Activity.setProgressBarVisible(_visible);
@@ -57,7 +85,8 @@ public class MainToolbarManager extends ToolbarManager {
             mMain_Activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
-    public void reloadOptionsMenu(){
+
+    public void reloadOptionsMenu() {
         mMain_Activity.invalidateOptionsMenu();
         setToolbarIcon(App.getCurrentISO());
     }

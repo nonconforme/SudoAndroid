@@ -232,9 +232,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     private void startProfileViewActivity(UserModel userModel, View view) {
         ProfileViewActivity.launch(mActivity, view, userModel);
-
     }
-
 
     private void searchContacts(String query) {
         RetrofitAdapter.getInterface().searchContacts(query, mContactsCB);

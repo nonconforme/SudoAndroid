@@ -32,7 +32,6 @@ import com.thinkmobiles.sudo.global.FragmentReplacer;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
-import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
@@ -53,7 +52,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private Drawer.Result mDrawer = null;
     private Callback<DefaultResponseModel> mSignOutCB;
-    private MainToolbarManager sToolbarManager;
+    private MainToolbarManager mToolbarManager;
     private HomeFragment homeFragment;
     private GcmHelper gcmHelper;
 
@@ -74,21 +73,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private List<DrawerMenuItemModel> mDrawerMenuList;
 
-    private boolean showDrawer;
-    private boolean showSearchView;
-    private boolean showTrachView = false;
-    private boolean showListDrawer = false;
     private String mTitle;
-
-
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        enableSearchView(false);
+
         setContentView(R.layout.activity_main);
         initToolbar();
         initProgressBar();
@@ -98,8 +89,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         setHeaderContent();
         initSignOutCB();
         registerGCM();
-
-
     }
 
     private void registerGCM() {
@@ -107,15 +96,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         gcmHelper.registerDevice();
     }
 
-
     public void setHeaderContent() {
         setBaseTitle();
         if (!ContactManager.getNumbers().isEmpty()) {
             setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
             App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
-            sToolbarManager.setToolbarIcon(App.getCurrentISO());
+            mToolbarManager.setToolbarIcon(App.getCurrentISO());
             ivSpinner_Drawer.setVisibility(View.VISIBLE);
-
         } else {
             ivSpinner_Drawer.setVisibility(View.INVISIBLE);
         }
@@ -127,7 +114,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         if (Network.isInternetConnectionAvailable(this)) {
             if (gcmHelper != null) gcmHelper.checkPlayServices();
         }
-
     }
 
     private void openLoginActivity() {
@@ -137,9 +123,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
     private void initToolbar() {
-        showDrawer = true;
-        sToolbarManager = MainToolbarManager.getCustomInstance(this);
-
+        mToolbarManager = MainToolbarManager.getCustomInstance(this);
     }
 
     private void initProgressBar() {
@@ -163,21 +147,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (showTrachView) {
-                Intent trashIntent = new Intent(Constants.TRASH_INTENT);
-                trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
-                sendBroadcast(trashIntent);
-            } else {
-                if (!showDrawer) onBackPressed();
-                else {
-                    if (mDrawer.isDrawerOpen()) {
-                        mDrawer.closeDrawer();
-                    } else {
-                        mDrawer.openDrawer();
-
-                    }
-                }
-            }
+            onHomePressed();
         }
         if (item.getItemId() == R.id.action_detele) {
             Intent trashIntent = new Intent(Constants.TRASH_INTENT);
@@ -188,9 +158,27 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
 
+    private void onHomePressed(){
+        if (mToolbarManager.isShowSearchView()) {
+            Intent trashIntent = new Intent(Constants.TRASH_INTENT);
+            trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
+            sendBroadcast(trashIntent);
+
+        } else {
+            if (!mToolbarManager.isShowDrawer()) onBackPressed();
+            else {
+                if (mDrawer.isDrawerOpen()) {
+                    mDrawer.closeDrawer();
+                } else {
+                    mDrawer.openDrawer();
+                }
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        if (showDrawer) {
+        if (mToolbarManager.isShowDrawer()) {
             if (mDrawer.isDrawerOpen()) {
                 mDrawer.closeDrawer();
             } else {
@@ -203,7 +191,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
     public void enableDrawer(boolean show) {
-        this.showDrawer = show;
+        mToolbarManager.setShowDrawer(show);
         if (show) {
             mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
         } else {
@@ -223,7 +211,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     public void onDrawerClosed(View view) {
 
     }
-
 
     private void implementClick(int pos) {
         switch (pos) {
@@ -292,7 +279,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         mDrawerMenuAdapter = new DrawerMenuAdapter(this);
         drawerListView = new ListView(this);
         drawerListView.setDivider(getResources().getDrawable(android.R.color.transparent));
-        mDrawer = new Drawer().withActivity(this).withToolbar(sToolbarManager.getToolbar()).withActionBarDrawerToggle(true).
+        mDrawer = new Drawer().withActivity(this).withToolbar(mToolbarManager.getToolbar()).withActionBarDrawerToggle(true).
                 withHeader(R.layout.drawer_header).withListView(drawerListView).build();
         drawerListView.setAdapter(mDrawerMenuAdapter);
         drawerListView.setOnItemClickListener(this);
@@ -332,9 +319,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-
                 sendSearchBroadcastQuery("");
-
                 return false;
             }
         });
@@ -359,13 +344,11 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             sendSearchBroadcastQuery(query);
-
 
         }
     }
@@ -381,18 +364,16 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        if (showSearchView) searchItem.setVisible(true);
+        if (mToolbarManager.isShowSearchView()) searchItem.setVisible(true);
         else searchItem.setVisible(false);
-        if (showTrachView) {
+        if (mToolbarManager.isShowTrachView()) {
             menuItemDelete.setVisible(true);
         } else {
             menuItemDelete.setVisible(false);
         }
         return super.onPrepareOptionsPanel(view, menu);
     }
-    public void enableSearchView(boolean show) {
-        showSearchView = show;
-    }
+
 
     private void setDrawerIcon(String countryISO) {
         setCountryByIso(this, ivAvatarDrawer, countryISO, 100);
@@ -402,52 +383,52 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     public void onClick(View view) {
         if (App.getCurrentUser().getNumbers() != null && App.getCurrentUser().getNumbers().size() > 0) {
-            if (showListDrawer) {
-                showListDrawer = false;
+            if (mToolbarManager.isShowListDrawer()) {
+                mToolbarManager.setShowListDrawer(false);
                 ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner);
                 initDefaultDrawer();
             } else {
-                showListDrawer = true;
+                mToolbarManager.setShowListDrawer(true);
                 ivSpinner_Drawer.setImageResource(R.drawable.ic_spinner_rotate);
                 initPhoneListDrawer();
             }
         }
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
-        if (!showListDrawer) {
+        if (!mToolbarManager.isShowListDrawer()) {
             view.setSelected(true);
             implementClick(pos);
             for (int j = 0; j < adapterView.getChildCount(); j++)
                 adapterView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
 
-            // change the background color of the selected element
             view.setBackgroundColor(Color.LTGRAY);
             mDrawer.closeDrawer();
         } else {
-            if (pos > 0) {
-                App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
-                setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
-                App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
 
-            } else {
-                App.setCurrentMobile(ContactManager.getNumbers().get(0).getNumber());
-                setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
-                App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
-            }
-            sToolbarManager.changeToolbarTitle(App.getCurrentMobile());
-            sToolbarManager.setToolbarIcon(App.getCurrentISO());
-            setBaseTitle();
-            onClick(new View(this));
-
+            drawerSelectNumber(pos);
         }
 
     }
 
-    public void enableTrashView(boolean show) {
-        showTrachView = show;
+    private void drawerSelectNumber(int pos){
+        if (pos > 0) {
+            App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
+            setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+            App.setCurrentISO(ContactManager.getNumbers().get(pos - 1).getCountryIso());
+
+        } else {
+            App.setCurrentMobile(ContactManager.getNumbers().get(0).getNumber());
+            setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+            App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+        }
+        mToolbarManager.changeToolbarTitle(App.getCurrentMobile());
+        mToolbarManager.setToolbarIcon(App.getCurrentISO());
+        setBaseTitle();
+        onClick(new View(this));
     }
+
+
 }

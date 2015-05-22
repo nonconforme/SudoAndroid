@@ -74,6 +74,7 @@ public class ChatsNameAndAvatarHelper {
 
 
     private class MyAsyncTask extends AsyncTask<Void, Void, UserModel> {
+
         private Context context;
         private ImageView imageView;
         private TextView textView;

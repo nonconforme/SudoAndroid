@@ -48,9 +48,6 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    /**
-     * Put the message into a notification and post it.
-     */
 
     private void sendNotification(final String msg) {
         NotificationManager mNotificationManager = (NotificationManager)
