@@ -17,10 +17,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
@@ -57,12 +54,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Callback<List<UserModel>> mContactsCB;
 
 
-    private BroadcastReceiver mSearchBroadcastReceiver;
+    private BroadcastReceiver mSearchBroadcastReceiver, mDeleteContactBroadcastReceiver;
     private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener;
-    private IntentFilter mSearchFilter;
+    private IntentFilter mSearchFilter, mDeleteContactFilter;
+
 
     private void createSwipeRefreshListener() {
-        mSearchFilter = new IntentFilter(Constants.QUERRY);
+
         mSwipeRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,6 +71,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void createSearchViewBroadcastReseiver() {
+        mSearchFilter = new IntentFilter(Constants.QUERRY);
         mSearchBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -81,11 +80,26 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         };
     }
 
+    private void createDeleteContactBroadcastReseiver() {
+        mDeleteContactFilter = new IntentFilter(Constants.DELETE_CONTACT);
+        mDeleteContactBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                deleteContact(intent.getIntExtra(Constants.POSITION, 0));
+            }
+        } ;
+    }
+
+    private void deleteContact(int position) {
+        Toast.makeText(mActivity, "Deleting contact" + " " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_contacts, container, false);
         createSwipeRefreshListener();
         createSearchViewBroadcastReseiver();
+        createDeleteContactBroadcastReseiver();
         findUI();
         initList();
         setListener();
@@ -124,11 +138,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void onResume() {
         super.onResume();
         mActivity.registerReceiver(mSearchBroadcastReceiver, mSearchFilter);
+        mActivity.registerReceiver(mDeleteContactBroadcastReceiver,mDeleteContactFilter);
     }
 
     @Override
     public void onDestroy() {
         mActivity.unregisterReceiver(mSearchBroadcastReceiver);
+        mActivity.unregisterReceiver(mDeleteContactBroadcastReceiver);
         super.onDestroy();
     }
 

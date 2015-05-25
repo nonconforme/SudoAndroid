@@ -1,6 +1,8 @@
 package com.thinkmobiles.sudo.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileEditActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.global.CircleTransform;
+import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -154,16 +158,49 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
 
                 if(menuItem.getItemId() == R.id.contacts_popup_edit)
                     launchEditActivity(contacts.get((int) view.getTag()));
+                else if(menuItem.getItemId() == R.id.contacts_popup_remove){
+
+                    AlertDialogCallback callback = new AlertDialogCallback() {
+                        @Override
+                        public void confirmDeletePhoneNumber(int pos) {
+                            Intent deleteIntent = new  Intent(Constants.DELETE_CONTACT);
+                            deleteIntent.putExtra(Constants.POSITION, pos);
+                            mActivity.sendBroadcast(deleteIntent);
+                        }
 
 
+                    };
+                    showConfirmationDialog(callback, (int) view.getTag());
 
-
-
+                }
                 return false;
             }
         });
         popupMenu.show();
     }
+
+
+    private void showConfirmationDialog(AlertDialogCallback alertDialogCallback, final int position) {
+        final AlertDialogCallback callback = alertDialogCallback;
+
+        new AlertDialog.Builder(mActivity)
+                .setTitle(mActivity.getString(R.string.delete_contact)).setMessage(mActivity.getString(R.string
+                .do_you_want_to_delete) + contacts.get(position).getCompanion() + " ?")
+                .setPositiveButton(mActivity.getString(R.string.alert_delete_pn_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.confirmDeletePhoneNumber(position);
+
+                    }
+
+                }).setNegativeButton(mActivity.getString(R.string.alert_delete_pn_cancel), null).show();
+    }
+
+
+    private interface AlertDialogCallback {
+        void confirmDeletePhoneNumber(int pos);
+    }
+
 
 
 

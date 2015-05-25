@@ -15,6 +15,8 @@ public abstract class Constants {
     public final static String ACCEPT = "ACCEPT";
     public final static String CANCEL = "CANCEL";
     public final static String FLAG = "FLAG";
+    public final static String POSITION = "position";
+    public final static String DELETE_CONTACT = "delete_contact";
 
     public final static String PROVIDER_GOOGLE = "GOOGLE";
     public static final String EXTRA_IMAGE = "DetailActivity:image";
