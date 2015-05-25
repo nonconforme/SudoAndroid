@@ -149,6 +149,7 @@
     <string name="loading">Loading...</string>
     <string name="delete_contact">Delete Contact</string>
     <string name="do_you_want_to_delete">"Do you really want to delete "</string>
+    <string name="deleting_contact">Deleting contact</string>
 
 
 </resources>

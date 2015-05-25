@@ -91,7 +91,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void deleteContact(int position) {
-        Toast.makeText(mActivity, "Deleting contact" + " " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mActivity, mActivity.getString(R.string.deleting_contact) + " " + String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override
