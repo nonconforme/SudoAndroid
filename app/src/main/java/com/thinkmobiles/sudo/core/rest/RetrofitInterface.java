@@ -90,4 +90,7 @@ public interface RetrofitInterface {
     @DELETE(APIConstants.URL_MESSAGE + "/{" + Constants.USER_NUMBER + "}" + "/{" + Constants.COMPANION_NUMBER + "}")
     void deleteChat(@Path(Constants.USER_NUMBER) String user_number, @Path(Constants.COMPANION_NUMBER) String
             companion_unmber, Callback<DefaultResponseModel> callback);
+
+    @DELETE(APIConstants.URL_ADDRESSBOOK + "/{"+ Constants.QUERRY + "}" )
+    void deleteContact(@Path(Constants.QUERRY) String querry, Callback<DefaultResponseModel> callback);
 }

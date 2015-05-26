@@ -26,6 +26,7 @@ import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import retrofit.Callback;
@@ -52,6 +53,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     public List<UserModel> mContactsList;
     private Callback<List<UserModel>> mContactsCB;
+    private Callback<DefaultResponseModel> mDeleteCB;
 
 
     private BroadcastReceiver mSearchBroadcastReceiver, mDeleteContactBroadcastReceiver;
@@ -91,7 +93,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void deleteContact(int position) {
-        Toast.makeText(mActivity, mActivity.getString(R.string.deleting_contact) + " " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+
+        RetrofitAdapter.getInterface().deleteContact(mContactsList.get(position).getCompanion(), mDeleteCB);
     }
 
     @Override
@@ -104,6 +107,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initList();
         setListener();
         initGetContactsCB();
+        initDeleteContactCB();
         setSwipeRefrechLayoutColor();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
         makeGetUserRequest();
@@ -211,6 +215,20 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void failure(RetrofitError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
+            }
+        };
+    }
+
+    private void initDeleteContactCB() {
+        mDeleteCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                makeGetUserRequest();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(mActivity, mActivity.getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         };
     }
