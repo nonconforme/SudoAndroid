@@ -60,6 +60,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener;
     private IntentFilter mSearchFilter, mDeleteContactFilter;
 
+    private int contactToDelete;
 
     private void createSwipeRefreshListener() {
 
@@ -93,7 +94,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void deleteContact(int position) {
-
+        contactToDelete = position;
         RetrofitAdapter.getInterface().deleteContact(mContactsList.get(position).getCompanion(), mDeleteCB);
     }
 
@@ -223,7 +224,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mDeleteCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
-                makeGetUserRequest();
+                mContactsList.remove(contactToDelete);
+                mStickyListAdapter.reloadList(mContactsList);
             }
 
             @Override
