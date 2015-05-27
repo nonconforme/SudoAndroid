@@ -125,7 +125,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             @Override
             public void failure(RetrofitError error) {
                 Log.d("signUp", error.getMessage());
-                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.user_exists), Toast.LENGTH_SHORT).show();
 
             }
         };

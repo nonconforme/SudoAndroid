@@ -150,6 +150,7 @@
     <string name="delete_contact">Delete Contact</string>
     <string name="do_you_want_to_delete">"Do you really want to delete "</string>
     <string name="deleting_contact">Deleting contact</string>
+    <string name="user_exists">User already exists</string>
 
 
 </resources>
