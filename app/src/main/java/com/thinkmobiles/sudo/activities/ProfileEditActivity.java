@@ -2,8 +2,10 @@ package com.thinkmobiles.sudo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.ProgressDialogWorker;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -51,15 +53,20 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     @Override
     protected void returnEditedProfile() {
-        try {
-            if (isProfileChangesValid()){
-                updateProfile(oldName, mUserModel);
+
+        if (!isContactAlreadyExists(mUserModel.getCompanion())) {
+            try {
+                if (isProfileChangesValid()) {
+                    updateProfile(oldName, mUserModel);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } else {
+            setNameRed();
+            Toast.makeText(this, "Contact already exists", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     @Override
@@ -85,7 +92,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         };
     }
 
-    private void sendResult(final UserModel profileModel){
+    private void sendResult(final UserModel profileModel) {
         Intent intent = new Intent();
         Bundle b = new Bundle();
         if (profileModel != null) {
@@ -102,6 +109,18 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         ProgressDialogWorker.createDialog(this);
         RetrofitAdapter.getInterface().updateContact(JsonHelper.makeJson(_userModel), _oldName, mUpdateContactCB);
 
+    }
+
+    private boolean isContactAlreadyExists(String newComapanion) {
+        int count = 0;
+        for (UserModel contact : App.getContactsList()) {
+            if (contact.getCompanion().equalsIgnoreCase(newComapanion)) ;
+            count++;
+
+
+        }
+        if (count > 1) return true;
+        return false;
     }
 }
 

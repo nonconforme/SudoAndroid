@@ -9,9 +9,11 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.RevealBackgroundView;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
@@ -54,7 +56,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
         startingActivity.startActivity(intent);
     }
 
-    private void findUI(){
+    private void findUI() {
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.rlTest);
         rlMain = (RelativeLayout) findViewById(R.id.rlMain);
     }
@@ -85,27 +87,37 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
     }
 
 
-
     @Override
     protected void returnEditedProfile() {
-        addProfile(mUserModel);
-        onBackPressed();
+        if (!isContactAlreadyExists(mUserModel.getCompanion())) {
+            addProfile(mUserModel);
+            onBackPressed();
+        } else {
+            setNameRed();
+            Toast.makeText(this, "Contact already exists", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private boolean isContactAlreadyExists(String newComapanion) {
+
+        for (UserModel contact : App.getContactsList()) {
+            if (contact.getCompanion().equalsIgnoreCase(newComapanion)) return true;
+        }
+
+        return false;
+    }
+
 
     @Override
     public void onBackPressed() {
         ViewCompat.setElevation(getToolbar(), 0);
-        rlMain.animate()
-                .translationY(Utils.getScreenHeight(this))
-                .setDuration(200)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        finish();
-                        overridePendingTransition(0, 0);
-                    }
-                })
-                .start();
+        rlMain.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        }).start();
 
     }
 
@@ -138,13 +150,13 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
         }
     }
 
-    private void initToolBar(){
+    private void initToolBar() {
         ToolbarManager.getInstance(this).getToolbar().setBackgroundColor(getResources().getColor(R.color.colorAddFriend));
         setStatusBarColor(getResources().getColor(R.color.colorAddFriendDark));
         setTitle(getResources().getString(R.string.add_profile));
     }
 
-    private void reloadContactList(){
+    private void reloadContactList() {
         sendSearchBroadcastQuery("");
     }
 

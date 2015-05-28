@@ -284,6 +284,10 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
             return true;
         }
     }
+    protected void setNameRed(){
+        etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
+
+    }
 
 
     protected class DoneOnEditorActionListener implements EditText.OnEditorActionListener {
