@@ -99,6 +99,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void initComponent() {
         etUserFirstName = (EditText) findViewById(R.id.etUserFirstName_AVC);
+        etUserFirstName.setOnClickListener(this);
         lvNumbers = (NonScrollListView) findViewById(R.id.lvPhoneNumbersView_AVC);
         ivChangeAvatar = (ImageView) findViewById(R.id.ivChangeAvatarIcon_AVC);
         btnChangeAvatar = (Button) findViewById(R.id.btnChangeAvatar_AVC);
@@ -166,9 +167,11 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
-        if (errorsInNumbers == null && checkNewName()) return true;
+        if (errorsInNumbers == null && checkNewName() && !mUserModel.getNumbers().isEmpty()) return true;
         else {
             showNumberErrors(errorsInNumbers);
+            Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
+
             return false;
         }
     }
@@ -182,34 +185,37 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         List<NumberModel> tempNumbers = mUserModel.getNumbers();
         boolean showNumbersError = false;
         boolean[] errors = new boolean[tempNumbers.size()];
-        if (tempNumbers.size() < 1) {
-            Toast.makeText(this, getString(R.string.number_cannot_be_empty), Toast.LENGTH_SHORT);
-        }
+
         for (int i = 0; i < tempNumbers.size(); i++) {
             CharSequence tempNumber = tempNumbers.get(i).getNumber();
             if (tempNumber == null) {
                 showNumbersError = true;
                 errors[i] = true;
-            } else if (tempNumber.charAt(0) != '+') {
-                String tempString = "+" + tempNumber.toString();
-                tempNumbers.get(i).setNumber(tempString);
-                myNumberList = tempNumbers;
-                mAdapter.reloadList(myNumberList);
-                errors[i] = false;
-            } else if (tempNumber.length() < 11) {
+            }  else if (tempNumber.length() < 11) {
                 showNumbersError = true;
                 errors[i] = true;
-            } else {
+            }
+            else if (tempNumber.charAt(0) != '+' && !errors[i]) {
+                String tempString = "+" + tempNumber.toString();
+                tempNumbers.get(i).setNumber(tempString);
+
+                errors[i] = false;
+            }
+
+            else {
                 errors[i] = false;
             }
 
         }
 
         if (showNumbersError) {
-            Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
-            return errors;
+             return errors;
+        }else{
+            myNumberList = tempNumbers;
+            mAdapter.reloadList(myNumberList);
+            return null;
         }
-        return null;
+
     }
 
 
@@ -307,6 +313,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
+        else if (view.getId() == R.id.etUserFirstName_AVC){ etUserFirstName.setBackgroundResource(android.R.color.transparent);
+        }
 
     }
 

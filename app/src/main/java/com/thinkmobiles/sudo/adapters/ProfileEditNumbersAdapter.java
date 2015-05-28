@@ -95,6 +95,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
             NumberModel numberModel = new NumberModel();
             numberModel.setNumber("");
             mListNumbers.add(numberModel);
+            errorsInNumbers = null;
             notifyDataSetChanged();
 
         }
@@ -117,9 +118,14 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
             AlertDialogCallback callback = new AlertDialogCallback() {
                 @Override
                 public void confirmDeletePhoneNumber() {
-                    if (mListNumbers.size() == 0) {
+
+                    if(!mListNumbers.isEmpty()){
+                        mListNumbers.remove(pos);
+                    }
+                    if (mListNumbers.isEmpty()) {
                         mListNumbers.add(mListNumbers.size(), new NumberModel());
                     }
+                    errorsInNumbers = null;
                     notifyDataSetChanged();
                 }
             };

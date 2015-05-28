@@ -16,7 +16,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_profile" />
+        layout="@layout/toolbar_profile_edit" />
 
     <RelativeLayout
 
