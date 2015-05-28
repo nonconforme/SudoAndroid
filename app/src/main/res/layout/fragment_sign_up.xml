@@ -10,11 +10,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/frEmail"
         sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
-        android:layout_above="@+id/frPass"
         android:layout_alignRight="@+id/frPass"
         android:layout_alignEnd="@+id/frPass"
         android:layout_alignLeft="@+id/frPass"
-        android:layout_alignStart="@+id/frPass">
+        android:layout_alignStart="@+id/frPass" android:layout_above="@+id/frPass">
         <EditText
             style="@style/ETLoginStyle"
             android:id="@+id/etEmail_FSU"
@@ -31,11 +30,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/frPass"
         sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
-        android:layout_above="@+id/frConfirmPass"
         android:layout_alignRight="@+id/frConfirmPass"
         android:layout_alignEnd="@+id/frConfirmPass"
         android:layout_alignLeft="@+id/frConfirmPass"
-        android:layout_alignStart="@+id/frConfirmPass">
+        android:layout_alignStart="@+id/frConfirmPass" android:layout_centerVertical="true">
 
         <EditText
             style="@style/ETLoginStyle"
@@ -53,11 +51,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/frConfirmPass"
         sudo:floatLabelTextAppearance="@style/TextAppearance.Sudo.FloatLabel"
-        android:layout_above="@+id/btnSignUp_FSU"
         android:layout_alignLeft="@+id/btnSignUp_FSU"
         android:layout_alignStart="@+id/btnSignUp_FSU"
         android:layout_alignRight="@+id/btnSignUp_FSU"
-        android:layout_alignEnd="@+id/btnSignUp_FSU">
+        android:layout_alignEnd="@+id/btnSignUp_FSU" android:layout_below="@+id/frPass">
 
         <EditText
             style="@style/ETLoginStyle"
@@ -77,9 +74,9 @@
         android:id="@+id/btnSignUp_FSU"
         style="@style/SLbtnSignUpStyle"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="66dp" />
+        android:layout_below="@+id/frConfirmPass" android:layout_marginTop="52dp"/>
 
 
 

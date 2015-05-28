@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
@@ -20,20 +21,22 @@ import com.thinkmobiles.sudo.utils.MainToolbarManager;
  */
 public class HomeFragment extends Fragment implements SlidingTabLayout.TabColorizer  {
 
-    private ActionBarActivity mActivity;
+    private Main_Activity mActivity;
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
     private CharSequence Titles[] = {Constants.TITLE_CONTACTS, Constants.TITLE_CHATS};
     private final int mTabsCount = 2;
     private final int currentTab = 0;
+    private MainToolbarManager mainToolbarManager;
 
 
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (ActionBarActivity) activity;
+        mActivity = (Main_Activity) activity;
+        mainToolbarManager  = MainToolbarManager.getCustomInstance(mActivity);
     }
 
     @Override
@@ -79,7 +82,8 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onResume() {
 
-        MainToolbarManager.getCustomInstance(mActivity).enableSearchView(true);
+        mainToolbarManager.enableSearchView(true);
+         
         super.onResume();
 
     }

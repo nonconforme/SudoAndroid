@@ -21,6 +21,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Pavilion on 09.04.2015.
  */
@@ -32,16 +34,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Button mBTNSignIn, mBTNRegister;
 
     private Callback<LoginResponse> mSignInCB;
+    private Toast mToast;
+
+    private static boolean showToast = true;
+
+    private void initToast() {
+        mToast = new Toast(mActivity);
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_sign_in_new
-                , container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_sign_in_new, container, false);
         initComponent();
         setListeners();
         initSignInCB();
         setColors();
+        initToast();
         return mView;
     }
 
@@ -58,10 +66,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initComponent() {
-        mETEmail            = (EditText) mView.findViewById(R.id.etEmail_FSI);
-        mETPassword         = (EditText) mView.findViewById(R.id.etPassword_FSI);
-        mBTNSignIn          = (Button) mView.findViewById(R.id.btnSignIn_FSI);
-        mBTNRegister        = (Button) mView.findViewById(R.id.btnRegister_FSI);
+        mETEmail = (EditText) mView.findViewById(R.id.etEmail_FSI);
+        mETPassword = (EditText) mView.findViewById(R.id.etPassword_FSI);
+        mBTNSignIn = (Button) mView.findViewById(R.id.btnSignIn_FSI);
+        mBTNRegister = (Button) mView.findViewById(R.id.btnRegister_FSI);
 
     }
 
@@ -72,6 +80,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.btnSignIn_FSI:
                 if (isValidateParam(mETEmail) && isValidateParam(mETPassword)) loginRequest();
@@ -83,8 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loginRequest() {
-        RetrofitAdapter.getInterface().signIn(mETEmail.getText().toString(),
-                mETPassword.getText().toString(), mSignInCB);
+        RetrofitAdapter.getInterface().signIn(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignInCB);
     }
 
 
@@ -92,14 +100,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mSignInCB = new Callback<LoginResponse>() {
             @Override
             public void success(LoginResponse loginResponse, Response response) {
-                Toast.makeText(mActivity, loginResponse.getSuccess(), Toast.LENGTH_SHORT).show();
+
+                showToast( loginResponse.getSuccess());
+
                 App.setuId(loginResponse.getuId());
                 ((LoginActivity) mActivity).getUserRequest();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(mActivity, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                showToast(error.getMessage());
 
             }
         };
@@ -110,5 +121,27 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mBTNRegister.setOnClickListener(this);
     }
 
+    private void showToast(String text) {
+        if (showToast) {
+            mToast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+            showToast = false;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast = true;
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
 
 }

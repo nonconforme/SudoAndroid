@@ -1,4 +1,4 @@
-package com.thinkmobiles.sudo.global;
+package com.thinkmobiles.sudo.utils;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

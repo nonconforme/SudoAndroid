@@ -28,7 +28,7 @@ import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
 import com.thinkmobiles.sudo.gcm.GcmHelper;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.global.FragmentReplacer;
+import com.thinkmobiles.sudo.utils.FragmentReplacer;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
@@ -159,7 +159,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
     private void onHomePressed(){
-        if (mToolbarManager.isShowSearchView()) {
+        if (mToolbarManager.isShowTrachView()) {
             Intent trashIntent = new Intent(Constants.TRASH_INTENT);
             trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
             sendBroadcast(trashIntent);

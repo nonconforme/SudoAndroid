@@ -20,15 +20,19 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Pavilion on 09.04.2015.
  */
 public class RegistrationFragment extends Fragment implements View.OnClickListener {
     private Activity mActivity;
+    private Toast mToast;
 
     private View mView;
     private EditText mETEmail, mETPassword, mETConfirmPass;
     private Button mBTNSignUp;
+    private static boolean showToast = true;
 
     private Callback<LoginResponse> mSignUpCB;
 
@@ -39,6 +43,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         initSignUpCB();
         setListeners();
         setColors();
+        initToast();
         return mView;
     }
 
@@ -47,6 +52,10 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         super.onAttach(activity);
         mActivity = activity;
 
+    }
+
+    private void initToast() {
+        mToast = new Toast(mActivity);
     }
 
     private void setListeners() {
@@ -65,33 +74,33 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         String p1 = _et1.getText().toString();
         String p2 = _et2.getText().toString();
         if (p1.isEmpty() || p2.isEmpty()) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.password_cannot_be_empty), Toast.LENGTH_SHORT).show();
+            showToast(mActivity.getString(R.string.password_cannot_be_empty));
             return false;
         }
         if (!p1.equals(p2)) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show();
+            showToast(mActivity.getString(R.string.passwords_do_not_match));
             return false;
         }
         if (p1.length() < 6) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.password_must_be_six_simbols_long), Toast.LENGTH_SHORT).show();
+            showToast(mActivity.getString(R.string.password_must_be_six_simbols_long));
+
             return false;
         }
-       if(! p2.matches("\\w+")){
-           Toast.makeText(mActivity, mActivity.getString(R.string.password_should_have_only_az_09), Toast.LENGTH_SHORT)
-                   .show();
-           return false;
+        if (!p2.matches("\\w+")) {
+              showToast(mActivity.getString(R.string.password_should_have_only_az_09));
+            return false;
 
-       }
+        }
 
 
         return true;
     }
 
-    private boolean isValidEmail(EditText et){
+    private boolean isValidEmail(EditText et) {
         String target = et.getText().toString();
         if (TextUtils.isEmpty(target) || !android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.not_an_email), Toast.LENGTH_SHORT).show();
-            return false;
+            showToast(mActivity.getString(R.string.not_an_email));
+             return false;
 
         } else {
             return true;
@@ -103,7 +112,9 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSignUp_FSU:
-                if (isValidEmail(mETEmail )&& isValidPassword(mETPassword, mETConfirmPass)) signUpRequest();
+
+
+                if (isValidEmail(mETEmail) && isValidPassword(mETPassword, mETConfirmPass)) signUpRequest();
                 break;
 
         }
@@ -118,14 +129,17 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             @Override
             public void success(LoginResponse loginResponse, Response response) {
                 Log.d("signUp", loginResponse.getSuccess());
-                Toast.makeText(mActivity, loginResponse.getSuccess(), Toast.LENGTH_SHORT).show();
+                showToast(loginResponse.getSuccess());
+
                 ((LoginActivity) mActivity).goBack();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.d("signUp", error.getMessage());
-                Toast.makeText(mActivity, mActivity.getString(R.string.user_exists), Toast.LENGTH_SHORT).show();
+
+                showToast(error.getMessage());
+
 
             }
         };
@@ -135,5 +149,27 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         ColorHelper.changeEditTextUnderlineColor(mETEmail);
         ColorHelper.changeEditTextUnderlineColor(mETPassword);
         ColorHelper.changeEditTextUnderlineColor(mETConfirmPass);
+    }
+    private void showToast(String text) {
+        if (showToast) {
+            mToast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+            showToast = false;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast = true;
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 }
