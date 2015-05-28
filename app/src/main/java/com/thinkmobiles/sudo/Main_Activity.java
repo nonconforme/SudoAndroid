@@ -40,13 +40,14 @@ import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.thinkmobiles.sudo.global.DrawerConstants.*;
 import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 
 public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerListener,  AdapterView
-        .OnItemClickListener, View.OnClickListener {
+        .OnItemClickListener, View.OnClickListener, SearchView.OnQueryTextListener {
 
 
 
@@ -316,6 +317,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         searchView = (SearchView) searchItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(Main_Activity.this.getComponentName()));
         searchView.setActivated(true);
+
+        searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -323,6 +326,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
                 return false;
             }
         });
+
 
 
     }
@@ -349,6 +353,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             sendSearchBroadcastQuery(query);
+
 
         }
     }
@@ -430,4 +435,33 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(final String s) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Main_Activity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchView.setIconified(false);
+                        searchView.setQuery(s,false);
+                    }
+                });
+            }
+        }).start();
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+
+
+        return false;
+    }
 }

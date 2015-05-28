@@ -34,7 +34,7 @@
     <string name="ss_dialog_title">Change password</string>
     <string name="ss_et_dialog_new_pass_hint">New account password</string>
     <string name="ss_et_dialog_confirm_hint">Confirm new password</string>
-    <string name="ss_btn_dialog_cancel">CANSEL</string>
+    <string name="ss_btn_dialog_cancel">CANCEL</string>
     <string name="ss_btn_dialog_submit">SUBMIT</string>
 
     <!-- Fragment Number-->
@@ -151,6 +151,9 @@
     <string name="do_you_want_to_delete">"Do you really want to delete "</string>
     <string name="deleting_contact">Deleting contact</string>
     <string name="user_exists">User already exists</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="current_password">Current Password</string>
 
 
 </resources>

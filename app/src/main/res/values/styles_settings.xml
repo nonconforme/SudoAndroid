@@ -88,7 +88,7 @@
     <!-- Style dialog-->
     <style name="SDSetNewPassStyle">
         <item name="android:padding">@dimen/sds_padding</item>
-        <item name="android:hint">@string/ss_et_dialog_new_pass_hint</item>
+
 
         <item name="android:textSize">14dp</item>
         <item name="android:inputType">textPassword</item>
