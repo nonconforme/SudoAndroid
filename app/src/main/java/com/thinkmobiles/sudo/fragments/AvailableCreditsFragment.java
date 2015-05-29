@@ -30,7 +30,8 @@ public class AvailableCreditsFragment extends Fragment {
     }
 
     public  void setCredits(){
-        tvCredits.setText(App.getCurrentCredits() + getActivity().getString(R.string.CREDITS));
+        tvCredits.setText(App.getCurrentCredits() + main_activity.getString(R.string.CREDITS));
+
         main_activity.refreshDrawerMenu();
     }
 

@@ -114,7 +114,8 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     private boolean isContactAlreadyExists(String newComapanion) {
         int count = 0;
         for (UserModel contact : App.getContactsList()) {
-            if (contact.getCompanion().equalsIgnoreCase(newComapanion)) ;
+
+            if (contact.getCompanion().equalsIgnoreCase(newComapanion))
             count++;
 
 

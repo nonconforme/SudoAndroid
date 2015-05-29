@@ -145,7 +145,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 } else {
                     hideProgressBar();
                     reloadList();
-                    App.setCurrentChats(String.valueOf(mChatsList.size()));
+                    App.setCurrentChats(String.valueOf(mChatAdapter.getCount()));
                     mActivity.refreshDrawerMenu();
                 }
             }
@@ -182,14 +182,13 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             @Override
             public void success(List<LastChatsModel> lastChatsModel, Response response) {
                 hideProgressBar();
-                App.setCurrentChats(String.valueOf(lastChatsModel.size()));
                 if (lastChatsModel.isEmpty()) mEndOfList = true;
                 else {
                     if (mSelectionHelper.isSelectionMode()) mSelectionHelper.growSelecction(lastChatsModel);
                     mPageCount++;
                     mChatsList.addAll(lastChatsModel);
                     updateList(mChatsList);
-                    App.setCurrentChats(String.valueOf(mChatsList.size()));
+                    App.setCurrentChats(String.valueOf(mChatAdapter.getCount()));
                     mActivity.refreshDrawerMenu();
                 }
             }
