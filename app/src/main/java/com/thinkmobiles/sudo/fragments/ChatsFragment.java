@@ -94,8 +94,9 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                 String flag = intent.getStringExtra(Constants.FLAG);
                 if (flag.equalsIgnoreCase(Constants.ACCEPT)) {
                     showConfirmationDialog();
+                } else {
+                    stopSelectionMode();
                 }
-                stopSelectionMode();
             }
 
         };
