@@ -72,6 +72,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
         finish();
     }

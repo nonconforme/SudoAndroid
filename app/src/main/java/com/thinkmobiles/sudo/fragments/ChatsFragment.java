@@ -5,10 +5,8 @@ package com.thinkmobiles.sudo.fragments;
  */
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.AlertDialog;
+import android.content.*;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -72,7 +70,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         mSelectionHelper = new ChatsSelectionHelper() {
 
 
-
             @Override
             public void StopParentSelectionMode() {
                 stopSelectionMode();
@@ -96,13 +93,14 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             public void onReceive(Context context, Intent intent) {
                 String flag = intent.getStringExtra(Constants.FLAG);
                 if (flag.equalsIgnoreCase(Constants.ACCEPT)) {
-                    deleteChats();
+                    showConfirmationDialog();
                 }
                 stopSelectionMode();
             }
 
         };
     }
+
 
     private void initRefreshListBroadcastReceiver() {
         mChatStartedReceiver = new BroadcastReceiver() {
@@ -206,7 +204,6 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         super.onAttach(activity);
         mActivity = (Main_Activity) activity;
     }
-
 
 
     public void updateList(List<LastChatsModel> chatsModelList) {
@@ -334,14 +331,14 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void deleteSingleChat() {
 
-            LastChatsModel chatModel = mSelectionHelper.getLastDeleteItem();
-            String[] numbers = getUserNumber(chatModel);
+        LastChatsModel chatModel = mSelectionHelper.getLastDeleteItem();
+        String[] numbers = getUserNumber(chatModel);
 
-            if (numbers[0] != null && numbers[1] != null) {
-                RetrofitAdapter.getInterface().deleteChat(numbers[0], numbers[1], mDeleteChatCB);
-            } else {
-                hideProgressBar();
-            }
+        if (numbers[0] != null && numbers[1] != null) {
+            RetrofitAdapter.getInterface().deleteChat(numbers[0], numbers[1], mDeleteChatCB);
+        } else {
+            hideProgressBar();
+        }
     }
 
 
@@ -421,6 +418,27 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     private void hideProgressBar() {
         footerView.setVisibility(View.GONE);
     }
+
+
+    private void showConfirmationDialog() {
+
+
+        new AlertDialog.Builder(mActivity).setTitle("Delete chats?").setPositiveButton(mActivity.getString(R.string.alert_delete_pn_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteChats();
+
+            }
+
+        }).setNegativeButton(mActivity.getString(R.string.alert_delete_pn_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                stopSelectionMode();
+            }
+        }).show();
+    }
+
+
 
 
 }

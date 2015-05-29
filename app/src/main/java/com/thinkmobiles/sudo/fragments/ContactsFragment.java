@@ -34,6 +34,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -90,7 +92,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             public void onReceive(Context context, Intent intent) {
                 deleteContact(intent.getIntExtra(Constants.POSITION, 0));
             }
-        } ;
+        };
     }
 
     private void deleteContact(int position) {
@@ -143,7 +145,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     public void onResume() {
         super.onResume();
         mActivity.registerReceiver(mSearchBroadcastReceiver, mSearchFilter);
-        mActivity.registerReceiver(mDeleteContactBroadcastReceiver,mDeleteContactFilter);
+        mActivity.registerReceiver(mDeleteContactBroadcastReceiver, mDeleteContactFilter);
     }
 
     @Override
@@ -207,6 +209,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void success(List<UserModel> userModels, Response response) {
                 mContactsList = userModels;
+                Collections.sort(mContactsList, new UserModelCompare());
+
                 App.setCurrentContacts(String.valueOf(mContactsList.size()));
                 App.setContactsList(userModels);
                 reloadList(userModels);
@@ -273,5 +277,20 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private void searchContacts(String query) {
         RetrofitAdapter.getInterface().searchContacts(query, mContactsCB);
     }
+
+
+    class UserModelCompare implements Comparator<UserModel> {
+
+        @Override
+        public int compare(UserModel o1, UserModel o2) {
+            // write comparison logic here like below , it's just a sample
+            return o1.getCompanion().compareTo(o2.getCompanion());
+        }
+    }
+
+
+
+
+
 
 }

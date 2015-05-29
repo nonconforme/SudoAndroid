@@ -15,10 +15,7 @@ public abstract class FragmentReplacer {
 
     public static final void replaceCurrentFragment(final FragmentActivity _activity,
                                                     final Fragment _fragment) {
-        _activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, _fragment)
-                .addToBackStack(null)
-                .commit();
+        _activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, _fragment).addToBackStack(_fragment.getClass().getName()).commit();
 
     }
 

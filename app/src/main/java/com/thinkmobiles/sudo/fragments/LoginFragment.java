@@ -112,7 +112,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void failure(RetrofitError error) {
 
-                showToast(error.getMessage());
+                showToast(mActivity.getString(R.string.wrong_user_or_pass));
 
             }
         };

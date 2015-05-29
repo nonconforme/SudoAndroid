@@ -110,6 +110,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
 
     @Override
     public void onBackPressed() {
+
         ViewCompat.setElevation(getToolbar(), 0);
         rlMain.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
             @Override

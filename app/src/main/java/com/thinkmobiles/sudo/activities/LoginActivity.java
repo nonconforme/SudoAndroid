@@ -13,6 +13,7 @@ import com.thinkmobiles.sudo.fragments.RegistrationFragment;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.ProfileResponse;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -48,6 +49,7 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        Utils.hideSoftKeyboard(this);
     }
 
     @Override

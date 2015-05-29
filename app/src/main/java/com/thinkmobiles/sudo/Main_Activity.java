@@ -34,6 +34,7 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
 import com.thinkmobiles.sudo.utils.ContactManager;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
+import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -90,7 +91,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         openHomeFragment();
         initDrawer();
         findHeaderUI();
-        setHeaderContent();
+
         initSignOutCB();
         registerGCM();
     }
@@ -103,8 +104,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     public void setHeaderContent() {
         setBaseTitle();
         if (!ContactManager.getNumbers().isEmpty()) {
-            setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
-            App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+            if (App.getCurrentISO() == null || App.getCurrentISO().isEmpty()) {
+                setDrawerIcon(ContactManager.getNumbers().get(0).getCountryIso());
+                App.setCurrentISO(ContactManager.getNumbers().get(0).getCountryIso());
+            } else {
+                setDrawerIcon(App.getCurrentISO());
+                mToolbarManager.setToolbarIcon(App.getCurrentISO());
+            }
             mToolbarManager.setToolbarIcon(App.getCurrentISO());
             ivSpinner_Drawer.setVisibility(View.VISIBLE);
         } else {
@@ -112,12 +118,14 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         if (Network.isInternetConnectionAvailable(this)) {
             if (gcmHelper != null) gcmHelper.checkPlayServices();
         }
+        setHeaderContent();
     }
 
     private void openLoginActivity() {
@@ -163,6 +171,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
     private void onHomePressed() {
+        Utils.hideSoftKeyboard(this);
         if (mToolbarManager.isShowTrachView()) {
             Intent trashIntent = new Intent(Constants.TRASH_INTENT);
             trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
@@ -184,9 +193,9 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     public void onBackPressed() {
         if (mToolbarManager.isShowDrawer()) {
             if (mDrawer.isDrawerOpen()) {
-                mDrawer.closeDrawer();
-            } else {
                 finish();
+            } else {
+                mDrawer.openDrawer();
             }
         } else {
             BaseNumbersFragment.goBack();

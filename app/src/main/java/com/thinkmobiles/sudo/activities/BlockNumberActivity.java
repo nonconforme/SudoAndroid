@@ -15,6 +15,7 @@ import com.thinkmobiles.sudo.models.BlockNumber;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
+import com.thinkmobiles.sudo.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -57,6 +58,7 @@ public class BlockNumberActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Utils.hideSoftKeyboard(this);
         overridePendingTransition(0, 0);
     }
 

@@ -1,5 +1,6 @@
 package com.thinkmobiles.sudo.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -7,6 +8,7 @@ import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.Display;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import com.thinkmobiles.sudo.global.Constants;
 
 import java.text.ParseException;
@@ -22,17 +24,21 @@ public class Utils {
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
+
     public static boolean checkString(String s) {
         if (s != null && !s.equalsIgnoreCase("")) return true;
         return false;
     }
+
     public static boolean isAndroid5() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
     public static boolean checkList(List list) {
         if (list != null && list.size() > 0) return true;
         return false;
     }
+
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
@@ -68,5 +74,10 @@ public class Utils {
     public static String getDateServerStyle() {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.SERVER_DATE_FORMAT);
         return sdf.format(new Date());
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

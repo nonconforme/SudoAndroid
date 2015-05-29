@@ -252,4 +252,5 @@ public class ContactsListAdapter extends BaseAdapter implements StickyListHeader
         mActivity.startActivity(intent);
     }
 
+
 }

@@ -146,6 +146,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         switch (id) {
             case android.R.id.home:
                 setResult(RESULT_CANCELED, null);
+                Utils.hideSoftKeyboard(this);
                 onBackPressed();
                 break;
             case R.id.action_accept:
@@ -328,8 +329,9 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         mAdapter.reloadList(myNumberList);
     }
 
-
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }
 
