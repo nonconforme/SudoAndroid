@@ -94,4 +94,6 @@ public class DrawerMenuAdapter extends BaseAdapter {
         if (position == 3) return false;
         else return true;
     }
-}
+
+
+ }

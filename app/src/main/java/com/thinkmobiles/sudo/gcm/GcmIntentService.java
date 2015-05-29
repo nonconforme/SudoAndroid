@@ -13,11 +13,13 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.LoginActivity;
+import com.thinkmobiles.sudo.global.App;
 
 
 public class GcmIntentService extends IntentService {
-    final int NOTIFICATION_ID   = 1;
-    static final String TAG     = "GcmIntentService";
+    final int NOTIFICATION_ID = 1;
+    static final String TAG = "GcmIntentService";
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -35,14 +37,13 @@ public class GcmIntentService extends IntentService {
                 sendNotification("Send error: " + extras.toString());
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_DELETED.equals(messageType)) {
-                sendNotification("Deleted messages on server: " +
-                        extras.toString());
+                sendNotification("Deleted messages on server: " + extras.toString());
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
                 Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 sendNotification("Received: " + extras.toString());
-                Log.i(TAG, "Received: " + extras.toString());
+                Log.i(TAG, "Received: " + extras.getString("message"));
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -50,21 +51,16 @@ public class GcmIntentService extends IntentService {
 
 
     private void sendNotification(final String msg) {
-        NotificationManager mNotificationManager = (NotificationManager)
-                this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent contentIntent;
+        if (App.getCurrentUser() == null || App.getCurrentUser().getCompanion().isEmpty()) {
+            contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, LoginActivity.class), 0);
+        } else {
+            contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, Main_Activity.class), 0);
+        }
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, Main_Activity.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_big_man)
-                        .setContentTitle(getResources().getString(R.string.app_name))
-                        .setVibrate(new long[]{1000, 500, 500, 500, 1000})
-                        .setLights(Color.RED, 3000, 3000)
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
-                        .setContentText(msg);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_big_man).setContentTitle(getResources().getString(R.string.app_name)).setVibrate(new long[]{1000, 500, 500, 500, 1000}).setLights(Color.RED, 3000, 3000).setStyle(new NotificationCompat.BigTextStyle().bigText(msg)).setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

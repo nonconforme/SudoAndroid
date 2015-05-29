@@ -3,18 +3,17 @@ package com.thinkmobiles.sudo.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.SPAutoLogin;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.utils.ColorHelper;
 import retrofit.Callback;
@@ -44,12 +43,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_sign_in_new, container, false);
+        mView = inflater.inflate(R.layout.fragment_sign_in, container, false);
         initComponent();
         setListeners();
         initSignInCB();
         setColors();
         initToast();
+        loadLogAndPass();
         return mView;
     }
 
@@ -92,6 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loginRequest() {
+        removeEmailSpaces();
         RetrofitAdapter.getInterface().signIn(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignInCB);
     }
 
@@ -101,9 +102,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void success(LoginResponse loginResponse, Response response) {
 
-                showToast( loginResponse.getSuccess());
+                showToast(loginResponse.getSuccess());
 
                 App.setuId(loginResponse.getuId());
+                saveLogAndPass();
                 ((LoginActivity) mActivity).getUserRequest();
             }
 
@@ -142,6 +144,27 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 }
             }).start();
         }
+    }
+
+
+    private void saveLogAndPass() {
+
+        String email = mETEmail.getText().toString();
+        String pass = mETPassword.getText().toString();
+        SPAutoLogin.storeLoginParams(mActivity, email, pass);
+
+    }
+
+    private void loadLogAndPass() {
+        mETEmail.setText(SPAutoLogin.loadMail(mActivity));
+        mETPassword.setText(SPAutoLogin.loadPassword(mActivity));
+    }
+
+    private void removeEmailSpaces() {
+
+        String email = mETEmail.getText().toString();
+        email = email.replaceAll("\\s+", "");
+        mETEmail.setText(email);
     }
 
 }

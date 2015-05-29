@@ -23,8 +23,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private Dialog mDialog;
     private View mView;
     private Activity mActivity;
-    private TextView mPin, mNotification;
-    private Switch mSwPin, mSwNotification;
+    private TextView mNotification;
+    private Switch mSwNotification;
     private Button mBlockNumber, mChangePassword, mBTNCancel, mBTNSubmit;
     private EditText mETNewPass, mETConfirmPass, etCurrentPass;
     private Callback<DefaultResponseModel> mChangePassCB;
@@ -49,9 +49,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initComponent(){
-        mPin                = (TextView) mView.findViewById(R.id.tvPin_FS);
         mNotification       = (TextView) mView.findViewById(R.id.tvNotification_FS);
-        mSwPin              = (Switch) mView.findViewById(R.id.swPin_FS);
         mSwNotification     = (Switch) mView.findViewById(R.id.swNotification_FS);
         mBlockNumber        = (Button) mView.findViewById(R.id.btnBlockNumber_FS);
         mChangePassword     = (Button) mView.findViewById(R.id.btnChangePassword_FS);
@@ -61,7 +59,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         mBlockNumber.setOnClickListener(this);
         mChangePassword.setOnClickListener(this);
         mSwNotification.setOnCheckedChangeListener(this);
-        mSwPin.setOnCheckedChangeListener(this);
 
     }
 
@@ -144,16 +141,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()){
-            case R.id.swPin_FS:
 
-                if(b){
-
-                }
-                else{
-
-                }
-
-                break;
 
             case R.id.swNotification_FS:
                 if(b){

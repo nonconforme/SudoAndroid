@@ -129,16 +129,16 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             @Override
             public void success(LoginResponse loginResponse, Response response) {
                 Log.d("signUp", loginResponse.getSuccess());
-                showToast(loginResponse.getSuccess());
+                showToast(mActivity.getString(R.string.user_created));
 
                 ((LoginActivity) mActivity).goBack();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("signUp", error.getMessage());
+                Log.d("signUp error", error.getMessage());
 
-                showToast(error.getMessage());
+                showToast(mActivity.getString(R.string.user_already_ecists));
 
 
             }

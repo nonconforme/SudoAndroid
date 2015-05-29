@@ -16,9 +16,20 @@ public class App extends Application {
 
     public static String currentCredits;
     public static String currentContacts;
+    public static String currentChats;
     private static String currentMobile;
     private static String uId;
     private static String currentISO;
+
+    public static String getCurrentChats() {
+        return currentChats;
+    }
+
+    public static void setCurrentChats(String currentChats) {
+        App.currentChats = currentChats;
+    }
+
+
 
     public static UserModel getCurrentUser() {
         return currentUser;

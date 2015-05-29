@@ -46,9 +46,7 @@ import static com.thinkmobiles.sudo.global.DrawerConstants.*;
 import static com.thinkmobiles.sudo.utils.CountryHelper.setCountryByIso;
 
 
-public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerListener,  AdapterView
-        .OnItemClickListener, View.OnClickListener, SearchView.OnQueryTextListener {
-
+public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerListener, AdapterView.OnItemClickListener, View.OnClickListener, SearchView.OnQueryTextListener {
 
 
     private Drawer.Result mDrawer = null;
@@ -56,7 +54,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     private MainToolbarManager mToolbarManager;
     private HomeFragment homeFragment;
     private GcmHelper gcmHelper;
-
 
 
     private ImageView ivAvatarDrawer, ivSpinner_Drawer;
@@ -75,6 +72,12 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     private List<DrawerMenuItemModel> mDrawerMenuList;
 
     private String mTitle;
+
+
+    public void refreshDrawerMenu() {
+        initDrawerMenuList();
+        mDrawerMenuAdapter.reloadList(mDrawerMenuList);
+    }
 
 
     @Override
@@ -159,7 +162,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     }
 
 
-    private void onHomePressed(){
+    private void onHomePressed() {
         if (mToolbarManager.isShowTrachView()) {
             Intent trashIntent = new Intent(Constants.TRASH_INTENT);
             trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
@@ -253,7 +256,13 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
     private void makeSignOutRequest() {
-        RetrofitAdapter.getInterface().sigOut(mSignOutCB);
+        if (Network.isInternetConnectionAvailableNoDialog(this)) {
+
+            RetrofitAdapter.getInterface().sigOut(mSignOutCB);
+        } else {
+            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setBaseTitle() {
@@ -264,7 +273,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private void initDrawerMenuList() {
         mDrawerMenuList = new ArrayList<>();
-        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_home, App.currentContacts, R.drawable.ic_contacts_chats));
+        mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_home, App.getCurrentChats(), R.drawable.ic_contacts_chats));
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_get_number, " ", R.drawable.ic_get_number));
         mDrawerMenuList.add(new DrawerMenuItemModel(R.string.drawer_item_recharge_credits, App.currentCredits, R.drawable.ic_recharge_credits));
         mDrawerMenuList.add(new DrawerMenuItemModel(0, "", 0));
@@ -326,7 +335,6 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
                 return false;
             }
         });
-
 
 
     }
@@ -417,7 +425,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     }
 
-    private void drawerSelectNumber(int pos){
+    private void drawerSelectNumber(int pos) {
         if (pos > 0) {
             App.setCurrentMobile(ContactManager.getNumbers().get(pos - 1).getNumber());
             setDrawerIcon(ContactManager.getNumbers().get(pos - 1).getCountryIso());
@@ -449,7 +457,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
                     @Override
                     public void run() {
                         searchView.setIconified(false);
-                        searchView.setQuery(s,false);
+                        searchView.setQuery(s, false);
+                        searchView.clearFocus();
                     }
                 });
             }

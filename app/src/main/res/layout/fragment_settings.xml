@@ -10,35 +10,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            style="@style/SContainerStyle">
-        android:id="@+id/setPinLayout"
-
-        <TextView
-                android:id="@+id/tvPin_FS"
-                style="@style/SStvPinStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right">
-
-            <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swPin_FS"
-                    android:enabled="true"
-                    android:focusable="false"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:id="@+id/setNotifLayout"
             style="@style/SContainerStyle">
 
