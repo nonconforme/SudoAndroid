@@ -72,7 +72,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
 
             @Override
             public void StopParentSelectionMode() {
-                stopSelectionMode();
+                ChatsFragment.this.stopSelectionMode();
             }
 
         };

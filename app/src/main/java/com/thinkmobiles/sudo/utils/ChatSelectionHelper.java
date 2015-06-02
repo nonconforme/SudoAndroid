@@ -56,6 +56,7 @@ abstract public class ChatSelectionHelper extends BaseSelectionHelper {
         selection = null;
         deleteList = new ArrayList<>();
         remainList = new ArrayList<>();
+
     }
 
     @Override

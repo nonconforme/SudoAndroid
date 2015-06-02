@@ -23,6 +23,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
+import com.thinkmobiles.sudo.audio.VoiceRecorder;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.SendCommentButton;
@@ -87,7 +88,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
             @Override
             public void StopParentSelectionMode() {
-                stopSelectionMode();
+                ChatActivity.this.stopSelectionMode();
             }
         };
     }
@@ -532,4 +533,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         etMessage.setText("");
         stopSelectionMode();
     }
+
+    private void createVoiceRecorder() {
+        VoiceRecorder mVoiceRecorder = new VoiceRecorder();
+    }
 }
+
