@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (Main_Activity) activity;
-        mainToolbarManager  = MainToolbarManager.getCustomInstance(mActivity);
+
     }
 
     @Override
@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
         initAdapter();
         initTabs();
         pager.setCurrentItem(0, true);
+        mainToolbarManager = MainToolbarManager.getCustomInstance(mActivity);
         return view;
     }
 

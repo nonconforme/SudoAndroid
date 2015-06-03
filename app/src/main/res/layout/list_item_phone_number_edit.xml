@@ -26,5 +26,5 @@
         android:imeOptions="actionDone"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/etPhoneNumber_AVC"
-        android:layout_toEndOf="@+id/etPhoneNumber_AVC" />
+        android:layout_toEndOf="@+id/etPhoneNumber_AVC" android:layout_marginLeft="8dp"/>
 </RelativeLayout>

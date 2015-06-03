@@ -278,7 +278,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
         if (firstName == null || firstName.isEmpty()) {
             Toast.makeText(this, getString(R.string.name_cannot_be_empty), Toast.LENGTH_SHORT).show();
-            etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
+            etUserFirstName.setBackground(this.getResources().getDrawable(R.drawable.bg_number_error));
             return false;
         } else {
             etUserFirstName.setBackgroundResource(android.R.color.transparent);
@@ -288,7 +288,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     }
 
     protected void setNameRed() {
-        etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
+        etUserFirstName.setBackground(this.getResources().getDrawable(R.drawable.bg_number_error));
 
     }
 

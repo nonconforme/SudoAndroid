@@ -118,6 +118,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onPause() {
         mSelectionHelper.stopSelectionMode();
         unregisterSelectionReceiver();
+        mEndOfList = false;
+        mPageCount = 1;
         super.onPause();
     }
 

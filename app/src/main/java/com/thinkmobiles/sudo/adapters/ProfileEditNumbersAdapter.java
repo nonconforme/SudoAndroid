@@ -71,7 +71,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
 
         if(errorsInNumbers != null){
             if (errorsInNumbers[position])
-                viewHolder.etPhoneNumber.setBackgroundResource(android.R.color.holo_red_dark);
+                viewHolder.etPhoneNumber.setBackground(mContext.getResources().getDrawable(R.drawable.bg_number_error));
         }else
             viewHolder.etPhoneNumber.setBackgroundResource(android.R.color.transparent);
 
