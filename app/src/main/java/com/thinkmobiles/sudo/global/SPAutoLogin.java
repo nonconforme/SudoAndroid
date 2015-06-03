@@ -29,17 +29,6 @@ public class SPAutoLogin {
         String pass = prefs.getString(Constants.PASSWORD, "");
         return pass;
     }
-    public static String loadUserId(final Context _context) {
-        final SharedPreferences prefs = _context.getSharedPreferences(Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
-        String id = prefs.getString(Constants.USER_ID, "");
-        return id;
-    }
-    public static void storeUserId(final Context _context, final String _id) {
-        final SharedPreferences prefs = _context.getSharedPreferences(
-                Main_Activity.class.getSimpleName(), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.USER_ID, _id);
-        editor.commit();
-    }
+
 }
 

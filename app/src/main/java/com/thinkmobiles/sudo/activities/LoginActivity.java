@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.audio.VoiceRecorder;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.fragments.LoginFragment;
 import com.thinkmobiles.sudo.fragments.RegistrationFragment;
@@ -36,6 +37,7 @@ public class LoginActivity extends Activity {
         isInternetConnectionAvailable(this);
         overridePendingTransition(R.anim.flade_in, R.anim.flade_out);
         initGetUserCB();
+
     }
 
 
