@@ -168,11 +168,15 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
-        if (errorsInNumbers == null && checkNewName() && !mUserModel.getNumbers().isEmpty()) return true;
-        else {
-            showNumberErrors(errorsInNumbers);
-            Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
+        if (checkNewName()) {
+            if (errorsInNumbers == null && !mUserModel.getNumbers().isEmpty()) return true;
+            else {
+                showNumberErrors(errorsInNumbers);
+                Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
 
+                return false;
+            }
+        } else {
             return false;
         }
     }
@@ -192,26 +196,23 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
             if (tempNumber == null) {
                 showNumbersError = true;
                 errors[i] = true;
-            }  else if (tempNumber.length() < 11) {
+            } else if (tempNumber.length() < 11) {
                 showNumbersError = true;
                 errors[i] = true;
-            }
-            else if (tempNumber.charAt(0) != '+' && !errors[i]) {
+            } else if (tempNumber.charAt(0) != '+' && !errors[i]) {
                 String tempString = "+" + tempNumber.toString();
                 tempNumbers.get(i).setNumber(tempString);
 
                 errors[i] = false;
-            }
-
-            else {
+            } else {
                 errors[i] = false;
             }
 
         }
 
         if (showNumbersError) {
-             return errors;
-        }else{
+            return errors;
+        } else {
             myNumberList = tempNumbers;
             mAdapter.reloadList(myNumberList);
             return null;
@@ -285,7 +286,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
             return true;
         }
     }
-    protected void setNameRed(){
+
+    protected void setNameRed() {
         etUserFirstName.setBackgroundResource(android.R.color.holo_red_dark);
 
     }
@@ -318,7 +320,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnChangeAvatar_AVC) reLoadAvatar();
-        else if (view.getId() == R.id.etUserFirstName_AVC){ etUserFirstName.setBackgroundResource(android.R.color.transparent);
+        else if (view.getId() == R.id.etUserFirstName_AVC) {
+            etUserFirstName.setBackgroundResource(android.R.color.transparent);
         }
 
     }

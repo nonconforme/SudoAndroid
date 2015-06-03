@@ -132,7 +132,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
 
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title), 0);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title) + "          " +
+                mCompanionNumber, 0);
 
     }
 

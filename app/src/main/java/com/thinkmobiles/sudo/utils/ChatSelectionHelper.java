@@ -95,11 +95,15 @@ abstract public class ChatSelectionHelper extends BaseSelectionHelper {
 
 
     private void growSelectioOffset() {
-        boolean[] temp = new boolean[selection.length + 1];
-        if (temp.length > 1) {
-            temp[0] = false;
-            for (int i = 0; i < selection.length; i++) {
-                temp[i + 1] = selection[i];
+        if (selection != null) {
+
+
+            boolean[] temp = new boolean[selection.length + 1];
+            if (temp.length > 1) {
+                temp[0] = false;
+                for (int i = 0; i < selection.length; i++) {
+                    temp[i + 1] = selection[i];
+                }
             }
         }
     }
