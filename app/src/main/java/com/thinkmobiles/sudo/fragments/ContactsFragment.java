@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;

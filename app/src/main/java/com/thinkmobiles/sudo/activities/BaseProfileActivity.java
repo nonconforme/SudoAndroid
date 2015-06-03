@@ -5,22 +5,22 @@ package com.thinkmobiles.sudo.activities;
  */
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Network;
-import com.thinkmobiles.sudo.utils.Utils;
 
 
 public abstract class BaseProfileActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
-    public static final String USER_MODEL       = "user_model";
-    public static final String TAG              = "profile view activity";
-
+    public static final String USER_MODEL = "user_model";
+    public static final String TAG = "profile view activity";
 
 
     @Override
@@ -29,8 +29,8 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
         setContentView(getLayoutResource());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -38,24 +38,31 @@ public abstract class BaseProfileActivity extends ActionBarActivity {
     protected abstract int getLayoutResource();
 
 
-    protected ActionBar getToolbarAB(){
+    protected ActionBar getToolbarAB() {
         return getSupportActionBar();
     }
-    protected Toolbar getToolbar(){
+
+    protected Toolbar getToolbar() {
         return toolbar;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    protected void setStatusBarColor(final int _statusBarColor){
+    protected void setStatusBarColor(final int _statusBarColor) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        getWindow().setStatusBarColor(_statusBarColor);
+            getWindow().setStatusBarColor(_statusBarColor);
 
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
-        Network.isInternetConnectionAvailable(this);
+        if (App.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+
+            super.onResume();
+            Network.isInternetConnectionAvailable(this);
+        }
     }
 
     @Override

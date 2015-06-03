@@ -23,7 +23,6 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ChatListAdapter;
-import com.thinkmobiles.sudo.audio.VoiceRecorder;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.SendCommentButton;
@@ -197,16 +196,25 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mListAdapter.addNewMessage(message);
-                    mSelectionHelper.addNewMessage(message);
-                    mMessageModelList.add(0, mSendMessageModel);
-                    mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
+
+                    if (isIncomingMessage(message)) {
+                        mListAdapter.addNewMessage(message);
+                        mSelectionHelper.addNewMessage(message);
+                        mMessageModelList.add(0, mSendMessageModel);
+                        mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
+                    }
                 }
             });
 
         }
     };
 
+    private boolean isIncomingMessage(MessageModel message) {
+        if ((message.getCompanion().getNumber().equalsIgnoreCase(mCompanionNumber) && message.getOwner().getNumber().equalsIgnoreCase(mOwnerNumber)) || (message.getOwner().getNumber().equalsIgnoreCase(mCompanionNumber) && message.getCompanion().getNumber().equalsIgnoreCase(mOwnerNumber)))
+
+            return true;
+        return false;
+    }
 
     @Override
     protected void onDestroy() {
@@ -443,8 +451,15 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     protected void onResume() {
-        super.onResume();
-        Network.isInternetConnectionAvailable(this);
+
+        if (App.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            super.onResume();
+            Network.isInternetConnectionAvailable(this);
+        }
+
     }
 
     @Override

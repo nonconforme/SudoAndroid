@@ -12,8 +12,10 @@ import android.widget.*;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.BlockNumberActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
+import com.thinkmobiles.sudo.utils.StoreNotification;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -38,8 +40,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         setListeners();
         initChangePassCB();
         MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(R.string.settings, 0);
-
+        loadSettings();
         return mView;
+    }
+
+    private void loadSettings() {
+        mSwNotification.setChecked(App.isNotificationStatus());
     }
 
     @Override
@@ -144,20 +150,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
 
             case R.id.swNotification_FS:
-                if(b){
-
-                }
-                else{
-
-                }
-
-                break;
-
-
-
-
-
-
+                App.setNotificationStatus(b);
+                StoreNotification.storeNotificationsatus(mActivity, b);
         }
 
 

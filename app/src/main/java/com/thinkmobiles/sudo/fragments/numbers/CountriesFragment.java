@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.fragments.numbers;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,9 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
         setListeners();
 
         changeToolbarTitleAndImage(R.string.countries);
+        String locale = mActivity.getResources().getConfiguration().locale.getISO3Country();
+        Log.d("countryr   ", locale);
+
         return mView;
     }
 

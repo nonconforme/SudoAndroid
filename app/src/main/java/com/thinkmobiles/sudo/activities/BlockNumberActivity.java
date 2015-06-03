@@ -1,5 +1,6 @@
 package com.thinkmobiles.sudo.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.BlockNumberExpandableAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.BlockNumber;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
@@ -142,8 +144,13 @@ public class BlockNumberActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
+        if (App.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
         super.onResume();
-        Network.isInternetConnectionAvailable(this);
+            Network.isInternetConnectionAvailable(this);
+        }
     }
 
     public void sendBlockedNumbers(List<BlockNumber> blockedNumbers) {

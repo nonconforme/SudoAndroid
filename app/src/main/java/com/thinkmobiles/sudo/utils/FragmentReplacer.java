@@ -2,7 +2,6 @@ package com.thinkmobiles.sudo.utils;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import com.thinkmobiles.sudo.R;
 
 

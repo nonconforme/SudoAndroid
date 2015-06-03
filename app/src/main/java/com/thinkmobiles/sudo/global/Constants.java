@@ -66,6 +66,9 @@ public abstract class Constants {
 
     public static final String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'";
     public static final String CLIENT_DATE_FORMAT = "MMM-dd, hh:mm";
+    public static final String NOTIFICATION = "notification";
+
+
     /**
      * Authorization
      */

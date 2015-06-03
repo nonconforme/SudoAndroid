@@ -1,6 +1,5 @@
 package com.thinkmobiles.sudo.utils;
 
-import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 
 import java.util.ArrayList;

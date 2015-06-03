@@ -18,6 +18,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.ProfileEditNumbersAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.ImageHelper;
@@ -336,5 +337,17 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     protected void onPause() {
         super.onPause();
     }
-}
 
+    @Override
+    protected void onResume() {
+
+
+        if (App.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            super.onResume();
+        }
+
+    }
+}

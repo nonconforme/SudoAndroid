@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.global;
 
 import android.app.Application;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.StoreNotification;
 
 import java.util.List;
 
@@ -21,6 +22,22 @@ public class App extends Application {
     private static String uId;
     private static String currentISO;
 
+    private static boolean NotificationStatus;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        setNotificationStatus(StoreNotification.loadNotificationStatus(this));
+    }
+
+    public static boolean isNotificationStatus() {
+        return NotificationStatus;
+    }
+
+    public static void setNotificationStatus(boolean notificationStatus) {
+        NotificationStatus = notificationStatus;
+    }
+
     public static String getCurrentChats() {
         return currentChats;
     }
@@ -28,7 +45,6 @@ public class App extends Application {
     public static void setCurrentChats(String currentChats) {
         App.currentChats = currentChats;
     }
-
 
 
     public static UserModel getCurrentUser() {
@@ -89,4 +105,6 @@ public class App extends Application {
     public static void setCurrentISO(String currentISO) {
         App.currentISO = currentISO;
     }
+
+
 }
