@@ -20,6 +20,7 @@ public abstract class Constants {
 
     public final static String PROVIDER_GOOGLE = "GOOGLE";
     public static final String EXTRA_IMAGE = "DetailActivity:image";
+    public static final String FILEPATH = "filepath";
 
     public static final String TITLE_CHATS                  = "Chats";
     public static final String TITLE_CONTACTS               = "Contacts";

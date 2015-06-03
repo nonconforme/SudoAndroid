@@ -5,9 +5,9 @@ package com.thinkmobiles.sudo.custom_views;
  */
 
 
-
 import android.R;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import com.thinkmobiles.sudo.global.Constants;
 
 
 class SlidingTabStrip extends LinearLayout {
@@ -44,9 +45,12 @@ class SlidingTabStrip extends LinearLayout {
     private SlidingTabLayout.TabColorizer mCustomTabColorizer;
     private final SimpleTabColorizer mDefaultTabColorizer;
 
+    private Context context;
+
 
     SlidingTabStrip(Context context) {
         this(context, null);
+        this.context = context;
     }
 
 
@@ -60,11 +64,10 @@ class SlidingTabStrip extends LinearLayout {
 
         TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorForeground, outValue, true);
-        final int themeForegroundColor =  outValue.data;
+        final int themeForegroundColor = outValue.data;
 
 
-        mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
-                DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
+        mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor, DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
 
 
         mDefaultTabColorizer = new SimpleTabColorizer();
@@ -99,6 +102,7 @@ class SlidingTabStrip extends LinearLayout {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
         invalidate();
+        stopChatTrashMode();
     }
 
 
@@ -106,9 +110,7 @@ class SlidingTabStrip extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         final int height = getHeight();
         final int childCount = getChildCount();
-        final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
-                ? mCustomTabColorizer
-                : mDefaultTabColorizer;
+        final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null ? mCustomTabColorizer : mDefaultTabColorizer;
 
 
         // Thick colored underline below the current selection
@@ -128,18 +130,15 @@ class SlidingTabStrip extends LinearLayout {
 
                 // Draw the selection partway between the tabs
                 View nextTitle = getChildAt(mSelectedPosition + 1);
-                left = (int) (mSelectionOffset * nextTitle.getLeft() +
-                        (1.0f - mSelectionOffset) * left);
-                right = (int) (mSelectionOffset * nextTitle.getRight() +
-                        (1.0f - mSelectionOffset) * right);
+                left = (int) (mSelectionOffset * nextTitle.getLeft() + (1.0f - mSelectionOffset) * left);
+                right = (int) (mSelectionOffset * nextTitle.getRight() + (1.0f - mSelectionOffset) * right);
             }
 
 
             mSelectedIndicatorPaint.setColor(color);
 
 
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-                    height, mSelectedIndicatorPaint);
+            canvas.drawRect(left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
         }
 
 
@@ -184,5 +183,11 @@ class SlidingTabStrip extends LinearLayout {
         void setIndicatorColors(int... colors) {
             mIndicatorColors = colors;
         }
+    }
+
+    private void stopChatTrashMode() {
+        Intent trashIntent = new Intent(Constants.TRASH_INTENT);
+        trashIntent.putExtra(Constants.FLAG, Constants.CANCEL);
+        context.sendBroadcast(trashIntent);
     }
 }

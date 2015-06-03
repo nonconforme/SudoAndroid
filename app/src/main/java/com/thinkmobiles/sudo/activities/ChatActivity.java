@@ -80,7 +80,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private String mOwnerNumber;
     private String mCompanionNumber;
     private String mAvatarUrl;
-    private VoiceRecorder mVoiceRecorder;
+
 
     private void initSelectionHelper() {
         mSelectionHelper = new ChatSelectionHelper() {
@@ -394,7 +394,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 deleteChatItems();
                 break;
             case R.id.action_record:
-                createVoiceRecorder();
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -537,8 +537,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         stopSelectionMode();
     }
 
-    private void createVoiceRecorder() {
-          mVoiceRecorder = new VoiceRecorder(this);
-    }
+
 }
 
