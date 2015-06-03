@@ -79,7 +79,6 @@ public class MainToolbarManager extends ToolbarManager {
     public static void initMainToolbar() {
         if (sMainToolbarManager != null) {
             mToolbar = (Toolbar) mMain_Activity.findViewById(R.id.tool_bar);
-            mToolbar.setTitle(R.string.app_name);
             mMain_Activity.setSupportActionBar(mToolbar);
             mMain_Activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mMain_Activity.getSupportActionBar().setHomeButtonEnabled(true);

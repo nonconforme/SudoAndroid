@@ -2,6 +2,7 @@ package com.thinkmobiles.sudo.fragments;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.adapters.ViewPagerAdapter;
 import com.thinkmobiles.sudo.custom_views.SlidingTabLayout;
+import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 
@@ -35,6 +38,9 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if (App.getCurrentUser() == null) {
+            getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
         mActivity = (Main_Activity) activity;
 
     }
@@ -98,5 +104,9 @@ public class HomeFragment extends Fragment implements SlidingTabLayout.TabColori
 
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+    }
 }

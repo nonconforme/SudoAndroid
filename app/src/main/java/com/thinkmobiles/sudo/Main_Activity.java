@@ -125,7 +125,12 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         if (Network.isInternetConnectionAvailable(this)) {
             if (gcmHelper != null) gcmHelper.checkPlayServices();
         }
-        setHeaderContent();
+        if (App.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            setHeaderContent();
+        }
     }
 
     private void openLoginActivity() {

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.activities.ProfileAddActivity;
 import com.thinkmobiles.sudo.activities.ProfileViewActivity;
 import com.thinkmobiles.sudo.adapters.ContactsListAdapter;
@@ -112,8 +113,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initGetContactsCB();
         initDeleteContactCB();
         setSwipeRefrechLayoutColor();
-        MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
-        makeGetUserRequest();
+        if (App.getCurrentUser() != null) {
+
+
+            MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
+            makeGetUserRequest();
+        }
         return mView;
     }
 
@@ -287,10 +292,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             return o1.getCompanion().compareTo(o2.getCompanion());
         }
     }
-
-
-
-
 
 
 }
