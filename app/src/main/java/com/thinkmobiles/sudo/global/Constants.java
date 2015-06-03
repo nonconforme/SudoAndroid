@@ -11,6 +11,11 @@ public abstract class Constants {
     public final static String UNITED_KINGDOM_ISO = "GB";
     public final static String AUSTRALIA_ISO = "AU";
 
+    public final static String REAL_UNITED_KINGDOM_ISO = "UK";
+
+
+
+
     public final static String TRASH_INTENT = "trash";
     public final static String ACCEPT = "ACCEPT";
     public final static String CANCEL = "CANCEL";

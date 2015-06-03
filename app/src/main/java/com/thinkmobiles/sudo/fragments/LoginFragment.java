@@ -13,7 +13,9 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.global.SPAutoLogin;
+import com.thinkmobiles.sudo.location.LocationUtility;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.utils.ColorHelper;
 import retrofit.Callback;
@@ -34,6 +36,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private Callback<LoginResponse> mSignInCB;
     private Toast mToast;
+
+    private LocationUtility mLocationUtility;
 
     private static boolean showToast = true;
 
@@ -93,7 +97,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private void loginRequest() {
         removeEmailSpaces();
-        RetrofitAdapter.getInterface().signIn(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignInCB);
+
+        if (Network.isInternetConnectionAvailable(mActivity)) {
+            setupLocationUtility();
+            getLocation();
+            RetrofitAdapter.getInterface().signIn(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignInCB);
+        } else {
+            App.setCurrentLocationISO(getResources().getConfiguration().locale.getISO3Country());
+        }
+
     }
 
 
@@ -165,6 +177,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         String email = mETEmail.getText().toString();
         email = email.replaceAll("\\s+", "");
         mETEmail.setText(email);
+    }
+
+
+    private void setupLocationUtility() {
+        mLocationUtility = new LocationUtility(mActivity);
+    }
+
+    private void getLocation() {
+        mLocationUtility.getLocation();
     }
 
 }

@@ -1,10 +1,12 @@
 package com.thinkmobiles.sudo.global;
 
 import android.app.Application;
+import com.thinkmobiles.sudo.location.LocationUtility;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.StoreNotification;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Sasha on 12.02.2015.
@@ -21,13 +23,23 @@ public class App extends Application {
     private static String currentMobile;
     private static String uId;
     private static String currentISO;
-
+    private static String currentLocationISO;
     private static boolean NotificationStatus;
+
+    public static String getCurrentLocationISO() {
+        return currentLocationISO;
+    }
+
+    public static void setCurrentLocationISO(String currentLocationISO) {
+        App.currentLocationISO = currentLocationISO;
+    }
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         setNotificationStatus(StoreNotification.loadNotificationStatus(this));
+
     }
 
     public static boolean isNotificationStatus() {

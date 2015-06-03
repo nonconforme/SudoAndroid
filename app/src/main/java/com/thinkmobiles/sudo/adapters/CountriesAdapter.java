@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 
 import java.util.ArrayList;
@@ -68,7 +70,19 @@ public class CountriesAdapter extends BaseAdapter {
     }
 
     public void reloadList(List<CountryModel> _listCountries) {
-        this.mListCountries = _listCountries;
+
+        List<CountryModel> tempList = new ArrayList<>();
+        int i = 0;
+        for (CountryModel country : _listCountries) {
+            if (country.getCountryIso().equalsIgnoreCase(App.getCurrentLocationISO()) || (country.getCountryIso().equalsIgnoreCase(Constants.UNITED_KINGDOM_ISO) && App.getCurrentLocationISO().equalsIgnoreCase(Constants.REAL_UNITED_KINGDOM_ISO))) {
+
+                tempList.add(country);
+                _listCountries.remove(i);
+                i++;
+            }
+        }
+        tempList.addAll(_listCountries);
+        this.mListCountries = tempList;
         notifyDataSetChanged();
     }
 

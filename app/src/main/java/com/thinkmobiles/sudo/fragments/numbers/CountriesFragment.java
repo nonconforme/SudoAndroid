@@ -41,8 +41,7 @@ public class CountriesFragment extends BaseNumbersFragment implements AdapterVie
         setListeners();
 
         changeToolbarTitleAndImage(R.string.countries);
-        String locale = mActivity.getResources().getConfiguration().locale.getISO3Country();
-        Log.d("countryr   ", locale);
+
 
         return mView;
     }
