@@ -131,7 +131,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
 
-        App.setCurrentChat(new String[]{mCompanionNumber, mOwnerNumber});
+
 
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title) + "          " +
                 mCompanionNumber, 0);
@@ -169,6 +169,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         };
     }
+
 
 
     private void initSocked() {
@@ -223,7 +224,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         super.onDestroy();
         mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
         mSocket.disconnect();
-        App.setCurrentChat(null);
+
     }
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {
@@ -474,7 +475,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             super.onResume();
             Network.isInternetConnectionAvailable(this);
         }
-
+        App.setCurrentChat(new String[]{mCompanionNumber, mOwnerNumber});
     }
 
     @Override
@@ -554,6 +555,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected void onPause() {
         super.onPause();
+        App.setCurrentChat(null);
     }
 
     @Override
