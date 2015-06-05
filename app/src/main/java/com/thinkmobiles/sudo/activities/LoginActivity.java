@@ -30,6 +30,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.setCurrentUser(null);
         setContentView(R.layout.activity_login);
         openLoginFragment();
         isInternetConnectionAvailable(this);

@@ -12,7 +12,6 @@ import android.widget.*;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.BlockNumberActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
-import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.utils.MainToolbarManager;
 import com.thinkmobiles.sudo.utils.StoreNotification;
@@ -45,7 +44,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void loadSettings() {
-        mSwNotification.setChecked(App.isNotificationStatus());
+        mSwNotification.setChecked(StoreNotification.loadNotificationStatus(mActivity));
     }
 
     @Override
@@ -150,7 +149,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
 
             case R.id.swNotification_FS:
-                App.setNotificationStatus(b);
+
                 StoreNotification.storeNotificationsatus(mActivity, b);
         }
 

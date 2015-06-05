@@ -4,9 +4,10 @@ package com.thinkmobiles.sudo.core;
  * Created by Sasha on 20.11.2014.
  */
 public abstract class APIConstants {
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER URLs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//    public static final String SERVER_URL                       = "http://192.168.88.20:8811";
-    public static final String SERVER_URL                       = "http://134.249.164.53:8830";
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER URLs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //  public static final String SERVER_URL                     = "http://192.168.88.155:8830";
+
+    public static final String SERVER_URL = "http://134.249.164.53:8830";
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ API urls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-----
     public static final int API_START_MOBILE                    = 1;
@@ -16,6 +17,8 @@ public abstract class APIConstants {
     public static final int API_GET_FAVOURITE                   = 5;
     public static final int API_FAVOURITE_ID                    = 6;
 
+
+    public static final String PUSH = "/push/channel";
 
     public static final String URL_START_MOBILE                 = "/startMobile";
     public static final String URL_END_MOBILE                   = "/endMobile";

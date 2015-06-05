@@ -108,7 +108,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
     private void updateProfile(final String _oldName, final UserModel _userModel) throws UnsupportedEncodingException {
         ProgressDialogWorker.createDialog(this);
-        RetrofitAdapter.getInterface().updateContact(JsonHelper.makeJson(_userModel), _oldName, mUpdateContactCB);
+        RetrofitAdapter.getInterface().updateContact(JsonHelper.makeJsonUserModel(_userModel), _oldName, mUpdateContactCB);
 
     }
 

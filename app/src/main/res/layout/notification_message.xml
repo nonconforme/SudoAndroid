@@ -12,11 +12,11 @@
 
 
     <ImageView
-            android:id="@+id/ivChatAvatar"
+            android:id="@+id/ivNotivIcon_NT"
             style="@style/SChatsItemEVAvatar"
             android:layout_gravity="center"
             android:contentDescription="@string/avatar"
-        android:src="@drawable/ic_man_chat" />
+            android:src="@drawable/ic_man_chat"/>
 
 
     <LinearLayout
@@ -38,37 +38,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unknown"
-                    android:id="@+id/tvChatCompanion" style="@style/SChatsItemTVName" android:layout_weight="1"/>
+                    android:id="@+id/tvSenderNumber_NT"
+                    style="@style/TVNotification_NT"
+
+                    android:layout_weight="1"/>
             <TextView
-                    android:id="@+id/tvChatItemTimedate"
-                    style="@style/SChatsItemTVTimedate"
+                    android:id="@+id/tvTimedate_NT"
+                    style="@style/TVNotification_NT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:text="@string/unknown"/>
 
         </LinearLayout>
 
-        <TextView
-                android:id="@+id/tvChatItemSenderNumber"
-                style="@style/SChatsItemTVNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/unknown"/>
-        <TextView
-                android:id="@+id/tvChatItemReceiverDetails"
-                style="@style/SChatsItemTVNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/unknown"/>
 
         <TextView
-                android:id="@+id/tvChatItemMessagePreview"
-                style="@style/SChatsItemTVMessagePreview"
+                android:id="@+id/tvMessagePreview_NT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/TVNotification_NT"
+
                 android:text="@string/unknown"/>
 
     </LinearLayout>
 
 
 </LinearLayout>
+
+

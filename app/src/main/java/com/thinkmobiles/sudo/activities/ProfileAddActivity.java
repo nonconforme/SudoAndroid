@@ -124,7 +124,7 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
 
 
     private void addProfile(final UserModel _userModel) {
-        RetrofitAdapter.getInterface().addContact(JsonHelper.makeJson(_userModel), mAddContactCB);
+        RetrofitAdapter.getInterface().addContact(JsonHelper.makeJsonUserModel(_userModel), mAddContactCB);
     }
 
     private void initAddContactCB() {

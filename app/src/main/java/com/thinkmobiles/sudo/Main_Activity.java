@@ -25,16 +25,15 @@ import com.thinkmobiles.sudo.fragments.RechargeCreditsFragment;
 import com.thinkmobiles.sudo.fragments.SettingsFragment;
 import com.thinkmobiles.sudo.fragments.numbers.BaseNumbersFragment;
 import com.thinkmobiles.sudo.fragments.numbers.NumberMainFragment;
+import com.thinkmobiles.sudo.gcm.DeviceManager;
 import com.thinkmobiles.sudo.gcm.GcmHelper;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
+import com.thinkmobiles.sudo.models.DeviceID;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;
-import com.thinkmobiles.sudo.utils.ContactManager;
-import com.thinkmobiles.sudo.utils.FragmentReplacer;
-import com.thinkmobiles.sudo.utils.MainToolbarManager;
-import com.thinkmobiles.sudo.utils.Utils;
+import com.thinkmobiles.sudo.utils.*;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -74,6 +73,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private String mTitle;
 
+    private Callback<DefaultResponseModel> mGCMCallback;
 
     public void refreshDrawerMenu() {
         initDrawerMenuList();
@@ -84,7 +84,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        userNullCheck();
         setContentView(R.layout.activity_main);
         initToolbar();
         initProgressBar();
@@ -93,9 +93,18 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         findHeaderUI();
 
         initSignOutCB();
+        initGCMCallback();
         registerGCM();
+        sendDeviceId();
     }
 
+    private void userNullCheck() {
+        if (App.getCurrentUser() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
     private void registerGCM() {
         gcmHelper = new GcmHelper(this);
         gcmHelper.registerDevice();
@@ -486,5 +495,29 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
         return false;
+    }
+
+
+    private void sendDeviceId() {
+
+        DeviceID deviceID = new DeviceID();
+        deviceID.setChannelId(DeviceManager.loadIds(this));
+        deviceID.setProvider("GOOGLE");
+        RetrofitAdapter.getInterface().sendDeviceId(JsonHelper.makeJsonDeviceId(deviceID), mGCMCallback);
+
+    }
+
+    private void initGCMCallback() {
+        mGCMCallback = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                Log.d("DeviceID", "Succees");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
     }
 }

@@ -13,6 +13,9 @@ public abstract class Constants {
 
     public final static String REAL_UNITED_KINGDOM_ISO = "UK";
 
+    public final static String SENDER = "sender";
+    public final static String RECEIVER = "receiver";
+    public final static String TEXT = "text";
 
 
 

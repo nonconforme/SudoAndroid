@@ -117,6 +117,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userNullCheck();
         initSelectionHelper();
         createSocket();
         loadContent();
@@ -347,6 +348,14 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+    private void userNullCheck() {
+        if (App.getCurrentUser() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
 
     private void sendMessage(final String _message) {
         RetrofitAdapter.getInterface().senMessage(mOwnerNumber, mCompanionNumber, _message, Constants.SMS, mSendMessageCB);
@@ -380,6 +389,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         activity.overridePendingTransition(0, 0);
 
     }
+
 
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {

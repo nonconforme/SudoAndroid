@@ -5,7 +5,6 @@ import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import com.thinkmobiles.sudo.global.App;
 
 import java.io.IOException;
@@ -59,7 +58,6 @@ public class LocationUtility {
                     e.printStackTrace();
                 }
 
-                Log.d("Current location iso = ", address.getCountryCode());
                 App.setCurrentLocationISO(address.getCountryCode());
             }
 

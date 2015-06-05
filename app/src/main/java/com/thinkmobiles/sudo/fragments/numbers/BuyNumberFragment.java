@@ -169,8 +169,9 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
         profileModel.setEmail(_profile.getUser().getEmail());
         profileModel.setNumbers(_profile.getUser().getNumbers());
         profileModel.setCredits(_profile.getUser().getCredits());
-
-        App.setCurrentUser(profileModel);
+        if (_profile != null) {
+            App.setCurrentUser(profileModel);
+        }
         if (!_profile.getUser().getNumbers().isEmpty()) {
             App.setCurrentMobile(_profile.getUser().getNumbers().get(0).getNumber());
         } else {

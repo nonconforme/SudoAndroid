@@ -87,6 +87,7 @@
                 android:name=".activities.ChatActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateHidden"
+                android:launchMode="singleTop"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.TransparentActivity">
 

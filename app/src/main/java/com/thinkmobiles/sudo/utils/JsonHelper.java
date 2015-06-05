@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thinkmobiles.sudo.models.BlockNumber;
+import com.thinkmobiles.sudo.models.DeviceID;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public abstract class JsonHelper {
 
-    public static TypedJsonString makeJson(UserModel _userModel) {
+    public static TypedJsonString makeJsonUserModel(UserModel _userModel) {
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
         String temp = gson.toJson(_userModel);
         TypedJsonString request = new TypedJsonString(temp);
@@ -27,4 +28,12 @@ public abstract class JsonHelper {
         TypedJsonString request = new TypedJsonString(temp);
         return request;
     }
+
+    public static TypedJsonString makeJsonDeviceId(DeviceID deviceID) {
+        Gson gson = new GsonBuilder().create();
+        String temp = gson.toJson(deviceID);
+        TypedJsonString request = new TypedJsonString(temp);
+        return request;
+    }
+
 }
