@@ -72,8 +72,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private ChatSelectionHelper mSelectionHelper;
 
     private int drawingStartLocation;
-    /*  private boolean selectMode = false;
-      private boolean[] selectionArray;*/
+
     private int mPageCount = 0;
     private int mLength = 6;
     private String mOwnerNumber;
@@ -131,6 +130,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initSocked();
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
+
+        App.setCurrentChat(new String[]{mCompanionNumber, mOwnerNumber});
 
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title) + "          " +
                 mCompanionNumber, 0);
@@ -222,6 +223,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         super.onDestroy();
         mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
         mSocket.disconnect();
+        App.setCurrentChat(null);
     }
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {
@@ -332,9 +334,12 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     private void loadChat() {
-        mOwnerNumber = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.FROM_NUMBER);
-        mCompanionNumber = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.TO_NUMBER);
-        mAvatarUrl = getIntent().getExtras().getBundle(Constants.BUNDLE).getString(Constants.AVATAR);
+        Bundle b = getIntent().getExtras().getBundle(Constants.BUNDLE);
+        mAvatarUrl = b.getString(Constants.AVATAR);
+        mOwnerNumber = b.getString(Constants.FROM_NUMBER);
+        mCompanionNumber = b.getString(Constants.TO_NUMBER);
+
+
         mMessageModelList = new ArrayList<>();
     }
 

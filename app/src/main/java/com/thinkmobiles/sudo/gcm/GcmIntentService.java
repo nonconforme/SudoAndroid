@@ -1,9 +1,7 @@
 package com.thinkmobiles.sudo.gcm;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +14,7 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
+import com.thinkmobiles.sudo.utils.NotificationNameAndAvatarHelper;
 import com.thinkmobiles.sudo.utils.StoreNotification;
 
 import java.text.SimpleDateFormat;
@@ -62,44 +61,57 @@ public class GcmIntentService extends IntentService {
 
 
     private void sendNotification(String sender, String receiver, String text) {
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
 
 
         RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_message);
         contentView.setImageViewResource(R.id.ivNotivIcon_NT, R.mipmap.ic_launcher);
-        contentView.setTextViewText(R.id.tvSenderNumber_NT, sender);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String currentDateandTime = sdf.format(new Date());
 
-        contentView.setTextViewText(R.id.tvTimedate_NT, currentDateandTime);
+        String [] senderDetailes = NotificationNameAndAvatarHelper.discoverCompanionNameAndAvatar(sender);
+        String avatar = senderDetailes[1];
+        contentView.setTextViewText(R.id.tvSenderNumber_NT, senderDetailes[0]);
 
+        contentView.setTextViewText(R.id.tvTimedate_NT, currentDateandTime);
         contentView.setTextViewText(R.id.tvMessagePreview_NT, text);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_big_man).setContentTitle(getResources().getString(R.string.app_name)).setVibrate(new long[]{1000, 500, 500, 500, 1000}).setLights(Color.RED, 3000, 3000).setContent(contentView).setAutoCancel(true);
 
 
-        mBuilder.setContentIntent(setPendingIntent(sender, receiver));
-        if (App.getCurrentUser() != null) {
-            mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mBuilder.setContentIntent(setPendingIntent(sender, receiver, avatar));
+        if (App.getCurrentUser() != null && !isCurrentChat(sender, receiver)) {
+            App.getmNotificationManager().notify(NOTIFICATION_ID, mBuilder.build());
         }
     }
+    private boolean isCurrentChat(String receiver, String sender){
+        String [] thisChat = {receiver,sender};
+        if(App.getCurrentChat() == null)
+            return false;
+        if(App.getCurrentChat()[0].equalsIgnoreCase(thisChat[0]) && App.getCurrentChat()[1].equalsIgnoreCase
+                (thisChat[1]))
+            return true;
 
+        return false;
+    }
     private void sendReloadChatsBroadcast() {
         Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
         sendBroadcast(reloadChats);
     }
 
-    private PendingIntent setPendingIntent(String sender, String receiver) {
+    private PendingIntent setPendingIntent(String sender, String receiver, String avatar) {
         PendingIntent contentIntent;
         Intent intent = new Intent(this, ChatActivity.class);
 
         Bundle b = new Bundle();
         b.putString(Constants.FROM_NUMBER, receiver);
         b.putString(Constants.TO_NUMBER, sender);
-        b.putString(Constants.AVATAR, null);
+        b.putString(Constants.AVATAR,  avatar);
+
 
         intent.putExtra(Constants.BUNDLE, b);
+
         contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         return contentIntent;

@@ -51,7 +51,7 @@ public abstract class Constants {
     public static final String CONFIRM_PASSWORD             = "confirmnewpass";
     public static final String PASSWORD                     = "password";
     public static final String PROVIDER                     = "provider";
-    public static final String AVATAR                       = "avatar";
+    public static final String AVATAR                       = "avatarRWEQRWERWEQRQWE";
     public static final String PARAM_NUMBER                 = "number";
     public static final String PARAM_PACKAGE_NAME           = "packageName";
     public static final String QUERRY                       = "q";

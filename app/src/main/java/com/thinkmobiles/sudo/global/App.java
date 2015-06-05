@@ -1,6 +1,8 @@
 package com.thinkmobiles.sudo.global;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.content.Context;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 
 import java.util.List;
@@ -21,7 +23,17 @@ public class App extends Application {
     private static String uId;
     private static String currentISO;
     private static String currentLocationISO;
+    private static NotificationManager mNotificationManager;
 
+    private static String [] curreentChat;
+
+    public static String[] getCurrentChat() {
+        return curreentChat;
+    }
+
+    public static void setCurrentChat(String[] curreentChat) {
+        App.curreentChat = curreentChat;
+    }
 
     public static String getCurrentLocationISO() {
         return currentLocationISO;
@@ -31,14 +43,22 @@ public class App extends Application {
         App.currentLocationISO = currentLocationISO;
     }
 
+    public static NotificationManager getmNotificationManager() {
+        return mNotificationManager;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        mNotificationManager.cancelAll();
+    }
 
     public static String getCurrentChats() {
         return currentChats;

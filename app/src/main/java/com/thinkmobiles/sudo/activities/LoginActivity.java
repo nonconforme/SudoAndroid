@@ -29,6 +29,7 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        App.getmNotificationManager().cancelAll();
         super.onCreate(savedInstanceState);
         App.setCurrentUser(null);
         setContentView(R.layout.activity_login);
