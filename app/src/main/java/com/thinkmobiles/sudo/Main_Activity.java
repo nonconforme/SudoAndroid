@@ -29,7 +29,6 @@ import com.thinkmobiles.sudo.gcm.DeviceManager;
 import com.thinkmobiles.sudo.gcm.GcmHelper;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.DeviceID;
 import com.thinkmobiles.sudo.models.DrawerMenuItemModel;

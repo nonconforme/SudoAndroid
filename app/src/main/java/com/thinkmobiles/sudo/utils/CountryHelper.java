@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.thinkmobiles.sudo.R;
-import com.thinkmobiles.sudo.global.CircleTransform;
 
 import static com.thinkmobiles.sudo.global.Constants.*;
 /**

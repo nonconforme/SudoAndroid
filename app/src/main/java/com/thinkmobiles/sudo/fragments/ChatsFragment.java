@@ -440,6 +440,10 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             }
         }).show();
     }
+    private void sendReloadChatsBroadcast() {
+        Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
+        mActivity.sendBroadcast(reloadChats);
+    }
 
 
 

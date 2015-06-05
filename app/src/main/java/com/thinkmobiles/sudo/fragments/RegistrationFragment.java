@@ -16,6 +16,7 @@ import com.thinkmobiles.sudo.activities.LoginActivity;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.LoginResponse;
 import com.thinkmobiles.sudo.utils.ColorHelper;
+import com.thinkmobiles.sudo.utils.Network;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -87,7 +88,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
             return false;
         }
         if (!p2.matches("\\w+")) {
-              showToast(mActivity.getString(R.string.password_should_have_only_az_09));
+            showToast(mActivity.getString(R.string.password_should_have_only_az_09));
             return false;
 
         }
@@ -100,7 +101,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         String target = et.getText().toString();
         if (TextUtils.isEmpty(target) || !android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
             showToast(mActivity.getString(R.string.not_an_email));
-             return false;
+            return false;
 
         } else {
             return true;
@@ -121,7 +122,9 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     }
 
     private void signUpRequest() {
-        RetrofitAdapter.getInterface().signUp(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignUpCB);
+        if (Network.isInternetConnectionAvailable(mActivity)) {
+            RetrofitAdapter.getInterface().signUp(mETEmail.getText().toString(), mETPassword.getText().toString(), mSignUpCB);
+        }
     }
 
     private void initSignUpCB() {
@@ -150,6 +153,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         ColorHelper.changeEditTextUnderlineColor(mETPassword);
         ColorHelper.changeEditTextUnderlineColor(mETConfirmPass);
     }
+
     private void showToast(String text) {
         if (showToast) {
             mToast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();

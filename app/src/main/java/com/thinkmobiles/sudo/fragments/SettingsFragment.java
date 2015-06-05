@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void loadSettings() {
-        mSwNotification.setChecked(StoreNotification.loadNotificationStatus(mActivity));
+        mSwNotification.setChecked(!StoreNotification.loadNotificationStatus(mActivity));
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
             case R.id.swNotification_FS:
 
-                StoreNotification.storeNotificationsatus(mActivity, b);
+                StoreNotification.storeNotificationsatus(mActivity, !b);
         }
 
 

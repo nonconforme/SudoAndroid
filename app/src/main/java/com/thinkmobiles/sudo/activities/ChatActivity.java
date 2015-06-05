@@ -28,14 +28,10 @@ import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.SendCommentButton;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.global.Network;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
-import com.thinkmobiles.sudo.utils.ChatSelectionHelper;
-import com.thinkmobiles.sudo.utils.ContactManager;
-import com.thinkmobiles.sudo.utils.ToolbarManager;
-import com.thinkmobiles.sudo.utils.Utils;
+import com.thinkmobiles.sudo.utils.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit.Callback;
@@ -254,6 +250,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 mMessageModelList.add(0, mSendMessageModel);
                 mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
                 btnSend.setCurrentState(SendCommentButton.STATE_DONE);
+                sendReloadChatsBroadcast();
             }
 
             @Override
@@ -570,6 +567,9 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         stopSelectionMode();
     }
 
-
+    private void sendReloadChatsBroadcast() {
+        Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
+        sendBroadcast(reloadChats);
+    }
 }
 

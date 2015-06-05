@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.global.CircleTransform;
 
 
 /**

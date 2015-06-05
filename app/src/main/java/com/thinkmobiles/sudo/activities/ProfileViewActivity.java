@@ -26,11 +26,11 @@ import com.thinkmobiles.sudo.adapters.ProfileViewNumbersAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.custom_views.NonScrollListView;
 import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.ColorModel;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.CircleTransform;
 import com.thinkmobiles.sudo.utils.Utils;
 
 import java.util.List;

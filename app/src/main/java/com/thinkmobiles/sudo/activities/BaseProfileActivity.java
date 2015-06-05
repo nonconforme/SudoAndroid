@@ -13,7 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.global.App;
-import com.thinkmobiles.sudo.global.Network;
+import com.thinkmobiles.sudo.utils.Network;
 
 
 public abstract class BaseProfileActivity extends ActionBarActivity {

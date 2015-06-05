@@ -21,9 +21,9 @@ import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.BaseProfileActivity;
 import com.thinkmobiles.sudo.activities.ProfileEditActivity;
 import com.thinkmobiles.sudo.core.APIConstants;
-import com.thinkmobiles.sudo.global.CircleTransform;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.utils.CircleTransform;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.ArrayList;

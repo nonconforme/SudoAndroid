@@ -1,4 +1,4 @@
-package com.thinkmobiles.sudo.global;
+package com.thinkmobiles.sudo.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;

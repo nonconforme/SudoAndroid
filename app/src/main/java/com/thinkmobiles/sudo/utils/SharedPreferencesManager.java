@@ -1,10 +1,11 @@
-package com.thinkmobiles.sudo.global;
+package com.thinkmobiles.sudo.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.thinkmobiles.sudo.Main_Activity;
+import com.thinkmobiles.sudo.global.Constants;
 
 /**
  * Created by Sasha on 17.10.2014.

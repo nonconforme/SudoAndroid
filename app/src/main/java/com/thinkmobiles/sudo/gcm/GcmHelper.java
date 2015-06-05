@@ -8,7 +8,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thinkmobiles.sudo.global.Constants;
-import com.thinkmobiles.sudo.global.SharedPreferencesManager;
+import com.thinkmobiles.sudo.utils.SharedPreferencesManager;
 
 import java.io.IOException;
 

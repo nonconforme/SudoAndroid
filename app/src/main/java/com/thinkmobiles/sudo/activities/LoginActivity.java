@@ -17,7 +17,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static com.thinkmobiles.sudo.global.Network.isInternetConnectionAvailable;
+import static com.thinkmobiles.sudo.utils.Network.isInternetConnectionAvailable;
 
 /**
  * Created by njakawaii on 09.04.2015.
