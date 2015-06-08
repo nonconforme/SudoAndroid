@@ -147,6 +147,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                     hideProgressBar();
                     reloadList();
                     App.setCurrentChats(String.valueOf(mChatAdapter.getCount()));
+                    App.setCurrentChats(String.valueOf(countAllUnreadCahts(mChatsList)));
                     mActivity.refreshDrawerMenu();
                 }
             }
@@ -189,7 +190,8 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
                     mPageCount++;
                     mChatsList.addAll(lastChatsModel);
                     updateList(mChatsList);
-                    App.setCurrentChats(String.valueOf(mChatAdapter.getCount()));
+                    App.setCurrentChats(String.valueOf(countAllUnreadCahts(mChatsList)));
+
                     mActivity.refreshDrawerMenu();
                 }
             }
@@ -440,12 +442,24 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
             }
         }).show();
     }
+
     private void sendReloadChatsBroadcast() {
         Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
         mActivity.sendBroadcast(reloadChats);
     }
 
 
+    private int countAllUnreadCahts(List<LastChatsModel> messageModelList) {
+        int counter = 0;
+
+        for (LastChatsModel model : messageModelList) {
+            if (model.getUnread() > 0) {
+                counter++;
+            }
+        }
+
+        return counter;
+    }
 
 
 }

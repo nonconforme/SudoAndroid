@@ -320,6 +320,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onBackPressed() {
         Utils.hideSoftKeyboard(this);
+        Intent changeTabIntent = new Intent(Constants.SEARCH);
+
+        changeTabIntent.putExtra(Constants.SEARCH, false);
+        sendBroadcast(changeTabIntent);
         contentRoot.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
