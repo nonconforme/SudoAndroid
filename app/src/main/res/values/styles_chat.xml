@@ -55,6 +55,7 @@
 
     <style name="SChatsItemEVAvatar">
         <item name="android:src">@drawable/ic_launcher</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_width">@dimen/schats_avatar_size</item>
         <item name="android:layout_height">@dimen/schats_avatar_size</item>
         <item name="android:layout_marginLeft">@dimen/schats_margin_left_right</item>
@@ -65,6 +66,7 @@
     <style name="SChatItemEVAvatar">
         <item name="android:layout_width">@dimen/schat_avatar_size</item>
         <item name="android:layout_height">@dimen/schat_avatar_size</item>
+        <item name="android:background">@android:color/transparent</item>
 
 
     </style>

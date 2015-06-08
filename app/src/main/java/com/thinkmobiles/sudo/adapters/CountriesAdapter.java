@@ -74,7 +74,18 @@ public class CountriesAdapter extends BaseAdapter {
         List<CountryModel> tempList = new ArrayList<>();
         int i = 0;
         for (CountryModel country : _listCountries) {
-            if (country.getCountryIso().equalsIgnoreCase(App.getCurrentLocationISO()) || (country.getCountryIso().equalsIgnoreCase(Constants.UNITED_KINGDOM_ISO) && App.getCurrentLocationISO().equalsIgnoreCase(Constants.REAL_UNITED_KINGDOM_ISO))) {
+            if (App.getCurrentLocationISO()!= null
+                    && country.getCountryIso().equalsIgnoreCase(App
+                    .getCurrentLocationISO()) ||
+
+
+                    (
+                           App
+                            .getCurrentLocationISO()!= null &&
+            country.getCountryIso().equalsIgnoreCase(Constants.UNITED_KINGDOM_ISO)
+                            &&
+                            App.getCurrentLocationISO().equalsIgnoreCase(Constants.REAL_UNITED_KINGDOM_ISO))
+                           ) {
 
                 tempList.add(country);
                 _listCountries.remove(i);

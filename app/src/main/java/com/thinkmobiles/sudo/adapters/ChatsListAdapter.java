@@ -94,6 +94,8 @@ public class ChatsListAdapter extends BaseAdapter {
                 mChatsNameAndAvatarHelper.setCompanionNameAndAvatar(holder.tvCompanion, holder.ivAvatar, lastMessage,
                         position, mAvatarUrlMap);
                 setSelectionState(holder.ivAvatar, holder.container, position);
+                holder.tvUnread_CI.setText(String.valueOf( thisChat.getUnread()));
+                if(thisChat.getUnread() == 0){holder.tvUnread_CI.setVisibility(View.GONE);}
             }
         }
         return view;
@@ -109,13 +111,15 @@ public class ChatsListAdapter extends BaseAdapter {
         holder.tvCompanion = (TextView) view.findViewById(R.id.tvChatCompanion);
         holder.container = (LinearLayout) view.findViewById(R.id.llChatItemContainer);
         holder.ivAvatar = (ImageView) view.findViewById(R.id.ivChatAvatar);
+        holder.tvUnread_CI = (TextView) view.findViewById(R.id.tvUnread_CI);
+
         return holder;
     }
 
 
     private class ViewHolder {
         ImageView ivAvatar;
-        TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvCompanion;
+        TextView tvSenderNumber, tvReceiverNumber, tvMessagePreview, tvItemTimedate, tvCompanion, tvUnread_CI;
         LinearLayout container;
 
     }

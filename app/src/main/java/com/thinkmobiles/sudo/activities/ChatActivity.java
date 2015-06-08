@@ -31,6 +31,7 @@ import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.models.chat.ReadModel;
 import com.thinkmobiles.sudo.utils.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,10 +58,13 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
     private Callback<DefaultResponseModel> mDeleteMessageCB;
+    private Callback<DefaultResponseModel> mReadMessageCallback;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MenuItem menuItemDelete;
     private Toolbar toolbar;
     private Socket mSocket;
+
+    private ReadModel readModel;
 
     private List<MessageModel> mMessageModelList;
     private MessageModel mSendMessageModel;
@@ -126,7 +130,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initSocked();
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
-
+        initReadMessageCB();
 
 
         ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title) + "          " +
@@ -165,7 +169,6 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         };
     }
-
 
 
     private void initSocked() {
@@ -260,6 +263,20 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         };
     }
 
+    private void initReadMessageCB() {
+        mReadMessageCallback = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                sendReloadChatsBroadcast();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        };
+    }
+
 
     private void initGetMessageCB() {
         mMessagesCB = new Callback<List<MessageModel>>() {
@@ -276,6 +293,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                     mChatList.setSelection(messageModel.size());
                     if (messageModel.size() > 0) mChatList.smoothScrollToPosition(messageModel.size() - 1);
 
+                    readMessage(makeReadList(messageModel));
                 }
 
             }
@@ -286,6 +304,17 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 Toast.makeText(ChatActivity.this, getString(R.string.error_sending_message), Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    private List<String> makeReadList(List<MessageModel> messageModelList) {
+        List<String> readList = new ArrayList<>();
+        for (MessageModel message : messageModelList) {
+            readList.add(message.get_id());
+        }
+
+
+        return readList;
+
     }
 
     @Override
@@ -571,5 +600,14 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
         sendBroadcast(reloadChats);
     }
+
+    private void readMessage(List<String> read) {
+        readModel = new ReadModel();
+        readModel.setRead(read);
+        RetrofitAdapter.getInterface().messageRead(JsonHelper.makeJsonReadModel(readModel), mReadMessageCallback);
+
+    }
+
+
 }
 

@@ -2,8 +2,10 @@ package com.thinkmobiles.sudo;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -74,6 +76,24 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     private Callback<DefaultResponseModel> mGCMCallback;
 
+    private BroadcastReceiver changeTabBroadcastReceiver;
+
+    private void initchangeTabBroadcastReceiver() {
+        changeTabBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mToolbarManager.enableSearchView(intent.getBooleanExtra(Constants.SEARCH, false));
+                invalidateOptionsMenu();
+            }
+        };
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(changeTabBroadcastReceiver);
+    }
+
     public void refreshDrawerMenu() {
         initDrawerMenuList();
         mDrawerMenuAdapter.reloadList(mDrawerMenuList);
@@ -90,11 +110,12 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         openHomeFragment();
         initDrawer();
         findHeaderUI();
-
+        initchangeTabBroadcastReceiver();
         initSignOutCB();
         initGCMCallback();
         registerGCM();
         sendDeviceId();
+
     }
 
     private void userNullCheck() {
@@ -104,6 +125,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
             finish();
         }
     }
+
     private void registerGCM() {
         gcmHelper = new GcmHelper(this);
         gcmHelper.registerDevice();
@@ -139,6 +161,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
         } else {
             setHeaderContent();
         }
+        registerReceiver(changeTabBroadcastReceiver, new IntentFilter(Constants.SEARCH));
     }
 
     private void openLoginActivity() {

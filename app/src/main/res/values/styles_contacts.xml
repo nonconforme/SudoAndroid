@@ -112,7 +112,7 @@
         <item name="android:layout_gravity">center_horizontal|center_vertical</item>
         <item name="android:layout_width">@dimen/sc_item_icon_size</item>
         <item name="android:layout_height">@dimen/sc_item_icon_size</item>
-
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">6dp</item>
     </style>
 
@@ -168,7 +168,7 @@
         <item name="android:width">@dimen/avc_change_avatar_size</item>
         <item name="android:height">@dimen/avc_change_avatar_size</item>
         <item name="android:layout_marginLeft">@dimen/avc_margin</item>
-
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AVC_Detailes_Button_Change">

@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.thinkmobiles.sudo.models.BlockNumber;
 import com.thinkmobiles.sudo.models.DeviceID;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
+import com.thinkmobiles.sudo.models.chat.ReadModel;
 
 import java.util.List;
 
@@ -32,6 +33,12 @@ public abstract class JsonHelper {
     public static TypedJsonString makeJsonDeviceId(DeviceID deviceID) {
         Gson gson = new GsonBuilder().create();
         String temp = gson.toJson(deviceID);
+        TypedJsonString request = new TypedJsonString(temp);
+        return request;
+    }
+    public static TypedJsonString makeJsonReadModel(ReadModel readModel) {
+        Gson gson = new GsonBuilder().create();
+        String temp = gson.toJson(readModel);
         TypedJsonString request = new TypedJsonString(temp);
         return request;
     }

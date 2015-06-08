@@ -103,6 +103,14 @@ class SlidingTabStrip extends LinearLayout {
         mSelectionOffset = positionOffset;
         invalidate();
         stopChatTrashMode();
+        Intent changeTabIntent = new Intent(Constants.SEARCH);
+
+        if(position == 0){
+            changeTabIntent.putExtra(Constants.SEARCH,true);
+
+        }
+        else{changeTabIntent.putExtra(Constants.SEARCH,false);}
+        context.sendBroadcast(changeTabIntent);
     }
 
 

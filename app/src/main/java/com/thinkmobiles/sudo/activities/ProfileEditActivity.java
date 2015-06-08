@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
+import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
@@ -100,7 +101,12 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
             b.putSerializable(BaseProfileActivity.USER_MODEL, profileModel);
             intent.putExtra(BaseProfileActivity.USER_MODEL, b);
         }
+
+
+
         setResult(RESULT_OK, intent);
+        sendReloadChatsBroadcast();
+
         finish();
         overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
         ProgressDialogWorker.dismissDialog();
@@ -124,5 +130,11 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         if (count > 1) return true;
         return false;
     }
+
+    private void sendReloadChatsBroadcast() {
+        Intent reloadChats = new Intent(Constants.UPDATE_CHAT_LIST);
+        sendBroadcast(reloadChats);
+    }
+
 }
 

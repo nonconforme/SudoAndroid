@@ -96,4 +96,8 @@ public interface RetrofitInterface {
 
     @POST(APIConstants.PUSH)
     void sendDeviceId(@Body TypedJsonString deviceID, Callback<DefaultResponseModel> callback);
+
+    @PUT(APIConstants.URL_MESSAGE +  APIConstants.READ )
+    void messageRead(@Body TypedJsonString readModel, Callback<DefaultResponseModel> callback );
+
 }
