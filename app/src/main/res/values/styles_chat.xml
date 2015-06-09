@@ -135,6 +135,16 @@
         <item name="android:paddingLeft">4dp</item>
 
     </style>
+
+    <style name="SChatItemTVAudioNumbers">
+
+        <item name="android:textSize">@dimen/schat_item_text_size</item>
+         <item name="android:textStyle">bold</item>
+         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+
+    </style>
     <style name="SChatItemTVNumber">
 
         <item name="android:textSize">@dimen/schat_item_text_size</item>

@@ -5,9 +5,9 @@ package com.thinkmobiles.sudo.core;
  */
 public abstract class APIConstants {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER URLs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //  public static final String SERVER_URL                     = "http://192.168.88.155:8830";
-
-    public static final String SERVER_URL = "http://134.249.164.53:8830";
+    //public static final String SERVER_URL                     = "http://192.168.88.155:8830";
+    /*public static final String SERVER_URL = "http://134.249.164.53:8829";*/
+   public static final String SERVER_URL = "http://134.249.164.53:8830";
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ API urls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-----
     public static final int API_START_MOBILE                    = 1;
@@ -42,11 +42,11 @@ public abstract class APIConstants {
     public static final String URL_NUMBER                       = "/number";
     public static final String URL_NUMBERS                       = "/numbers";
     public static final String API_BLOCK_NUMBERS                = "/block";
-    public static final String VOICE_MESSAGES                  = "/voiceMessages";
-    public static final String AUDIO_FILE                        = "audio_file";
-    public static final String MULTIPART_FILE                   =  "*.mp3";
+    public static final String VOICE_MESSAGES                      = "/voiceMessages";
 
-    public static final String READ                      = "/read";
+
+
+    public static final String READ                              = "/read";
 
 
 

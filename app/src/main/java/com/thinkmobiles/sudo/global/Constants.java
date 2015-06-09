@@ -12,13 +12,13 @@ public abstract class Constants {
     public final static String AUSTRALIA_ISO = "AU";
 
     public final static String REAL_UNITED_KINGDOM_ISO = "UK";
-
+    public final static String SEEK_VOICE_PLAYER = "SEEK_VOICE_PLAYER";
     public final static String SENDER = "sender";
     public final static String RECEIVER = "receiver";
     public final static String TEXT = "text";
+    public final static String CONTACTS = "pseudo.contacts";
 
-
-
+    public final static String COMPANION = "companion";
     public final static String TRASH_INTENT = "trash";
     public final static String ACCEPT = "ACCEPT";
     public final static String CANCEL = "CANCEL";
@@ -58,6 +58,10 @@ public abstract class Constants {
     public static final String PAGE                         = "p";
     public static final String LENGTH                       = "l";
     public static final String BUNDLE                       = "bundle";
+    public static final String DST                             = "dst";
+    public static final String SRC                         = "src";
+    public static final String VOICE_MSG_FILE                    = "voiceMsgFile";
+    public static final String MULTIPART_FILE                   =  "multipart/form-data";
 
     public static final String PARAM_REG_ID                 = "regId";
     public static final String PROPERTY_APP_VERSION         = "app_version";

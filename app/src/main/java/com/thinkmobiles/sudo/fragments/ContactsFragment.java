@@ -58,9 +58,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     private Callback<DefaultResponseModel> mDeleteCB;
 
 
-    private BroadcastReceiver mSearchBroadcastReceiver, mDeleteContactBroadcastReceiver;
+    private BroadcastReceiver mSearchBroadcastReceiver, mDeleteContactBroadcastReceiver, reloadBroadcastReceiver;
     private SwipeRefreshLayout.OnRefreshListener mSwipeRefreshListener;
-    private IntentFilter mSearchFilter, mDeleteContactFilter;
+    private IntentFilter mSearchFilter, mDeleteContactFilter, mReloadFilter;
 
     private int contactToDelete;
 
@@ -75,6 +75,16 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
     }
 
 
+    private void createReloadBroadcastReceiver() {
+        mReloadFilter = new IntentFilter(Constants.CONTACTS);
+        reloadBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                makeGetUserRequest();
+            }
+        };
+    }
+
     private void createSearchViewBroadcastReseiver() {
         mSearchFilter = new IntentFilter(Constants.QUERRY);
         mSearchBroadcastReceiver = new BroadcastReceiver() {
@@ -84,6 +94,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             }
         };
     }
+
 
     private void createDeleteContactBroadcastReseiver() {
         mDeleteContactFilter = new IntentFilter(Constants.DELETE_CONTACT);
@@ -106,6 +117,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         createSwipeRefreshListener();
         createSearchViewBroadcastReseiver();
         createDeleteContactBroadcastReseiver();
+        createReloadBroadcastReceiver();
         findUI();
         initList();
         setListener();
@@ -150,6 +162,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         super.onResume();
         mActivity.registerReceiver(mSearchBroadcastReceiver, mSearchFilter);
         mActivity.registerReceiver(mDeleteContactBroadcastReceiver, mDeleteContactFilter);
+        mActivity.registerReceiver(reloadBroadcastReceiver, mReloadFilter);
+
     }
 
     @Override
@@ -162,6 +176,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             mActivity.unregisterReceiver(mDeleteContactBroadcastReceiver);
         } catch (Exception e) {
         }
+
+        try {
+            mActivity.unregisterReceiver( reloadBroadcastReceiver);
+        } catch (Exception e) {
+        }
+
         super.onDestroy();
     }
 

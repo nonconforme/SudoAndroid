@@ -10,7 +10,6 @@ import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.UpdateProfileModel;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.utils.JsonHelper;
-import com.thinkmobiles.sudo.utils.ProgressDialogWorker;
 import com.thinkmobiles.sudo.utils.ToolbarManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -58,6 +57,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         if (!isContactAlreadyExists(mUserModel.getCompanion())) {
             try {
                 if (isProfileChangesValid()) {
+                     mUserModel.setAvatar(null);
                     updateProfile(oldName, mUserModel);
                 }
             } catch (UnsupportedEncodingException e) {
@@ -88,7 +88,7 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                ProgressDialogWorker.dismissDialog();
+
 
             }
         };
@@ -109,11 +109,11 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
 
         finish();
         overridePendingTransition(R.anim.anim_view_profile_slide_in, R.anim.anim_edit_profile_slide_out);
-        ProgressDialogWorker.dismissDialog();
+        /*ProgressDialogWorker.dismissDialog();*/
     }
 
     private void updateProfile(final String _oldName, final UserModel _userModel) throws UnsupportedEncodingException {
-        ProgressDialogWorker.createDialog(this);
+        /*ProgressDialogWorker.createDialog(this);*/
         RetrofitAdapter.getInterface().updateContact(JsonHelper.makeJsonUserModel(_userModel), _oldName, mUpdateContactCB);
 
     }
@@ -136,5 +136,15 @@ public class ProfileEditActivity extends BaseProfileEditActivity {
         sendBroadcast(reloadChats);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            updateProfile( oldName, mUserModel);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

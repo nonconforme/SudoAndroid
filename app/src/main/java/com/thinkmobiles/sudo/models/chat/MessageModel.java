@@ -11,6 +11,24 @@ public class MessageModel implements Serializable{
     private CompanionModel companion;
     private CompanionModel owner;
     private String _id;
+    private String type;
+    private String voiceURL;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVoiceURL() {
+        return voiceURL;
+    }
+
+    public void setVoiceURL(String voiceURL) {
+        this.voiceURL = voiceURL;
+    }
 
     public String get_id() {
         return _id;

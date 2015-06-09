@@ -30,6 +30,9 @@
                         android:layout_alignParentTop="true" android:layout_toLeftOf="@+id/ivAvatar"
                         android:layout_toStartOf="@+id/ivAvatar"
                 >
+            <include layout="@layout/audio_palyer_controls_outgoing"
+                     android:id="@+id/playerContainer" android:layout_below="@+id/tvTimeDate"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <TextView style="@style/SChatItemText"
                       android:textColor="@android:color/white"
                       android:layout_width="match_parent"
@@ -42,10 +45,10 @@
                       android:layout_marginBottom="@dimen/schat_item_margin"/>
             <TextView style="@style/SChatItemTVTimedate"
                       android:textColor="@android:color/white"
-
+                      android:textStyle="bold"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:text="@string/unknown"
-                      android:id="@+id/tvTimeDate" android:textStyle="bold"/>
+                      android:id="@+id/tvTimeDate" />
             <TextView
                     style="@style/SChatItemTVNumber"
                     android:layout_width="wrap_content"

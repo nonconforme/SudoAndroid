@@ -14,7 +14,6 @@ public class UserModel  implements Serializable{
     private List<NumberModel> numbers;
     private String avatar;
     private String credits;
-
     private String email ;
     private ColorModel color;
 

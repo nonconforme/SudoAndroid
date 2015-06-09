@@ -8,6 +8,8 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Sasha on 20.11.2014.
  */
@@ -34,12 +36,15 @@ public abstract class RetrofitAdapter {
             }
         }
     };
+ ;
     private static RetrofitInterface retrofitInterface;
     private static RestAdapter restAdapter;
     public static RetrofitInterface getInterface() {
 
         if (retrofitInterface == null) {
             OkHttpClient client = new OkHttpClient();
+            client.setConnectTimeout(30, TimeUnit.SECONDS); // connect timeout
+            client.setReadTimeout(30, TimeUnit.SECONDS);
             cookieManager = new CustomCookieManager();
             client.setCookieHandler(cookieManager);
             restAdapter = new RestAdapter.Builder().setEndpoint(APIConstants.SERVER_URL).setRequestInterceptor(COOKIES_REQUEST_INTERCEPTOR).setClient(new OkClient(client)).build();

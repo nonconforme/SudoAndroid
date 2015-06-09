@@ -35,10 +35,11 @@ public class ChatsNameAndAvatarHelper {
 
 
     private UserModel getCompanion(String companionNumber) {
-
-        for (UserModel contact : App.getContactsList()) {
-            for (NumberModel numberModel : contact.getNumbers()) {
-                if (numberModel.getNumber().equalsIgnoreCase(companionNumber)) return contact;
+        if (App.getContactsList() != null) {
+            for (UserModel contact : App.getContactsList()) {
+                for (NumberModel numberModel : contact.getNumbers()) {
+                    if (numberModel.getNumber().equalsIgnoreCase(companionNumber)) return contact;
+                }
             }
         }
         return null;
@@ -116,6 +117,7 @@ public class ChatsNameAndAvatarHelper {
             @Override
             public void onSuccess() {
             }
+
             @Override
             public void onError() {
                 Picasso.with(mActivity).load(R.drawable.ic_man).transform(new CircleTransform()).into(imageView);

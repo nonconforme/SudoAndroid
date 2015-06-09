@@ -29,6 +29,9 @@
                         android:id="@+id/relativeLayout3"
                         android:layout_alignParentTop="true" android:layout_toRightOf="@+id/ivAvatar"
                         android:layout_toEndOf="@+id/ivAvatar">
+            <include layout="@layout/audio_palyer_controls_incoming"
+                     android:id="@+id/playerContainer" android:layout_below="@+id/tvTimeDate"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <TextView style="@style/SChatItemText"
                       android:textColor="@android:color/black"
                       android:layout_width="match_parent"

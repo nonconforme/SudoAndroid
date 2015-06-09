@@ -162,8 +162,8 @@ public class ProfileAddActivity extends BaseProfileEditActivity implements Revea
     }
 
     private void sendSearchBroadcastQuery(String query) {
-        Intent broadcastIntent = new Intent(Constants.QUERRY);
-        broadcastIntent.putExtra(Constants.QUERRY, query);
+        Intent broadcastIntent = new Intent(Constants.CONTACTS);
+
         sendBroadcast(broadcastIntent);
     }
 }

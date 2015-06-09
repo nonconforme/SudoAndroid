@@ -139,7 +139,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         initSendMessageCB();
         initDeleteMessageCB();
         getMessagesPages();
-        initSocked();
+
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
         initReadMessageCB();
@@ -248,8 +248,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
-        mSocket.disconnect();
+
 
     }
 
@@ -552,6 +551,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
             Network.isInternetConnectionAvailable(this);
         }
         App.setCurrentChat(new String[]{mCompanionNumber, mOwnerNumber});
+        initSocked();
     }
 
     @Override
@@ -631,6 +631,8 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     @Override
     protected void onPause() {
         super.onPause();
+        mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
+        mSocket.disconnect();
         App.setCurrentChat(null);
     }
 
@@ -658,18 +660,18 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     }
 
-  /*  private String filePathGenerator(){
+    private String filePathGenerator(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
         String currentDateandTime = sdf.format(new Date());
-        filePath = String.valueOf( getExternalCacheDir() + currentDateandTime + ".mp3");
+        filePath = String.valueOf( getExternalCacheDir() + "/" + currentDateandTime + ".mp3");
         return filePath;
-    }*/
-    private String filePathGenerator(){
+    }
+   /* private String filePathGenerator(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
         String currentDateandTime = sdf.format(new Date());
         filePath = String.valueOf( getExternalFilesDir("this")+ currentDateandTime + ".mp3");
         return filePath;
-    }
+    }*/
 
     private void showRecordDialog(){
         RecordVoiceMessageDialog dialog = RecordVoiceMessageDialog.newInstance(filePathGenerator());
@@ -679,9 +681,13 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     @Override
     public void onSendVoiceMessage() {
+
         Log.d("Sending", filePath);
-        RetrofitAdapter.getInterface().sendVoiceMessage(new TypedFile(APIConstants.MULTIPART_FILE, new File(filePath))
-                ,mSendVoiceCB );
+        RetrofitAdapter.getInterface().sendVoiceMessage( new TypedFile(Constants.MULTIPART_FILE, new File
+                (filePath)),
+                mOwnerNumber,
+                mCompanionNumber,
+                mSendVoiceCB);
     }
 }
 

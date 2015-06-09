@@ -52,6 +52,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_toEndOf="@+id/ivUser_FN"
                     android:layout_toRightOf="@+id/ivUser_FN"
+                    android:inputType="textCapSentences"
                     android:imeOptions="actionDone" />
 
                 <!--   <EditText

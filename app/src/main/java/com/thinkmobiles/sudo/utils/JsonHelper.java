@@ -43,4 +43,11 @@ public abstract class JsonHelper {
         return request;
     }
 
+    public static <T>  TypedJsonString makeJson(T file) {
+        Gson gson = new GsonBuilder().create();
+        String temp = gson.toJson(file);
+        TypedJsonString request = new TypedJsonString(temp);
+        return request;
+    }
+
 }

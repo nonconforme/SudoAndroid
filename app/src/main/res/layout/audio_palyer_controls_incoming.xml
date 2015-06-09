@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar" android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ivPlay" android:layout_toLeftOf="@+id/ivStop"
+            android:layout_toStartOf="@+id/ivStop"/>
+    <TextView
+
+            android:text="New Text"
+            android:id="@+id/tvAudioCurrnet"
+            style="@style/SChatItemTVAudioNumbers"
+            android:textColor="@android:color/black" android:layout_alignTop="@+id/tvAudioRemaining"
+            android:layout_toRightOf="@+id/ivPlay" android:layout_toEndOf="@+id/ivPlay"/>
+    <TextView
+
+            android:text="New Text"
+            android:id="@+id/tvAudioRemaining"
+            style="@style/SChatItemTVAudioNumbers"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/seekBar"
+            android:layout_toLeftOf="@+id/ivStop"
+            android:layout_toStartOf="@+id/ivStop"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivPlay"
+            android:clickable="true"
+            android:src="@android:drawable/ic_media_play" android:layout_above="@+id/tvAudioCurrnet"
+            android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:id="@+id/ivStop"
+            android:src="@android:drawable/ic_media_pause"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+</RelativeLayout>
