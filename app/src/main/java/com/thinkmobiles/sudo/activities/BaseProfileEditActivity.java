@@ -333,10 +333,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         mAdapter.reloadList(myNumberList);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
+
 
     @Override
     protected void onResume() {

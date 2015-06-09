@@ -2,15 +2,14 @@ package com.thinkmobiles.sudo.fragments.numbers;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.Main_Activity;
 import com.thinkmobiles.sudo.adapters.CountriesAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.models.counties.CountryModel;

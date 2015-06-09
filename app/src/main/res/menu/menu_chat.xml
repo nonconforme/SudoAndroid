@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-            android:icon="@drawable/ic_action_overflow"
-            android:orderInCategory="100"
-            android:showAsAction="always"
-            android:id="@+id/action_record"
-            android:title="Record"/>
+
 
 
     <item android:id="@+id/action_detele"
           android:icon="@drawable/ic_action_discard"
-          android:title=""
+          android:title="@string/delete_chats"
           app:showAsAction="always"
             />
-
+    <item
+            android:title="@string/voice_message"
+            android:icon="@drawable/ic_mic_white_24dp"
+            app:showAsAction="always"
+            android:id="@+id/action_record"
+            />
 </menu>

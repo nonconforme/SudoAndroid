@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.thinkmobiles.sudo.adapters.ChatListAdapter;
 import com.thinkmobiles.sudo.core.APIConstants;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.custom_views.SendCommentButton;
+import com.thinkmobiles.sudo.dialogs.RecordVoiceMessageDialog;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
 import com.thinkmobiles.sudo.models.DefaultResponseModel;
@@ -38,15 +41,21 @@ import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
+import java.io.File;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
+public class ChatActivity extends ActionBarActivity implements RecordVoiceMessageDialog.RecordVoiceMessageDialogCallback, AdapterView
+        .OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView mChatList;
@@ -57,6 +66,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
+    private Callback<DefaultResponseModel> mSendVoiceCB;
+
     private Callback<DefaultResponseModel> mDeleteMessageCB;
     private Callback<DefaultResponseModel> mReadMessageCallback;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -78,6 +89,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     private String mOwnerNumber;
     private String mCompanionNumber;
     private String mAvatarUrl;
+    private String filePath;
 
 
     private void initSelectionHelper() {
@@ -131,9 +143,10 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         initDrawingStartLockation();
         initContentObserver(savedInstanceState);
         initReadMessageCB();
+        initVoiceCB();
 
 
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(getString(R.string.chat_title) + "          " +
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(
                 mCompanionNumber, 0);
 
     }
@@ -170,6 +183,20 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
         };
     }
 
+
+    private void initVoiceCB(){
+        mSendVoiceCB = new Callback<DefaultResponseModel>() {
+            @Override
+            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                Log.d("Sendin gvoice message", "Success");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Sendin gvoice message", "Error");
+            }
+        };
+    }
 
     private void initSocked() {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -320,10 +347,27 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onBackPressed() {
         Utils.hideSoftKeyboard(this);
-        Intent changeTabIntent = new Intent(Constants.SEARCH);
 
-        changeTabIntent.putExtra(Constants.SEARCH, false);
-        sendBroadcast(changeTabIntent);
+
+        new  Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent changeTabIntent = new Intent(Constants.SEARCH);
+                        changeTabIntent.putExtra(Constants.SEARCH, false);
+                        sendBroadcast(changeTabIntent);
+                    }
+                });
+            }
+        }).start();
+
         contentRoot.animate().translationY(Utils.getScreenHeight(this)).setDuration(200).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -331,6 +375,8 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 overridePendingTransition(0, 0);
             }
         }).start();
+
+
     }
 
     private void initList() {
@@ -449,7 +495,7 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
                 deleteChatItems();
                 break;
             case R.id.action_record:
-
+                showRecordDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -612,6 +658,30 @@ public class ChatActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+  /*  private String filePathGenerator(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
+        String currentDateandTime = sdf.format(new Date());
+        filePath = String.valueOf( getExternalCacheDir() + currentDateandTime + ".mp3");
+        return filePath;
+    }*/
+    private String filePathGenerator(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
+        String currentDateandTime = sdf.format(new Date());
+        filePath = String.valueOf( getExternalFilesDir("this")+ currentDateandTime + ".mp3");
+        return filePath;
+    }
 
+    private void showRecordDialog(){
+        RecordVoiceMessageDialog dialog = RecordVoiceMessageDialog.newInstance(filePathGenerator());
+        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.RecordDialogFragment);
+        dialog.show(getSupportFragmentManager(),"dlg");
+    }
+
+    @Override
+    public void onSendVoiceMessage() {
+        Log.d("Sending", filePath);
+        RetrofitAdapter.getInterface().sendVoiceMessage(new TypedFile(APIConstants.MULTIPART_FILE, new File(filePath))
+                ,mSendVoiceCB );
+    }
 }
 

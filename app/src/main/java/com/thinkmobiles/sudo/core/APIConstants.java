@@ -42,6 +42,9 @@ public abstract class APIConstants {
     public static final String URL_NUMBER                       = "/number";
     public static final String URL_NUMBERS                       = "/numbers";
     public static final String API_BLOCK_NUMBERS                = "/block";
+    public static final String VOICE_MESSAGES                  = "/voiceMessages";
+    public static final String AUDIO_FILE                        = "audio_file";
+    public static final String MULTIPART_FILE                   =  "*.mp3";
 
     public static final String READ                      = "/read";
 

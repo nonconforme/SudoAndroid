@@ -4,8 +4,8 @@ package com.thinkmobiles.sudo.utils;
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
+import com.thinkmobiles.sudo.activities.Main_Activity;
 import com.thinkmobiles.sudo.global.App;
 
 

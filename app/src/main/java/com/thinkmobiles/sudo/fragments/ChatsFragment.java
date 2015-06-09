@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.thinkmobiles.sudo.Main_Activity;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.activities.ChatActivity;
+import com.thinkmobiles.sudo.activities.Main_Activity;
 import com.thinkmobiles.sudo.adapters.ChatsListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
@@ -133,6 +133,7 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
         iniGetChatsCB();
         initDeleteChatCB();
         reloadList();
+
         return v;
     }
 

@@ -232,5 +232,9 @@
     </style>
 
 
+    <style name="RecordDialogFragment" parent="Theme.AppCompat.Dialog">
+
+    </style>
+
     <!-- end region -->
 </resources>

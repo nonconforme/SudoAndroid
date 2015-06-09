@@ -72,11 +72,11 @@ public abstract class Constants {
 
     public static final String SMS                          = "sms";
 
-    public static final String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'";
-    public static final String CLIENT_DATE_FORMAT = "MMM-dd, hh:mm";
-    public static final String NOTIFICATION = "notification";
-    public static final String SEARCH                = "search";
-
+    public static final String SERVER_DATE_FORMAT           = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'";
+    public static final String CLIENT_DATE_FORMAT           = "MMM-dd, hh:mm";
+    public static final String NOTIFICATION                 = "notification";
+    public static final String SEARCH                        = "search";
+    public static final String VOICE_RECORDER                = "voice_recorder";
 
     /**
      * Authorization

@@ -157,6 +157,8 @@
     <string name="user_created">User created</string>
     <string name="user_already_ecists">User already exists</string>
     <string name="wrong_user_or_pass">Wrong user or password</string>
+    <string name="delete_chats">Delete Chats</string>
+    <string name="voice_message">Voice message</string>
 
 
 </resources>

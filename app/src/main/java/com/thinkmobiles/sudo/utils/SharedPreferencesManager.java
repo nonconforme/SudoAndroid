@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import com.thinkmobiles.sudo.Main_Activity;
+import com.thinkmobiles.sudo.activities.Main_Activity;
 import com.thinkmobiles.sudo.global.Constants;
 
 /**

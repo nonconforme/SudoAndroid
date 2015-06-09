@@ -1,4 +1,4 @@
-package com.thinkmobiles.sudo;
+package com.thinkmobiles.sudo.activities;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.mikepenz.materialdrawer.Drawer;
-import com.thinkmobiles.sudo.activities.LoginActivity;
+import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.DrawerMenuAdapter;
 import com.thinkmobiles.sudo.adapters.DrawerPhoneListAdapter;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
@@ -91,7 +91,8 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(changeTabBroadcastReceiver);
+        try{
+        unregisterReceiver(changeTabBroadcastReceiver);}catch(Exception e){}
     }
 
     public void refreshDrawerMenu() {

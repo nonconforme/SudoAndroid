@@ -31,7 +31,8 @@
     <dimen name="schat_item_big_layout_margin">60dp</dimen>
     <dimen name="schat_item_image_offset_margin">50dp</dimen>
     <dimen name="schat_item_width">250dp</dimen>
-
+    <dimen name="width_dialog_record_btn">96dp</dimen>
+    <dimen name="height_dialog_record_btn">40dp</dimen>
     <!-- end region -->
 
     <!-- COLORS -->
@@ -46,6 +47,11 @@
     <!-- end region -->
 
     <!-- STYLES -->
+    <style name="DialogRecordBtn_CF">
+        <item name="android:layout_width">@dimen/width_dialog_record_btn</item>
+        <item name="android:layout_height">@dimen/height_dialog_record_btn</item>
+        <item name="android:clickable">true</item>
+    </style>
     <style name="SChatsItemLLMainLayout">
         <item name="android:background">@android:color/white</item>
         <item name="android:paddingTop">@dimen/schats_padding</item>

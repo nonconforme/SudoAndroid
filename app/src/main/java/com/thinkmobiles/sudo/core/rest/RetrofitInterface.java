@@ -13,6 +13,7 @@ import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
 import com.thinkmobiles.sudo.utils.TypedJsonString;
 import retrofit.Callback;
 import retrofit.http.*;
+import retrofit.mime.TypedFile;
 
 import java.util.List;
 
@@ -100,4 +101,7 @@ public interface RetrofitInterface {
     @PUT(APIConstants.URL_MESSAGE +  APIConstants.READ )
     void messageRead(@Body TypedJsonString readModel, Callback<DefaultResponseModel> callback );
 
+    @Multipart
+    @POST(APIConstants.VOICE_MESSAGES +  APIConstants.API_SEND )
+    void sendVoiceMessage(@Part(APIConstants.AUDIO_FILE)TypedFile file, Callback<DefaultResponseModel> callback );
 }

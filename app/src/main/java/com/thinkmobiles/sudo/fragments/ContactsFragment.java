@@ -154,8 +154,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onDestroy() {
-        mActivity.unregisterReceiver(mSearchBroadcastReceiver);
-        mActivity.unregisterReceiver(mDeleteContactBroadcastReceiver);
+        try {
+            mActivity.unregisterReceiver(mSearchBroadcastReceiver);
+        } catch (Exception e) {
+        }
+        try {
+            mActivity.unregisterReceiver(mDeleteContactBroadcastReceiver);
+        } catch (Exception e) {
+        }
         super.onDestroy();
     }
 

@@ -83,6 +83,7 @@ public class VoiceRecorder {
 
                     readSize = recorder.read(buffer, 0, minBufferSize);
                     int encResult = SimpleLame.encode(buffer, buffer, readSize, mp3buffer);
+                    Log.d("tag", "recording");
                     try {
                         output.write(mp3buffer, 0, encResult);
                     } catch (IOException e) {

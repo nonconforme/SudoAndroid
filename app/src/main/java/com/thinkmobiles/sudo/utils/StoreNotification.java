@@ -2,7 +2,7 @@ package com.thinkmobiles.sudo.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.thinkmobiles.sudo.Main_Activity;
+import com.thinkmobiles.sudo.activities.Main_Activity;
 import com.thinkmobiles.sudo.global.Constants;
 
 
