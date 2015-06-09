@@ -8,10 +8,27 @@ import android.widget.TextView;
  */
 public class VoiceMessagePlayerCallback{
     private SeekBar mSeekBar;
-    private TextView tvCounter;
+    private TextView tvAudioCurrnet;
+    private TextView  tvAudioRemaining;
 
-    public VoiceMessagePlayerCallback (SeekBar mSeekBar, TextView tvCounter){
-        this.tvCounter = tvCounter;
+
+    public SeekBar getSeekBar() {
+        return mSeekBar;
+    }
+
+
+
+    public TextView getTvAudioCurrnet() {
+        return tvAudioCurrnet;
+    }
+
+    public TextView getTvAudioRemaining() {
+        return tvAudioRemaining;
+    }
+
+    public VoiceMessagePlayerCallback (SeekBar mSeekBar, TextView tvAudioCurrnet,TextView  tvAudioRemaining ){
+        this.tvAudioCurrnet = tvAudioCurrnet;
+        this.tvAudioRemaining = tvAudioRemaining;
         this.mSeekBar = mSeekBar;
     }
 

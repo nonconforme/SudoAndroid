@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -13,10 +14,7 @@ import java.io.IOException;
  * Created by omar on 09.06.15.
  * Singleton
  */
-public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener {
-
-
-
+public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, SeekBar.OnSeekBarChangeListener {
 
 
     private boolean playing;
@@ -32,7 +30,7 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     private boolean paused;
     private VoiceMessagePlayerCallback mVoiceMessagePlayerCallback;
     private Context context;
-
+    private boolean tracking = false;
     private final Handler handler = new Handler();
 
 
@@ -43,29 +41,26 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
         this.context = context;
         this.mVoiceMessagePlayerCallback = mVoiceMessagePlayerCallback;
         setupMediaPlayer(voiceURL);
+        setupSeekBarListener(mVoiceMessagePlayerCallback);
+    }
 
-
+    private void setupSeekBarListener(VoiceMessagePlayerCallback mVoiceMessagePlayerCallback) {
+        mVoiceMessagePlayerCallback.getSeekBar().setOnSeekBarChangeListener(this);
     }
 
     private void setupMediaPlayer(String voiceURL) {
-
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnSeekCompleteListener(this);
-
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(voiceURL);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         mediaPlayer.prepareAsync();
         setupHandler();
-
-
     }
 
 
@@ -81,7 +76,6 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
 
                     case TelephonyManager.CALL_STATE_RINGING:
                         if (mediaPlayer != null) {
-
                             pauseMedia();
                             isPausedCall = true;
                         }
@@ -92,13 +86,9 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
                             if (isPausedCall) {
                                 isPausedCall = false;
                                 playMedia();
-
                             }
-
                         }
-
                         break;
-
                 }
 
                 super.onCallStateChanged(state, incomingNumber);
@@ -106,14 +96,13 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
 
         };
         telephoneManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-
     }
 
-    public static VoiceMessagePlayer getInstance( Context context, String voiceURL, VoiceMessagePlayerCallback
-            mVoiceMessagePlayerCallback) {
+    public static VoiceMessagePlayer getInstance(Context context, String voiceURL, VoiceMessagePlayerCallback mVoiceMessagePlayerCallback) {
 
 
-        if (sVoiceMessagePlayer == null) sVoiceMessagePlayer = new VoiceMessagePlayer(voiceURL, context, mVoiceMessagePlayerCallback);
+        if (sVoiceMessagePlayer == null)
+            sVoiceMessagePlayer = new VoiceMessagePlayer(voiceURL, context, mVoiceMessagePlayerCallback);
         else {
             sVoiceMessagePlayer.stopMedia();
             sVoiceMessagePlayer = new VoiceMessagePlayer(voiceURL, context, mVoiceMessagePlayerCallback);
@@ -128,25 +117,24 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     }
 
     public void stopMedia() {
+        mVoiceMessagePlayerCallback.getSeekBar().setProgress(0);
+        mVoiceMessagePlayerCallback.getTvAudioRemaining().setText("");
+        mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText("");
 
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            stopTelephonyListener();
+            mediaPlayer.release();
+            mediaPlayer = null;
 
-                stopTelephonyListener();
-                mediaPlayer.release();
-            }
         }
     }
 
     public void playMedia() {
-        if (mediaPlayer != null) {
-            if (!mediaPlayer.isPlaying()) {
-                paused = false;
-                setupTelephonyListener();
-                mediaPlayer.start();
-
-            }
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            paused = false;
+            setupTelephonyListener();
+            mediaPlayer.start();
         }
     }
 
@@ -160,51 +148,43 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+
         stopMedia();
     }
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-
+        playMedia();
     }
 
 
     private void setupHandler() {
         handler.removeCallbacks(sendUpdatesToUi);
         handler.postDelayed(sendUpdatesToUi, 100);
-
-
     }
 
     private Runnable sendUpdatesToUi = new Runnable() {
         public void run() {
-
             LogMediaPosition();
-            handler.postDelayed(this, 250);
+            handler.postDelayed(this, 100);
         }
 
         private void LogMediaPosition() {
-            if (mediaPlayer.isPlaying()) {
-
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPos = mediaPlayer.getCurrentPosition();
                 mediaMax = mediaPlayer.getDuration();
-
-               /* seekIntent.putExtra(Namespace.COUNTER,String.valueOf(mediaPos));
-                seekIntent.putExtra(Namespace.MEDIA_MAX, String.valueOf(mediaMax));
-                seekIntent.putExtra(Namespace.SONG_ENDED, String.valueOf(songEnded));
-               context. sendBroadcast(seekIntent);*/
-
+                mVoiceMessagePlayerCallback.getSeekBar().setMax(mediaMax);
+                mVoiceMessagePlayerCallback.getSeekBar().setProgress(mediaPos);
+                mVoiceMessagePlayerCallback.getTvAudioRemaining().setText(String.valueOf(mediaMax));
+                mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText(String.valueOf(mediaPos));
             }
-
         }
-
     };
 
     protected void updateSeekPos(int _seekPos) {
 
         int seekPos = _seekPos;
         if (mediaPlayer.isPlaying()) {
-
             handler.removeCallbacks(sendUpdatesToUi);
             mediaPlayer.seekTo(seekPos);
             setupHandler();
@@ -215,8 +195,22 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
         if (!mediaPlayer.isPlaying()) {
-
             playMedia();
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (tracking) updateSeekPos(i);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        tracking = true;
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        tracking = false;
     }
 }

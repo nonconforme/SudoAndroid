@@ -12,7 +12,6 @@
             android:layout_toStartOf="@+id/ivStop"/>
     <TextView
 
-            android:text="New Text"
             android:id="@+id/tvAudioCurrnet"
             style="@style/SChatItemTVAudioNumbers"
             android:textColor="@android:color/white"
@@ -20,7 +19,6 @@
             android:layout_toEndOf="@+id/ivPlay"/>
     <TextView
 
-            android:text="New Text"
             android:id="@+id/tvAudioRemaining"
             style="@style/SChatItemTVAudioNumbers"
              android:textColor="@android:color/white"

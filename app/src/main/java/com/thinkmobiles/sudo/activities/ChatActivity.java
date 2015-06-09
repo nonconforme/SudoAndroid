@@ -631,6 +631,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     @Override
     protected void onPause() {
         super.onPause();
+        mListAdapter. stopAll();
         mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
         mSocket.disconnect();
         App.setCurrentChat(null);

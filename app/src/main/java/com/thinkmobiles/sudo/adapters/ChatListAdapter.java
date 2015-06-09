@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by omar on 19.04.15.
  */
-public class ChatListAdapter extends BaseAdapter implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class ChatListAdapter extends BaseAdapter implements View.OnClickListener {
 
     private List<MessageModel> mListMessages;
     private LayoutInflater mInflater;
@@ -44,6 +44,7 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
     private String mAvatarUrl;
     private Bitmap mBitmapAvatar;
     private ArrayList<ImageView> mIncomingAvatarArray;
+    private VoiceMessagePlayer mVoiceMessagePlayer;
 
     public ChatListAdapter(Context context, String mAvatarUrl) {
         this.context = context;
@@ -118,7 +119,6 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
 
         if (!isVoiceMessage(position)) holder.playerContainer.setVisibility(View.GONE);
 
-
         holder.setData(position, holder);
         runEnterAnimation(view, i);
 
@@ -134,10 +134,15 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
             case R.id.ivPlay:
                 String voiceURL = mListMessages.get(position).getVoiceURL();
 
-                VoiceMessagePlayerCallback voiceMessagePlayerCallback = new VoiceMessagePlayerCallback(holder.seekBar, holder.tvAudioCurrnet);
-                VoiceMessagePlayer.getInstance(context,voiceURL, voiceMessagePlayerCallback);
+                VoiceMessagePlayerCallback voiceMessagePlayerCallback = new VoiceMessagePlayerCallback(holder
+                        .seekBar, holder.tvAudioCurrnet, holder.tvAudioRemaining);
+                mVoiceMessagePlayer = VoiceMessagePlayer.getInstance(context, voiceURL,
+                    voiceMessagePlayerCallback);
+
                 break;
             case R.id.ivStop:
+                if(mVoiceMessagePlayer != null)
+                mVoiceMessagePlayer.stopMedia();
                 break;
         }
 
@@ -149,20 +154,7 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
         return false;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
-    }
 
 
     private class ViewHolder {
@@ -294,4 +286,6 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
         }
 
     }
+    public void stopAll(){
+        if(mVoiceMessagePlayer!= null)mVoiceMessagePlayer.stopMedia();}
 }
