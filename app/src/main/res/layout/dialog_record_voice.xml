@@ -5,46 +5,51 @@
                 android:layout_height="fill_parent" android:background="@color/colorPrimary">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView2" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+           style="@style/TVDialogRecordTitle"
+            android:text="@string/record_void_message"
+            android:id="@+id/tvTitle_RD"
+           android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+           android:background="@color/halfWhite"
+           android:layout_marginBottom="16dp" android:layout_marginLeft="2dp" android:layout_marginTop="2dp"/>
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView"
-            android:layout_below="@+id/textView2" android:layout_alignLeft="@+id/textView2"
-            android:layout_alignStart="@+id/textView2" android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            style="@style/TVDialogRecordText"
+
+            android:text="@string/start_recording"
+            android:id="@+id/tvText_RD"
+            android:typeface="monospace"
+            android:layout_below="@+id/tvTitle_RD" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
     <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar2"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentRight="true"
+            android:id="@+id/pb_DR"
+            android:layout_below="@+id/tvText_RD"
+            android:indeterminate="false"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_margin="16dp"/>
+            android:layout_alignParentStart="true"/>
     <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
+            android:weightSum="2"
             android:layout_alignWithParentIfMissing="false"
             android:gravity="center_horizontal"
-            android:layout_below="@+id/progressBar2" android:layout_centerHorizontal="true">
+            android:layout_below="@+id/pb_DR"
+            android:id="@+id/linearLayout2"
+            >
         <ImageView
                 style="@style/DialogRecordBtn_CF"
                 android:id="@+id/ivDialogRecord_CF"
-                android:src="@drawable/ic_mic_white_24dp" android:layout_alignBottom="@+id/ivDialogSend_CF"
-                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
-                android:layout_margin="16dp" android:padding="4dp" android:background="@drawable/selector_btn_record"/>
+                android:src="@drawable/ic_mic_white_24dp"
+                android:padding="4dp" android:background="@drawable/selector_btn_record"
+                android:layout_weight="1"  android:layout_width="0dp" android:layout_margin="16dp"/>
         <ImageView
                 style="@style/DialogRecordBtn_CF"
 
                 android:id="@+id/ivDialogSend_CF" android:src="@android:drawable/ic_menu_send"
-                android:layout_below="@+id/textView" android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" android:layout_margin="16dp" android:padding="4dp"
-                android:background="@drawable/selector_btn_record"/>
+                android:padding="4dp"
+                android:background="@drawable/selector_btn_record" android:layout_weight="1"
+                android:layout_width="0dp" android:layout_margin="16dp"/>
     </LinearLayout>
 </RelativeLayout>

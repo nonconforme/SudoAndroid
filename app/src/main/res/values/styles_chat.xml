@@ -43,12 +43,14 @@
     <color name="schat_item_text_bg">#e7e7e7</color>
     <color name="schat_item_et">#e54b4b4b</color>
     <color name="schat_item_incoming_color">#ccc</color>
+    <dimen name="size_dialog_title_tv">20dp</dimen>
+    <dimen name="size_dialog_text_tv">20dp</dimen>
 
     <!-- end region -->
 
     <!-- STYLES -->
     <style name="DialogRecordBtn_CF">
-        <item name="android:layout_width">@dimen/width_dialog_record_btn</item>
+
         <item name="android:layout_height">@dimen/height_dialog_record_btn</item>
         <item name="android:clickable">true</item>
     </style>
@@ -185,6 +187,24 @@
         <item name="android:textColor">@color/chat_text_color</item>
 
     </style>
+    <style name="TVDialogRecordTitle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_dialog_title_tv</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
 
+        <item name="android:padding">@dimen/padding_dialog_title_tv</item>
+
+    </style>
+
+    <style name="TVDialogRecordText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_dialog_text_tv</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/padding_dialog_title_tv</item>
+    </style>
+
+    <dimen name="padding_dialog_title_tv">16dp</dimen>
 
 </resources>

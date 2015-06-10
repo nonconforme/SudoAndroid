@@ -159,6 +159,12 @@
     <string name="wrong_user_or_pass">Wrong user or password</string>
     <string name="delete_chats">Delete Chats</string>
     <string name="voice_message">Voice message</string>
+    <string name="record_void_message">Record Voice Message</string>
+    <string name="start_recording">Start recording ...</string>
+    <string name="recording">"Recording: "</string>
+    <string name="seconds">seconds</string>
+    <string name="recorded">Recorded.</string>
+    <string name="recording_starts">Recording starts in</string>
 
 
 </resources>

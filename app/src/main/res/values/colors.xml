@@ -25,4 +25,6 @@
     <color name="btn_send_pressed">#ff0a8145</color>
     <color name="fab_color_shadow">#44000000</color>
 
+    <color name="halfWhite">#33ffffff</color>
+
 </resources>
