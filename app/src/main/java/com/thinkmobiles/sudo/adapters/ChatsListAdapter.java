@@ -95,7 +95,12 @@ public class ChatsListAdapter extends BaseAdapter {
                         position, mAvatarUrlMap);
                 setSelectionState(holder.ivAvatar, holder.container, position);
                 holder.tvUnread_CI.setText(String.valueOf( thisChat.getUnread()));
-                if(thisChat.getUnread() == 0){holder.tvUnread_CI.setVisibility(View.GONE);}
+                if(thisChat.getUnread() == 0){holder.tvUnread_CI.setVisibility(View.GONE);
+                    if(lastMessage.getType().equalsIgnoreCase("VOICE")){
+                        holder.tvMessagePreview.setText(mActivity.getString(R.string.voice_message));
+                    }
+
+                }
             }
         }
         return view;

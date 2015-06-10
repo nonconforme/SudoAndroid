@@ -91,8 +91,10 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
     @Override
     protected void onPause() {
         super.onPause();
-        try{
-        unregisterReceiver(changeTabBroadcastReceiver);}catch(Exception e){}
+        try {
+            unregisterReceiver(changeTabBroadcastReceiver);
+        } catch (Exception e) {
+        }
     }
 
     public void refreshDrawerMenu() {
@@ -208,6 +210,7 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
 
     private void onHomePressed() {
+
         Utils.hideSoftKeyboard(this);
         if (mToolbarManager.isShowTrachView()) {
             Intent trashIntent = new Intent(Constants.TRASH_INTENT);
@@ -455,20 +458,21 @@ public class Main_Activity extends ActionBarActivity implements Drawer.OnDrawerL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+        if (Network.isInternetConnectionAvailable(this)) {
+            if (!mToolbarManager.isShowListDrawer()) {
+                view.setSelected(true);
+                implementClick(pos);
+                for (int j = 0; j < adapterView.getChildCount(); j++)
+                    adapterView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
 
-        if (!mToolbarManager.isShowListDrawer()) {
-            view.setSelected(true);
-            implementClick(pos);
-            for (int j = 0; j < adapterView.getChildCount(); j++)
-                adapterView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+                view.setBackgroundColor(Color.LTGRAY);
+                mDrawer.closeDrawer();
+            } else {
 
-            view.setBackgroundColor(Color.LTGRAY);
-            mDrawer.closeDrawer();
-        } else {
+                drawerSelectNumber(pos);
+            }
 
-            drawerSelectNumber(pos);
         }
-
     }
 
     private void drawerSelectNumber(int pos) {

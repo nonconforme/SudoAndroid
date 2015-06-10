@@ -124,12 +124,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         initGetContactsCB();
         initDeleteContactCB();
         setSwipeRefrechLayoutColor();
-        if (App.getCurrentUser() != null) {
 
-
-            MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
-            makeGetUserRequest();
-        }
         return mView;
     }
 
@@ -163,7 +158,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
         mActivity.registerReceiver(mSearchBroadcastReceiver, mSearchFilter);
         mActivity.registerReceiver(mDeleteContactBroadcastReceiver, mDeleteContactFilter);
         mActivity.registerReceiver(reloadBroadcastReceiver, mReloadFilter);
+        if (App.getCurrentUser() != null) {
 
+
+            MainToolbarManager.getCustomInstance(mActivity).changeToolbarTitleAndIcon(App.getCurrentUser().getEmail(), App.getCurrentISO());
+            makeGetUserRequest();
+        }
     }
 
     @Override
@@ -317,6 +317,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener, 
             return o1.getCompanion().compareTo(o2.getCompanion());
         }
     }
+
+
+
 
 
 }

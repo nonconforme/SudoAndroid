@@ -7,8 +7,11 @@ import android.os.Handler;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.SeekBar;
+import com.thinkmobiles.sudo.R;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by omar on 09.06.15.
@@ -155,18 +158,19 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         playMedia();
+        mVoiceMessagePlayerCallback.getTvAudioRemaining().setText(getDate(mediaMax) + context.getString(R.string.sec));
     }
 
 
     private void setupHandler() {
         handler.removeCallbacks(sendUpdatesToUi);
-        handler.postDelayed(sendUpdatesToUi, 100);
+        handler.postDelayed(sendUpdatesToUi, 250);
     }
 
     private Runnable sendUpdatesToUi = new Runnable() {
         public void run() {
             LogMediaPosition();
-            handler.postDelayed(this, 100);
+            handler.postDelayed(this, 250);
         }
 
         private void LogMediaPosition() {
@@ -175,8 +179,9 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
                 mediaMax = mediaPlayer.getDuration();
                 mVoiceMessagePlayerCallback.getSeekBar().setMax(mediaMax);
                 mVoiceMessagePlayerCallback.getSeekBar().setProgress(mediaPos);
-                mVoiceMessagePlayerCallback.getTvAudioRemaining().setText(String.valueOf(mediaMax));
-                mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText(String.valueOf(mediaPos));
+
+                mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText(getDate(mediaPos) + context.getString(R.string
+                        .sec));
             }
         }
     };
@@ -212,5 +217,12 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         tracking = false;
+    }
+
+    public static String getDate(int milliSeconds) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat("ss");
+        String dateString = formatter.format(new Date(milliSeconds));
+        return dateString;
     }
 }

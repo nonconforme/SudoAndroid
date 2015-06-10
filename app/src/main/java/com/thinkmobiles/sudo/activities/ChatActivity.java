@@ -189,6 +189,16 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
                 Log.d("Sendin gvoice message", "Success");
+                if (mListAdapter.getCount() == 0) {
+                    mOwnerNumber = App.getCurrentMobile();
+                    mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
+                }
+                mListAdapter.addNewMessage(mSendMessageModel);
+                mMessageModelList.add(0, mSendMessageModel);
+                mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
+
+                sendReloadChatsBroadcast();
+
             }
 
             @Override
@@ -451,6 +461,15 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         mSendMessageModel.setBody(_message);
     }
 
+    private void setVoiceMessageModel(String _mOwnerNumber, String _mCompanionNumber, String voice) {
+        mSendMessageModel = new MessageModel();
+        mSendMessageModel.setCompanion(createCompanion(_mCompanionNumber, mFirstMessageModel));
+        mSendMessageModel.setOwner(createCompanion(_mOwnerNumber, mFirstMessageModel));
+        mSendMessageModel.setPostedDate(Utils.getDateServerStyle());
+        mSendMessageModel.setType("VOICE");
+        mSendMessageModel.setVoiceURL(voice);
+    }
+
     public static void launch(final Activity activity, final String _ownerNumber, final String _companionNumber, final String companionAvatar, int[] _startingLocation) {
         final Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra(ChatActivity.ARG_DRAWING_START_LOCATION, _startingLocation[1]);
@@ -682,7 +701,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     @Override
     public void onSendVoiceMessage() {
-
+        setVoiceMessageModel(mOwnerNumber, mCompanionNumber, filePath);
         Log.d("Sending", filePath);
         RetrofitAdapter.getInterface().sendVoiceMessage( new TypedFile(Constants.MULTIPART_FILE, new File
                 (filePath)),

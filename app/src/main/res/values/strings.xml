@@ -133,8 +133,8 @@
     <string name="edit_profile">Edit Profile</string>
 
     <string name="credits_available">AVAILABLE</string>
-    <string name="no_chats">NO CHATS</string>
-    <string name="no_contacts">NO CONTACTS</string>
+    <string name="no_chats">NO CHATS FOUND</string>
+    <string name="no_contacts">NO CONTACTS FOUND</string>
     <string name="buy_credits_dialog_title">Buy Credits</string>
     <string name="edit_contact">Edit contact</string>
     <string name="remove_contact">Remove contact</string>
@@ -165,6 +165,7 @@
     <string name="seconds">seconds</string>
     <string name="recorded">Recorded.</string>
     <string name="recording_starts">Recording starts in</string>
+    <string name="sec">" sec"</string>
 
 
 </resources>
