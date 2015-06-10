@@ -91,6 +91,7 @@ public class ProfileViewActivity extends BaseProfileActivity implements AdapterV
         } else {
             setDefaultColor();
             Picasso.with(this).load(R.drawable.ic_man_chat).transform(new CircleTransform()).into(ivAvatar);
+            Picasso.with(this).load(R.drawable.ic_man_chat).into(mTarget);
         }
 
 

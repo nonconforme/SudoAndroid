@@ -58,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TVNotification_NT"
-
+                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@string/unknown"/>
 
     </LinearLayout>

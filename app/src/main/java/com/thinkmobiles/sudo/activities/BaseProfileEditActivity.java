@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -233,8 +234,8 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void updateUserModel() {
         updateNumberList();
-      /*  if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
-        mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));*/
+      if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
+        mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
       /*  if (mCurrentPhoto != null)
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));*/

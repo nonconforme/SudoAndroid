@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class ColorModel implements Serializable{
     private int mainColor;
-
+    private int darkColor;
     public ColorModel(int mainColor, int darkColor) {
         this.mainColor = mainColor;
         this.darkColor = darkColor;
@@ -29,5 +29,5 @@ public class ColorModel implements Serializable{
         this.mainColor = mainColor;
     }
 
-    private int darkColor;
+
 }

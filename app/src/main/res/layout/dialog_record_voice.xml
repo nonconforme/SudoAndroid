@@ -10,7 +10,8 @@
             android:id="@+id/tvTitle_RD"
            android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
            android:background="@color/halfWhite"
-           android:layout_marginBottom="16dp" android:layout_marginLeft="2dp" android:layout_marginTop="2dp"/>
+           android:layout_marginBottom="16dp" android:layout_marginLeft="2dp" android:layout_marginTop="2dp"
+           android:layout_marginRight="2dp"/>
     <TextView
             style="@style/TVDialogRecordText"
 
