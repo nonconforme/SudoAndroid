@@ -7,6 +7,7 @@ import com.thinkmobiles.sudo.models.*;
 import com.thinkmobiles.sudo.models.addressbook.UserModel;
 import com.thinkmobiles.sudo.models.chat.LastChatsModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
+import com.thinkmobiles.sudo.models.chat.VoiceResponceModel;
 import com.thinkmobiles.sudo.models.counties.CountryModel;
 import com.thinkmobiles.sudo.models.numbers.BuyNumberResponce;
 import com.thinkmobiles.sudo.models.numbers.NumberListResponse;
@@ -104,7 +105,7 @@ public interface RetrofitInterface {
             @Part(Constants.VOICE_MSG_FILE)TypedFile file,
             @Part(Constants.SRC)String src,
             @Part(Constants.DST)String dst,
-            Callback<DefaultResponseModel> callback );
+            Callback<VoiceResponceModel> callback );
 
     @DELETE(APIConstants.URL_ADDRESSBOOK + "/{" + Constants.COMPANION + "}")
     void deleteContact(@Path(Constants.COMPANION) String companion, Callback<DefaultResponseModel> callback);

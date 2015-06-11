@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.SeekBar;
 import com.thinkmobiles.sudo.R;
 
@@ -58,6 +59,7 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
         mediaPlayer.setOnSeekCompleteListener(this);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
+            Log.d("Voice URl", voiceURL);
             mediaPlayer.setDataSource(voiceURL);
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,8 +123,7 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
 
     public void stopMedia() {
         mVoiceMessagePlayerCallback.getSeekBar().setProgress(0);
-        mVoiceMessagePlayerCallback.getTvAudioRemaining().setText("");
-        mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText("");
+
 
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -158,7 +159,7 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         playMedia();
-        mVoiceMessagePlayerCallback.getTvAudioRemaining().setText(getDate(mediaMax) + context.getString(R.string.sec));
+
     }
 
 
@@ -179,7 +180,7 @@ public class VoiceMessagePlayer implements MediaPlayer.OnCompletionListener, Med
                 mediaMax = mediaPlayer.getDuration();
                 mVoiceMessagePlayerCallback.getSeekBar().setMax(mediaMax);
                 mVoiceMessagePlayerCallback.getSeekBar().setProgress(mediaPos);
-
+                mVoiceMessagePlayerCallback.getTvAudioRemaining().setText(getDate(mediaMax) + context.getString(R.string.sec));
                 mVoiceMessagePlayerCallback.getTvAudioCurrnet().setText(getDate(mediaPos) + context.getString(R.string
                         .sec));
             }

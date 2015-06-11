@@ -150,7 +150,8 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
 
 
     private boolean isVoiceMessage(int position) {
-        if (mListMessages.get(position).getType().equalsIgnoreCase("VOICE")) return true;
+        if (mListMessages.get(position).getType()!= null && mListMessages.get(position).getType().equalsIgnoreCase
+                ("VOICE")) return true;
         return false;
     }
 

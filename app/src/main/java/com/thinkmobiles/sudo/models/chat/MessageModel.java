@@ -14,6 +14,8 @@ public class MessageModel implements Serializable{
     private String type;
     private String voiceURL;
 
+
+
     public String getType() {
         return type;
     }

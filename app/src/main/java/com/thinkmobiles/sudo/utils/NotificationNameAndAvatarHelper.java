@@ -16,17 +16,19 @@ public class NotificationNameAndAvatarHelper {
         String[] result = new String[2];
         String companion;
         String avatar;
-        for (UserModel userModel : App.getContactsList()) {
-            for (NumberModel numberModel : userModel.getNumbers())
-                if (numberModel.getNumber().equalsIgnoreCase(number)) {
-                    result[0] = userModel.getCompanion();
-                    result[1] = userModel.getAvatar();
-                    return result;
-                }
 
+            for (UserModel userModel : App.getContactsList()) {
+                for (NumberModel numberModel : userModel.getNumbers())
+                    if (numberModel.getNumber().equalsIgnoreCase(number)) {
+                        result[0] = userModel.getCompanion();
+                        result[1] = userModel.getAvatar();
+                        return result;
+                    }
+
+
+            result[0] = number;
+            result[1] = "";
         }
-        result[0] = number;
-        result[1] = "";
         return result;
 
     }

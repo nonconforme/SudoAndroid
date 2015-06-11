@@ -69,8 +69,10 @@ public class GcmIntentService extends IntentService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String currentDateandTime = sdf.format(new Date());
-
-        String [] senderDetailes = NotificationNameAndAvatarHelper.discoverCompanionNameAndAvatar(sender);
+        String[] senderDetailes = new String[]{"",""};
+        if(App.getContactsList()!=null) {
+             senderDetailes = NotificationNameAndAvatarHelper.discoverCompanionNameAndAvatar(sender);
+        }
         String avatar = senderDetailes[1];
         contentView.setTextViewText(R.id.tvSenderNumber_NT, senderDetailes[0]);
 

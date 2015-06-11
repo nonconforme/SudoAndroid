@@ -35,6 +35,7 @@ import com.thinkmobiles.sudo.models.DefaultResponseModel;
 import com.thinkmobiles.sudo.models.chat.CompanionModel;
 import com.thinkmobiles.sudo.models.chat.MessageModel;
 import com.thinkmobiles.sudo.models.chat.ReadModel;
+import com.thinkmobiles.sudo.models.chat.VoiceResponceModel;
 import com.thinkmobiles.sudo.utils.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +67,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private ChatListAdapter mListAdapter;
     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
-    private Callback<DefaultResponseModel> mSendVoiceCB;
+    private Callback<VoiceResponceModel> mSendVoiceCB;
 
     private Callback<DefaultResponseModel> mDeleteMessageCB;
     private Callback<DefaultResponseModel> mReadMessageCallback;
@@ -185,16 +186,17 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
 
     private void initVoiceCB(){
-        mSendVoiceCB = new Callback<DefaultResponseModel>() {
+        mSendVoiceCB = new Callback<VoiceResponceModel>() {
             @Override
-            public void success(DefaultResponseModel defaultResponseModel, Response response) {
+            public void success(VoiceResponceModel responce, Response response) {
                 Log.d("Sendin gvoice message", "Success");
                 if (mListAdapter.getCount() == 0) {
                     mOwnerNumber = App.getCurrentMobile();
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
                 }
-                mListAdapter.addNewMessage(mSendMessageModel);
-                mMessageModelList.add(0, mSendMessageModel);
+
+                mListAdapter.addNewMessage(responce.getMessage() );
+                mMessageModelList.add(0, responce.getMessage());
                 mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
 
                 sendReloadChatsBroadcast();
