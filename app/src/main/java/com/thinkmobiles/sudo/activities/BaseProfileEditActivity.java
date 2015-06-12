@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -27,6 +28,7 @@ import com.thinkmobiles.sudo.utils.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by omar on 23.04.15.
@@ -155,7 +157,16 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
                 updateNumberList();
                 etUserFirstName.onEditorAction(1);
 
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 if (isProfileChangesValid()) {
                     updateUserModel();
                     returnEditedProfile();
@@ -188,29 +199,32 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     }
 
     private boolean[] validateNumbers() {
-        List<NumberModel> tempNumbers = mUserModel.getNumbers();
+
+        List<NumberModel> tempNumbers = mAdapter.getNumbers();
         boolean showNumbersError = false;
         boolean[] errors = new boolean[tempNumbers.size()];
+        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+            // call something for API Level 11+
 
-        for (int i = 0; i < tempNumbers.size(); i++) {
-            CharSequence tempNumber = tempNumbers.get(i).getNumber();
-            if (tempNumber == null) {
-                showNumbersError = true;
-                errors[i] = true;
-            } else if (tempNumber.length() < 11) {
-                showNumbersError = true;
-                errors[i] = true;
-            } else if (tempNumber.charAt(0) != '+' && !errors[i]) {
-                String tempString = "+" + tempNumber.toString();
-                tempNumbers.get(i).setNumber(tempString);
+            for (int i = 0; i < tempNumbers.size(); i++) {
+                CharSequence tempNumber = tempNumbers.get(i).getNumber();
+                if (tempNumber == null) {
+                    showNumbersError = true;
+                    errors[i] = true;
+                } else if (tempNumber.length() < 10) {
+                    showNumbersError = true;
+                    errors[i] = true;
+                } else if (tempNumber.charAt(0) != '+' && !errors[i]) {
+                    String tempString = "+" + tempNumber.toString();
+                    tempNumbers.get(i).setNumber(tempString);
 
-                errors[i] = false;
-            } else {
-                errors[i] = false;
+                    errors[i] = false;
+                } else {
+                    errors[i] = false;
+                }
+
             }
-
         }
-
         if (showNumbersError) {
             return errors;
         } else {
@@ -229,12 +243,23 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
 
     protected void updateNumberList() {
         myNumberList = mAdapter.getNumbersList();
+        int i = 0;
+        for (NumberModel numberModel : myNumberList) {
+            if (numberModel.getNumber() == null || numberModel.getNumber().equalsIgnoreCase("")) {
+                myNumberList.remove(i);
+
+            } else if (numberModel.getNumber().charAt(0) != '+') {
+                String tempString = "+" + numberModel.getNumber();
+                myNumberList.get(i).setNumber(tempString);
+            }
+            i++;
+        }
         mUserModel.setNumbers(myNumberList);
     }
 
     protected void updateUserModel() {
         updateNumberList();
-      if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
+        if (mCurrentPhoto == null) mCurrentPhoto = ((BitmapDrawable) ivChangeAvatar.getDrawable()).getBitmap();
         mUserModel.setAvatar(ImageHelper.encodeToBase64(mCurrentPhoto));
 
       /*  if (mCurrentPhoto != null)
@@ -347,7 +372,6 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         myNumberList.add(myNumberList.size(), new NumberModel());
         mAdapter.reloadList(myNumberList);
     }
-
 
 
     @Override

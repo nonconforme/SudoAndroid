@@ -24,17 +24,18 @@
         android:id="@+id/rlMain"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/toolbar"
 
-        android:orientation="vertical">
+        android:orientation="vertical" android:layout_centerVertical="true" android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" android:layout_centerInParent="true">
 
             <RelativeLayout
                 style="@style/AVC_Detailes_SubItem_RL"

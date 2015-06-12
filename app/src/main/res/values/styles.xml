@@ -30,8 +30,11 @@
 
     <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:minWidth">0dp</item>
-        <!--<item name="android:paddingTop">7dp</item>-->
+         <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingBottom">8dp</item>
+
         <!--<item name="android:paddingRight">7dp</item>-->
+
 
         <item name="android:scaleType">centerInside</item>
     </style>
