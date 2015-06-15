@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -181,7 +180,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
     protected boolean isProfileChangesValid() {
         boolean[] errorsInNumbers = validateNumbers();
         if (checkNewName()) {
-            if (errorsInNumbers == null && !mUserModel.getNumbers().isEmpty()) return true;
+            if (errorsInNumbers == null  ) return true;
             else {
                 showNumberErrors(errorsInNumbers);
                 Toast.makeText(this, getString(R.string.number_containes_errors), Toast.LENGTH_SHORT).show();
@@ -203,8 +202,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
         List<NumberModel> tempNumbers = mAdapter.getNumbers();
         boolean showNumbersError = false;
         boolean[] errors = new boolean[tempNumbers.size()];
-        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-            // call something for API Level 11+
+
 
             for (int i = 0; i < tempNumbers.size(); i++) {
                 CharSequence tempNumber = tempNumbers.get(i).getNumber();
@@ -224,7 +222,7 @@ abstract public class BaseProfileEditActivity extends BaseProfileActivity implem
                 }
 
             }
-        }
+
         if (showNumbersError) {
             return errors;
         } else {

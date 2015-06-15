@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.models.addressbook.NumberModel;
 
@@ -19,7 +21,8 @@ import java.util.List;
 /**
  * Created by omar on 23.04.15.
  */
-public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFocusChangeListener, View.OnClickListener {
+public class ProfileEditNumbersAdapter extends BaseAdapter implements EditText.OnEditorActionListener, View
+        .OnClickListener {
 
     private Context mContext;
     private LayoutInflater inflater;
@@ -59,7 +62,8 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
             viewHolder = new ViewHolder();
             viewHolder.etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber_AVC);
             viewHolder.ivDeleteNumber = (ImageView) view.findViewById(R.id.ivRemoveNumber_AVC);
-            viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
+           // viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
+            viewHolder.etPhoneNumber.setOnEditorActionListener(this);
             viewHolder.ivDeleteNumber.setTag(position);
             viewHolder.ivDeleteNumber.setOnClickListener(this);
             view.setTag(viewHolder);
@@ -113,29 +117,53 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         return mListNumbers;
     }
 
+
     @Override
+    public boolean onEditorAction(TextView view, int i, KeyEvent keyEvent) {
+
+
+                int pos = (int) view.getTag();
+                if (((EditText) view).getText() != null )
+                    if (mListNumbers.size() >= pos + 1 && mListNumbers.get(pos) != null) {
+                        mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+                    } else {
+                        NumberModel number = new NumberModel();
+                        number.setNumber(((EditText) view).getText().toString());
+                        mListNumbers.add(number);
+                    }
+                view.setBackgroundResource(android.R.color.transparent);
+
+        return false;
+    }
+
+   /* @Override
     public void onFocusChange(View view, boolean b) {
         if (!b) {
             int pos = (int) view.getTag();
-            if(((EditText) view).getText() !=null && mListNumbers.get(pos)!= null)
-            mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+            if (((EditText) view).getText() != null )
+                if (mListNumbers.size() >= pos + 1 && mListNumbers.get(pos) != null) {
+                    mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+                } else {
+                    NumberModel number = new NumberModel();
+                    number.setNumber(((EditText) view).getText().toString());
+                    mListNumbers.add(number);
+                }
             view.setBackgroundResource(android.R.color.transparent);
         }
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
 
         if (view.getId() == R.id.ivRemoveNumber_AVC) {
             final int pos = (int) view.getTag();
-            if (mListNumbers.get(pos) == null || mListNumbers.get(pos).getNumber().isEmpty())
-            {
+            if (mListNumbers.get(pos) == null || mListNumbers.get(pos).getNumber().isEmpty()) {
                 deleteNumberET(pos);
-            }else{
+            } else {
                 AlertDialogCallback callback = new AlertDialogCallback() {
                     @Override
                     public void confirmDeletePhoneNumber() {
-                        deleteNumberET( pos);
+                        deleteNumberET(pos);
 
                     }
                 };
@@ -144,14 +172,17 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements View.OnFoc
         }
     }
 
-    private void deleteNumberET(int pos){if (!mListNumbers.isEmpty()) {
-        mListNumbers.remove(pos);
-    }
+    private void deleteNumberET(int pos) {
+        if (!mListNumbers.isEmpty()) {
+            mListNumbers.remove(pos);
+        }
         if (mListNumbers.isEmpty()) {
             mListNumbers.add(mListNumbers.size(), new NumberModel());
         }
         errorsInNumbers = null;
-        notifyDataSetChanged();}
+        notifyDataSetChanged();
+    }
+
 
     static class ViewHolder {
         public EditText etPhoneNumber;

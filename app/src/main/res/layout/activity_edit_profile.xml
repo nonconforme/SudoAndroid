@@ -35,7 +35,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_centerInParent="true">
+            android:orientation="vertical" android:layout_centerHorizontal="true">
 
             <RelativeLayout
                 style="@style/AVC_Detailes_SubItem_RL"
