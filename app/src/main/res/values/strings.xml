@@ -166,6 +166,7 @@
     <string name="recorded">Recorded.</string>
     <string name="recording_starts">Recording starts in</string>
     <string name="sec">" sec"</string>
+    <string name="add_contact">Add contact</string>
 
 
 </resources>

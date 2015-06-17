@@ -695,12 +695,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         filePath = String.valueOf( getExternalCacheDir() + "/" + currentDateandTime + ".mp3");
         return filePath;
     }
-   /* private String filePathGenerator(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
-        String currentDateandTime = sdf.format(new Date());
-        filePath = String.valueOf( getExternalFilesDir("this")+ currentDateandTime + ".mp3");
-        return filePath;
-    }*/
+
 
     private void showRecordDialog(){
         RecordVoiceMessageDialog dialog = RecordVoiceMessageDialog.newInstance(filePathGenerator());

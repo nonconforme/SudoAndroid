@@ -99,7 +99,8 @@ public class ChatsNameAndAvatarHelper {
         @Override
         protected void onPostExecute(UserModel companion) {
             textView.setText(getCompanionName(companion));
-            if (companion != null && !companion.getAvatar().equalsIgnoreCase("") && (int) imageView.getTag() == pos) {
+            if (companion != null && companion.getAvatar()!=null && !companion.getAvatar().equalsIgnoreCase("") &&
+                    (int) imageView.getTag() == pos) {
                 setAvatar(context, imageView, companion, pos);
                 mAvatarUrlMap.put(pos, companion.getAvatar());
             }

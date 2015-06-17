@@ -13,6 +13,7 @@
         android:layout_alignParentStart="true"
         android:inputType="phone"
         android:textAlignment="center"
+        android:imeOptions="actionDone"
         android:hint="@string/add_new_number_hint"
         android:gravity="center_horizontal"
         android:layout_marginBottom="5dp"/>

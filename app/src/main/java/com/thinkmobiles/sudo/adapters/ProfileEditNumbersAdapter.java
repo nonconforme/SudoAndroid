@@ -22,7 +22,7 @@ import java.util.List;
  * Created by omar on 23.04.15.
  */
 public class ProfileEditNumbersAdapter extends BaseAdapter implements EditText.OnEditorActionListener, View
-        .OnClickListener {
+        .OnClickListener, EditText.OnFocusChangeListener  {
 
     private Context mContext;
     private LayoutInflater inflater;
@@ -62,7 +62,10 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements EditText.O
             viewHolder = new ViewHolder();
             viewHolder.etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber_AVC);
             viewHolder.ivDeleteNumber = (ImageView) view.findViewById(R.id.ivRemoveNumber_AVC);
-           // viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
+            if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+                viewHolder.etPhoneNumber.setOnFocusChangeListener(this);
+            }
+
             viewHolder.etPhoneNumber.setOnEditorActionListener(this);
             viewHolder.ivDeleteNumber.setTag(position);
             viewHolder.ivDeleteNumber.setOnClickListener(this);
@@ -122,25 +125,24 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements EditText.O
     public boolean onEditorAction(TextView view, int i, KeyEvent keyEvent) {
 
 
-                int pos = (int) view.getTag();
-                if (((EditText) view).getText() != null )
-                    if (mListNumbers.size() >= pos + 1 && mListNumbers.get(pos) != null) {
-                        mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
-                    } else {
-                        NumberModel number = new NumberModel();
-                        number.setNumber(((EditText) view).getText().toString());
-                        mListNumbers.add(number);
-                    }
-                view.setBackgroundResource(android.R.color.transparent);
+        int pos = (int) view.getTag();
+        if (((EditText) view).getText() != null) if (mListNumbers.size() >= pos + 1 && mListNumbers.get(pos) != null) {
+            mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
+        } else {
+            NumberModel number = new NumberModel();
+            number.setNumber(((EditText) view).getText().toString());
+            mListNumbers.add(number);
+        }
+        view.setBackgroundResource(android.R.color.transparent);
 
         return false;
     }
 
-   /* @Override
+    @Override
     public void onFocusChange(View view, boolean b) {
         if (!b) {
             int pos = (int) view.getTag();
-            if (((EditText) view).getText() != null )
+            if (((EditText) view).getText() != null)
                 if (mListNumbers.size() >= pos + 1 && mListNumbers.get(pos) != null) {
                     mListNumbers.get(pos).setNumber(((EditText) view).getText().toString());
                 } else {
@@ -150,7 +152,7 @@ public class ProfileEditNumbersAdapter extends BaseAdapter implements EditText.O
                 }
             view.setBackgroundResource(android.R.color.transparent);
         }
-    }*/
+    }
 
     @Override
     public void onClick(View view) {

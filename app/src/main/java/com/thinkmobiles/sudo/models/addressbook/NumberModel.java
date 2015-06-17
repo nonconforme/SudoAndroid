@@ -5,13 +5,18 @@ import java.io.Serializable;
 /**
  * Created by njakawaii on 17.04.2015.
  */
-public class NumberModel implements Serializable{
+public class NumberModel implements Serializable {
     private String number;
-    private boolean  isBlocked;
+    private boolean isBlocked;
     private String countryIso;
     private String expire;
     private String left;
 
+    public NumberModel() {
+        setNumber("");
+        setCountryIso("");
+        setLeft("");
+    }
 
     public String getLeft() {
         return left;

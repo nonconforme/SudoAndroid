@@ -38,6 +38,9 @@ public class UserModel  implements Serializable{
         numbers = new ArrayList<>();
         avatar = new String();
         companion = new String();
+        setEmail("");
+        setAvatar("");
+        setCredits("");
     }
 
     public List<NumberModel> getNumbers() {

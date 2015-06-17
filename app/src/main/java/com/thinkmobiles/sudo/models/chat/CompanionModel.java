@@ -9,6 +9,12 @@ public class CompanionModel implements Serializable{
     private String number;
     private String avatar;
 
+    public CompanionModel(){
+        setAvatar("");
+        setNumber("");
+    }
+
+
     public String getNumber() {
         return number;
     }
