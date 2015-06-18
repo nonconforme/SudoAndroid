@@ -129,7 +129,7 @@ public class RecordVoiceMessageDialog extends DialogFragment implements View.OnC
 
             @Override
             protected Void doInBackground(Void... voids) {
-                while (counter > 0) {
+                while (counter > 0 &&  recording) {
                     publishProgress(counter);
                     try {
                         TimeUnit.SECONDS.sleep(1);
@@ -161,7 +161,7 @@ public class RecordVoiceMessageDialog extends DialogFragment implements View.OnC
             @Override
             protected Void doInBackground(Void... voids) {
                 mVoiceRecorder.recordStart();
-                while (counter < 31) {
+                while (counter < 31 && recording) {
                     publishProgress(counter);
                     try {
                         TimeUnit.SECONDS.sleep(1);
@@ -192,6 +192,17 @@ public class RecordVoiceMessageDialog extends DialogFragment implements View.OnC
             }
         };
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        recording = false;
+
+
+        mRecordCounter = null;
+        mPreRecordCounter = null;
+    }
+
 
 }
 

@@ -3,7 +3,9 @@ package com.thinkmobiles.sudo.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewCompat;
@@ -18,6 +20,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -65,7 +68,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private String message;
     private RelativeLayout contentRoot, rlAddComment;
     private ChatListAdapter mListAdapter;
-    private Callback<List<MessageModel>> mMessagesCB;
+     private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
     private Callback<VoiceResponceModel> mSendVoiceCB;
 
@@ -411,9 +414,34 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout_AC);
 
 
+        if(android.os.Build.VERSION.SDK_INT == 19)
+        setSoftKeyboardListener(contentRoot);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+
+    private void setSoftKeyboardListener(View view) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                 Rect r = new Rect();
+                View parent = getWindow().getDecorView();
+                parent.getWindowVisibleDisplayFrame(r);
+                 int screenHeight = parent.getRootView().getHeight();
+                int heightDifference = screenHeight - (r.bottom - r.top);
+                if(heightDifference > 120)
+                rlAddComment.setPadding(0,0,0,heightDifference - 75);
+                else
+                    rlAddComment.setPadding(0,0,0,0);
+            }
+
+        });
     }
 
 
@@ -611,7 +639,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     }
 
     private void deleteChatItems() {
-        if (!mSelectionHelper.isSelectionMode()) {
+        if (mSelectionHelper.isSelectionMode()) {
             mSelectionHelper.splitList();
             mListAdapter.reloadContent(mSelectionHelper.getRemainList(), mOwnerNumber);
         }
@@ -667,6 +695,10 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     @Override
     public void onSendClickListener(View v) {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+
+
         message = String.valueOf(etMessage.getText());
         if (Utils.checkString(message)) {
             sendMessage(message);

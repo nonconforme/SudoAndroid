@@ -29,6 +29,9 @@ public class VoiceRecorder {
     }
 
     public VoiceRecorder(String filepath) {
+        if(recorder!= null)
+            recordStop();
+
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, mSampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize * 2);
         this.filePath = filepath;
 
