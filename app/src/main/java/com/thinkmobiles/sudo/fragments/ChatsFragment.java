@@ -391,17 +391,17 @@ public class ChatsFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void reloadList() {
+        if (mSelectionHelper.isSelectionMode()) {
+            stopSelectionMode();
 
+        }
         mChatsList = new ArrayList<>();
         mPageCount = 1;
         mEndOfList = false;
         mLoadWatcher = new HashSet<>();
         mChatAdapter = new ChatsListAdapter(mActivity);
         mListView.setAdapter(mChatAdapter);
-        if (mSelectionHelper.isSelectionMode()) {
-            stopSelectionMode();
 
-        }
         getLastChats();
     }
 
