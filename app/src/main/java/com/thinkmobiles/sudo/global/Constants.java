@@ -39,6 +39,8 @@ public abstract class Constants {
     public static final String PATH_PARAM_ID                = "id";
     public static final String PATH_PARAM_COUNTRY_ISO       = "countryIso";
 
+    public static final String MESSAGE_ID              = "countryIso";
+
     public static final String USER_ID                      = "uID";
     public static final String FROM_NUMBER                  = "src";
     public static final String TO_NUMBER                    = "dst";

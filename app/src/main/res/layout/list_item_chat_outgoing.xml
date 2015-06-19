@@ -5,13 +5,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container"
-         >
+        android:clickable="true"
+
+
+        >
     <RelativeLayout
             android:layout_width="wrap_content"
             android:id="@+id/rlChatMain_LICO"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/schat_item_margin"
-            android:paddingBottom="@dimen/schat_item_margin"  >
+            android:paddingBottom="@dimen/schat_item_margin"
+            >
 
 
         <ImageView style="@style/SChatItemEVAvatar" android:id="@+id/ivAvatar"
@@ -31,6 +35,7 @@
                         android:layout_toStartOf="@+id/ivAvatar"
                 >
             <include layout="@layout/audio_palyer_controls_outgoing"
+
                      android:id="@+id/playerContainer" android:layout_below="@+id/tvTimeDate"
                      android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <TextView style="@style/SChatItemText"

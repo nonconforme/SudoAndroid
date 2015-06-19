@@ -58,8 +58,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements RecordVoiceMessageDialog.RecordVoiceMessageDialogCallback, AdapterView
-        .OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
+public class ChatActivity extends ActionBarActivity implements RecordVoiceMessageDialog.RecordVoiceMessageDialogCallback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView mChatList;
@@ -68,7 +67,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private String message;
     private RelativeLayout contentRoot, rlAddComment;
     private ChatListAdapter mListAdapter;
-     private Callback<List<MessageModel>> mMessagesCB;
+    private Callback<List<MessageModel>> mMessagesCB;
     private Callback<DefaultResponseModel> mSendMessageCB;
     private Callback<VoiceResponceModel> mSendVoiceCB;
 
@@ -150,8 +149,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         initVoiceCB();
 
 
-        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(
-                mCompanionNumber, 0);
+        ToolbarManager.getInstance(this).changeToolbarTitleAndIcon(mCompanionNumber, 0);
 
     }
 
@@ -177,7 +175,15 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         mDeleteMessageCB = new Callback<DefaultResponseModel>() {
             @Override
             public void success(DefaultResponseModel defaultResponseModel, Response response) {
+                if (mSelectionHelper.removeDeletedItem()) {
 
+                    deleteMessage(((MessageModel) mSelectionHelper.getLastDeleteItem()).get_id());
+                } else {
+                    mMessageModelList = mSelectionHelper.getRemainList();
+                    mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
+                    stopSelectionMode();
+
+                }
             }
 
             @Override
@@ -188,7 +194,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     }
 
 
-    private void initVoiceCB(){
+    private void initVoiceCB() {
         mSendVoiceCB = new Callback<VoiceResponceModel>() {
             @Override
             public void success(VoiceResponceModel responce, Response response) {
@@ -198,7 +204,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
                     mListAdapter.reloadContent(mMessageModelList, mOwnerNumber);
                 }
 
-                mListAdapter.addNewMessage(responce.getMessage() );
+                mListAdapter.addNewMessage(responce.getMessage());
                 mMessageModelList.add(0, responce.getMessage());
                 mChatList.smoothScrollToPosition(mListAdapter.getCount() - 1);
 
@@ -363,7 +369,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         Utils.hideSoftKeyboard(this);
 
 
-        new  Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -414,14 +420,12 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout_AC);
 
 
-        if(android.os.Build.VERSION.SDK_INT == 19)
-        setSoftKeyboardListener(contentRoot);
+        if (android.os.Build.VERSION.SDK_INT == 19) setSoftKeyboardListener(contentRoot);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
 
     private void setSoftKeyboardListener(View view) {
@@ -430,15 +434,13 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
             @Override
             public void onGlobalLayout() {
                 // TODO Auto-generated method stub
-                 Rect r = new Rect();
+                Rect r = new Rect();
                 View parent = getWindow().getDecorView();
                 parent.getWindowVisibleDisplayFrame(r);
-                 int screenHeight = parent.getRootView().getHeight();
+                int screenHeight = parent.getRootView().getHeight();
                 int heightDifference = screenHeight - (r.bottom - r.top);
-                if(heightDifference > 120)
-                rlAddComment.setPadding(0,0,0,heightDifference - 75);
-                else
-                    rlAddComment.setPadding(0,0,0,0);
+                if (heightDifference > 120) rlAddComment.setPadding(0, 0, 0, heightDifference - 75);
+                else rlAddComment.setPadding(0, 0, 0, 0);
             }
 
         });
@@ -641,9 +643,10 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private void deleteChatItems() {
         if (mSelectionHelper.isSelectionMode()) {
             mSelectionHelper.splitList();
-            mListAdapter.reloadContent(mSelectionHelper.getRemainList(), mOwnerNumber);
+
+            deleteMessage(((MessageModel) mSelectionHelper.getLastDeleteItem()).get_id());
+
         }
-        stopSelectionMode();
 
     }
 
@@ -687,7 +690,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     @Override
     protected void onStop() {
         super.onStop();
-        mListAdapter. stopAll();
+        mListAdapter.stopAll();
         mSocket.off(Constants.SOCKET_RECEIVE_MESSAGE, onReceive);
         mSocket.disconnect();
         App.setCurrentChat(null);
@@ -721,29 +724,29 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     }
 
-    private String filePathGenerator(){
+    private String filePathGenerator() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d_HH:mm:ss.SSS");
         String currentDateandTime = sdf.format(new Date());
-        filePath = String.valueOf( getExternalCacheDir() + "/" + currentDateandTime + ".mp3");
+        filePath = String.valueOf(getExternalCacheDir() + "/" + currentDateandTime + ".mp3");
         return filePath;
     }
 
 
-    private void showRecordDialog(){
+    private void showRecordDialog() {
         RecordVoiceMessageDialog dialog = RecordVoiceMessageDialog.newInstance(filePathGenerator());
         dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.RecordDialogFragment);
-        dialog.show(getSupportFragmentManager(),"dlg");
+        dialog.show(getSupportFragmentManager(), "dlg");
     }
 
     @Override
     public void onSendVoiceMessage() {
         setVoiceMessageModel(mOwnerNumber, mCompanionNumber, filePath);
         Log.d("Sending", filePath);
-        RetrofitAdapter.getInterface().sendVoiceMessage( new TypedFile(Constants.MULTIPART_FILE, new File
-                (filePath)),
-                mOwnerNumber,
-                mCompanionNumber,
-                mSendVoiceCB);
+        RetrofitAdapter.getInterface().sendVoiceMessage(new TypedFile(Constants.MULTIPART_FILE, new File(filePath)), mOwnerNumber, mCompanionNumber, mSendVoiceCB);
+    }
+
+    private void deleteMessage(String messageId) {
+        RetrofitAdapter.getInterface().deleteSingleMessage(messageId, mDeleteMessageCB);
     }
 }
 

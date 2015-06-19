@@ -92,6 +92,9 @@ public interface RetrofitInterface {
     @DELETE(APIConstants.URL_MESSAGE + "/{" + Constants.USER_NUMBER + "}" + "/{" + Constants.COMPANION_NUMBER + "}")
     void deleteChat(@Path(Constants.USER_NUMBER) String user_number, @Path(Constants.COMPANION_NUMBER) String companion_unmber, Callback<DefaultResponseModel> callback);
 
+    @DELETE(APIConstants.URL_MESSAGE + "/{" + Constants.MESSAGE_ID+ "}"  )
+    void deleteSingleMessage(@Path(Constants.MESSAGE_ID) String messageId, Callback<DefaultResponseModel> callback);
+
 
     @POST(APIConstants.PUSH)
     void sendDeviceId(@Body TypedJsonString deviceID, Callback<DefaultResponseModel> callback);
