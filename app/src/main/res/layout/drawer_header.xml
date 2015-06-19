@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 style="@style/DrawerHeaderRL"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:orientation="vertical"
                 android:background="@drawable/bg_header_drawer"
@@ -13,12 +13,14 @@
     <ImageView
             style="@style/DrawerAvatar_IV"
 
-            android:id="@+id/ivAvatar_Drawer"/>
+            android:id="@+id/ivAvatar_Drawer"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_centerVertical="true"/>
     <RelativeLayout
              android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:id="@+id/rlDrawerSpinerChanger"
-             android:layout_below="@+id/ivAvatar_Drawer" android:layout_alignParentLeft="true"
-             android:layout_alignParentStart="true" android:clickable="true">
+             android:layout_alignParentLeft="false"
+             android:layout_alignParentStart="true" android:clickable="true" android:layout_alignParentBottom="true">
 
         <TextView
                 style="@style/DrawerProfileName_TV"
@@ -27,8 +29,9 @@
                 android:text="@string/unknown"
                 android:id="@+id/tvProfileName_Drawer"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" android:layout_toLeftOf="@+id/ivSpinner_Drawer"
-                android:layout_toStartOf="@+id/ivSpinner_Drawer" android:layout_marginLeft="10dp"/>
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/ivSpinner_Drawer" android:layout_marginLeft="10dp"
+                android:layout_alignParentTop="true"/>
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"

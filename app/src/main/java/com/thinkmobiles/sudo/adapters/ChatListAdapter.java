@@ -117,8 +117,12 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
         if (!isIncomingMessage(position)) holder.ivAvatar.setTag(0);
         else holder.ivAvatar.setTag(1);
 
-        if (!isVoiceMessage(position)) holder.playerContainer.setVisibility(View.GONE);
-
+        if (!isVoiceMessage(position)) {
+            holder.playerContainer.setVisibility(View.GONE);
+            holder.container.setLongClickable(false);
+        } else {
+            holder.container.setLongClickable(true);
+        }
         holder.setData(position, holder);
         runEnterAnimation(view, i);
 
@@ -134,15 +138,12 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
             case R.id.ivPlay:
                 String voiceURL = mListMessages.get(position).getVoiceURL();
 
-                VoiceMessagePlayerCallback voiceMessagePlayerCallback = new VoiceMessagePlayerCallback(holder
-                        .seekBar, holder.tvAudioCurrnet, holder.tvAudioRemaining);
-                mVoiceMessagePlayer = VoiceMessagePlayer.getInstance(context, voiceURL,
-                    voiceMessagePlayerCallback);
+                VoiceMessagePlayerCallback voiceMessagePlayerCallback = new VoiceMessagePlayerCallback(holder.seekBar, holder.tvAudioCurrnet, holder.tvAudioRemaining);
+                mVoiceMessagePlayer = VoiceMessagePlayer.getInstance(context, voiceURL, voiceMessagePlayerCallback);
 
                 break;
             case R.id.ivStop:
-                if(mVoiceMessagePlayer != null)
-                mVoiceMessagePlayer.stopMedia();
+                if (mVoiceMessagePlayer != null) mVoiceMessagePlayer.stopMedia();
                 break;
         }
 
@@ -150,12 +151,10 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
 
 
     private boolean isVoiceMessage(int position) {
-        if (mListMessages.get(position).getType()!= null && mListMessages.get(position).getType().equalsIgnoreCase
-                ("VOICE")) return true;
+        if (mListMessages.get(position).getType() != null && mListMessages.get(position).getType().equalsIgnoreCase("VOICE"))
+            return true;
         return false;
     }
-
-
 
 
     private class ViewHolder {
@@ -225,7 +224,7 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
 
     private void setSelectionBG(View view, int position) {
         if (selectionMode && selectionArray != null && selectionArray[position])
-            view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_long_pressed));
+            view.setBackground(context.getResources().getDrawable(R.drawable.bg_chat_item_selected));
 
         else view.setBackground(context.getResources().getDrawable(R.drawable.bg_chats_item_default));
 
@@ -287,6 +286,8 @@ public class ChatListAdapter extends BaseAdapter implements View.OnClickListener
         }
 
     }
-    public void stopAll(){
-        if(mVoiceMessagePlayer!= null)mVoiceMessagePlayer.stopMedia();}
+
+    public void stopAll() {
+        if (mVoiceMessagePlayer != null) mVoiceMessagePlayer.stopMedia();
+    }
 }

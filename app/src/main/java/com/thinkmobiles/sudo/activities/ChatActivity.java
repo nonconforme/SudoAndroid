@@ -22,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import android.widget.AdapterView.OnItemLongClickListener;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -58,7 +59,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by omar on 28.04.15.
  */
-public class ChatActivity extends ActionBarActivity implements RecordVoiceMessageDialog.RecordVoiceMessageDialogCallback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
+public class ChatActivity extends ActionBarActivity implements RecordVoiceMessageDialog
+        .RecordVoiceMessageDialogCallback,  AdapterView.OnItemClickListener, OnItemLongClickListener,
+        AbsListView.OnScrollListener, SendCommentButton.OnSendClickListener {
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
     private ListView mChatList;
@@ -465,8 +468,8 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private void initListeners() {
         btnSend.setOnSendClickListener(this);
         btnSend.setOnSendClickListener(this);
+         mChatList.setOnItemClickListener(this);
         mChatList.setOnItemLongClickListener(this);
-        mChatList.setOnItemClickListener(this);
         mChatList.setOnScrollListener(this);
 
     }
@@ -607,20 +610,28 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        if (mSelectionHelper.isSelectionMode()) {
+            /*mSelectionHelper.addToSelection(position);
+            mSelectionHelper.checkSelectionNotEmpty();*/
+            stopSelectionMode();
+        }
         startSelectionMode();
         mSelectionHelper.addToSelection(position);
+
         mListAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
-
-
-        return true;
+         return false;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (mSelectionHelper.isSelectionMode()) {
-            mSelectionHelper.addToSelection(position);
-            mSelectionHelper.checkSelectionNotEmpty();
+            /*mSelectionHelper.addToSelection(position);
+            mSelectionHelper.checkSelectionNotEmpty();*/
+            stopSelectionMode();
         }
+            startSelectionMode();
+            mSelectionHelper.addToSelection(position);
+
         mListAdapter.setSelection(mSelectionHelper.isSelectionMode(), mSelectionHelper.getSelection());
     }
 
@@ -748,5 +759,7 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
     private void deleteMessage(String messageId) {
         RetrofitAdapter.getInterface().deleteSingleMessage(messageId, mDeleteMessageCB);
     }
+
+
 }
 

@@ -4,15 +4,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container"
-        android:clickable="true"
-
-        >
+           >
     <RelativeLayout
             android:layout_width="match_parent"
             android:id="@+id/rlChatMain_LICO"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/schat_item_margin"
-            android:paddingBottom="@dimen/schat_item_margin" android:layout_gravity="left|bottom"
+            android:paddingBottom="@dimen/schat_item_margin" android:layout_gravity="left|top"
             >
 
 
