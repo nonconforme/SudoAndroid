@@ -45,6 +45,8 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
     private String mCountryIso;
 
 
+
+
     public BuyNumberFragment() {
         // Required empty public constructor
     }
@@ -66,6 +68,8 @@ public class BuyNumberFragment extends BaseNumbersFragment implements AdapterVie
             mNumber = getArguments().getString(Constants.PARAM_NUMBER);
             mCountryIso = getArguments().getString(Constants.COUNTRY_CODE);
         }
+
+
     }
 
     @Override

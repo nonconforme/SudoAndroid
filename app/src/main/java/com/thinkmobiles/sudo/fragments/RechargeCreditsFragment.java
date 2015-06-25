@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.thinkmobiles.sudo.R;
 import com.thinkmobiles.sudo.adapters.RechargeCreditsAdapter;
+import com.thinkmobiles.sudo.billing.BillingHelper;
+import com.thinkmobiles.sudo.billing.BillingHelperCallback;
 import com.thinkmobiles.sudo.core.rest.RetrofitAdapter;
 import com.thinkmobiles.sudo.global.App;
 import com.thinkmobiles.sudo.global.Constants;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Created by Pavilion on 16.04.2015.
  */
-public class RechargeCreditsFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class RechargeCreditsFragment extends Fragment implements AdapterView.OnItemClickListener, BillingHelperCallback {
 
     private AvailableCreditsFragment mCreditsAvailableFragment;
     private ActionBarActivity mActivity;
@@ -42,6 +44,7 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
 
     private List<Credits> mListCredit;
 
+    private BillingHelper billingHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,11 +98,20 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (ActionBarActivity)activity;
+        billingHelper = BillingHelper.getInstance(mActivity, this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        makeBuyCreditsRequest();
+        if(position == 0)
+            billingHelper.doPurchase10();
+        else if (position == 1)
+            billingHelper.doPurchase20();
+        else if (position == 2)
+            billingHelper.doPurchase30();
+        else if (position == 3)
+            billingHelper.doPurchase40();
+
     }
 
     @Override
@@ -128,5 +140,16 @@ public class RechargeCreditsFragment extends Fragment implements AdapterView.OnI
         mActivity.getSupportFragmentManager().beginTransaction().remove(mCreditsAvailableFragment
 
         ).commit();
+    }
+
+    @Override
+    public void updateCredits(String string) {
+        makeBuyCreditsRequest();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        billingHelper.onDestroyCheck();
     }
 }

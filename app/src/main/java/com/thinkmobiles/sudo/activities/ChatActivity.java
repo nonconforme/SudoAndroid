@@ -436,7 +436,6 @@ public class ChatActivity extends ActionBarActivity implements RecordVoiceMessag
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
                 Rect r = new Rect();
                 View parent = getWindow().getDecorView();
                 parent.getWindowVisibleDisplayFrame(r);
